@@ -196,6 +196,7 @@ Il software che usa questa libreria deve chiamare gli strumenti tramite questi n
 |---|---|---|---|
 | `set_trigger_mode` | Modalità trigger | `TRIGger:A:MODE {mode}` (Tek: AUTO, NORMal); `:TRIGger:MODE {mode}` (Rigol, Sig.) | — |
 | `set_trigger_source` | Sorgente trigger | `TRIGger:A:EDGE:SOUrce CH{channel_number}` (Tek); `:TRIGger:EDGE:SOURce CHAN{channel_number}` (Rigol); `:TRIGger:EDGE:SOURce C{channel_number}` (Sig.) | — |
+| `set_trigger_slope` | Fronte del trigger | `TRIGger:A:EDGE:SLOpe {slope}` (Tek: RISe, FALL, EITher); `:TRIGger:EDGe:SLOPe {slope}` (Rigol: POSitive, NEGative, RFALl); `:TRIGger:EDGE:SLOPe {slope}` (Sig.: RISing, FALLing, ALTernate) | string (query) |
 | `set_trigger_level` | Livello trigger | `TRIGger:A:LEVel:CH{channel_number} {value}` (Tek); `:TRIGger:EDGE:LEVel {value}` (Rigol, Sig.) | — |
 | `query_trigger_level` | Livello trigger attuale | `TRIGger:A:LEVel:CH{channel_number}?` (Tek); `:TRIGger:EDGE:LEVel?` (Rigol, Sig.) | float |
 | `set_trigger_type` | Tipo trigger | `TRIGger:A:TYPe {type}` (Tek: EDGE, WIDth, TIMEOut, RUNt, WINdow, LOGIc, SETHold, TRANsition, BUS) | — |

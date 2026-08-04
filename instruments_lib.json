@@ -1867,6 +1867,29 @@
               }
             }
           },
+          "set_trigger_slope": {
+            "description": "set trigger slope",
+            "set": {
+              "syntax": "TRIGger:A:EDGE:SLOpe {slope}",
+              "args": [
+                "slope"
+              ]
+            },
+            "query": {
+              "syntax": "TRIGger:A:EDGE:SLOpe?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "slope": {
+                "type": "string",
+                "values": [
+                  "RISe",
+                  "FALL",
+                  "EITher"
+                ]
+              }
+            }
+          },
           "set_trigger_level": {
             "description": "set trigger level",
             "set": {
@@ -2648,6 +2671,29 @@
               }
             }
           },
+          "set_trigger_slope": {
+            "description": "set trigger slope",
+            "set": {
+              "syntax": ":TRIGger:EDGe:SLOPe {slope}",
+              "args": [
+                "slope"
+              ]
+            },
+            "query": {
+              "syntax": ":TRIGger:EDGe:SLOPe?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "slope": {
+                "type": "string",
+                "values": [
+                  "POSitive",
+                  "NEGative",
+                  "RFALl"
+                ]
+              }
+            }
+          },
           "set_trigger_level": {
             "description": "set trigger level",
             "set": {
@@ -3140,6 +3186,29 @@
             "parameters": {
               "channel_number": {
                 "type": "int"
+              }
+            }
+          },
+          "set_trigger_slope": {
+            "description": "set trigger slope",
+            "set": {
+              "syntax": ":TRIGger:EDGE:SLOPe {slope}",
+              "args": [
+                "slope"
+              ]
+            },
+            "query": {
+              "syntax": ":TRIGger:EDGE:SLOPe?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "slope": {
+                "type": "string",
+                "values": [
+                  "RISing",
+                  "FALLing",
+                  "ALTernate"
+                ]
               }
             }
           },
