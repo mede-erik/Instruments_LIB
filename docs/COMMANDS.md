@@ -240,6 +240,6 @@ I canali non hanno ID uniformi: verificare sempre la serie prima di usarli.
 
 ## Note
 
-- La maggior parte dei modelli ha `"experimental": true`: i comandi non sono ancora stati validati su hardware reale e possono differire dal manuale. Solo `OSC_Tek_MSO54`, `OSC_Tek_MSO58` e `EL_Siglent_SDL1030X_E` sono `false`.
+- Tutti i modelli hanno `"experimental": true` (comandi non ancora validati su hardware reale), eccetto la famiglia **Siglent SDS800X HD** (`OSC_Siglent_SDS804X_HD`, `OSC_Siglent_SDS814X_HD`, `OSC_Siglent_SDS824X_HD`, testata parzialmente).
 - `query_waveform_data` con formato BYTE/WORD restituisce dati binari con header `#<n><len>` (TMC), non testo.
 - Su Tektronix `error_query` usa `EVMsg?` perché il gruppo `SYSTem` non esiste.

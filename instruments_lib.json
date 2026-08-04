@@ -2169,7 +2169,7 @@
               ]
             },
             "scpi_commands": {},
-            "experimental": false
+            "experimental": true
           },
           {
             "id": "OSC_Tek_MSO56",
@@ -2344,7 +2344,7 @@
               ]
             },
             "scpi_commands": {},
-            "experimental": false
+            "experimental": true
           },
           {
             "id": "OSC_Tek_MSO58LP",
@@ -3408,7 +3408,7 @@
               ]
             },
             "scpi_commands": {},
-            "experimental": true
+            "experimental": false
           },
           {
             "id": "OSC_Siglent_SDS814X_HD",
@@ -3471,7 +3471,7 @@
                 }
               ]
             },
-            "experimental": true
+            "experimental": false
           },
           {
             "id": "OSC_Siglent_SDS824X_HD",
@@ -3528,7 +3528,7 @@
                 }
               ]
             },
-            "experimental": true
+            "experimental": false
           },
           {
             "id": "OSC_Siglent_SDS1104X_HD",
@@ -4052,7 +4052,8 @@
                   }
                 }
               }
-            }
+            },
+            "experimental": true
           }
         ]
       },
@@ -4500,7 +4501,8 @@
               "max_current_a": 40,
               "current_slew_rate_a_per_ms": 10
             },
-            "scpi_commands": {}
+            "scpi_commands": {},
+            "experimental": true
           }
         ]
       },
@@ -4702,7 +4704,7 @@
               "max_power_w": 300
             },
             "scpi_commands": {},
-            "experimental": false
+            "experimental": true
           }
         ]
       }

@@ -320,7 +320,27 @@ Gli ID seguono `{TYPE}_{MANUFACTURER}_{MODEL}`:
 ## Flag `experimental`
 
 - La maggior parte dei modelli ha `"experimental": true` = **non ancora validati su hardware reale** — i comandi SCPI possono differire dal manuale.
-- Solo 3 modelli sono `false`: `OSC_Tek_MSO54`, `OSC_Tek_MSO58`, `EL_Siglent_SDL1030X_E`.
+- Tutti i modelli hanno `"experimental": true` (non ancora validati su hardware reale), eccetto la famiglia **Siglent SDS800X HD** (`OSC_Siglent_SDS804X_HD`, `OSC_Siglent_SDS814X_HD`, `OSC_Siglent_SDS824X_HD`, testata parzialmente).
+
+### Modello testato per serie
+
+| Serie | Modello testato |
+|---|---|
+| OWON ODP | X |
+| Keysight E36300 | X |
+| TDK-Lambda GEN | X |
+| R&S HMP | X |
+| Keysight 3497X | X |
+| Moduli datalogger (34901A..34908A) | X |
+| Tektronix 5 Series MSO | X |
+| Rigol DS1000Z | X |
+| **Siglent SDS800X HD** | **SDS824X HD** |
+| Siglent SDS1000X/SDS2000X HD | X |
+| Chroma 6330A | X |
+| Keysight EL4900 | X |
+| Siglent SDL1000X | X |
+
+`X` = nessun modello della serie validato su hardware reale (`experimental: true`).
 
 ## Documentazione
 
