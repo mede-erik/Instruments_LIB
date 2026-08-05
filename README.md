@@ -4,13 +4,14 @@ Libreria JSON data-only che funge da **motore di regole** (Rule Engine) per un d
 
 ## Struttura del file
 
-Il file `instruments_lib.json` è un unico oggetto con la chiave `instrument_library`, contenente 5 categorie:
+Il file `instruments_lib.json` è un unico oggetto con la chiave `instrument_library`, contenente 6 categorie:
 
 | Chiave | Categoria | Esempi |
 |---|---|---|
-| `power_supplies_series` | Alimentatori | OWON ODP, Keysight E36300, TDK-Lambda GEN, R&S HMP |
-| `dataloggers_series` | Data logger (mainframe) | Keysight 3497XA/B |
+| `power_supplies_series` | Alimentatori | OWON ODP, Keysight E36300, TDK-Lambda GEN, R&S HMP, HP E3631A |
+| `dataloggers_series` | Data logger (mainframe) | Keysight 3497XA/B, Agilent 34970A, Agilent 3499A |
 | `datalogger_modules` | Datalogger card (moduli) | Keysight 34901A, 34902A, 34908A |
+| `multimeters_series` | Multimetri | HP 3478A, Agilent 34401A |
 | `oscilloscopes_series` | Oscilloscopi | Tektronix 5 Series MSO, Rigol DS1000Z, Siglent SDS HD |
 | `electronic_loads_series` | Carichi elettronici | Chroma 6330A, Keysight EL4900, Siglent SDL1000X-E |
 
@@ -20,6 +21,7 @@ Il file `instruments_lib.json` è un unico oggetto con la chiave `instrument_lib
     "power_supplies_series": [],
     "dataloggers_series": [],
     "datalogger_modules": [],
+    "multimeters_series": [],
     "oscilloscopes_series": [],
     "electronic_loads_series": []
   }
@@ -235,7 +237,7 @@ Segue la struttura standard serie → modelli. Il modello del mainframe dichiara
 }
 ```
 
-I comandi SCPI che operano sui canali usano il formato a range Keysight:
+I comandi SCPI che operano sui canali usano il formato a range Keysight (K. 3497X, A. 34970A):
 ```json
 "select_channels": {
   "set": {
@@ -247,6 +249,8 @@ I comandi SCPI che operano sui canali usano il formato a range Keysight:
   }
 }
 ```
+
+> **Eccezione Agilent 3499A**: usa il formato `@snn` (slot + canale a 2 cifre, es. `(@101)`, `(@100:107)`). Il valore di `capabilities.channels` è una stringa tipo `"100:107"` — la `@` fa parte della sintassi SCPI (`(@{channels})`), non dell'ID canale. Il 3499A è inoltre un mainframe di switching **senza motore di misura** (niente `MEAS?`/`FETCh?`/`READ?`).
 
 ### Le card (`datalogger_modules`)
 
@@ -300,6 +304,7 @@ Gli ID seguono `{TYPE}_{MANUFACTURER}_{MODEL}`:
 |---|---|---|
 | Alimentatore | `PSU_` | `PSU_OWON_ODP3033` |
 | Data logger | `DL_` | `DL_Keysight_34972A` |
+| Multimetro | `MTR_` | `MTR_Agilent_34401A` |
 | Oscilloscopio | `OSC_` | `OSC_Tek_MSO54` |
 | Carico elettronico | `EL_` | `EL_Chroma_6330A` |
 
@@ -312,6 +317,8 @@ Gli ID seguono `{TYPE}_{MANUFACTURER}_{MODEL}`:
 | OWON | Numerico | `1`, `2`, `3` |
 | Keysight (PSU) | `CH` + numero | `CH1`, `CH2`, `CH3` |
 | Keysight (datalogger) | Range stringa | `"1001:1020"` |
+| Agilent 3499A | Formato `@snn` (slot + canale a 2 cifre) | `"100:107"`, `"101"` — renderizzato `(@100:107)` |
+| HP/Agilent multimetri | Canale singolo (nessun parametro canale) | — |
 | R&S | `OUT` + numero | `OUT1`..`OUT4` |
 | Tektronix | `CH` + numero | `CH1`..`CH8` |
 | Siglent | `C` + numero | `C1`..`C4` |
@@ -330,8 +337,13 @@ Gli ID seguono `{TYPE}_{MANUFACTURER}_{MODEL}`:
 | Keysight E36300 | X |
 | TDK-Lambda GEN | X |
 | R&S HMP | X |
+| HP E3631A | X |
 | Keysight 3497X | X |
+| Agilent 34970A | X |
+| Agilent 3499A | X |
 | Moduli datalogger (34901A..34908A) | X |
+| HP 3478A | X |
+| Agilent 34401A | X |
 | Tektronix 5 Series MSO | X |
 | Rigol DS1000Z | X |
 | **Siglent SDS800X HD** | **SDS824X HD** |

@@ -1276,6 +1276,898 @@
             "experimental": true
           }
         ]
+      },
+      {
+        "series_id": "HP_E3631A_Series",
+        "series_name": "HP/Agilent E3631A Triple Output DC Power Supply",
+        "common_scpi_commands": {
+          "reset": {
+            "description": "reset to power-on state (*RST: INST=P6V, OUTP=OFF, OUTP:TRAC=OFF, TRIG:SOUR=BUS, TRIG:DEL=0, VOLT=0, CURR=5A/1A/1A)",
+            "set": {
+              "syntax": "*RST"
+            },
+            "query": null
+          },
+          "clear_status": {
+            "description": "clear all event registers, status byte register and error queue",
+            "set": {
+              "syntax": "*CLS"
+            },
+            "query": null
+          },
+          "identification_query": {
+            "description": "identification query, returns 'HEWLETT-PACKARD,E3631A,0,X.X-X.X-X.X'",
+            "set": null,
+            "query": {
+              "syntax": "*IDN?",
+              "return_type": "string"
+            }
+          },
+          "error_query": {
+            "description": "read one error from the error queue (FIFO, up to 20 errors; +0,'No error' if empty)",
+            "set": null,
+            "query": {
+              "syntax": "SYSTem:ERRor?",
+              "return_type": "string"
+            }
+          },
+          "self_test": {
+            "description": "self test, returns 0 if pass, non-zero if fail",
+            "set": null,
+            "query": {
+              "syntax": "*TST?",
+              "return_type": "int"
+            }
+          },
+          "select_channel": {
+            "description": "select output to be programmed by output identifier",
+            "set": {
+              "syntax": "INSTrument:SELect {output_identifier}",
+              "args": [
+                "output_identifier"
+              ]
+            },
+            "query": {
+              "syntax": "INSTrument:SELect?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "output_identifier": {
+                "type": "string",
+                "values": [
+                  "P6V",
+                  "P25V",
+                  "N25V"
+                ]
+              }
+            }
+          },
+          "select_channel_numeric": {
+            "description": "select output by numeric value (1=+6V, 2=+25V, 3=-25V)",
+            "set": {
+              "syntax": "INSTrument:NSELect {channel_number}",
+              "args": [
+                "channel_number"
+              ]
+            },
+            "query": {
+              "syntax": "INSTrument:NSELect?",
+              "return_type": "int"
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              }
+            }
+          },
+          "apply": {
+            "description": "select output and set voltage and current in one command (MIN|MAX|DEF accepted)",
+            "set": {
+              "syntax": "APPLy {output_identifier},{voltage},{current}",
+              "args": [
+                "output_identifier",
+                "voltage",
+                "current"
+              ]
+            },
+            "query": {
+              "syntax": "APPLy? {output_identifier}",
+              "return_type": "string",
+              "args": [
+                "output_identifier"
+              ]
+            },
+            "parameters": {
+              "output_identifier": {
+                "type": "string",
+                "values": [
+                  "P6V",
+                  "P25V",
+                  "N25V"
+                ]
+              },
+              "voltage": {
+                "type": "float"
+              },
+              "current": {
+                "type": "float"
+              }
+            }
+          },
+          "set_voltage": {
+            "description": "program immediate voltage level of the selected output (MINimum|MAXimum accepted)",
+            "set": {
+              "syntax": "VOLTage {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "set_current": {
+            "description": "program immediate current limit of the selected output (MINimum|MAXimum accepted)",
+            "set": {
+              "syntax": "CURRent {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "read_programmed_voltage": {
+            "description": "query programmed voltage limit of selected output (optional MIN|MAX argument)",
+            "set": null,
+            "query": {
+              "syntax": "VOLTage?",
+              "return_type": "float"
+            }
+          },
+          "read_programmed_current": {
+            "description": "query programmed current limit of selected output (optional MIN|MAX argument)",
+            "set": null,
+            "query": {
+              "syntax": "CURRent?",
+              "return_type": "float"
+            }
+          },
+          "set_triggered_voltage": {
+            "description": "program pending triggered voltage level, transferred to output on trigger",
+            "set": {
+              "syntax": "VOLTage:TRIGgered {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": {
+              "syntax": "VOLTage:TRIGgered?",
+              "return_type": "float"
+            },
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "set_triggered_current": {
+            "description": "program pending triggered current level, transferred to output on trigger",
+            "set": {
+              "syntax": "CURRent:TRIGgered {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": {
+              "syntax": "CURRent:TRIGgered?",
+              "return_type": "float"
+            },
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "read_voltage": {
+            "description": "measure voltage at the output terminals (output identifier optional, defaults to selected output)",
+            "set": null,
+            "query": {
+              "syntax": "MEASure:VOLTage? {output_identifier}",
+              "return_type": "float",
+              "args": [
+                "output_identifier"
+              ]
+            },
+            "parameters": {
+              "output_identifier": {
+                "type": "string",
+                "values": [
+                  "P6V",
+                  "P25V",
+                  "N25V"
+                ]
+              }
+            }
+          },
+          "read_current": {
+            "description": "measure current at the output terminals (output identifier optional, defaults to selected output)",
+            "set": null,
+            "query": {
+              "syntax": "MEASure:CURRent? {output_identifier}",
+              "return_type": "float",
+              "args": [
+                "output_identifier"
+              ]
+            },
+            "parameters": {
+              "output_identifier": {
+                "type": "string",
+                "values": [
+                  "P6V",
+                  "P25V",
+                  "N25V"
+                ]
+              }
+            }
+          },
+          "output_on": {
+            "description": "enable all three outputs",
+            "set": {
+              "syntax": "OUTPut ON"
+            },
+            "query": null
+          },
+          "output_off": {
+            "description": "disable all three outputs",
+            "set": {
+              "syntax": "OUTPut OFF"
+            },
+            "query": null
+          },
+          "output_state_query": {
+            "description": "query output state, returns 0 (OFF) or 1 (ON)",
+            "set": null,
+            "query": {
+              "syntax": "OUTPut?",
+              "return_type": "int"
+            }
+          },
+          "set_track_mode": {
+            "description": "enable/disable track mode of +/-25V outputs (track must be off before coupling)",
+            "set": {
+              "syntax": "OUTPut:TRACk {state}",
+              "args": [
+                "state"
+              ]
+            },
+            "query": {
+              "syntax": "OUTPut:TRACk?",
+              "return_type": "int"
+            },
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "ON"
+                ]
+              }
+            }
+          },
+          "set_coupling": {
+            "description": "couple triggered levels between logical outputs (list of output identifiers)",
+            "set": {
+              "syntax": "INSTrument:COUPle {output_list}",
+              "args": [
+                "output_list"
+              ]
+            },
+            "query": {
+              "syntax": "INSTrument:COUPle?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "output_list": {
+                "type": "string",
+                "values": [
+                  "ALL",
+                  "NONE"
+                ]
+              }
+            }
+          },
+          "initiate_trigger": {
+            "description": "initiate the trigger system (transfers triggered levels)",
+            "set": {
+              "syntax": "INITiate"
+            },
+            "query": null
+          },
+          "set_trigger_source": {
+            "description": "select trigger source (default BUS at *RST)",
+            "set": {
+              "syntax": "TRIGger:SOURce {source}",
+              "args": [
+                "source"
+              ]
+            },
+            "query": {
+              "syntax": "TRIGger:SOURce?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "source": {
+                "type": "string",
+                "values": [
+                  "BUS",
+                  "IMMediate"
+                ]
+              }
+            }
+          },
+          "set_trigger_delay": {
+            "description": "delay between trigger detection and output change, 0..3600 s (bus trigger source only)",
+            "set": {
+              "syntax": "TRIGger:DELay {seconds}",
+              "args": [
+                "seconds"
+              ]
+            },
+            "query": {
+              "syntax": "TRIGger:DELay?",
+              "return_type": "float"
+            },
+            "parameters": {
+              "seconds": {
+                "type": "float"
+              }
+            }
+          },
+          "trigger_bus": {
+            "description": "generate a bus trigger (IEEE-488 GET); over RS-232 requires SYSTem:REMote",
+            "set": {
+              "syntax": "*TRG"
+            },
+            "query": null
+          },
+          "operation_complete": {
+            "description": "set Operation Complete bit (bit 0) of Standard Event register when pending operations complete",
+            "set": {
+              "syntax": "*OPC"
+            },
+            "query": null
+          },
+          "operation_complete_query": {
+            "description": "returns '1' when pending operations complete",
+            "set": null,
+            "query": {
+              "syntax": "*OPC?",
+              "return_type": "int"
+            }
+          },
+          "wait_to_complete": {
+            "description": "wait for all pending operations to complete before executing further commands",
+            "set": {
+              "syntax": "*WAI"
+            },
+            "query": null
+          },
+          "save_state": {
+            "description": "store present operating state in non-volatile location",
+            "set": {
+              "syntax": "*SAV {location}",
+              "args": [
+                "location"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "location": {
+                "type": "int"
+              }
+            }
+          },
+          "recall_state": {
+            "description": "recall previously stored operating state",
+            "set": {
+              "syntax": "*RCL {location}",
+              "args": [
+                "location"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "location": {
+                "type": "int"
+              }
+            }
+          },
+          "query_status_byte": {
+            "description": "query Status Byte summary register (bit 3=QUES, 4=MAV, 5=ESB, 6=RQS)",
+            "set": null,
+            "query": {
+              "syntax": "*STB?",
+              "return_type": "int"
+            }
+          },
+          "query_event_status_register": {
+            "description": "query Standard Event register (bit 0=OPC, 2=QYE, 3=DDE, 4=EXE, 5=CME, 7=PON)",
+            "set": null,
+            "query": {
+              "syntax": "*ESR?",
+              "return_type": "int"
+            }
+          },
+          "enable_event_status_register": {
+            "description": "enable bits in the Standard Event enable register",
+            "set": {
+              "syntax": "*ESE {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "int"
+              }
+            }
+          },
+          "query_event_status_enable": {
+            "description": "query Standard Event enable register",
+            "set": null,
+            "query": {
+              "syntax": "*ESE?",
+              "return_type": "int"
+            }
+          },
+          "set_service_request_enable": {
+            "description": "enable bits in the Status Byte enable register for SRQ generation",
+            "set": {
+              "syntax": "*SRE {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "int"
+              }
+            }
+          },
+          "query_service_request_enable": {
+            "description": "query Status Byte enable register",
+            "set": null,
+            "query": {
+              "syntax": "*SRE?",
+              "return_type": "int"
+            }
+          },
+          "set_power_on_status_clear": {
+            "description": "power-on status clear: 1 clears enable masks at power-on, 0 preserves them",
+            "set": {
+              "syntax": "*PSC {state}",
+              "args": [
+                "state"
+              ]
+            },
+            "query": {
+              "syntax": "*PSC?",
+              "return_type": "int"
+            },
+            "parameters": {
+              "state": {
+                "type": "int"
+              }
+            }
+          },
+          "set_display_state": {
+            "description": "turn front-panel display off or on",
+            "set": {
+              "syntax": "DISPlay {state}",
+              "args": [
+                "state"
+              ]
+            },
+            "query": {
+              "syntax": "DISPlay?",
+              "return_type": "int"
+            },
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "ON"
+                ]
+              }
+            }
+          },
+          "display_text": {
+            "description": "display a message on the front panel (up to 12 characters)",
+            "set": {
+              "syntax": "DISPlay:TEXT {text}",
+              "args": [
+                "text"
+              ]
+            },
+            "query": {
+              "syntax": "DISPlay:TEXT?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "text": {
+                "type": "string"
+              }
+            }
+          },
+          "clear_display_text": {
+            "description": "clear the message displayed on the front panel",
+            "set": {
+              "syntax": "DISPlay:TEXT:CLEar"
+            },
+            "query": null
+          },
+          "beep": {
+            "description": "issue a single beep immediately",
+            "set": {
+              "syntax": "SYSTem:BEEPer"
+            },
+            "query": null
+          },
+          "query_scpi_version": {
+            "description": "query SCPI language version, returns string YYYY.V",
+            "set": null,
+            "query": {
+              "syntax": "SYSTem:VERSion?",
+              "return_type": "string"
+            }
+          },
+          "set_local_mode": {
+            "description": "return to local mode over RS-232 (GPIB uses GTL/Local key instead)",
+            "set": {
+              "syntax": "SYSTem:LOCal"
+            },
+            "query": null
+          },
+          "set_remote_mode": {
+            "description": "place in remote mode over RS-232 (must be sent before RS-232 programming)",
+            "set": {
+              "syntax": "SYSTem:REMote"
+            },
+            "query": null
+          },
+          "set_remote_lock": {
+            "description": "remote mode with local lockout over RS-232",
+            "set": {
+              "syntax": "SYSTem:RWLock"
+            },
+            "query": null
+          },
+          "query_questionable_status": {
+            "description": "query Questionable Status event register (bit 4=FAN, bit 13=ISUM); also clears it",
+            "set": null,
+            "query": {
+              "syntax": "STATus:QUEStionable?",
+              "return_type": "int"
+            }
+          },
+          "enable_questionable_status": {
+            "description": "enable bits in Questionable Status enable register",
+            "set": {
+              "syntax": "STATus:QUEStionable:ENABle {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": {
+              "syntax": "STATus:QUEStionable:ENABle?",
+              "return_type": "int"
+            },
+            "parameters": {
+              "value": {
+                "type": "int"
+              }
+            }
+          },
+          "query_questionable_instrument_status": {
+            "description": "query Questionable Instrument event register (bit 1=+6V, bit 2=+25V, bit 3=-25V overload)",
+            "set": null,
+            "query": {
+              "syntax": "STATus:QUEStionable:INSTrument?",
+              "return_type": "int"
+            }
+          },
+          "enable_questionable_instrument_status": {
+            "description": "set Questionable Instrument enable register",
+            "set": {
+              "syntax": "STATus:QUEStionable:INSTrument:ENABle {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": {
+              "syntax": "STATus:QUEStionable:INSTrument:ENABle?",
+              "return_type": "int"
+            },
+            "parameters": {
+              "value": {
+                "type": "int"
+              }
+            }
+          },
+          "query_instrument_summary": {
+            "description": "query Questionable Instrument ISUM event register for one output (bit 0=voltage unregulated, bit 1=current unregulated)",
+            "set": null,
+            "query": {
+              "syntax": "STATus:QUEStionable:INSTrument:ISUM{channel_number}?",
+              "return_type": "int",
+              "args": [
+                "channel_number"
+              ]
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              }
+            }
+          },
+          "query_instrument_summary_condition": {
+            "description": "query CV/CC operating condition of one output: 0=off/unregulated, 1=CC, 2=CV, 3=hardware failure",
+            "set": null,
+            "query": {
+              "syntax": "STATus:QUEStionable:INSTrument:ISUM{channel_number}:CONDition?",
+              "return_type": "int",
+              "args": [
+                "channel_number"
+              ]
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              }
+            }
+          },
+          "enable_instrument_summary": {
+            "description": "set Questionable Instrument ISUM enable register for one output",
+            "set": {
+              "syntax": "STATus:QUEStionable:INSTrument:ISUM{channel_number}:ENABle {value}",
+              "args": [
+                "channel_number",
+                "value"
+              ]
+            },
+            "query": {
+              "syntax": "STATus:QUEStionable:INSTrument:ISUM{channel_number}:ENABle?",
+              "return_type": "int",
+              "args": [
+                "channel_number"
+              ]
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "value": {
+                "type": "int"
+              }
+            }
+          },
+          "calibration_count_query": {
+            "description": "query number of times the unit has been calibrated",
+            "set": null,
+            "query": {
+              "syntax": "CALibration:COUNt?",
+              "return_type": "int"
+            }
+          },
+          "calibration_secure_state": {
+            "description": "secure/unsecure calibration (requires the security code)",
+            "set": {
+              "syntax": "CALibration:SECure:STATe {state},{code}",
+              "args": [
+                "state",
+                "code"
+              ]
+            },
+            "query": {
+              "syntax": "CALibration:SECure:STATe?",
+              "return_type": "int"
+            },
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "ON"
+                ]
+              },
+              "code": {
+                "type": "string"
+              }
+            }
+          },
+          "calibration_secure_code": {
+            "description": "change the calibration security code",
+            "set": {
+              "syntax": "CALibration:SECure:CODE {code}",
+              "args": [
+                "code"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "code": {
+                "type": "string"
+              }
+            }
+          },
+          "calibration_string": {
+            "description": "store/query calibration message (up to 40 characters)",
+            "set": {
+              "syntax": "CALibration:STRing {text}",
+              "args": [
+                "text"
+              ]
+            },
+            "query": {
+              "syntax": "CALibration:STRing?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "text": {
+                "type": "string"
+              }
+            }
+          },
+          "calibration_voltage_data": {
+            "description": "enter voltage value read from external meter for calibration (requires unsecured state)",
+            "set": {
+              "syntax": "CALibration:VOLTage {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "calibration_voltage_level": {
+            "description": "select voltage calibration point (MIN must be entered first, then MAX)",
+            "set": {
+              "syntax": "CALibration:VOLTage:LEVel {level}",
+              "args": [
+                "level"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "level": {
+                "type": "string",
+                "values": [
+                  "MINimum",
+                  "MAXimum"
+                ]
+              }
+            }
+          },
+          "calibration_current_data": {
+            "description": "enter current value read from external meter for calibration (requires unsecured state)",
+            "set": {
+              "syntax": "CALibration:CURRent {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "calibration_current_level": {
+            "description": "select current calibration point (MIN must be entered first, then MAX)",
+            "set": {
+              "syntax": "CALibration:CURRent:LEVel {level}",
+              "args": [
+                "level"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "level": {
+                "type": "string",
+                "values": [
+                  "MINimum",
+                  "MAXimum"
+                ]
+              }
+            }
+          }
+        },
+        "models": [
+          {
+            "id": "PSU_HP_E3631A",
+            "name": "HP E3631A",
+            "manufacturer": "HP",
+            "model": "E3631A",
+            "documentation_path": "docs/HP/E3631A_Series/E3631_UserGuide.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "GPIB",
+                  "address_format_example": "GPIB0::{GPIB_ADDRESS}::INSTR"
+                },
+                {
+                  "type": "SERIAL",
+                  "address_format_example": "ASRL{COM_PORT}::INSTR"
+                }
+              ],
+              "notes": "GPIB e RS-232 entrambi standard. Nessuna interfaccia USB-TMC o LAN/LXI. Baud rate RS-232 configurabile da front-panel."
+            },
+            "capabilities": {
+              "number_of_channels": 3,
+              "channels": [
+                {
+                  "channel_id": "1",
+                  "label": "+6V output",
+                  "output_identifier": "P6V",
+                  "voltage_output": {
+                    "min": 0,
+                    "max": 6
+                  },
+                  "current_output": {
+                    "min": 0,
+                    "max": 5
+                  }
+                },
+                {
+                  "channel_id": "2",
+                  "label": "+25V output",
+                  "output_identifier": "P25V",
+                  "voltage_output": {
+                    "min": 0,
+                    "max": 25
+                  },
+                  "current_output": {
+                    "min": 0,
+                    "max": 1
+                  }
+                },
+                {
+                  "channel_id": "3",
+                  "label": "-25V output",
+                  "output_identifier": "N25V",
+                  "voltage_output": {
+                    "min": -25,
+                    "max": 0
+                  },
+                  "current_output": {
+                    "min": 0,
+                    "max": 1
+                  }
+                }
+              ],
+              "track_mode": true,
+              "trigger_output": false,
+              "notes": "Selezione canale con INST:SEL P6V|P25V|N25V oppure INST:NSEL 1|2|3. OUTP ON/OFF agisce su tutte e tre le uscite. Trigger source solo BUS|IMMediate."
+            },
+            "experimental": true
+          }
+        ]
       }
     ],
     "dataloggers_series": [
@@ -1577,6 +2469,1461 @@
                   }
                 }
               }
+            },
+            "experimental": true
+          }
+        ]
+      },
+      {
+        "series_id": "Agilent_34970A_Series",
+        "series_name": "Agilent 34970A Data Acquisition / Switch Unit",
+        "common_scpi_commands": {
+          "reset": {
+            "description": "reset",
+            "set": {
+              "syntax": "*RST"
+            },
+            "query": null
+          },
+          "clear_status": {
+            "description": "clear status",
+            "set": {
+              "syntax": "*CLS"
+            },
+            "query": null
+          },
+          "identification_query": {
+            "description": "identification query",
+            "set": null,
+            "query": {
+              "syntax": "*IDN?",
+              "return_type": "string"
+            }
+          },
+          "error_query": {
+            "description": "error query",
+            "set": null,
+            "query": {
+              "syntax": "SYST:ERR?",
+              "return_type": "string"
+            }
+          },
+          "self_test": {
+            "description": "self test",
+            "set": null,
+            "query": {
+              "syntax": "*TST?",
+              "return_type": "int"
+            }
+          },
+          "query_status_byte": {
+            "description": "query status byte",
+            "set": null,
+            "query": {
+              "syntax": "*STB?",
+              "return_type": "int"
+            }
+          },
+          "query_event_status_register": {
+            "description": "query event status register",
+            "set": null,
+            "query": {
+              "syntax": "*ESR?",
+              "return_type": "int"
+            }
+          },
+          "enable_event_status_register": {
+            "description": "enable event status register",
+            "set": {
+              "syntax": "*ESE {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "int"
+              }
+            }
+          },
+          "query_event_status_enable": {
+            "description": "query event status enable",
+            "set": null,
+            "query": {
+              "syntax": "*ESE?",
+              "return_type": "int"
+            }
+          },
+          "select_channels": {
+            "description": "select channels",
+            "set": {
+              "syntax": "ROUT:SCAN (@{channels})",
+              "args": [
+                "channels"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "channels": {
+                "type": "string"
+              }
+            }
+          },
+          "read_scan": {
+            "description": "read scan",
+            "set": null,
+            "query": {
+              "syntax": "READ?",
+              "return_type": "string"
+            }
+          },
+          "trigger_bus": {
+            "description": "trigger bus",
+            "set": {
+              "syntax": "*TRG"
+            },
+            "query": null
+          },
+          "set_trigger_source": {
+            "description": "set trigger source",
+            "set": {
+              "syntax": "TRIG:SOUR {source}",
+              "args": [
+                "source"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "source": {
+                "type": "string",
+                "values": [
+                  "BUS",
+                  "IMMediate",
+                  "EXTernal",
+                  "TIMer",
+                  "ALARm1",
+                  "ALARm2",
+                  "ALARm3",
+                  "ALARm4"
+                ]
+              }
+            }
+          },
+          "set_trigger_count": {
+            "description": "set trigger count",
+            "set": {
+              "syntax": "TRIG:COUN {count}",
+              "args": [
+                "count"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "count": {
+                "type": "int"
+              }
+            }
+          },
+          "configure_dc_voltage": {
+            "description": "configure dc voltage",
+            "set": {
+              "syntax": "CONF:VOLT:DC {range},{resolution},(@{channels})",
+              "args": [
+                "range",
+                "resolution",
+                "channels"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "range": {
+                "type": "float"
+              },
+              "resolution": {
+                "type": "float"
+              },
+              "channels": {
+                "type": "string"
+              }
+            }
+          },
+          "measure_dc_voltage": {
+            "description": "measure dc voltage",
+            "set": null,
+            "query": {
+              "syntax": "MEAS:VOLT:DC? {range},{resolution},(@{channels})",
+              "args": [
+                "range",
+                "resolution",
+                "channels"
+              ],
+              "return_type": "float"
+            },
+            "parameters": {
+              "range": {
+                "type": "float"
+              },
+              "resolution": {
+                "type": "float"
+              },
+              "channels": {
+                "type": "string"
+              }
+            }
+          },
+          "close_channel": {
+            "description": "close channel",
+            "set": {
+              "syntax": "ROUT:CLOSe (@{channels})",
+              "args": [
+                "channels"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "channels": {
+                "type": "string"
+              }
+            }
+          },
+          "open_channels": {
+            "description": "open channels",
+            "set": {
+              "syntax": "ROUT:OPEN (@{channels})",
+              "args": [
+                "channels"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "channels": {
+                "type": "string"
+              }
+            }
+          },
+          "initiate_scan": {
+            "description": "initiate scan",
+            "set": {
+              "syntax": "INITiate",
+              "args": null
+            },
+            "query": null
+          },
+          "fetch_readings": {
+            "description": "fetch readings",
+            "set": null,
+            "query": {
+              "syntax": "FETCh?",
+              "return_type": "string"
+            }
+          }
+        },
+        "models": [
+          {
+            "id": "DL_Agilent_34970A",
+            "name": "Agilent 34970A Data Acquisition / Switch Unit",
+            "manufacturer": "Agilent",
+            "model": "34970A",
+            "documentation_path": "docs/Keysight/3497X_Series/Agilent 34970A⁄72A Command Reference.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "GPIB",
+                  "address_format_example": "GPIB0::{GPIB_ADDRESS}::INSTR"
+                },
+                {
+                  "type": "SERIAL",
+                  "address_format_example": "ASRL{COM_PORT}::INSTR",
+                  "notes": "Baud 1200..115200, config da front-panel"
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_slots": 3,
+              "compatible_modules": [
+                "34901A",
+                "34902A",
+                "34903A",
+                "34904A",
+                "34905A",
+                "34906A",
+                "34908A"
+              ]
+            },
+            "scpi_commands": {
+              "set_voltage_range": {
+                "description": "setup voltage range",
+                "set": {
+                  "syntax": "SENS:VOLT:DC:RANG {range},(@{channels})",
+                  "args": [
+                    "range",
+                    "channels"
+                  ]
+                },
+                "query": null,
+                "parameters": {
+                  "range": {
+                    "type": "float"
+                  },
+                  "channels": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "experimental": true
+          }
+        ]
+      },
+      {
+        "series_id": "Agilent_3499A_Series",
+        "series_name": "Agilent 3499A/B/C Series",
+        "common_scpi_commands": {
+          "reset": {
+            "description": "reset (clears system memory, digital config and error queue)",
+            "set": {
+              "syntax": "*RST"
+            },
+            "query": null
+          },
+          "clear_status": {
+            "description": "clear event registers, status byte and error queue",
+            "set": {
+              "syntax": "*CLS"
+            },
+            "query": null
+          },
+          "identification_query": {
+            "description": "identification query",
+            "set": null,
+            "query": {
+              "syntax": "*IDN?",
+              "return_type": "string"
+            }
+          },
+          "error_query": {
+            "description": "query error queue (FIFO, max 10 entries)",
+            "set": null,
+            "query": {
+              "syntax": "SYSTem:ERRor?",
+              "return_type": "string"
+            }
+          },
+          "self_test": {
+            "description": "self test (takes seconds, hangs the bus)",
+            "set": null,
+            "query": {
+              "syntax": "*TST?",
+              "return_type": "int"
+            }
+          },
+          "query_status_byte": {
+            "description": "query status byte register",
+            "set": null,
+            "query": {
+              "syntax": "*STB?",
+              "return_type": "int"
+            }
+          },
+          "query_event_status_register": {
+            "description": "query standard event register",
+            "set": null,
+            "query": {
+              "syntax": "*ESR?",
+              "return_type": "int"
+            }
+          },
+          "enable_event_status_register": {
+            "description": "set standard event enable mask",
+            "set": {
+              "syntax": "*ESE {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "int"
+              }
+            }
+          },
+          "query_event_status_enable": {
+            "description": "query standard event enable mask",
+            "set": null,
+            "query": {
+              "syntax": "*ESE?",
+              "return_type": "int"
+            }
+          },
+          "enable_service_request": {
+            "description": "set service request enable mask",
+            "set": {
+              "syntax": "*SRE {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "int"
+              }
+            }
+          },
+          "query_service_request_enable": {
+            "description": "query service request enable mask",
+            "set": null,
+            "query": {
+              "syntax": "*SRE?",
+              "return_type": "int"
+            }
+          },
+          "operation_complete": {
+            "description": "set Operation Complete bit in Standard Event Register when done",
+            "set": {
+              "syntax": "*OPC"
+            },
+            "query": null
+          },
+          "operation_complete_query": {
+            "description": "returns +1 when pending operations complete",
+            "set": null,
+            "query": {
+              "syntax": "*OPC?",
+              "return_type": "int"
+            }
+          },
+          "wait_operation_complete": {
+            "description": "wait until all operations complete",
+            "set": {
+              "syntax": "*WAI"
+            },
+            "query": null
+          },
+          "trigger_bus": {
+            "description": "software trigger (BUS source in arm/trigger layer)",
+            "set": {
+              "syntax": "*TRG"
+            },
+            "query": null
+          },
+          "save_state": {
+            "description": "save current setup to memory location",
+            "set": {
+              "syntax": "*SAV {mem}",
+              "args": [
+                "mem"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "mem": {
+                "type": "int"
+              }
+            }
+          },
+          "recall_state": {
+            "description": "recall a saved setup",
+            "set": {
+              "syntax": "*RCL {mem}",
+              "args": [
+                "mem"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "mem": {
+                "type": "int"
+              }
+            }
+          },
+          "delete_state": {
+            "description": "delete one or all stored states",
+            "set": {
+              "syntax": "SYSTem:STATe:DELete {mem}",
+              "args": [
+                "mem"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "mem": {
+                "type": "string",
+                "values": [
+                  "ALL"
+                ]
+              }
+            }
+          },
+          "close_channel": {
+            "description": "close one or more switching channels (accepts @snn:snn ranges)",
+            "set": {
+              "syntax": "ROUTe:CLOSe (@{channels})",
+              "args": [
+                "channels"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "channels": {
+                "type": "string"
+              }
+            }
+          },
+          "query_channel_closed_state": {
+            "description": "returns 1 for closed, 0 for open, comma-separated (programmed state)",
+            "set": null,
+            "query": {
+              "syntax": "ROUTe:CLOSe? (@{channels})",
+              "return_type": "string",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "channels": {
+                "type": "string"
+              }
+            }
+          },
+          "query_closed_channels": {
+            "description": "query all closed relays on all installed modules",
+            "set": null,
+            "query": {
+              "syntax": "ROUTe:CLOSe:STATe?",
+              "return_type": "string"
+            }
+          },
+          "open_channels": {
+            "description": "open one, multiple or all switching channels",
+            "set": {
+              "syntax": "ROUTe:OPEN (@{channels})",
+              "args": [
+                "channels"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "channels": {
+                "type": "string"
+              }
+            }
+          },
+          "query_channel_open_state": {
+            "description": "returns 1 for open, 0 for closed, comma-separated",
+            "set": null,
+            "query": {
+              "syntax": "ROUTe:OPEN? (@{channels})",
+              "return_type": "string",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "channels": {
+                "type": "string"
+              }
+            }
+          },
+          "select_channels": {
+            "description": "set scan list (switch channels, digital bits or stored setups; up to 200 entries)",
+            "set": {
+              "syntax": "ROUTe:SCAN (@{channels})",
+              "args": [
+                "channels"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "channels": {
+                "type": "string"
+              }
+            }
+          },
+          "query_scan_list": {
+            "description": "query scan list as comma-separated channel list",
+            "set": null,
+            "query": {
+              "syntax": "ROUTe:SCAN:LIST?",
+              "return_type": "string"
+            }
+          },
+          "clear_scan_list": {
+            "description": "clear the scan list (spazio tra SCAN e CLEar: fa parte del comando)",
+            "set": {
+              "syntax": "ROUTe:SCAN CLEar"
+            },
+            "query": null
+          },
+          "query_scan_size": {
+            "description": "number of channels in the scan list",
+            "set": null,
+            "query": {
+              "syntax": "ROUTe:SCAN:SIZE?",
+              "return_type": "int"
+            }
+          },
+          "set_arm_source": {
+            "description": "arm layer trigger source (sweep start)",
+            "set": {
+              "syntax": "ARM:SOURce {source}",
+              "args": [
+                "source"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "source": {
+                "type": "string",
+                "values": [
+                  "BUS",
+                  "EXTernal",
+                  "IMMediate",
+                  "TIMer",
+                  "MIX",
+                  "HOLD"
+                ]
+              }
+            }
+          },
+          "query_arm_source": {
+            "description": "query arm layer trigger source",
+            "set": null,
+            "query": {
+              "syntax": "ARM:SOURce?",
+              "return_type": "string"
+            }
+          },
+          "set_arm_count": {
+            "description": "number of sweeps of the scan list (MIN=1, MAX=99999, INFinity=-1)",
+            "set": {
+              "syntax": "ARM:COUNt {count}",
+              "args": [
+                "count"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "count": {
+                "type": "int"
+              }
+            }
+          },
+          "query_arm_count": {
+            "description": "query number of sweeps",
+            "set": null,
+            "query": {
+              "syntax": "ARM:COUNt?",
+              "return_type": "int"
+            }
+          },
+          "set_arm_timer": {
+            "description": "sweep-to-sweep interval, 0.000..99999.999 s, 1 ms resolution",
+            "set": {
+              "syntax": "ARM:TIMer {seconds}",
+              "args": [
+                "seconds"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "seconds": {
+                "type": "float"
+              }
+            }
+          },
+          "query_arm_timer": {
+            "description": "query sweep-to-sweep interval in seconds",
+            "set": null,
+            "query": {
+              "syntax": "ARM:TIMer?",
+              "return_type": "float"
+            }
+          },
+          "set_trigger_source": {
+            "description": "trigger layer trigger source (channel advance)",
+            "set": {
+              "syntax": "TRIGger:SOURce {source}",
+              "args": [
+                "source"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "source": {
+                "type": "string",
+                "values": [
+                  "BUS",
+                  "EXTernal",
+                  "IMMediate",
+                  "TIMer",
+                  "MIX",
+                  "HOLD"
+                ]
+              }
+            }
+          },
+          "query_trigger_source": {
+            "description": "query trigger layer trigger source",
+            "set": null,
+            "query": {
+              "syntax": "TRIGger:SOURce?",
+              "return_type": "string"
+            }
+          },
+          "set_trigger_timer": {
+            "description": "channel-to-channel interval, 0.000..99999.999 s, 1 ms resolution",
+            "set": {
+              "syntax": "TRIGger:TIMer {seconds}",
+              "args": [
+                "seconds"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "seconds": {
+                "type": "float"
+              }
+            }
+          },
+          "query_trigger_timer": {
+            "description": "query channel-to-channel interval in seconds",
+            "set": null,
+            "query": {
+              "syntax": "TRIGger:TIMer?",
+              "return_type": "float"
+            }
+          },
+          "trigger_immediate": {
+            "description": "software trigger for HOLD source",
+            "set": {
+              "syntax": "TRIGger:IMMediate"
+            },
+            "query": null
+          },
+          "set_channel_delay": {
+            "description": "per-channel delay between close and next operation, or for ALL channels",
+            "set": {
+              "syntax": "ROUTe:CHANnel:DELay {seconds},({channels})",
+              "args": [
+                "seconds",
+                "channels"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "seconds": {
+                "type": "float"
+              },
+              "channels": {
+                "type": "string"
+              }
+            }
+          },
+          "query_channel_delay": {
+            "description": "delay per channel as comma-separated values",
+            "set": null,
+            "query": {
+              "syntax": "ROUTe:CHANnel:DELay? (@{channels})",
+              "return_type": "string",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "channels": {
+                "type": "string"
+              }
+            }
+          },
+          "initiate_scan": {
+            "description": "start a scanning cycle (always required to leave idle state)",
+            "set": {
+              "syntax": "INITiate"
+            },
+            "query": null
+          },
+          "abort_scan": {
+            "description": "abort a scan in progress (last channel stays closed; scan cannot resume)",
+            "set": {
+              "syntax": "ABORt"
+            },
+            "query": null
+          },
+          "set_external_trigger_source": {
+            "description": "select external trigger lines (slot 0 = rear-panel mini-DIN, or slot of 44474A)",
+            "set": {
+              "syntax": "CONFigure:EXTernal:TRIGger:SOURce {slot}",
+              "args": [
+                "slot"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "slot": {
+                "type": "int"
+              }
+            }
+          },
+          "query_external_trigger_source": {
+            "description": "query external trigger source slot",
+            "set": null,
+            "query": {
+              "syntax": "CONFigure:EXTernal:TRIGger:SOURce?",
+              "return_type": "int"
+            }
+          },
+          "enable_external_trigger_output": {
+            "description": "enable/disable trigger-out pulse after each channel close during scan",
+            "set": {
+              "syntax": "CONFigure:EXTernal:TRIGger:OUTPut {state}",
+              "args": [
+                "state"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "ON"
+                ]
+              }
+            }
+          },
+          "query_external_trigger_output": {
+            "description": "query trigger-out state (0 disabled, 1 enabled)",
+            "set": null,
+            "query": {
+              "syntax": "CONFigure:EXTernal:TRIGger:OUTPut?",
+              "return_type": "int"
+            }
+          },
+          "pair_cards": {
+            "description": "pair two identical modules (slot1,slot2) or cancel with -1",
+            "set": {
+              "syntax": "ROUTe:CPAir {slot1},{slot2}",
+              "args": [
+                "slot1",
+                "slot2"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "slot1": {
+                "type": "int"
+              },
+              "slot2": {
+                "type": "int"
+              }
+            }
+          },
+          "query_card_pair": {
+            "description": "returns 4 comma-separated slot numbers (0,0,0,0 if none paired)",
+            "set": null,
+            "query": {
+              "syntax": "ROUTe:CPAir?",
+              "return_type": "string"
+            }
+          },
+          "set_function": {
+            "description": "set function mode of N2260A/N2266A 40-channel MUX",
+            "set": {
+              "syntax": "ROUTe:FUNCtion {slot},{mode}",
+              "args": [
+                "slot",
+                "mode"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "slot": {
+                "type": "int"
+              },
+              "mode": {
+                "type": "string",
+                "values": [
+                  "WIRE1",
+                  "WIRE2",
+                  "BIWIRE2",
+                  "WIRE4"
+                ]
+              }
+            }
+          },
+          "query_function": {
+            "description": "query function mode of N2260A/N2266A",
+            "set": null,
+            "query": {
+              "syntax": "ROUTe:FUNCtion? {slot}",
+              "return_type": "string",
+              "args": [
+                "slot"
+              ]
+            },
+            "parameters": {
+              "slot": {
+                "type": "int"
+              }
+            }
+          },
+          "query_module_type": {
+            "description": "query card type and serial number in slot",
+            "set": null,
+            "query": {
+              "syntax": "SYSTem:CTYPe? {slot}",
+              "return_type": "string",
+              "args": [
+                "slot"
+              ]
+            },
+            "parameters": {
+              "slot": {
+                "type": "int"
+              }
+            }
+          },
+          "reset_module": {
+            "description": "reset module(s) to power-on state without resetting the mainframe",
+            "set": {
+              "syntax": "SYSTem:CPON {slot}",
+              "args": [
+                "slot"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "slot": {
+                "type": "string",
+                "values": [
+                  "ALL"
+                ]
+              }
+            }
+          },
+          "query_scpi_version": {
+            "description": "query SCPI version string",
+            "set": null,
+            "query": {
+              "syntax": "SYSTem:VERSion?",
+              "return_type": "string"
+            }
+          },
+          "set_system_mode": {
+            "description": "select SCPI or HP3488A mode (mode change resets the instrument; wait 5 s)",
+            "set": {
+              "syntax": "SYSMODE {mode}",
+              "args": [
+                "mode"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "mode": {
+                "type": "string",
+                "values": [
+                  "SCPI",
+                  "HP3488A"
+                ]
+              }
+            }
+          },
+          "query_system_mode": {
+            "description": "query system mode",
+            "set": null,
+            "query": {
+              "syntax": "SYSMODE?",
+              "return_type": "string"
+            }
+          },
+          "set_local": {
+            "description": "RS-232 only: local mode, all front-panel keys functional",
+            "set": {
+              "syntax": "SYSTem:LOCal"
+            },
+            "query": null
+          },
+          "set_remote": {
+            "description": "RS-232 only: remote mode, most front-panel keys disabled",
+            "set": {
+              "syntax": "SYSTem:REMote"
+            },
+            "query": null
+          },
+          "set_remote_lock": {
+            "description": "RS-232 only: remote mode with all front-panel keys locked",
+            "set": {
+              "syntax": "SYSTem:RWLock"
+            },
+            "query": null
+          },
+          "display_message": {
+            "description": "write message to front-panel display (max 13 chars)",
+            "set": {
+              "syntax": "DIAGnostic:DISPlay:INFOrmation {message}",
+              "args": [
+                "message"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "message": {
+                "type": "string"
+              }
+            }
+          },
+          "enable_display": {
+            "description": "turn front-panel display on/off (annunciators remain active)",
+            "set": {
+              "syntax": "DIAGnostic:DISPlay:STATe {state}",
+              "args": [
+                "state"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "ON"
+                ]
+              }
+            }
+          },
+          "query_display_state": {
+            "description": "query display state",
+            "set": null,
+            "query": {
+              "syntax": "DIAGnostic:DISPlay:STATe?",
+              "return_type": "int"
+            }
+          },
+          "monitor_channel": {
+            "description": "monitor a slot/channel/port, or -1 to disable (tree relays s98/s99 cannot be monitored)",
+            "set": {
+              "syntax": "DIAGnostic:MONitor {channel}",
+              "args": [
+                "channel"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "channel": {
+                "type": "string"
+              }
+            }
+          },
+          "query_monitor": {
+            "description": "query monitored slot/channel/port (-1 if inactive)",
+            "set": null,
+            "query": {
+              "syntax": "DIAGnostic:MONitor?",
+              "return_type": "string"
+            }
+          },
+          "query_relay_cycles": {
+            "description": "query relay cycle counts of channels (comma-separated; -1 if unsupported)",
+            "set": null,
+            "query": {
+              "syntax": "DIAGnostic:RELay:CYCLes? (@{channels})",
+              "return_type": "string",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "channels": {
+                "type": "string"
+              }
+            }
+          },
+          "query_relay_cycles_max": {
+            "description": "query maximum relay cycle count on module in slot",
+            "set": null,
+            "query": {
+              "syntax": "DIAGnostic:RELay:CYCLes:MAX? {slot}",
+              "return_type": "int",
+              "args": [
+                "slot"
+              ]
+            },
+            "parameters": {
+              "slot": {
+                "type": "int"
+              }
+            }
+          },
+          "clear_relay_cycles": {
+            "description": "reset relay cycle counter(s) to zero",
+            "set": {
+              "syntax": "DIAGnostic:RELay:CYCLes:CLEar (@{channels})",
+              "args": [
+                "channels"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "channels": {
+                "type": "string"
+              }
+            }
+          },
+          "read_register": {
+            "description": "read 8-bit register on 44475A breadboard module (register 4)",
+            "set": null,
+            "query": {
+              "syntax": "DIAGnostic:SPEEK? {slot},{register}",
+              "return_type": "int",
+              "args": [
+                "slot",
+                "register"
+              ]
+            },
+            "parameters": {
+              "slot": {
+                "type": "int"
+              },
+              "register": {
+                "type": "int"
+              }
+            }
+          },
+          "write_register": {
+            "description": "write 8-bit data to register on 44475A breadboard module (register 0)",
+            "set": {
+              "syntax": "DIAGnostic:SPOKE {slot},{register},{data}",
+              "args": [
+                "slot",
+                "register",
+                "data"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "slot": {
+                "type": "int"
+              },
+              "register": {
+                "type": "int"
+              },
+              "data": {
+                "type": "int"
+              }
+            }
+          },
+          "set_digital_mode": {
+            "description": "set handshake mode 1..5 of a DIO port (not for built-in port 090)",
+            "set": {
+              "syntax": "SOURce:DIGital:MODE {port},{mode}",
+              "args": [
+                "port",
+                "mode"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "port": {
+                "type": "string"
+              },
+              "mode": {
+                "type": "int"
+              }
+            }
+          },
+          "query_digital_mode": {
+            "description": "query handshake mode of a DIO port",
+            "set": null,
+            "query": {
+              "syntax": "SOURce:DIGital:MODE? {port}",
+              "return_type": "int",
+              "args": [
+                "port"
+              ]
+            },
+            "parameters": {
+              "port": {
+                "type": "string"
+              }
+            }
+          },
+          "set_digital_control_polarity": {
+            "description": "set PCTL control line polarity",
+            "set": {
+              "syntax": "SOURce:DIGital:CONTrol:POLarity {slot},{polarity}",
+              "args": [
+                "slot",
+                "polarity"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "slot": {
+                "type": "int"
+              },
+              "polarity": {
+                "type": "string",
+                "values": [
+                  "POS",
+                  "NEG"
+                ]
+              }
+            }
+          },
+          "set_digital_flag_polarity": {
+            "description": "set PFLG flag line polarity",
+            "set": {
+              "syntax": "SOURce:DIGital:FLAG:POLarity {slot},{polarity}",
+              "args": [
+                "slot",
+                "polarity"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "slot": {
+                "type": "int"
+              },
+              "polarity": {
+                "type": "string",
+                "values": [
+                  "POS",
+                  "NEG"
+                ]
+              }
+            }
+          },
+          "set_digital_io_polarity": {
+            "description": "set I/O direction line polarity",
+            "set": {
+              "syntax": "SOURce:DIGital:IO:POLarity {slot},{polarity}",
+              "args": [
+                "slot",
+                "polarity"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "slot": {
+                "type": "int"
+              },
+              "polarity": {
+                "type": "string",
+                "values": [
+                  "POS",
+                  "NEG"
+                ]
+              }
+            }
+          },
+          "set_digital_port_polarity": {
+            "description": "set data line polarity of a port (BYTE/WORD/LWORD optional)",
+            "set": {
+              "syntax": "SOURce:DIGital:DATA:POLarity {port},{polarity}",
+              "args": [
+                "port",
+                "polarity"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "port": {
+                "type": "string"
+              },
+              "polarity": {
+                "type": "string",
+                "values": [
+                  "POS",
+                  "NEG"
+                ]
+              }
+            }
+          },
+          "write_digital_bit": {
+            "description": "write 0/1 to a digital I/O bit",
+            "set": {
+              "syntax": "SOURce:DIGital:DATA:BIT {bit_port},{state}",
+              "args": [
+                "bit_port",
+                "state"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "bit_port": {
+                "type": "string"
+              },
+              "state": {
+                "type": "int"
+              }
+            }
+          },
+          "read_digital_bit": {
+            "description": "read a digital I/O bit",
+            "set": null,
+            "query": {
+              "syntax": "SENSe:DIGital:DATA:BIT? {bit_port}",
+              "return_type": "int",
+              "args": [
+                "bit_port"
+              ]
+            },
+            "parameters": {
+              "bit_port": {
+                "type": "string"
+              }
+            }
+          },
+          "write_digital_port": {
+            "description": "write value to a port (built-in port 090 accepts 0..15)",
+            "set": {
+              "syntax": "SOURce:DIGital:DATA {port},{data}",
+              "args": [
+                "port",
+                "data"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "port": {
+                "type": "string"
+              },
+              "data": {
+                "type": "int"
+              }
+            }
+          },
+          "read_digital_port": {
+            "description": "read a port as integer",
+            "set": null,
+            "query": {
+              "syntax": "SENSe:DIGital:DATA? {port}",
+              "return_type": "int",
+              "args": [
+                "port"
+              ]
+            },
+            "parameters": {
+              "port": {
+                "type": "string"
+              }
+            }
+          },
+          "query_operation_condition": {
+            "description": "query Operation Condition register (bit0 waiting in trigger layer, bit1 arm layer, bit4 scan started)",
+            "set": null,
+            "query": {
+              "syntax": "STATus:OPERation:CONDition?",
+              "return_type": "int"
+            }
+          },
+          "query_operation_event": {
+            "description": "query Operation Event register (clears bits)",
+            "set": null,
+            "query": {
+              "syntax": "STATus:OPERation:EVENt?",
+              "return_type": "int"
+            }
+          },
+          "set_operation_enable": {
+            "description": "set Operation Enable register mask (applicable values 1, 2, 16)",
+            "set": {
+              "syntax": "STATus:OPERation:ENABle {unmask}",
+              "args": [
+                "unmask"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "unmask": {
+                "type": "int"
+              }
+            }
+          },
+          "query_operation_enable": {
+            "description": "query Operation Enable register",
+            "set": null,
+            "query": {
+              "syntax": "STATus:OPERation:ENABle?",
+              "return_type": "int"
+            }
+          },
+          "status_preset": {
+            "description": "clear Operation Status enable register bits",
+            "set": {
+              "syntax": "STATus:PRESet"
+            },
+            "query": null
+          }
+        },
+        "models": [
+          {
+            "id": "DL_Agilent_3499A",
+            "name": "Agilent 3499A Data Acquisition / Switch Mainframe",
+            "manufacturer": "Agilent",
+            "model": "3499A",
+            "documentation_path": "docs/Agilent/3499A_Series/Agilent_3499_Manual.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "GPIB",
+                  "address_format_example": "GPIB0::{GPIB_ADDRESS}::INSTR",
+                  "notes": "Address 0..31, factory default 9. Una sola interfaccia (GPIB o RS-232) attiva alla volta."
+                },
+                {
+                  "type": "SERIAL",
+                  "address_format_example": "ASRL{COM_PORT}::INSTR",
+                  "notes": "RS-232 solo in modalita SCPI. Baud 2400..57600 (default 9600)."
+                }
+              ]
+            },
+            "capabilities": {
+              "channels": "100:107",
+              "number_of_slots": 5,
+              "slot_numbers": "0 through 5 (slot 0 = built-in control board with 4-bit digital I/O)",
+              "channel_format": "@snn — slot digit + 2-digit channel, es. @101, @100:107, @101,201,205 (NON lo stile 1001:1020 del 34970A)",
+              "scan_list_max_entries": 200,
+              "scan_max_sweeps": "99999 (MAX) / -1 (INFinity)",
+              "builtin_digital_io": {
+                "port": "090 (4-bit)",
+                "bits": "091 through 094"
+              },
+              "compatible_modules": [
+                "N2260A",
+                "N2261A",
+                "N2262A",
+                "N2263A",
+                "N2264A",
+                "N2265A",
+                "N2266A",
+                "N2267A",
+                "N2268A",
+                "N2270A",
+                "N2272A",
+                "N2276A/B",
+                "N2280A",
+                "N2281A",
+                "N2282A",
+                "44470A",
+                "44470D",
+                "44471A",
+                "44471D",
+                "44472A",
+                "44473A",
+                "44474A",
+                "44475A",
+                "44476A/B",
+                "44477A",
+                "44478A/B"
+              ],
+              "system_modes": [
+                "SCPI",
+                "HP3488A"
+              ],
+              "notes": "Il 3499A e un mainframe di switching/scanning SENZA motore di misura: nessun comando MEASure?/FETCh?/READ?. Le misure avvengono su dispositivo esterno sincronizzato via trigger-out."
             },
             "experimental": true
           }
@@ -2652,7 +4999,12 @@
             "query": null,
             "parameters": {
               "mode": {
-                "type": "string"
+                "type": "string",
+                "values": [
+                  "AUTO",
+                  "NORM",
+                  "SING"
+                ]
               }
             }
           },
@@ -3047,7 +5399,12 @@
                 "type": "int"
               },
               "coupling_type": {
-                "type": "string"
+                "type": "string",
+                "values": [
+                  "AC",
+                  "DC",
+                  "GND"
+                ]
               }
             }
           },
@@ -3170,7 +5527,12 @@
             "query": null,
             "parameters": {
               "mode": {
-                "type": "string"
+                "type": "string",
+                "values": [
+                  "AUTO",
+                  "NORMal",
+                  "SINGle"
+                ]
               }
             }
           },
@@ -4704,6 +7066,2116 @@
               "max_power_w": 300
             },
             "scpi_commands": {},
+            "experimental": true
+          }
+        ]
+      }
+    ],
+    "multimeters_series": [
+      {
+        "series_id": "HP_3478A_Series",
+        "series_name": "HP 3478A Series Multimeters",
+        "common_scpi_commands": {
+          "set_function": {
+            "description": "select measurement function (F mnemonic)",
+            "set": {
+              "syntax": "F{function}",
+              "args": [
+                "function"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "function": {
+                "type": "int",
+                "values": [
+                  "1",
+                  "2",
+                  "3",
+                  "4",
+                  "5",
+                  "6",
+                  "7"
+                ]
+              }
+            }
+          },
+          "set_range": {
+            "description": "select measurement range (R mnemonic); invalid range clamps to most/least sensitive",
+            "set": {
+              "syntax": "R{range}",
+              "args": [
+                "range"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "range": {
+                "type": "string",
+                "values": [
+                  "-2",
+                  "-1",
+                  "0",
+                  "1",
+                  "2",
+                  "3",
+                  "4",
+                  "5",
+                  "6",
+                  "7",
+                  "A"
+                ]
+              }
+            }
+          },
+          "set_resolution": {
+            "description": "select number of digits displayed (N mnemonic); sets integration time (.1/1/10 PLC)",
+            "set": {
+              "syntax": "N{digits}",
+              "args": [
+                "digits"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "digits": {
+                "type": "int",
+                "values": [
+                  "3",
+                  "4",
+                  "5"
+                ]
+              }
+            }
+          },
+          "set_trigger_source": {
+            "description": "select trigger mode (T mnemonic)",
+            "set": {
+              "syntax": "T{source}",
+              "args": [
+                "source"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "source": {
+                "type": "int",
+                "values": [
+                  "1",
+                  "2",
+                  "3",
+                  "4",
+                  "5"
+                ]
+              }
+            }
+          },
+          "trigger_bus": {
+            "description": "HP-IB Group Execute Trigger (GET, oct 010) — messaggio di bus, non un codice ASCII; triggera una nuova lettura quando il 3478A e indirizzato a listen",
+            "set": {
+              "syntax": "GET"
+            },
+            "query": null
+          },
+          "set_autozero": {
+            "description": "autozero on/off (Z mnemonic)",
+            "set": {
+              "syntax": "Z{autozero}",
+              "args": [
+                "autozero"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "autozero": {
+                "type": "int",
+                "values": [
+                  "0",
+                  "1"
+                ]
+              }
+            }
+          },
+          "set_display_mode": {
+            "description": "display mode (D mnemonic); D1 normal, D2 display text, D3 display text and stop display updating (faster)",
+            "set": {
+              "syntax": "D{display_mode}",
+              "args": [
+                "display_mode"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "display_mode": {
+                "type": "int",
+                "values": [
+                  "1",
+                  "2",
+                  "3"
+                ]
+              }
+            }
+          },
+          "display_message": {
+            "description": "write text to the display (D2/D3 with data); up to 12 chars ASCII 32-95",
+            "set": {
+              "syntax": "D{display_mode}{text}",
+              "args": [
+                "display_mode",
+                "text"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "display_mode": {
+                "type": "int",
+                "values": [
+                  "2",
+                  "3"
+                ]
+              },
+              "text": {
+                "type": "string"
+              }
+            }
+          },
+          "execute_home_command": {
+            "description": "preset HOME commands (H mnemonic); H0 configures only and waits for trigger, H1-H7 take one reading each",
+            "set": {
+              "syntax": "H{command}",
+              "args": [
+                "command"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "command": {
+                "type": "int",
+                "values": [
+                  "0",
+                  "1",
+                  "2",
+                  "3",
+                  "4",
+                  "5",
+                  "6",
+                  "7"
+                ]
+              }
+            }
+          },
+          "calibrate": {
+            "description": "enter calibration (C mnemonic); procedura documentata nel Service Manual",
+            "set": {
+              "syntax": "C"
+            },
+            "query": null
+          },
+          "query_binary_status": {
+            "description": "output 5 binary bytes of programmed state (B mnemonic); also clears the error register",
+            "set": null,
+            "query": {
+              "syntax": "B",
+              "return_type": "string (5 binary bytes)"
+            }
+          },
+          "clear_status": {
+            "description": "clear the serial poll register (K mnemonic); clears bits 1-5 and 7, bit 0 (data ready) unaffected",
+            "set": {
+              "syntax": "K"
+            },
+            "query": null
+          },
+          "error_query": {
+            "description": "read and clear the error register (E mnemonic); output is two octal digits + CR LF",
+            "set": null,
+            "query": {
+              "syntax": "E",
+              "return_type": "string (2 octal digits)"
+            }
+          },
+          "set_srq_mask": {
+            "description": "set SRQ mask to octal value (M mnemonic); bits 0-5 mask data ready, syntax error, hardware error, front panel SRQ, cal failure",
+            "set": {
+              "syntax": "M{mask}",
+              "args": [
+                "mask"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "mask": {
+                "type": "string",
+                "values": [
+                  "0",
+                  "77"
+                ]
+              }
+            }
+          },
+          "query_front_rear_input": {
+            "description": "return front/rear input switch position (S mnemonic); outputs '1' (front) or '0' (rear)",
+            "set": null,
+            "query": {
+              "syntax": "S",
+              "return_type": "string ('1' or '0')"
+            }
+          },
+          "query_status_byte": {
+            "description": "serial poll status byte (HP-IB SPOLL): bit 7=power-on reset, 6=SRQ, 5=cal failed, 4=front panel SRQ, 3=hardware error, 2=syntax error, 0=data ready; bit 6 cleared by the poll",
+            "set": null,
+            "query": {
+              "syntax": "SPOLL",
+              "return_type": "int"
+            }
+          },
+          "read_measurement": {
+            "description": "read the measurement result addressing the 3478A to talk (ENTER); 13-byte ASCII format +d.dddddE+d CR LF, overload +9.99999E+9",
+            "set": null,
+            "query": {
+              "syntax": "ENTER",
+              "return_type": "string (13-byte ASCII float)"
+            }
+          },
+          "reset": {
+            "description": "HP-IB CLEAR (DCL/SDC) bus message; runs self test and restores power-on state; clears status registers",
+            "set": {
+              "syntax": "CLEAR"
+            },
+            "query": null
+          }
+        },
+        "models": [
+          {
+            "id": "MTR_HP_3478A",
+            "name": "HP 3478A Multimeter",
+            "manufacturer": "HP",
+            "model": "3478A",
+            "documentation_path": "docs/HP/3478A_Series/3478A Multimeter Operator Manual.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "GPIB",
+                  "address_format_example": "GPIB0::{GPIB_ADDRESS}::INSTR",
+                  "notes": "Factory preset address 23 (rear-panel switches)"
+                }
+              ],
+              "notes": "Solo HP-IB (IEEE-488). Lo strumento e pre-IEEE-488.2: linguaggio remoto HP classico a qualificatori numerici (F1R1T3...), non SCPI."
+            },
+            "capabilities": {
+              "number_of_channels": 1,
+              "measurement_functions": [
+                "DCV",
+                "ACV (true RMS)",
+                "2-wire ohms",
+                "4-wire ohms",
+                "DCA",
+                "ACA",
+                "Extended ohms (HP-IB only, F7/H7)"
+              ],
+              "resolution": "3.5/4.5/5.5 digits; max 100 nV on 30mV DC range (full scale 300V, 30M ohm, 3A)",
+              "reading_rate": "up to 71 readings/s (3.5 digits, autozero off, display off, 60Hz, manual range)",
+              "reading_memory": "none",
+              "gpib_default_address": 23,
+              "aux_io": [
+                "external trigger input (BNC)",
+                "voltmeter complete output (BNC)",
+                "front/rear input selector switch"
+              ]
+            },
+            "experimental": true
+          }
+        ]
+      },
+      {
+        "series_id": "Agilent_34401A_Series",
+        "series_name": "Agilent 34401A Series",
+        "common_scpi_commands": {
+          "reset": {
+            "description": "reset to power-on state",
+            "set": {
+              "syntax": "*RST"
+            },
+            "query": null
+          },
+          "clear_status": {
+            "description": "clear status byte and event registers",
+            "set": {
+              "syntax": "*CLS"
+            },
+            "query": null
+          },
+          "identification_query": {
+            "description": "identification query",
+            "set": null,
+            "query": {
+              "syntax": "*IDN?",
+              "return_type": "string"
+            }
+          },
+          "error_query": {
+            "description": "read one error from FIFO queue (20 errors max)",
+            "set": null,
+            "query": {
+              "syntax": "SYSTem:ERRor?",
+              "return_type": "string"
+            }
+          },
+          "self_test": {
+            "description": "complete self test, returns 0 = pass, 1 = fail",
+            "set": null,
+            "query": {
+              "syntax": "*TST?",
+              "return_type": "int"
+            }
+          },
+          "query_status_byte": {
+            "description": "query status byte summary register",
+            "set": null,
+            "query": {
+              "syntax": "*STB?",
+              "return_type": "int"
+            }
+          },
+          "query_event_status_register": {
+            "description": "query standard event register (clears it)",
+            "set": null,
+            "query": {
+              "syntax": "*ESR?",
+              "return_type": "int"
+            }
+          },
+          "enable_event_status_register": {
+            "description": "enable standard event register bits",
+            "set": {
+              "syntax": "*ESE {enable_value}",
+              "args": [
+                "enable_value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "enable_value": {
+                "type": "int"
+              }
+            }
+          },
+          "query_event_status_enable": {
+            "description": "query standard event enable register",
+            "set": null,
+            "query": {
+              "syntax": "*ESE?",
+              "return_type": "int"
+            }
+          },
+          "enable_status_byte_register": {
+            "description": "enable status byte register bits (SRQ)",
+            "set": {
+              "syntax": "*SRE {enable_value}",
+              "args": [
+                "enable_value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "enable_value": {
+                "type": "int"
+              }
+            }
+          },
+          "query_status_byte_enable": {
+            "description": "query status byte enable register",
+            "set": null,
+            "query": {
+              "syntax": "*SRE?",
+              "return_type": "int"
+            }
+          },
+          "operation_complete": {
+            "description": "set OPC bit (bit 0) in standard event register when done",
+            "set": {
+              "syntax": "*OPC"
+            },
+            "query": null
+          },
+          "operation_complete_query": {
+            "description": "returns 1 when all prior commands complete",
+            "set": null,
+            "query": {
+              "syntax": "*OPC?",
+              "return_type": "int"
+            }
+          },
+          "set_power_on_status_clear": {
+            "description": "power-on status clear: clear enable masks at power-on",
+            "set": {
+              "syntax": "*PSC {state}",
+              "args": [
+                "state"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "0",
+                  "1"
+                ]
+              }
+            }
+          },
+          "query_power_on_status_clear": {
+            "description": "query power-on status clear",
+            "set": null,
+            "query": {
+              "syntax": "*PSC?",
+              "return_type": "int"
+            }
+          },
+          "trigger_bus": {
+            "description": "IEEE-488 GET-style trigger (requires TRIG:SOUR BUS)",
+            "set": {
+              "syntax": "*TRG"
+            },
+            "query": null
+          },
+          "measure_dc_voltage": {
+            "description": "preset and measure DCV, single-shot to output buffer",
+            "set": null,
+            "query": {
+              "syntax": "MEASure:VOLTage:DC? {range},{resolution}",
+              "return_type": "float",
+              "args": [
+                "range",
+                "resolution"
+              ]
+            },
+            "parameters": {
+              "range": {
+                "type": "float"
+              },
+              "resolution": {
+                "type": "float"
+              }
+            }
+          },
+          "measure_dc_voltage_ratio": {
+            "description": "preset and measure DC:DC ratio (range applies to Input terminals)",
+            "set": null,
+            "query": {
+              "syntax": "MEASure:VOLTage:DC:RATio? {range},{resolution}",
+              "return_type": "float",
+              "args": [
+                "range",
+                "resolution"
+              ]
+            },
+            "parameters": {
+              "range": {
+                "type": "float"
+              },
+              "resolution": {
+                "type": "float"
+              }
+            }
+          },
+          "measure_ac_voltage": {
+            "description": "preset and measure ACV true RMS (resolution fixed at 6.5 digits)",
+            "set": null,
+            "query": {
+              "syntax": "MEASure:VOLTage:AC? {range},{resolution}",
+              "return_type": "float",
+              "args": [
+                "range",
+                "resolution"
+              ]
+            },
+            "parameters": {
+              "range": {
+                "type": "float"
+              },
+              "resolution": {
+                "type": "float"
+              }
+            }
+          },
+          "measure_dc_current": {
+            "description": "preset and measure DCI",
+            "set": null,
+            "query": {
+              "syntax": "MEASure:CURRent:DC? {range},{resolution}",
+              "return_type": "float",
+              "args": [
+                "range",
+                "resolution"
+              ]
+            },
+            "parameters": {
+              "range": {
+                "type": "float"
+              },
+              "resolution": {
+                "type": "float"
+              }
+            }
+          },
+          "measure_ac_current": {
+            "description": "preset and measure ACI true RMS (ranges 1 A, 3 A only)",
+            "set": null,
+            "query": {
+              "syntax": "MEASure:CURRent:AC? {range},{resolution}",
+              "return_type": "float",
+              "args": [
+                "range",
+                "resolution"
+              ]
+            },
+            "parameters": {
+              "range": {
+                "type": "float"
+              },
+              "resolution": {
+                "type": "float"
+              }
+            }
+          },
+          "measure_resistance": {
+            "description": "preset and measure 2-wire ohms",
+            "set": null,
+            "query": {
+              "syntax": "MEASure:RESistance? {range},{resolution}",
+              "return_type": "float",
+              "args": [
+                "range",
+                "resolution"
+              ]
+            },
+            "parameters": {
+              "range": {
+                "type": "float"
+              },
+              "resolution": {
+                "type": "float"
+              }
+            }
+          },
+          "measure_resistance_4wire": {
+            "description": "preset and measure 4-wire ohms",
+            "set": null,
+            "query": {
+              "syntax": "MEASure:FRESistance? {range},{resolution}",
+              "return_type": "float",
+              "args": [
+                "range",
+                "resolution"
+              ]
+            },
+            "parameters": {
+              "range": {
+                "type": "float"
+              },
+              "resolution": {
+                "type": "float"
+              }
+            }
+          },
+          "measure_frequency": {
+            "description": "preset and measure frequency, 3 Hz-300 kHz, returns 0 with no signal",
+            "set": null,
+            "query": {
+              "syntax": "MEASure:FREQuency? {range},{resolution}",
+              "return_type": "float",
+              "args": [
+                "range",
+                "resolution"
+              ]
+            },
+            "parameters": {
+              "range": {
+                "type": "float"
+              },
+              "resolution": {
+                "type": "float"
+              }
+            }
+          },
+          "measure_period": {
+            "description": "preset and measure period, 0.33 s-3.3 us, returns 0 with no signal",
+            "set": null,
+            "query": {
+              "syntax": "MEASure:PERiod? {range},{resolution}",
+              "return_type": "float",
+              "args": [
+                "range",
+                "resolution"
+              ]
+            },
+            "parameters": {
+              "range": {
+                "type": "float"
+              },
+              "resolution": {
+                "type": "float"
+              }
+            }
+          },
+          "measure_continuity": {
+            "description": "preset and measure continuity (fixed 1 kOhm range, 5.5 digits)",
+            "set": null,
+            "query": {
+              "syntax": "MEASure:CONTinuity?",
+              "return_type": "float"
+            }
+          },
+          "measure_diode": {
+            "description": "preset and measure diode (fixed 1 Vdc range, 1 mA current source)",
+            "set": null,
+            "query": {
+              "syntax": "MEASure:DIODe?",
+              "return_type": "float"
+            }
+          },
+          "configure_dc_voltage": {
+            "description": "preset and configure DCV (no measurement initiated)",
+            "set": {
+              "syntax": "CONFigure:VOLTage:DC {range},{resolution}",
+              "args": [
+                "range",
+                "resolution"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "range": {
+                "type": "float"
+              },
+              "resolution": {
+                "type": "float"
+              }
+            }
+          },
+          "configure_dc_voltage_ratio": {
+            "description": "preset and configure DC:DC ratio",
+            "set": {
+              "syntax": "CONFigure:VOLTage:DC:RATio {range},{resolution}",
+              "args": [
+                "range",
+                "resolution"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "range": {
+                "type": "float"
+              },
+              "resolution": {
+                "type": "float"
+              }
+            }
+          },
+          "configure_ac_voltage": {
+            "description": "preset and configure ACV",
+            "set": {
+              "syntax": "CONFigure:VOLTage:AC {range},{resolution}",
+              "args": [
+                "range",
+                "resolution"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "range": {
+                "type": "float"
+              },
+              "resolution": {
+                "type": "float"
+              }
+            }
+          },
+          "configure_dc_current": {
+            "description": "preset and configure DCI",
+            "set": {
+              "syntax": "CONFigure:CURRent:DC {range},{resolution}",
+              "args": [
+                "range",
+                "resolution"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "range": {
+                "type": "float"
+              },
+              "resolution": {
+                "type": "float"
+              }
+            }
+          },
+          "configure_ac_current": {
+            "description": "preset and configure ACI",
+            "set": {
+              "syntax": "CONFigure:CURRent:AC {range},{resolution}",
+              "args": [
+                "range",
+                "resolution"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "range": {
+                "type": "float"
+              },
+              "resolution": {
+                "type": "float"
+              }
+            }
+          },
+          "configure_resistance": {
+            "description": "preset and configure 2-wire ohms",
+            "set": {
+              "syntax": "CONFigure:RESistance {range},{resolution}",
+              "args": [
+                "range",
+                "resolution"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "range": {
+                "type": "float"
+              },
+              "resolution": {
+                "type": "float"
+              }
+            }
+          },
+          "configure_resistance_4wire": {
+            "description": "preset and configure 4-wire ohms",
+            "set": {
+              "syntax": "CONFigure:FRESistance {range},{resolution}",
+              "args": [
+                "range",
+                "resolution"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "range": {
+                "type": "float"
+              },
+              "resolution": {
+                "type": "float"
+              }
+            }
+          },
+          "configure_frequency": {
+            "description": "preset and configure frequency",
+            "set": {
+              "syntax": "CONFigure:FREQuency {range},{resolution}",
+              "args": [
+                "range",
+                "resolution"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "range": {
+                "type": "float"
+              },
+              "resolution": {
+                "type": "float"
+              }
+            }
+          },
+          "configure_period": {
+            "description": "preset and configure period",
+            "set": {
+              "syntax": "CONFigure:PERiod {range},{resolution}",
+              "args": [
+                "range",
+                "resolution"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "range": {
+                "type": "float"
+              },
+              "resolution": {
+                "type": "float"
+              }
+            }
+          },
+          "configure_continuity": {
+            "description": "preset and configure continuity",
+            "set": {
+              "syntax": "CONFigure:CONTinuity"
+            },
+            "query": null
+          },
+          "configure_diode": {
+            "description": "preset and configure diode",
+            "set": {
+              "syntax": "CONFigure:DIODe"
+            },
+            "query": null
+          },
+          "query_configuration": {
+            "description": "query present configuration, returns quoted string",
+            "set": null,
+            "query": {
+              "syntax": "CONFigure?",
+              "return_type": "string"
+            }
+          },
+          "set_function": {
+            "description": "select measurement function",
+            "set": {
+              "syntax": "FUNCtion \"{function}\"",
+              "args": [
+                "function"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "function": {
+                "type": "string",
+                "values": [
+                  "VOLTage:DC",
+                  "VOLTage:DC:RATio",
+                  "VOLTage:AC",
+                  "CURRent:DC",
+                  "CURRent:AC",
+                  "RESistance",
+                  "FRESistance",
+                  "FREQuency",
+                  "PERiod",
+                  "CONTinuity",
+                  "DIODe"
+                ]
+              }
+            }
+          },
+          "query_function": {
+            "description": "query measurement function, returns quoted string",
+            "set": null,
+            "query": {
+              "syntax": "FUNCtion?",
+              "return_type": "string"
+            }
+          },
+          "set_range": {
+            "description": "set range for selected function",
+            "set": {
+              "syntax": "{function}:RANGe {range}",
+              "args": [
+                "function",
+                "range"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "function": {
+                "type": "string",
+                "values": [
+                  "VOLTage:DC",
+                  "VOLTage:AC",
+                  "CURRent:DC",
+                  "CURRent:AC",
+                  "RESistance",
+                  "FRESistance"
+                ]
+              },
+              "range": {
+                "type": "float"
+              }
+            }
+          },
+          "query_range": {
+            "description": "query range for selected function",
+            "set": null,
+            "query": {
+              "syntax": "{function}:RANGe?",
+              "return_type": "float",
+              "args": [
+                "function"
+              ]
+            },
+            "parameters": {
+              "function": {
+                "type": "string",
+                "values": [
+                  "VOLTage:DC",
+                  "VOLTage:AC",
+                  "CURRent:DC",
+                  "CURRent:AC",
+                  "RESistance",
+                  "FRESistance"
+                ]
+              }
+            }
+          },
+          "set_auto_range": {
+            "description": "enable/disable autoranging (down at <10%, up at >120% of range)",
+            "set": {
+              "syntax": "{function}:RANGe:AUTO {state}",
+              "args": [
+                "function",
+                "state"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "function": {
+                "type": "string",
+                "values": [
+                  "VOLTage:DC",
+                  "VOLTage:AC",
+                  "CURRent:DC",
+                  "CURRent:AC",
+                  "RESistance",
+                  "FRESistance"
+                ]
+              },
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "ON"
+                ]
+              }
+            }
+          },
+          "query_auto_range": {
+            "description": "query autorange setting, returns 0 (OFF) or 1 (ON)",
+            "set": null,
+            "query": {
+              "syntax": "{function}:RANGe:AUTO?",
+              "return_type": "int",
+              "args": [
+                "function"
+              ]
+            },
+            "parameters": {
+              "function": {
+                "type": "string",
+                "values": [
+                  "VOLTage:DC",
+                  "VOLTage:AC",
+                  "CURRent:DC",
+                  "CURRent:AC",
+                  "RESistance",
+                  "FRESistance"
+                ]
+              }
+            }
+          },
+          "set_frequency_input_range": {
+            "description": "set input-voltage range for frequency",
+            "set": {
+              "syntax": "FREQuency:VOLTage:RANGe {range}",
+              "args": [
+                "range"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "range": {
+                "type": "float"
+              }
+            }
+          },
+          "query_frequency_input_range": {
+            "description": "query frequency input-voltage range",
+            "set": null,
+            "query": {
+              "syntax": "FREQuency:VOLTage:RANGe?",
+              "return_type": "float"
+            }
+          },
+          "set_period_input_range": {
+            "description": "set input-voltage range for period",
+            "set": {
+              "syntax": "PERiod:VOLTage:RANGe {range}",
+              "args": [
+                "range"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "range": {
+                "type": "float"
+              }
+            }
+          },
+          "query_period_input_range": {
+            "description": "query period input-voltage range",
+            "set": null,
+            "query": {
+              "syntax": "PERiod:VOLTage:RANGe?",
+              "return_type": "float"
+            }
+          },
+          "set_frequency_input_auto_range": {
+            "description": "enable/disable autorange of frequency input voltage",
+            "set": {
+              "syntax": "FREQuency:VOLTage:RANGe:AUTO {state}",
+              "args": [
+                "state"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "ON"
+                ]
+              }
+            }
+          },
+          "set_period_input_auto_range": {
+            "description": "enable/disable autorange of period input voltage",
+            "set": {
+              "syntax": "PERiod:VOLTage:RANGe:AUTO {state}",
+              "args": [
+                "state"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "ON"
+                ]
+              }
+            }
+          },
+          "set_resolution": {
+            "description": "set resolution in measurement units (not valid for FREQ/PER/RATIO)",
+            "set": {
+              "syntax": "{function}:RESolution {resolution}",
+              "args": [
+                "function",
+                "resolution"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "function": {
+                "type": "string",
+                "values": [
+                  "VOLTage:DC",
+                  "VOLTage:AC",
+                  "CURRent:DC",
+                  "CURRent:AC",
+                  "RESistance",
+                  "FRESistance"
+                ]
+              },
+              "resolution": {
+                "type": "float"
+              }
+            }
+          },
+          "query_resolution": {
+            "description": "query resolution",
+            "set": null,
+            "query": {
+              "syntax": "{function}:RESolution?",
+              "return_type": "float",
+              "args": [
+                "function"
+              ]
+            },
+            "parameters": {
+              "function": {
+                "type": "string",
+                "values": [
+                  "VOLTage:DC",
+                  "VOLTage:AC",
+                  "CURRent:DC",
+                  "CURRent:AC",
+                  "RESistance",
+                  "FRESistance"
+                ]
+              }
+            }
+          },
+          "set_measurement_rate": {
+            "description": "set integration time in PLC (DCV, ratio, DCI, 2W, 4W only; default 10)",
+            "set": {
+              "syntax": "{function}:NPLCycles {nplc}",
+              "args": [
+                "function",
+                "nplc"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "function": {
+                "type": "string",
+                "values": [
+                  "VOLTage:DC",
+                  "VOLTage:DC:RATio",
+                  "CURRent:DC",
+                  "RESistance",
+                  "FRESistance"
+                ]
+              },
+              "nplc": {
+                "type": "string",
+                "values": [
+                  "0.02",
+                  "0.2",
+                  "1",
+                  "10",
+                  "100"
+                ]
+              }
+            }
+          },
+          "query_measurement_rate": {
+            "description": "query NPLC integration time",
+            "set": null,
+            "query": {
+              "syntax": "{function}:NPLCycles?",
+              "return_type": "float",
+              "args": [
+                "function"
+              ]
+            },
+            "parameters": {
+              "function": {
+                "type": "string",
+                "values": [
+                  "VOLTage:DC",
+                  "VOLTage:DC:RATio",
+                  "CURRent:DC",
+                  "RESistance",
+                  "FRESistance"
+                ]
+              }
+            }
+          },
+          "set_frequency_aperture": {
+            "description": "set frequency gate/aperture time (10 ms=4.5 digits, 100 ms=5.5 digits default, 1 s=6.5 digits)",
+            "set": {
+              "syntax": "FREQuency:APERture {aperture}",
+              "args": [
+                "aperture"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "aperture": {
+                "type": "string",
+                "values": [
+                  "0.01",
+                  "0.1",
+                  "1"
+                ]
+              }
+            }
+          },
+          "query_frequency_aperture": {
+            "description": "query frequency aperture time",
+            "set": null,
+            "query": {
+              "syntax": "FREQuency:APERture?",
+              "return_type": "float"
+            }
+          },
+          "set_period_aperture": {
+            "description": "set period gate/aperture time",
+            "set": {
+              "syntax": "PERiod:APERture {aperture}",
+              "args": [
+                "aperture"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "aperture": {
+                "type": "string",
+                "values": [
+                  "0.01",
+                  "0.1",
+                  "1"
+                ]
+              }
+            }
+          },
+          "query_period_aperture": {
+            "description": "query period aperture time",
+            "set": null,
+            "query": {
+              "syntax": "PERiod:APERture?",
+              "return_type": "float"
+            }
+          },
+          "set_ac_filter_bandwidth": {
+            "description": "select lowest expected input frequency: slow 3 Hz, medium 20 Hz (default), fast 200 Hz",
+            "set": {
+              "syntax": "SENSe:DETector:BANDwidth {bandwidth}",
+              "args": [
+                "bandwidth"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "bandwidth": {
+                "type": "string",
+                "values": [
+                  "3",
+                  "20",
+                  "200"
+                ]
+              }
+            }
+          },
+          "query_ac_filter_bandwidth": {
+            "description": "query ac filter, returns 3, 20 or 200",
+            "set": null,
+            "query": {
+              "syntax": "SENSe:DETector:BANDwidth?",
+              "return_type": "int"
+            }
+          },
+          "set_autozero": {
+            "description": "set autozero mode (OFF/ONCE stop zeroing until next wait-for-trigger; ON default)",
+            "set": {
+              "syntax": "SENSe:ZERO:AUTO {mode}",
+              "args": [
+                "mode"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "mode": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "ONCE",
+                  "ON"
+                ]
+              }
+            }
+          },
+          "query_autozero": {
+            "description": "query autozero, returns 0 (OFF/ONCE) or 1 (ON)",
+            "set": null,
+            "query": {
+              "syntax": "SENSe:ZERO:AUTO?",
+              "return_type": "int"
+            }
+          },
+          "set_input_impedance_auto": {
+            "description": "input resistance auto: >10 GOhm on 100mV/1V/10V DCV ranges when ON, 10 MOhm fixed when OFF",
+            "set": {
+              "syntax": "INPut:IMPedance:AUTO {state}",
+              "args": [
+                "state"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "ON"
+                ]
+              }
+            }
+          },
+          "query_input_impedance_auto": {
+            "description": "query input resistance mode, returns 0 (OFF) or 1 (ON)",
+            "set": null,
+            "query": {
+              "syntax": "INPut:IMPedance:AUTO?",
+              "return_type": "int"
+            }
+          },
+          "query_terminals": {
+            "description": "query front/rear input terminals",
+            "set": null,
+            "query": {
+              "syntax": "ROUTe:TERMinals?",
+              "return_type": "string"
+            }
+          },
+          "set_trigger_source": {
+            "description": "select trigger source",
+            "set": {
+              "syntax": "TRIGger:SOURce {source}",
+              "args": [
+                "source"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "source": {
+                "type": "string",
+                "values": [
+                  "BUS",
+                  "IMMediate",
+                  "EXTernal"
+                ]
+              }
+            }
+          },
+          "query_trigger_source": {
+            "description": "query trigger source, returns BUS, IMM or EXT",
+            "set": null,
+            "query": {
+              "syntax": "TRIGger:SOURce?",
+              "return_type": "string"
+            }
+          },
+          "set_trigger_count": {
+            "description": "number of triggers before returning to idle (1-50000, INFinite = continuous)",
+            "set": {
+              "syntax": "TRIGger:COUNt {count}",
+              "args": [
+                "count"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "count": {
+                "type": "string",
+                "values": [
+                  "INFinite"
+                ]
+              }
+            }
+          },
+          "query_trigger_count": {
+            "description": "query trigger count (INFinite returns 9.90000000E+37)",
+            "set": null,
+            "query": {
+              "syntax": "TRIGger:COUNt?",
+              "return_type": "string"
+            }
+          },
+          "set_trigger_delay": {
+            "description": "trigger delay in seconds (0-3600); selecting a value turns auto delay OFF",
+            "set": {
+              "syntax": "TRIGger:DELay {seconds}",
+              "args": [
+                "seconds"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "seconds": {
+                "type": "float"
+              }
+            }
+          },
+          "query_trigger_delay": {
+            "description": "query trigger delay",
+            "set": null,
+            "query": {
+              "syntax": "TRIGger:DELay?",
+              "return_type": "float"
+            }
+          },
+          "set_trigger_delay_auto": {
+            "description": "automatic trigger delay based on function/range/integration/filter",
+            "set": {
+              "syntax": "TRIGger:DELay:AUTO {state}",
+              "args": [
+                "state"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "ON"
+                ]
+              }
+            }
+          },
+          "query_trigger_delay_auto": {
+            "description": "query automatic trigger delay, returns 0 (OFF) or 1 (ON)",
+            "set": null,
+            "query": {
+              "syntax": "TRIGger:DELay:AUTO?",
+              "return_type": "int"
+            }
+          },
+          "set_sample_count": {
+            "description": "samples (readings) per trigger (1-50000)",
+            "set": {
+              "syntax": "SAMPle:COUNt {count}",
+              "args": [
+                "count"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "count": {
+                "type": "string"
+              }
+            }
+          },
+          "query_sample_count": {
+            "description": "query sample count",
+            "set": null,
+            "query": {
+              "syntax": "SAMPle:COUNt?",
+              "return_type": "int"
+            }
+          },
+          "initiate_measurement": {
+            "description": "arm: idle -> wait-for-trigger; readings stored in internal memory (max 512)",
+            "set": {
+              "syntax": "INITiate"
+            },
+            "query": null
+          },
+          "read_measurement": {
+            "description": "arm and take measurement, readings sent directly to output buffer (INITiate + FETCh? in one)",
+            "set": null,
+            "query": {
+              "syntax": "READ?",
+              "return_type": "string"
+            }
+          },
+          "fetch_readings": {
+            "description": "transfer readings stored by INITiate to output buffer",
+            "set": null,
+            "query": {
+              "syntax": "FETCh?",
+              "return_type": "string"
+            }
+          },
+          "query_reading_count": {
+            "description": "number of readings stored in internal memory",
+            "set": null,
+            "query": {
+              "syntax": "DATA:POINts?",
+              "return_type": "int"
+            }
+          },
+          "set_reading_memory": {
+            "description": "store INITiate readings in memory (CALCulate) or not (empty string)",
+            "set": {
+              "syntax": "DATA:FEED RDG_STORE,{destination}",
+              "args": [
+                "destination"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "destination": {
+                "type": "string",
+                "values": [
+                  "CALCulate"
+                ]
+              }
+            }
+          },
+          "query_reading_memory": {
+            "description": "query reading memory state, returns CALC or empty string",
+            "set": null,
+            "query": {
+              "syntax": "DATA:FEED?",
+              "return_type": "string"
+            }
+          },
+          "set_math_function": {
+            "description": "select math function (only one at a time, default NULL)",
+            "set": {
+              "syntax": "CALCulate:FUNCtion {function}",
+              "args": [
+                "function"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "function": {
+                "type": "string",
+                "values": [
+                  "NULL",
+                  "DB",
+                  "DBM",
+                  "AVERage",
+                  "LIMit"
+                ]
+              }
+            }
+          },
+          "query_math_function": {
+            "description": "query math function, returns NULL, DB, DBM, AVER or LIM",
+            "set": null,
+            "query": {
+              "syntax": "CALCulate:FUNCtion?",
+              "return_type": "string"
+            }
+          },
+          "set_math_state": {
+            "description": "enable/disable the selected math function",
+            "set": {
+              "syntax": "CALCulate:STATe {state}",
+              "args": [
+                "state"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "ON"
+                ]
+              }
+            }
+          },
+          "query_math_state": {
+            "description": "query math state, returns 0 (OFF) or 1 (ON)",
+            "set": null,
+            "query": {
+              "syntax": "CALCulate:STATe?",
+              "return_type": "int"
+            }
+          },
+          "set_nulls": {
+            "description": "store null value (0 to +/-120% of highest range; math must be ON)",
+            "set": {
+              "syntax": "CALCulate:NULL:OFFSet {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_nulls": {
+            "description": "query null value",
+            "set": null,
+            "query": {
+              "syntax": "CALCulate:NULL:OFFSet?",
+              "return_type": "float"
+            }
+          },
+          "query_min_max_minimum": {
+            "description": "minimum value found during min-max operation",
+            "set": null,
+            "query": {
+              "syntax": "CALCulate:AVERage:MINimum?",
+              "return_type": "float"
+            }
+          },
+          "query_min_max_maximum": {
+            "description": "maximum value found during min-max operation",
+            "set": null,
+            "query": {
+              "syntax": "CALCulate:AVERage:MAXimum?",
+              "return_type": "float"
+            }
+          },
+          "query_min_max_average": {
+            "description": "average of all readings since min-max enabled",
+            "set": null,
+            "query": {
+              "syntax": "CALCulate:AVERage:AVERage?",
+              "return_type": "float"
+            }
+          },
+          "query_min_max_count": {
+            "description": "number of readings since min-max enabled",
+            "set": null,
+            "query": {
+              "syntax": "CALCulate:AVERage:COUNt?",
+              "return_type": "int"
+            }
+          },
+          "set_db_reference": {
+            "description": "dB relative reference (-200 to +200 dBm; math must be ON)",
+            "set": {
+              "syntax": "CALCulate:DB:REFerence {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_db_reference": {
+            "description": "query dB relative value",
+            "set": null,
+            "query": {
+              "syntax": "CALCulate:DB:REFerence?",
+              "return_type": "float"
+            }
+          },
+          "set_dbm_reference": {
+            "description": "dBm reference resistance (50-8000 ohm, non-volatile)",
+            "set": {
+              "syntax": "CALCulate:DBM:REFerence {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_dbm_reference": {
+            "description": "query dBm reference resistance",
+            "set": null,
+            "query": {
+              "syntax": "CALCulate:DBM:REFerence?",
+              "return_type": "float"
+            }
+          },
+          "set_limit_low": {
+            "description": "set lower limit for limit test (0 to +/-120% of highest range)",
+            "set": {
+              "syntax": "CALCulate:LIMit:LOWer {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_limit_low": {
+            "description": "query lower limit",
+            "set": null,
+            "query": {
+              "syntax": "CALCulate:LIMit:LOWer?",
+              "return_type": "float"
+            }
+          },
+          "set_limit_high": {
+            "description": "set upper limit for limit test (0 to +/-120% of highest range)",
+            "set": {
+              "syntax": "CALCulate:LIMit:UPPer {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_limit_high": {
+            "description": "query upper limit",
+            "set": null,
+            "query": {
+              "syntax": "CALCulate:LIMit:UPPer?",
+              "return_type": "float"
+            }
+          },
+          "set_display_state": {
+            "description": "front-panel display off/on",
+            "set": {
+              "syntax": "DISPlay {state}",
+              "args": [
+                "state"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "ON"
+                ]
+              }
+            }
+          },
+          "query_display_state": {
+            "description": "query display state, returns 0 (OFF) or 1 (ON)",
+            "set": null,
+            "query": {
+              "syntax": "DISPlay?",
+              "return_type": "int"
+            }
+          },
+          "display_text": {
+            "description": "display a message on front panel (12 chars max)",
+            "set": {
+              "syntax": "DISPlay:TEXT \"{message}\"",
+              "args": [
+                "message"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "message": {
+                "type": "string"
+              }
+            }
+          },
+          "query_display_text": {
+            "description": "query the displayed message, returns quoted string",
+            "set": null,
+            "query": {
+              "syntax": "DISPlay:TEXT?",
+              "return_type": "string"
+            }
+          },
+          "clear_display_text": {
+            "description": "clear the displayed message",
+            "set": {
+              "syntax": "DISPlay:TEXT:CLEar"
+            },
+            "query": null
+          },
+          "system_beep": {
+            "description": "issue a single beep immediately",
+            "set": {
+              "syntax": "SYSTem:BEEPer"
+            },
+            "query": null
+          },
+          "set_beeper_state": {
+            "description": "enable/disable front-panel beeper (non-volatile)",
+            "set": {
+              "syntax": "SYSTem:BEEPer:STATe {state}",
+              "args": [
+                "state"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "ON"
+                ]
+              }
+            }
+          },
+          "query_beeper_state": {
+            "description": "query beeper state, returns 0 (OFF) or 1 (ON)",
+            "set": null,
+            "query": {
+              "syntax": "SYSTem:BEEPer:STATe?",
+              "return_type": "int"
+            }
+          },
+          "query_scpi_version": {
+            "description": "query SCPI version",
+            "set": null,
+            "query": {
+              "syntax": "SYSTem:VERSion?",
+              "return_type": "string"
+            }
+          },
+          "system_remote": {
+            "description": "place instrument in remote state",
+            "set": {
+              "syntax": "SYSTem:REMote"
+            },
+            "query": null
+          },
+          "system_local": {
+            "description": "place instrument in local state",
+            "set": {
+              "syntax": "SYSTem:LOCal"
+            },
+            "query": null
+          },
+          "system_remote_lockout": {
+            "description": "remote with local lockout",
+            "set": {
+              "syntax": "SYSTem:RWLock"
+            },
+            "query": null
+          },
+          "enable_questionable_register": {
+            "description": "enable bits in Questionable Data enable register",
+            "set": {
+              "syntax": "STATus:QUEStionable:ENABle {enable_value}",
+              "args": [
+                "enable_value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "enable_value": {
+                "type": "int"
+              }
+            }
+          },
+          "query_questionable_enable": {
+            "description": "query Questionable Data enable register",
+            "set": null,
+            "query": {
+              "syntax": "STATus:QUEStionable:ENABle?",
+              "return_type": "int"
+            }
+          },
+          "query_questionable_event": {
+            "description": "query Questionable Data event register (clears it)",
+            "set": null,
+            "query": {
+              "syntax": "STATus:QUEStionable:EVENt?",
+              "return_type": "int"
+            }
+          },
+          "status_preset": {
+            "description": "clear all bits in Questionable Data enable register",
+            "set": {
+              "syntax": "STATus:PRESet"
+            },
+            "query": null
+          },
+          "calibration_query": {
+            "description": "perform calibration using the value set by set_calibration_value (requires unsecured)",
+            "set": null,
+            "query": {
+              "syntax": "CALibration?",
+              "return_type": "int"
+            }
+          },
+          "query_calibration_count": {
+            "description": "number of times instrument has been calibrated (non-volatile)",
+            "set": null,
+            "query": {
+              "syntax": "CALibration:COUNt?",
+              "return_type": "int"
+            }
+          },
+          "set_calibration_security": {
+            "description": "unsecure (OFF,code) or secure (ON,code) for calibration",
+            "set": {
+              "syntax": "CALibration:SECure:STATe {state},{code}",
+              "args": [
+                "state",
+                "code"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "ON"
+                ]
+              },
+              "code": {
+                "type": "string"
+              }
+            }
+          },
+          "query_calibration_security": {
+            "description": "query secured state, returns 0 (OFF) or 1 (ON)",
+            "set": null,
+            "query": {
+              "syntax": "CALibration:SECure:STATe?",
+              "return_type": "int"
+            }
+          },
+          "set_calibration_code": {
+            "description": "set new security code (up to 12 chars; must unsecure first)",
+            "set": {
+              "syntax": "CALibration:SECure:CODE {code}",
+              "args": [
+                "code"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "code": {
+                "type": "string"
+              }
+            }
+          },
+          "set_calibration_string": {
+            "description": "store calibration message (40 chars max)",
+            "set": {
+              "syntax": "CALibration:STRing \"{message}\"",
+              "args": [
+                "message"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "message": {
+                "type": "string"
+              }
+            }
+          },
+          "query_calibration_string": {
+            "description": "query calibration message, returns quoted string",
+            "set": null,
+            "query": {
+              "syntax": "CALibration:STRing?",
+              "return_type": "string"
+            }
+          },
+          "set_calibration_value": {
+            "description": "specify value of the known calibration signal",
+            "set": {
+              "syntax": "CALibration:VALue {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_calibration_value": {
+            "description": "query calibration value",
+            "set": null,
+            "query": {
+              "syntax": "CALibration:VALue?",
+              "return_type": "float"
+            }
+          }
+        },
+        "models": [
+          {
+            "id": "MTR_Agilent_34401A",
+            "name": "Agilent 34401A Digital Multimeter",
+            "manufacturer": "Agilent",
+            "model": "34401A",
+            "documentation_path": "docs/Agilent/34401A_Series/HP 34401A User Manual.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "GPIB",
+                  "address_format_example": "GPIB0::{GPIB_ADDRESS}::INSTR"
+                },
+                {
+                  "type": "SERIAL",
+                  "address_format_example": "ASRL{COM_PORT}::INSTR",
+                  "settings": {
+                    "baud_rates": [
+                      300,
+                      600,
+                      1200,
+                      2400,
+                      4800,
+                      9600
+                    ],
+                    "data_bits": [
+                      7,
+                      8
+                    ],
+                    "parity": [
+                      "None",
+                      "Even",
+                      "Odd"
+                    ],
+                    "role": "DTE, handshake DTR/DSR"
+                  }
+                }
+              ],
+              "notes": "Una sola interfaccia attiva alla volta, selezionata dal menu front-panel I/O. Su RS-232 supportato solo SCPI. SYSTem:LOCal/REMote/RWLock validi su entrambe."
+            },
+            "capabilities": {
+              "number_of_channels": 1,
+              "functions": [
+                "DCV",
+                "ACV",
+                "DCI",
+                "ACI",
+                "2W-OHMS",
+                "4W-OHMS",
+                "FREQ",
+                "PER",
+                "CONT",
+                "DIODE",
+                "DC:DC RATIO"
+              ],
+              "voltage_ranges": {
+                "dc": [
+                  0.1,
+                  1,
+                  10,
+                  100,
+                  1000
+                ],
+                "ac": [
+                  0.1,
+                  1,
+                  10,
+                  100,
+                  750
+                ],
+                "units": "V"
+              },
+              "current_ranges": {
+                "dc": [
+                  0.01,
+                  0.1,
+                  1,
+                  3
+                ],
+                "ac": [
+                  1,
+                  3
+                ],
+                "units": "A"
+              },
+              "resistance_ranges": [
+                100,
+                1000,
+                10000,
+                100000,
+                1000000,
+                10000000,
+                100000000
+              ],
+              "frequency_band": "3 Hz - 300 kHz",
+              "digits": "4.5 / 5.5 / 6.5",
+              "maximum_resolution": {
+                "dcv": "100 nV",
+                "dci": "10 nA",
+                "res": "100 uOhm"
+              },
+              "integration_time_nplc": [
+                0.02,
+                0.2,
+                1,
+                10,
+                100
+              ],
+              "max_reading_rate": "1000 readings/s (4.5 digits, 0.02 PLC, autozero OFF, display OFF)",
+              "reading_memory": "512 readings max (INITiate + FETCh?)",
+              "notes": "FREQ/PER usano un unico range per tutto il band (3 Hz-300 kHz); i comandi RANGe/RESolution si riferiscono alla tensione di ingresso (FREQuency:VOLTage/PERiod:VOLTage)."
+            },
             "experimental": true
           }
         ]

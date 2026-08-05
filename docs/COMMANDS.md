@@ -19,7 +19,12 @@ Il software che usa questa libreria deve chiamare gli strumenti tramite questi n
 | K. E36300 | Keysight_E36300_Series | Alimentatori |
 | TDK GEN | TDK_Lambda_GEN_Series | Alimentatori |
 | R&S HMP | Rohde_Schwarz_HMP_Series | Alimentatori |
+| HP E3631A | HP_E3631A_Series | Alimentatori |
 | K. 3497X | Keysight_3497X_Series | Datalogger |
+| A. 34970A | Agilent_34970A_Series | Datalogger |
+| A. 3499A | Agilent_3499A_Series | Datalogger |
+| HP 3478A | HP_3478A_Series | Multimetri |
+| A. 34401A | Agilent_34401A_Series | Multimetri |
 | Tek MSO5 | Tektronix_5_Series_MSO | Oscilloscopi |
 | Rigol DS1000Z | Rigol_DS1000Z_Series | Oscilloscopi |
 | Sig. SDS HD | Siglent_SDS_HD_Series | Oscilloscopi |
@@ -29,14 +34,16 @@ Il software che usa questa libreria deve chiamare gli strumenti tramite questi n
 
 ## Comandi comuni (IEEE-488.2 e stato)
 
+> **Eccezione HP 3478A**: strumento pre-IEEE-488.2 — nessun comando `*RST`/`*IDN?`/`*CLS`. Le funzioni corrispondenti usano `CLEAR` (reset), `E` (errori, 2 cifre ottali), `K` (clear status), `SPOLL` (status byte), `GET` (trigger).
+
 | Chiave | Descrizione | Sintassi SCPI per serie | Return type |
 |---|---|---|---|
-| `reset` | Reset strumento | `*RST` (tutte le serie) | — |
-| `clear_status` | Azzera registri di stato | `*CLS` (tutte le serie) | — |
-| `identification_query` | Identificazione strumento | `*IDN?` (tutte le serie) | string |
-| `error_query` | Legge la coda errori | `SYST:ERR?` (OWON, K. E36300, K. 3497X); `SYSTem:ERRor?` (TDK GEN, R&S HMP, Rigol, Sig. SDS HD); `EVMsg?` (Tek MSO5 — il gruppo SYSTem non esiste) | string |
-| `self_test` | Self test | `*TST?` (tutte tranne Chroma, EL4900) | int |
-| `query_status_byte` | Status byte | `*STB?` (K. 3497X, Rigol, Chroma) | int |
+| `reset` | Reset strumento | `*RST` (tutte tranne HP 3478A, che usa `CLEAR`) | — |
+| `clear_status` | Azzera registri di stato | `*CLS` (tutte tranne HP 3478A, che usa `K`) | — |
+| `identification_query` | Identificazione strumento | `*IDN?` (tutte tranne HP 3478A — priva di IDN) | string |
+| `error_query` | Legge la coda errori | `SYST:ERR?` (OWON, K. E36300, K. 3497X); `SYSTem:ERRor?` (TDK GEN, R&S HMP, A. 34401A, A. 34970A, A. 3499A, Rigol, Sig. SDS HD); `EVMsg?` (Tek MSO5 — il gruppo SYSTem non esiste); `E` (HP 3478A — 2 cifre ottali) | string |
+| `self_test` | Self test | `*TST?` (tutte tranne Chroma, EL4900, HP 3478A) | int |
+| `query_status_byte` | Status byte | `*STB?` (K. 3497X, Rigol, Chroma); `SPOLL` (HP 3478A) | int |
 | `query_event_status_register` | Event status register | `*ESR?` (K. 3497X, Rigol, Chroma) | int |
 | `enable_event_status_register` | Abilita bit ESR | `*ESE {value}` (K. 3497X, Rigol, Chroma) | — |
 | `query_event_status_enable` | Legge maschera ESE | `*ESE?` (K. 3497X, Rigol, Chroma) | int |
@@ -48,35 +55,35 @@ Il software che usa questa libreria deve chiamare gli strumenti tramite questi n
 
 | Chiave | Descrizione | Sintassi SCPI per serie | Return type |
 |---|---|---|---|
-| `set_voltage` | Imposta tensione di uscita (canale selezionato) | `VOLT {value}` (OWON, K. E36300, TDK GEN, R&S HMP) | — |
-| `set_current` | Imposta corrente limite (canale selezionato) | `CURR {value}` (OWON, K. E36300, TDK GEN, R&S HMP) | — |
-| `read_voltage` | Misura tensione di uscita | `MEAS:VOLT?` (OWON, TDK GEN, R&S HMP); `MEAS:VOLT? CH{channel_number}` (K. E36300) | float |
-| `read_current` | Misura corrente di uscita | `MEAS:CURR?` (OWON, TDK GEN, R&S HMP); `MEAS:CURR? CH{channel_number}` (K. E36300) | float |
+| `set_voltage` | Imposta tensione di uscita (canale selezionato) | `VOLT {value}` (OWON, K. E36300, TDK GEN, R&S HMP); `APPLy {output},{voltage}` (HP E3631A, output P6V/P25V/N25V) | — |
+| `set_current` | Imposta corrente limite (canale selezionato) | `CURR {value}` (OWON, K. E36300, TDK GEN, R&S HMP); `APPLy {output},{voltage},{current}` (HP E3631A) | — |
+| `read_voltage` | Misura tensione di uscita | `MEAS:VOLT?` (OWON, TDK GEN, R&S HMP); `MEAS:VOLT? CH{channel_number}` (K. E36300); `MEASure:VOLTage:DC?` (HP E3631A, canale selezionato) | float |
+| `read_current` | Misura corrente di uscita | `MEAS:CURR?` (OWON, TDK GEN, R&S HMP); `MEAS:CURR? CH{channel_number}` (K. E36300); `MEASure:CURRent:DC?` (HP E3631A) | float |
 | `read_power` | Misura potenza di uscita | `MEAS:POW?` (OWON) | float |
-| `read_programmed_voltage` | Legge tensione programmata | `VOLT?` (TDK GEN, R&S HMP) | float |
+| `read_programmed_voltage` | Legge tensione programmata | `VOLT?` (TDK GEN, R&S HMP); `APPLy? {output}` (HP E3631A) | float |
 | `read_programmed_current` | Legge corrente programmata | `CURR?` (TDK GEN, R&S HMP) | float |
 
 ### Uscita
 
 | Chiave | Descrizione | Sintassi SCPI per serie | Return type |
 |---|---|---|---|
-| `output_on` | Accende l'uscita | `OUTP ON` (OWON, K. E36300, R&S HMP); `OUTPut:STATe ON` (TDK GEN) | — |
-| `output_off` | Spegne l'uscita | `OUTP OFF` (OWON, K. E36300, R&S HMP); `OUTPut:STATe OFF` (TDK GEN) | — |
-| `output_state_query` | Stato dell'uscita | `OUTP?` (OWON); `OUTPut?` (TDK GEN, R&S HMP) | int (0/1) |
+| `output_on` | Accende l'uscita | `OUTP ON` (OWON, K. E36300, R&S HMP); `OUTPut:STATe ON` (TDK GEN); `OUTPut:STATe ON` (HP E3631A) | — |
+| `output_off` | Spegne l'uscita | `OUTP OFF` (OWON, K. E36300, R&S HMP); `OUTPut:STATe OFF` (TDK GEN); `OUTPut:STATe OFF` (HP E3631A) | — |
+| `output_state_query` | Stato dell'uscita | `OUTP?` (OWON); `OUTPut?` (TDK GEN, R&S HMP, HP E3631A) | int (0/1) |
 
 ### Canali
 
 | Chiave | Descrizione | Sintassi SCPI per serie | Return type |
 |---|---|---|---|
-| `select_channel` | Seleziona canale per nome | `INST:NSEL {channel_number}` (OWON); `INST:SEL CH{channel_number}` (K. E36300); `INST:SEL OUT{channel_number}` (R&S HMP) | — |
-| `select_channel_numeric` | Seleziona canale per numero | `INST:NSEL {channel_number}` (K. E36300, query `INST:NSEL?`) | — |
-| `query_selected_channel` | Canale selezionato | `INST:SEL?` (R&S HMP) | string |
+| `select_channel` | Seleziona canale per nome | `INST:NSEL {channel_number}` (OWON); `INST:SEL CH{channel_number}` (K. E36300); `INST:SEL OUT{channel_number}` (R&S HMP); `INSTrument:SELect {output}` (HP E3631A: P6V, P25V, N25V) | — |
+| `select_channel_numeric` | Seleziona canale per numero | `INST:NSEL {channel_number}` (K. E36300, query `INST:NSEL?`); `INSTrument:NSELect {channel_number}` (HP E3631A) | — |
+| `query_selected_channel` | Canale selezionato | `INST:SEL?` (R&S HMP); `INSTrument:SELect?` (HP E3631A) | string |
 
 ### Altre funzioni PSU
 
 | Chiave | Descrizione | Sintassi SCPI per serie | Return type |
 |---|---|---|---|
-| `apply` | Imposta tensione e corrente insieme | `APPL CH{channel_number}, {voltage}, {current}` (K. E36300, query `APPL? CH{channel_number}`) | string |
+| `apply` | Imposta tensione e corrente insieme | `APPL CH{channel_number}, {voltage}, {current}` (K. E36300, query `APPL? CH{channel_number}`); `APPLy {output},{voltage},{current}` (HP E3631A, query `APPLy? {output}`) | string |
 | `set_local_remote` | Passa da locale a remoto | `SYSTem:SET {mode}` (TDK GEN, query `SYSTem:SET?`) | int |
 | `set_ovp_level` | Soglia OVP | `VOLT:PROTection:LEVel {value}` (TDK GEN, query `VOLT:PROTection:LEVel?`) | float |
 | `query_ovp_tripped` | Stato scatto OVP | `VOLT:PROTection:TRIPped?` (TDK GEN) | int |
@@ -150,18 +157,70 @@ Il software che usa questa libreria deve chiamare gli strumenti tramite questi n
 
 | Chiave | Descrizione | Sintassi SCPI | Return type |
 |---|---|---|---|
-| `select_channels` | Seleziona la lista di scansione | `ROUT:SCAN (@{channels})` (K. 3497X) | — |
-| `close_channel` | Chiude uno o più canali | `ROUT:CLOSe (@{channels})` (K. 3497X) | — |
-| `open_channels` | Apre i canali | `ROUT:OPEN (@{channels})` (K. 3497X) | — |
-| `initiate_scan` | Avvia la scansione | `INITiate` (K. 3497X) | — |
+| `select_channels` | Seleziona la lista di scansione | `ROUT:SCAN (@{channels})` (K. 3497X, A. 34970A); `ROUTe:SCAN (@{channels})` (A. 3499A, formato `@snn`) | — |
+| `close_channel` | Chiude uno o più canali | `ROUT:CLOSe (@{channels})` (K. 3497X, A. 34970A); `ROUTe:CLOSe (@{channels})` (A. 3499A) | — |
+| `open_channels` | Apre i canali | `ROUT:OPEN (@{channels})` (K. 3497X, A. 34970A); `ROUTe:OPEN (@{channels})` (A. 3499A) | — |
+| `initiate_scan` | Avvia la scansione | `INITiate` (K. 3497X, A. 34970A); `ROUTe:SCAN INITiate` (A. 3499A) | — |
 | `read_scan` | Avvia la scansione e legge le misure | `READ?` (K. 3497X — non usare con trigger BUS, causa deadlock) | string |
-| `fetch_readings` | Legge le misure dell'ultima scansione | `FETCh?` (K. 3497X) | string |
-| `set_trigger_source` | Sorgente di trigger | `TRIG:SOUR {source}` (K. 3497X: BUS, IMMediate, EXTernal, TIMer, ALARm1..4) | — |
-| `set_trigger_count` | Numero di trigger | `TRIG:COUN {count}` (K. 3497X) | — |
-| `trigger_bus` | Trigger via bus | `*TRG` (K. 3497X) | — |
-| `configure_dc_voltage` | Configura misura DCV sui canali | `CONF:VOLT:DC {range},{resolution},(@{channels})` (K. 3497X) | — |
-| `measure_dc_voltage` | Misura DCV immediata | `MEAS:VOLT:DC? {range},{resolution},(@{channels})` (K. 3497X) | float |
+| `fetch_readings` | Legge le misure dell'ultima scansione | `FETCh?` (K. 3497X, A. 34970A) | string |
+| `set_trigger_source` | Sorgente di trigger | `TRIG:SOUR {source}` (K. 3497X: BUS, IMMediate, EXTernal, TIMer, ALARm1..4); `TRIGger:SOURce {source}` (A. 3499A: IMMediate, BUS, EXternal, TTLTrg0..2, STIMulus) | — |
+| `set_trigger_count` | Numero di trigger | `TRIG:COUN {count}` (K. 3497X, A. 34970A). **NON esiste su 3499A** (usa `ARM:COUNt`) | — |
+| `set_arm_count` | Numero di arm del 3499A | `ARM:COUNt {count}` (A. 3499A, unico: es. 1..99999, MAX, INFinity) | — |
+| `trigger_bus` | Trigger via bus | `*TRG` (K. 3497X, A. 34970A, A. 3499A) | — |
+| `configure_dc_voltage` | Configura misura DCV sui canali | `CONF:VOLT:DC {range},{resolution},(@{channels})` (K. 3497X, A. 34970A) | — |
+| `measure_dc_voltage` | Misura DCV immediata | `MEAS:VOLT:DC? {range},{resolution},(@{channels})` (K. 3497X, A. 34970A) | float |
 | `set_voltage_range` | Range DCV di misura | `SENS:VOLT:DC:RANG {range},(@{channels})` (K. 34972A, modello) | — |
+
+> **Nota 3499A**: mainframe di switching/scanning **senza motore di misura** — nessun comando `MEASure?`/`FETCh?`/`READ?`; le misure avvengono su dispositivo esterno.
+
+## Multimetri (MTR)
+
+### Funzione e range
+
+| Chiave | Descrizione | Sintassi SCPI per serie | Return type |
+|---|---|---|---|
+| `set_function` | Seleziona funzione di misura | `F{function}` (HP 3478A: F1=FDCV, F2=ACV, F3=DCA, F4=ACA, F5=Ω2, F6=Ω4, F7=FREQ); `FUNCtion "{function}"` (A. 34401A: DCV, ACV, DCI, ACI, RES, FRES, FREQ, PER, CONT, DIOD) | — |
+| `query_function` | Funzione attuale | `FUNCtion?` (A. 34401A) | string |
+| `set_range` | Range di misura | `R{range}` (HP 3478A: R-2..R7, RA; es. R3 = 30V); `{function}:RANGe {range}` (A. 34401A, funzione attiva) | — |
+| `set_auto_range` | Auto range | `{function}:RANGe:AUTO {state}` (A. 34401A) | — |
+| `set_resolution` | Risoluzione | `N{digits}` (HP 3478A: N3..N5 = 3½..5½ digit); `{function}:RESolution {resolution}` (A. 34401A) | — |
+| `set_measurement_rate` | Velocità di misura | `{function}:NPLCycles {nplc}` (A. 34401A: 0.02..100) | — |
+
+### Misura
+
+| Chiave | Descrizione | Sintassi SCPI per serie | Return type |
+|---|---|---|---|
+| `read_measurement` | Legge la misura | `ENTER` (HP 3478A — lettura 13 byte ASCII via HP-IB); `READ?` (A. 34401A) | float |
+| `measure_dc_voltage` | Misura DCV immediata | `MEASure:VOLTage:DC? {range},{resolution}` (A. 34401A) | float |
+| `measure_ac_voltage` | Misura ACV immediata | `MEASure:VOLTage:AC? {range},{resolution}` (A. 34401A) | float |
+| `measure_dc_current` | Misura DCI immediata | `MEASure:CURRent:DC? {range},{resolution}` (A. 34401A) | float |
+| `measure_ac_current` | Misura ACI immediata | `MEASure:CURRent:AC? {range},{resolution}` (A. 34401A) | float |
+| `measure_resistance` | Misura Ω immediata | `MEASure:RESistance? {range},{resolution}` (A. 34401A) | float |
+| `measure_resistance_4wire` | Misura Ω 4 fili | `MEASure:FRESistance? {range},{resolution}` (A. 34401A) | float |
+| `measure_frequency` | Misura frequenza | `MEASure:FREQuency? {range},{resolution}` (A. 34401A) | float |
+| `measure_period` | Misura periodo | `MEASure:PERiod? {range},{resolution}` (A. 34401A) | float |
+| `measure_continuity` | Continuità | `MEASure:CONTinuity?` (A. 34401A) | float |
+| `measure_diode` | Test diodo | `MEASure:DIODe?` (A. 34401A) | float |
+| `fetch_readings` | Misure dall'ultimo trigger | `FETCh?` (A. 34401A) | string |
+| `query_reading_count` | Numero di letture in memoria | `DATA:POINts?` (A. 34401A) | int |
+
+### Configurazione e stato
+
+| Chiave | Descrizione | Sintassi SCPI per serie | Return type |
+|---|---|---|---|
+| `set_trigger_source` | Sorgente trigger | `T{source}` (HP 3478A: T1=BUS, T2=EXT, T3=INT); `TRIGger:SOURce {source}` (A. 34401A: BUS, IMMediate, EXTernal) | — |
+| `trigger_bus` | Trigger via bus | `GET` (HP 3478A — comando HP-IB); `*TRG` (A. 34401A) | — |
+| `set_autozero` | Auto zero | `Z{autozero}` (HP 3478A: Z0=off, Z1=on); `SENSe:ZERO:AUTO {mode}` (A. 34401A) | — |
+| `clear_status` | Azzera registri stato | `K` (HP 3478A); `*CLS` (A. 34401A) | — |
+| `error_query` | Ultimo errore | `E` (HP 3478A — 2 cifre ottali); `SYSTem:ERRor?` (A. 34401A) | string |
+| `query_status_byte` | Status byte | `SPOLL` (HP 3478A — serial poll); `*STB?` (A. 34401A) | int |
+| `reset` | Reset strumento | `CLEAR` (HP 3478A — device clear); `*RST` (A. 34401A) | — |
+| `set_math_function` | Funzione matematica | `CALCulate:FUNCtion {function}` (A. 34401A: NULL, DB, DBM, AVERage, LIMit — una alla volta) | — |
+| `set_sample_count` | Letture per trigger | `SAMPle:COUNt {count}` (A. 34401A) | — |
+| `initiate_measurement` | Avvia la misura triggerata | `INITiate` (A. 34401A) | — |
+| `query_scpi_version` | Versione SCPI | `SYSTem:VERSion?` (A. 34401A) | string |
+
+> **Nota 3478A**: pre-IEEE-488.2 — linguaggio di comandi HP classico, nessun `*IDN?`/`*RST`/SCPI. Identificazione via risposta a `E` + s/n, oppure serial poll.
 
 ## Oscilloscopi (OSC)
 
@@ -232,7 +291,10 @@ I canali non hanno ID uniformi: verificare sempre la serie prima di usarli.
 |---|---|---|
 | OWON | Numerico | `1`, `2`, `3` |
 | Keysight (PSU) | `CH` + numero | `CH1`, `CH2`, `CH3` |
+| HP E3631A | Numerico + output identifier | `1`/`2`/`3`, selezionati con `INSTrument:SELect P6V|P25V|N25V` |
 | Keysight (datalogger) | Range stringa | `"1001:1020"` |
+| Agilent 3499A | Formato `@snn` (slot + canale 2 cifre) | `"100:107"` → `(@100:107)` |
+| HP/Agilent multimetri | Canale singolo (nessun parametro canale) | — |
 | R&S | `OUT` + numero | `OUT1`..`OUT4` |
 | Tektronix | `CH` + numero | `CH1`..`CH8` |
 | Siglent | `C` + numero | `C1`..`C4` |
