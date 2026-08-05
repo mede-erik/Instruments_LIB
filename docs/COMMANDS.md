@@ -169,7 +169,9 @@ Il software che usa questa libreria deve chiamare gli strumenti tramite questi n
 | `trigger_bus` | Trigger via bus | `*TRG` (K. 3497X, A. 34970A, A. 3499A) | — |
 | `configure_dc_voltage` | Configura misura DCV sui canali | `CONF:VOLT:DC {range},{resolution},(@{channels})` (K. 3497X, A. 34970A) | — |
 | `measure_dc_voltage` | Misura DCV immediata | `MEAS:VOLT:DC? {range},{resolution},(@{channels})` (K. 3497X, A. 34970A) | float |
-| `set_voltage_range` | Range DCV di misura | `SENS:VOLT:DC:RANG {range},(@{channels})` (K. 34972A, modello) | — |
+| `set_voltage_range` | Range DCV di misura | `SENS:VOLT:DC:RANG {range},(@{channels})` (K. 34972A, A. 34970A) | — |
+
+> **Nota 34970A**: 172 comandi verificati sul manuale dedicato (Command Reference 34970A/72A): sottosistemi CALCulate (AVERage/LIMit/SCALe/COMPare), DATA (POINts?, REMove?, LAST?), DISPlay, FORMat:READing (ALARm/CHANnel/TIME/UNIT), OUTPut:ALARm*, ROUTe (CLOSe:EXCLusive, CHANnel:ADVance, MONitor), SOURce (34907A), UNIT:TEMPerature, TRIGger:TIMer. Formato canali a 3 cifre `(@101:120)`. `READ?` non accetta scan-list (solo 34972A).
 
 > **Nota 3499A**: mainframe di switching/scanning **senza motore di misura** — nessun comando `MEASure?`/`FETCh?`/`READ?`; le misure avvengono su dispositivo esterno.
 
@@ -292,7 +294,7 @@ I canali non hanno ID uniformi: verificare sempre la serie prima di usarli.
 | OWON | Numerico | `1`, `2`, `3` |
 | Keysight (PSU) | `CH` + numero | `CH1`, `CH2`, `CH3` |
 | HP E3631A | Numerico + output identifier | `1`/`2`/`3`, selezionati con `INSTrument:SELect P6V|P25V|N25V` |
-| Keysight (datalogger) | Range stringa | `"1001:1020"` |
+| Keysight (datalogger) | Range stringa (slot + canale 3 cifre) | `"101:120"` → `(@101:120)` |
 | Agilent 3499A | Formato `@snn` (slot + canale 2 cifre) | `"100:107"` → `(@100:107)` |
 | HP/Agilent multimetri | Canale singolo (nessun parametro canale) | — |
 | R&S | `OUT` + numero | `OUT1`..`OUT4` |

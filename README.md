@@ -237,7 +237,7 @@ Segue la struttura standard serie → modelli. Il modello del mainframe dichiara
 }
 ```
 
-I comandi SCPI che operano sui canali usano il formato a range Keysight (K. 3497X, A. 34970A):
+I comandi SCPI che operano sui canali usano il formato a range Keysight a **3 cifre** (slot + canale, K. 3497X e A. 34970A): `"101:120"` → `(@101:120)`:
 ```json
 "select_channels": {
   "set": {
@@ -316,7 +316,7 @@ Gli ID seguono `{TYPE}_{MANUFACTURER}_{MODEL}`:
 |---|---|---|
 | OWON | Numerico | `1`, `2`, `3` |
 | Keysight (PSU) | `CH` + numero | `CH1`, `CH2`, `CH3` |
-| Keysight (datalogger) | Range stringa | `"1001:1020"` |
+| Keysight (datalogger) | Range stringa (slot + canale 3 cifre) | `"101:120"` → `(@101:120)` |
 | Agilent 3499A | Formato `@snn` (slot + canale a 2 cifre) | `"100:107"`, `"101"` — renderizzato `(@100:107)` |
 | HP/Agilent multimetri | Canale singolo (nessun parametro canale) | — |
 | R&S | `OUT` + numero | `OUT1`..`OUT4` |

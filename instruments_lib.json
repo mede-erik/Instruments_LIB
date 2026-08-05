@@ -2447,7 +2447,8 @@
                 "34905A",
                 "34906A",
                 "34908A"
-              ]
+              ],
+              "channels": "101:120"
             },
             "scpi_commands": {
               "set_voltage_range": {
@@ -2479,37 +2480,29 @@
         "series_name": "Agilent 34970A Data Acquisition / Switch Unit",
         "common_scpi_commands": {
           "reset": {
-            "description": "reset",
+            "description": "Factory reset: abort scan, clear scan list, restore all measurement parameters to factory settings",
             "set": {
               "syntax": "*RST"
             },
             "query": null
           },
           "clear_status": {
-            "description": "clear status",
+            "description": "Clear event registers, error queue and alarm queue (does not clear enable registers)",
             "set": {
               "syntax": "*CLS"
             },
             "query": null
           },
           "identification_query": {
-            "description": "identification query",
+            "description": "Identification query (HEWLETT-PACKARD,34970A,0,XX-Y-Z on the 34970A)",
             "set": null,
             "query": {
               "syntax": "*IDN?",
               "return_type": "string"
             }
           },
-          "error_query": {
-            "description": "error query",
-            "set": null,
-            "query": {
-              "syntax": "SYST:ERR?",
-              "return_type": "string"
-            }
-          },
           "self_test": {
-            "description": "self test",
+            "description": "Self test query, returns 0 (pass) or 1 (fail)",
             "set": null,
             "query": {
               "syntax": "*TST?",
@@ -2517,7 +2510,7 @@
             }
           },
           "query_status_byte": {
-            "description": "query status byte",
+            "description": "Read the Status Byte Register",
             "set": null,
             "query": {
               "syntax": "*STB?",
@@ -2525,7 +2518,7 @@
             }
           },
           "query_event_status_register": {
-            "description": "query event status register",
+            "description": "Read and clear the Standard Event Status Register",
             "set": null,
             "query": {
               "syntax": "*ESR?",
@@ -2533,7 +2526,7 @@
             }
           },
           "enable_event_status_register": {
-            "description": "enable event status register",
+            "description": "Enable bits in the Standard Event Status Register enable register",
             "set": {
               "syntax": "*ESE {value}",
               "args": [
@@ -2543,22 +2536,497 @@
             "query": null,
             "parameters": {
               "value": {
-                "type": "int"
+                "type": "int",
+                "values": [
+                  "0",
+                  "255"
+                ]
               }
             }
           },
           "query_event_status_enable": {
-            "description": "query event status enable",
+            "description": "Read the Standard Event Status Register enable register",
             "set": null,
             "query": {
               "syntax": "*ESE?",
               "return_type": "int"
             }
           },
+          "enable_service_request_enable": {
+            "description": "Enable bits in the Service Request Enable register",
+            "set": {
+              "syntax": "*SRE {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "int",
+                "values": [
+                  "0",
+                  "255"
+                ]
+              }
+            }
+          },
+          "query_service_request_enable": {
+            "description": "Read the Service Request Enable register",
+            "set": null,
+            "query": {
+              "syntax": "*SRE?",
+              "return_type": "int"
+            }
+          },
+          "set_operation_complete": {
+            "description": "Set Operation Complete bit (bit 0) in the Standard Event Register at the end of the current scan",
+            "set": {
+              "syntax": "*OPC"
+            },
+            "query": null
+          },
+          "operation_complete_query": {
+            "description": "Operation complete query, returns 1 when the current operation completes",
+            "set": null,
+            "query": {
+              "syntax": "*OPC?",
+              "return_type": "int"
+            }
+          },
+          "trigger_bus": {
+            "description": "Software (bus) trigger, used with TRIGger:SOURce BUS",
+            "set": {
+              "syntax": "*TRG"
+            },
+            "query": null
+          },
+          "wait_to_continue": {
+            "description": "Wait-to-continue: prevent further commands until all pending operations complete",
+            "set": {
+              "syntax": "*WAI"
+            },
+            "query": null
+          },
+          "set_power_on_status_clear": {
+            "description": "Power-on status clear: enable/disable clearing of enable registers at power-on",
+            "set": {
+              "syntax": "*PSC {state}",
+              "args": [
+                "state"
+              ]
+            },
+            "query": {
+              "syntax": "*PSC?",
+              "return_type": "int"
+            },
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "0",
+                  "ON",
+                  "1"
+                ]
+              }
+            }
+          },
+          "save_state": {
+            "description": "Save the present instrument state to the specified location",
+            "set": {
+              "syntax": "*SAV {location}",
+              "args": [
+                "location"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "location": {
+                "type": "int",
+                "values": [
+                  "0",
+                  "1",
+                  "2",
+                  "3",
+                  "4",
+                  "5"
+                ]
+              }
+            }
+          },
+          "recall_state": {
+            "description": "Recall the instrument state stored at the specified location",
+            "set": {
+              "syntax": "*RCL {location}",
+              "args": [
+                "location"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "location": {
+                "type": "int",
+                "values": [
+                  "0",
+                  "1",
+                  "2",
+                  "3",
+                  "4",
+                  "5"
+                ]
+              }
+            }
+          },
+          "abort": {
+            "description": "Abort a measurement in progress from a scan (readings remain in memory)",
+            "set": {
+              "syntax": "ABORt"
+            },
+            "query": null
+          },
+          "initiate_scan": {
+            "description": "Change the triggering system from idle to wait-for-trigger state; readings are stored in memory",
+            "set": {
+              "syntax": "INITiate"
+            },
+            "query": null
+          },
+          "fetch_readings": {
+            "description": "Transfer readings from memory to the output buffer (readings are not erased)",
+            "set": null,
+            "query": {
+              "syntax": "FETCh?",
+              "return_type": "string"
+            }
+          },
+          "read_scan": {
+            "description": "Place the instrument in the wait-for-trigger state, scan the present scan list once and send readings to the output buffer (34970A: no scan list parameter)",
+            "set": null,
+            "query": {
+              "syntax": "READ?",
+              "return_type": "string"
+            }
+          },
+          "read_and_remove": {
+            "description": "Read and erase up to <max_count> readings from memory, starting with the oldest (fast version of DATA:REMove?)",
+            "set": null,
+            "query": {
+              "syntax": "R? {max_count}",
+              "return_type": "string",
+              "args": [
+                "max_count"
+              ]
+            },
+            "parameters": {
+              "max_count": {
+                "type": "int",
+                "values": [
+                  "1",
+                  "50000"
+                ]
+              }
+            }
+          },
+          "input_impedance_auto": {
+            "description": "Enable/disable automatic input resistance (>10 GOhm on 100 mV, 1 V, 10 V ranges) for DC voltage measurements",
+            "set": {
+              "syntax": "INP:IMP:AUTO {state},(@{channels})",
+              "args": [
+                "state",
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "INP:IMP:AUTO? (@{channels})",
+              "return_type": "int",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "0",
+                  "ON",
+                  "1"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "preset": {
+            "description": "Instrument preset to a known configuration (aborts measurement, does not clear scan list)",
+            "set": {
+              "syntax": "SYST:PRES"
+            },
+            "query": null
+          },
+          "card_power_on": {
+            "description": "Reset the module in the specified slot to its power-on state",
+            "set": {
+              "syntax": "SYST:CPON {slot}",
+              "args": [
+                "slot"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "slot": {
+                "type": "string",
+                "values": [
+                  "100",
+                  "200",
+                  "300",
+                  "ALL"
+                ]
+              }
+            }
+          },
+          "query_card_type": {
+            "description": "Return the identity of the plug-in module in the specified slot",
+            "set": null,
+            "query": {
+              "syntax": "SYST:CTYP? {slot}",
+              "return_type": "string",
+              "args": [
+                "slot"
+              ]
+            },
+            "parameters": {
+              "slot": {
+                "type": "string",
+                "values": [
+                  "100",
+                  "200",
+                  "300"
+                ]
+              }
+            }
+          },
+          "set_date": {
+            "description": "Set/query the instrument calendar (readings and alarms are stored with date)",
+            "set": {
+              "syntax": "SYST:DATE {year},{month},{day}",
+              "args": [
+                "year",
+                "month",
+                "day"
+              ]
+            },
+            "query": {
+              "syntax": "SYST:DATE?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "year": {
+                "type": "int"
+              },
+              "month": {
+                "type": "int"
+              },
+              "day": {
+                "type": "int"
+              }
+            }
+          },
+          "set_time": {
+            "description": "Set/query the instrument time-of-day clock",
+            "set": {
+              "syntax": "SYST:TIME {hour},{minute},{second}",
+              "args": [
+                "hour",
+                "minute",
+                "second"
+              ]
+            },
+            "query": {
+              "syntax": "SYST:TIME?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "hour": {
+                "type": "int"
+              },
+              "minute": {
+                "type": "int"
+              },
+              "second": {
+                "type": "float"
+              }
+            }
+          },
+          "query_scan_start_time": {
+            "description": "Return the time and date at the start of the most recent scan (yyyy,mm,dd,hh,mm,ss.sss)",
+            "set": null,
+            "query": {
+              "syntax": "SYST:TIME:SCAN?",
+              "return_type": "string"
+            }
+          },
+          "set_interface": {
+            "description": "Select the remote interface (34970A only: GPIB or RS-232; only one interface enabled at a time)",
+            "set": {
+              "syntax": "SYST:INT {interface}",
+              "args": [
+                "interface"
+              ]
+            },
+            "query": {
+              "syntax": "SYST:INT?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "interface": {
+                "type": "string",
+                "values": [
+                  "GPIB",
+                  "RS232"
+                ]
+              }
+            }
+          },
+          "query_line_frequency": {
+            "description": "Return the power-line reference frequency used for NPLC integration (50 or 60)",
+            "set": null,
+            "query": {
+              "syntax": "SYST:LFR?",
+              "return_type": "int"
+            }
+          },
+          "query_scpi_version": {
+            "description": "Return the version of the SCPI standard with which the instrument complies (1994.0)",
+            "set": null,
+            "query": {
+              "syntax": "SYST:VERS?",
+              "return_type": "string"
+            }
+          },
+          "query_alarm": {
+            "description": "Read one alarm event from the alarm queue (read and delete, FIFO, up to 20 alarms)",
+            "set": null,
+            "query": {
+              "syntax": "SYST:ALAR?",
+              "return_type": "string"
+            }
+          },
+          "set_local": {
+            "description": "Place the instrument in local mode (front panel fully functional; not allowed over GPIB on the 34970A)",
+            "set": {
+              "syntax": "SYST:LOC"
+            },
+            "query": null
+          },
+          "set_remote": {
+            "description": "Place the instrument in remote mode (most front panel keys disabled)",
+            "set": {
+              "syntax": "SYST:REM"
+            },
+            "query": null
+          },
+          "set_remote_lock": {
+            "description": "Local lockout mode (all front panel keys disabled)",
+            "set": {
+              "syntax": "SYST:RWL"
+            },
+            "query": null
+          },
+          "instrument_dmm": {
+            "description": "Disable/enable the internal DMM (changing state issues a Factory Reset)",
+            "set": {
+              "syntax": "INST:DMM {state}",
+              "args": [
+                "state"
+              ]
+            },
+            "query": {
+              "syntax": "INST:DMM?",
+              "return_type": "int"
+            },
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "0",
+                  "ON",
+                  "1"
+                ]
+              }
+            }
+          },
+          "query_dmm_installed": {
+            "description": "Return 1 if the internal DMM is installed",
+            "set": null,
+            "query": {
+              "syntax": "INST:DMM:INST?",
+              "return_type": "int"
+            }
+          },
           "select_channels": {
-            "description": "select channels",
+            "description": "Select the channels to be included in the scan list (channels are 4-digit channel numbers in the (@ch_list) form, e.g. (@101:120); use ROUT:SCAN (@) to clear)",
             "set": {
               "syntax": "ROUT:SCAN (@{channels})",
+              "args": [
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "ROUT:SCAN?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "query_scan_size": {
+            "description": "Return the number of channels in the scan list",
+            "set": null,
+            "query": {
+              "syntax": "ROUT:SCAN:SIZE?",
+              "return_type": "int"
+            }
+          },
+          "close_channel": {
+            "description": "Close the specified channels on a multiplexer or switch module",
+            "set": {
+              "syntax": "ROUT:CLOS (@{channels})",
+              "args": [
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "ROUT:CLOS? (@{channels})",
+              "return_type": "int",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "close_channel_exclusive": {
+            "description": "Open all channels on the module, then close the specified channels (one at a time)",
+            "set": {
+              "syntax": "ROUT:CLOS:EXCL (@{channels})",
               "args": [
                 "channels"
               ]
@@ -2566,34 +3034,233 @@
             "query": null,
             "parameters": {
               "channels": {
-                "type": "string"
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
               }
             }
           },
-          "read_scan": {
-            "description": "read scan",
-            "set": null,
+          "open_channels": {
+            "description": "Open the specified channels on a multiplexer or switch module",
+            "set": {
+              "syntax": "ROUT:OPEN (@{channels})",
+              "args": [
+                "channels"
+              ]
+            },
             "query": {
-              "syntax": "READ?",
-              "return_type": "string"
+              "syntax": "ROUT:OPEN? (@{channels})",
+              "return_type": "int",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
             }
           },
-          "trigger_bus": {
-            "description": "trigger bus",
+          "set_channel_advance_source": {
+            "description": "Select the channel advance source for external scanning (internal DMM disabled), {EXTernal|BUS|IMMediate}",
             "set": {
-              "syntax": "*TRG"
+              "syntax": "ROUT:CHAN:ADV:SOUR {source}",
+              "args": [
+                "source"
+              ]
             },
-            "query": null
+            "query": {
+              "syntax": "ROUT:CHAN:ADV:SOUR?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "source": {
+                "type": "string",
+                "values": [
+                  "EXTernal",
+                  "BUS",
+                  "IMMediate"
+                ]
+              }
+            }
+          },
+          "set_channel_delay": {
+            "description": "Add a delay (0 to 60 s, 1 ms resolution) between multiplexer channels in the scan list",
+            "set": {
+              "syntax": "ROUT:CHAN:DEL {seconds},(@{channels})",
+              "args": [
+                "seconds",
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "ROUT:CHAN:DEL? (@{channels})",
+              "return_type": "float",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "seconds": {
+                "type": "float",
+                "values": [
+                  "0",
+                  "60"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "set_channel_delay_auto": {
+            "description": "Enable/disable automatic channel delay on the specified channels",
+            "set": {
+              "syntax": "ROUT:CHAN:DEL:AUTO {state},(@{channels})",
+              "args": [
+                "state",
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "ROUT:CHAN:DEL:AUTO? (@{channels})",
+              "return_type": "int",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "0",
+                  "ON",
+                  "1"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "set_four_wire": {
+            "description": "Configure the specified channels for 4-wire external scanning without the internal DMM (34901A/34902A only)",
+            "set": {
+              "syntax": "ROUT:CHAN:FWIR {state},(@{channels})",
+              "args": [
+                "state",
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "ROUT:CHAN:FWIR? (@{channels})",
+              "return_type": "int",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "0",
+                  "ON",
+                  "1"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "query_relay_done": {
+            "description": "Return 1 when all relay operations on cards not involved in the scan are finished",
+            "set": null,
+            "query": {
+              "syntax": "ROUT:DONE?",
+              "return_type": "int"
+            }
+          },
+          "monitor_channel": {
+            "description": "Select the channel to be displayed on the front panel (single channel, e.g. (@103))",
+            "set": {
+              "syntax": "ROUT:MON (@{channel})",
+              "args": [
+                "channel"
+              ]
+            },
+            "query": {
+              "syntax": "ROUT:MON?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "channel": {
+                "type": "string",
+                "values": [
+                  "103"
+                ]
+              }
+            }
+          },
+          "query_monitor_data": {
+            "description": "Read one reading from the monitor channel (reading only, no units/time/channel/alarm)",
+            "set": null,
+            "query": {
+              "syntax": "ROUT:MON:DATA?",
+              "return_type": "float"
+            }
+          },
+          "set_monitor_state": {
+            "description": "Enable/disable the Monitor mode (continuous measurements on a single channel)",
+            "set": {
+              "syntax": "ROUT:MON:STAT {mode}",
+              "args": [
+                "mode"
+              ]
+            },
+            "query": {
+              "syntax": "ROUT:MON:STAT?",
+              "return_type": "int"
+            },
+            "parameters": {
+              "mode": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "0",
+                  "ON",
+                  "1"
+                ]
+              }
+            }
           },
           "set_trigger_source": {
-            "description": "set trigger source",
+            "description": "Select the trigger source for each sweep through the scan list",
             "set": {
               "syntax": "TRIG:SOUR {source}",
               "args": [
                 "source"
               ]
             },
-            "query": null,
+            "query": {
+              "syntax": "TRIG:SOUR?",
+              "return_type": "string"
+            },
             "parameters": {
               "source": {
                 "type": "string",
@@ -2601,32 +3268,76 @@
                   "BUS",
                   "IMMediate",
                   "EXTernal",
-                  "TIMer",
                   "ALARm1",
                   "ALARm2",
                   "ALARm3",
-                  "ALARm4"
+                  "ALARm4",
+                  "TIMer"
                 ]
               }
             }
           },
           "set_trigger_count": {
-            "description": "set trigger count",
+            "description": "Specify the number of times to sweep through the scan list",
             "set": {
               "syntax": "TRIG:COUN {count}",
               "args": [
                 "count"
               ]
             },
-            "query": null,
+            "query": {
+              "syntax": "TRIG:COUN?",
+              "return_type": "float"
+            },
             "parameters": {
               "count": {
-                "type": "int"
+                "type": "string",
+                "values": [
+                  "1",
+                  "50000",
+                  "MIN",
+                  "MAX",
+                  "INFinity"
+                ]
+              }
+            }
+          },
+          "set_trigger_timer": {
+            "description": "Set the trigger-to-trigger interval (0 to 359,999 s, 1 ms resolution) for the TIMer trigger source",
+            "set": {
+              "syntax": "TRIG:TIM {seconds}",
+              "args": [
+                "seconds"
+              ]
+            },
+            "query": {
+              "syntax": "TRIG:TIM?",
+              "return_type": "float",
+              "args": [
+                "minmax"
+              ]
+            },
+            "parameters": {
+              "seconds": {
+                "type": "float",
+                "values": [
+                  "0",
+                  "359999",
+                  "MIN",
+                  "MAX"
+                ]
+              },
+              "minmax": {
+                "type": "string",
+                "values": [
+                  "MIN",
+                  "MAX"
+                ]
               }
             }
           },
           "configure_dc_voltage": {
-            "description": "configure dc voltage",
+            "description": "Configure the specified channels for DC voltage measurements (does not initiate the scan)",
             "set": {
               "syntax": "CONF:VOLT:DC {range},{resolution},(@{channels})",
               "args": [
@@ -2638,84 +3349,3373 @@
             "query": null,
             "parameters": {
               "range": {
-                "type": "float"
+                "type": "float",
+                "values": [
+                  "AUTO",
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
               },
               "resolution": {
-                "type": "float"
+                "type": "float",
+                "values": [
+                  "AUTO",
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
               },
               "channels": {
-                "type": "string"
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
               }
             }
           },
-          "measure_dc_voltage": {
-            "description": "measure dc voltage",
-            "set": null,
-            "query": {
-              "syntax": "MEAS:VOLT:DC? {range},{resolution},(@{channels})",
+          "configure_ac_voltage": {
+            "description": "Configure the specified channels for AC voltage measurements (resolution fixed at 6 1/2 digits)",
+            "set": {
+              "syntax": "CONF:VOLT:AC {range},{resolution},(@{channels})",
               "args": [
                 "range",
                 "resolution",
                 "channels"
-              ],
-              "return_type": "float"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "range": {
+                "type": "float",
+                "values": [
+                  "AUTO",
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
+              },
+              "resolution": {
+                "type": "float",
+                "values": [
+                  "AUTO",
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "configure_dc_current": {
+            "description": "Configure the specified channels (34901A/34902A ch 21/22 only) for DC current measurements",
+            "set": {
+              "syntax": "CONF:CURR:DC {range},{resolution},(@{channels})",
+              "args": [
+                "range",
+                "resolution",
+                "channels"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "range": {
+                "type": "float",
+                "values": [
+                  "AUTO",
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
+              },
+              "resolution": {
+                "type": "float",
+                "values": [
+                  "AUTO",
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "121",
+                  "122"
+                ]
+              }
+            }
+          },
+          "configure_ac_current": {
+            "description": "Configure the specified channels (34901A/34902A ch 21/22 only) for AC current measurements",
+            "set": {
+              "syntax": "CONF:CURR:AC {range},{resolution},(@{channels})",
+              "args": [
+                "range",
+                "resolution",
+                "channels"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "range": {
+                "type": "float",
+                "values": [
+                  "AUTO",
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
+              },
+              "resolution": {
+                "type": "float",
+                "values": [
+                  "AUTO",
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "121",
+                  "122"
+                ]
+              }
+            }
+          },
+          "configure_resistance": {
+            "description": "Configure the specified channels for 2-wire resistance measurements",
+            "set": {
+              "syntax": "CONF:RES {range},{resolution},(@{channels})",
+              "args": [
+                "range",
+                "resolution",
+                "channels"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "range": {
+                "type": "float",
+                "values": [
+                  "AUTO",
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
+              },
+              "resolution": {
+                "type": "float",
+                "values": [
+                  "AUTO",
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "configure_fresistance": {
+            "description": "Configure the specified channels for 4-wire resistance measurements (channels auto-paired with Bank 2)",
+            "set": {
+              "syntax": "CONF:FRES {range},{resolution},(@{channels})",
+              "args": [
+                "range",
+                "resolution",
+                "channels"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "range": {
+                "type": "float",
+                "values": [
+                  "AUTO",
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
+              },
+              "resolution": {
+                "type": "float",
+                "values": [
+                  "AUTO",
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "configure_frequency": {
+            "description": "Configure the specified channels for frequency measurements",
+            "set": {
+              "syntax": "CONF:FREQ {range},{resolution},(@{channels})",
+              "args": [
+                "range",
+                "resolution",
+                "channels"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "range": {
+                "type": "float",
+                "values": [
+                  "AUTO",
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
+              },
+              "resolution": {
+                "type": "float",
+                "values": [
+                  "AUTO",
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "configure_period": {
+            "description": "Configure the specified channels for period measurements",
+            "set": {
+              "syntax": "CONF:PER {range},{resolution},(@{channels})",
+              "args": [
+                "range",
+                "resolution",
+                "channels"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "range": {
+                "type": "float",
+                "values": [
+                  "AUTO",
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
+              },
+              "resolution": {
+                "type": "float",
+                "values": [
+                  "AUTO",
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "configure_temperature": {
+            "description": "Configure the specified channels for temperature measurements",
+            "set": {
+              "syntax": "CONF:TEMP {probe_type},{type},1,{resolution},(@{channels})",
+              "args": [
+                "probe_type",
+                "type",
+                "resolution",
+                "channels"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "probe_type": {
+                "type": "string",
+                "values": [
+                  "TCouple",
+                  "RTD",
+                  "FRTD",
+                  "THERmistor",
+                  "DEF"
+                ]
+              },
+              "type": {
+                "type": "string",
+                "values": [
+                  "B",
+                  "E",
+                  "J",
+                  "K",
+                  "N",
+                  "R",
+                  "S",
+                  "T",
+                  "85",
+                  "91",
+                  "2252",
+                  "5000",
+                  "10000",
+                  "DEF"
+                ]
+              },
+              "resolution": {
+                "type": "float",
+                "values": [
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "configure_totalize": {
+            "description": "Configure the specified totalizer channels on the multifunction module (34907A)",
+            "set": {
+              "syntax": "CONF:TOT {mode},(@{channels})",
+              "args": [
+                "mode",
+                "channels"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "mode": {
+                "type": "string",
+                "values": [
+                  "READ",
+                  "RRESet"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "301"
+                ]
+              }
+            }
+          },
+          "configure_digital_byte": {
+            "description": "Configure the instrument to scan the specified digital input channels (34907A) as byte data",
+            "set": {
+              "syntax": "CONF:DIG:BYTE (@{channels})",
+              "args": [
+                "channels"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:102"
+                ]
+              }
+            }
+          },
+          "query_configuration": {
+            "description": "Return the present function, range and resolution configuration on the specified channels",
+            "set": null,
+            "query": {
+              "syntax": "CONF? (@{channels})",
+              "return_type": "string",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "measure_dc_voltage": {
+            "description": "Configure and measure DC voltage (equivalent to CONFigure:VOLTage:DC followed by READ?)",
+            "set": null,
+            "query": {
+              "syntax": "MEAS:VOLT:DC? {range},{resolution},(@{channels})",
+              "return_type": "float",
+              "args": [
+                "range",
+                "resolution",
+                "channels"
+              ]
             },
             "parameters": {
               "range": {
-                "type": "float"
+                "type": "float",
+                "values": [
+                  "AUTO",
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
               },
               "resolution": {
-                "type": "float"
+                "type": "float",
+                "values": [
+                  "AUTO",
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
               },
               "channels": {
-                "type": "string"
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
               }
             }
           },
-          "close_channel": {
-            "description": "close channel",
-            "set": {
-              "syntax": "ROUT:CLOSe (@{channels})",
+          "measure_ac_voltage": {
+            "description": "Configure and measure AC voltage",
+            "set": null,
+            "query": {
+              "syntax": "MEAS:VOLT:AC? {range},{resolution},(@{channels})",
+              "return_type": "float",
+              "args": [
+                "range",
+                "resolution",
+                "channels"
+              ]
+            },
+            "parameters": {
+              "range": {
+                "type": "float",
+                "values": [
+                  "AUTO",
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
+              },
+              "resolution": {
+                "type": "float",
+                "values": [
+                  "AUTO",
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "measure_dc_current": {
+            "description": "Configure and measure DC current (34901A/34902A ch 21/22 only)",
+            "set": null,
+            "query": {
+              "syntax": "MEAS:CURR:DC? {range},{resolution},(@{channels})",
+              "return_type": "float",
+              "args": [
+                "range",
+                "resolution",
+                "channels"
+              ]
+            },
+            "parameters": {
+              "range": {
+                "type": "float",
+                "values": [
+                  "AUTO",
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
+              },
+              "resolution": {
+                "type": "float",
+                "values": [
+                  "AUTO",
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "121",
+                  "122"
+                ]
+              }
+            }
+          },
+          "measure_ac_current": {
+            "description": "Configure and measure AC current (34901A/34902A ch 21/22 only)",
+            "set": null,
+            "query": {
+              "syntax": "MEAS:CURR:AC? {range},{resolution},(@{channels})",
+              "return_type": "float",
+              "args": [
+                "range",
+                "resolution",
+                "channels"
+              ]
+            },
+            "parameters": {
+              "range": {
+                "type": "float",
+                "values": [
+                  "AUTO",
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
+              },
+              "resolution": {
+                "type": "float",
+                "values": [
+                  "AUTO",
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "121",
+                  "122"
+                ]
+              }
+            }
+          },
+          "measure_resistance": {
+            "description": "Configure and measure 2-wire resistance",
+            "set": null,
+            "query": {
+              "syntax": "MEAS:RES? {range},{resolution},(@{channels})",
+              "return_type": "float",
+              "args": [
+                "range",
+                "resolution",
+                "channels"
+              ]
+            },
+            "parameters": {
+              "range": {
+                "type": "float",
+                "values": [
+                  "AUTO",
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
+              },
+              "resolution": {
+                "type": "float",
+                "values": [
+                  "AUTO",
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "measure_fresistance": {
+            "description": "Configure and measure 4-wire resistance",
+            "set": null,
+            "query": {
+              "syntax": "MEAS:FRES? {range},{resolution},(@{channels})",
+              "return_type": "float",
+              "args": [
+                "range",
+                "resolution",
+                "channels"
+              ]
+            },
+            "parameters": {
+              "range": {
+                "type": "float",
+                "values": [
+                  "AUTO",
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
+              },
+              "resolution": {
+                "type": "float",
+                "values": [
+                  "AUTO",
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "measure_frequency": {
+            "description": "Configure and measure frequency",
+            "set": null,
+            "query": {
+              "syntax": "MEAS:FREQ? {range},{resolution},(@{channels})",
+              "return_type": "float",
+              "args": [
+                "range",
+                "resolution",
+                "channels"
+              ]
+            },
+            "parameters": {
+              "range": {
+                "type": "float",
+                "values": [
+                  "AUTO",
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
+              },
+              "resolution": {
+                "type": "float",
+                "values": [
+                  "AUTO",
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "measure_period": {
+            "description": "Configure and measure period",
+            "set": null,
+            "query": {
+              "syntax": "MEAS:PER? {range},{resolution},(@{channels})",
+              "return_type": "float",
+              "args": [
+                "range",
+                "resolution",
+                "channels"
+              ]
+            },
+            "parameters": {
+              "range": {
+                "type": "float",
+                "values": [
+                  "AUTO",
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
+              },
+              "resolution": {
+                "type": "float",
+                "values": [
+                  "AUTO",
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "measure_temperature": {
+            "description": "Configure and measure temperature",
+            "set": null,
+            "query": {
+              "syntax": "MEAS:TEMP? {probe_type},{type},1,{resolution},(@{channels})",
+              "return_type": "float",
+              "args": [
+                "probe_type",
+                "type",
+                "resolution",
+                "channels"
+              ]
+            },
+            "parameters": {
+              "probe_type": {
+                "type": "string",
+                "values": [
+                  "TCouple",
+                  "RTD",
+                  "FRTD",
+                  "THERmistor",
+                  "DEF"
+                ]
+              },
+              "type": {
+                "type": "string",
+                "values": [
+                  "B",
+                  "E",
+                  "J",
+                  "K",
+                  "N",
+                  "R",
+                  "S",
+                  "T",
+                  "85",
+                  "91",
+                  "2252",
+                  "5000",
+                  "10000",
+                  "DEF"
+                ]
+              },
+              "resolution": {
+                "type": "float",
+                "values": [
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "measure_totalize": {
+            "description": "Configure and measure totalizer count (34907A)",
+            "set": null,
+            "query": {
+              "syntax": "MEAS:TOT? {mode},(@{channels})",
+              "return_type": "float",
+              "args": [
+                "mode",
+                "channels"
+              ]
+            },
+            "parameters": {
+              "mode": {
+                "type": "string",
+                "values": [
+                  "READ",
+                  "RRESet"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "301"
+                ]
+              }
+            }
+          },
+          "measure_digital_byte": {
+            "description": "Configure and measure digital input byte data (34907A)",
+            "set": null,
+            "query": {
+              "syntax": "MEAS:DIG:BYTE? (@{channels})",
+              "return_type": "int",
               "args": [
                 "channels"
               ]
             },
-            "query": null,
             "parameters": {
               "channels": {
-                "type": "string"
+                "type": "string",
+                "values": [
+                  "101:102"
+                ]
               }
             }
           },
-          "open_channels": {
-            "description": "open channels",
-            "set": {
-              "syntax": "ROUT:OPEN (@{channels})",
+          "query_data_points": {
+            "description": "Return the total number of readings currently stored in reading memory",
+            "set": null,
+            "query": {
+              "syntax": "DATA:POIN?",
+              "return_type": "int"
+            }
+          },
+          "remove_readings": {
+            "description": "Read and erase the specified number of readings from memory, starting with the oldest",
+            "set": null,
+            "query": {
+              "syntax": "DATA:REM? {num_rdgs}",
+              "return_type": "string",
               "args": [
-                "channels"
+                "num_rdgs"
               ]
             },
-            "query": null,
             "parameters": {
-              "channels": {
+              "num_rdgs": {
+                "type": "int",
+                "values": [
+                  "1",
+                  "50000"
+                ]
+              }
+            }
+          },
+          "query_last_reading": {
+            "description": "Return the most recent reading(s) taken on the specified channel during the scan",
+            "set": null,
+            "query": {
+              "syntax": "DATA:LAST? {num_rdgs},(@{channel})",
+              "return_type": "string",
+              "args": [
+                "num_rdgs",
+                "channel"
+              ]
+            },
+            "parameters": {
+              "num_rdgs": {
+                "type": "int"
+              },
+              "channel": {
+                "type": "string",
+                "values": [
+                  "108"
+                ]
+              }
+            }
+          },
+          "set_memory_threshold": {
+            "description": "Set the number of readings that sets the Memory Threshold bit (bit 9) in the Standard Operation event register",
+            "set": {
+              "syntax": "DATA:POIN:EVEN:THR {num_rdgs}",
+              "args": [
+                "num_rdgs"
+              ]
+            },
+            "query": {
+              "syntax": "DATA:POIN:EVEN:THR?",
+              "return_type": "int"
+            },
+            "parameters": {
+              "num_rdgs": {
+                "type": "int",
+                "values": [
+                  "1",
+                  "50000"
+                ]
+              }
+            }
+          },
+          "set_display": {
+            "description": "Disable/enable the front-panel display",
+            "set": {
+              "syntax": "DISP {state}",
+              "args": [
+                "state"
+              ]
+            },
+            "query": {
+              "syntax": "DISP?",
+              "return_type": "int"
+            },
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "0",
+                  "ON",
+                  "1"
+                ]
+              }
+            }
+          },
+          "display_text": {
+            "description": "Display a text message (up to 12 characters) on the front panel",
+            "set": {
+              "syntax": "DISP:TEXT {quoted_string}",
+              "args": [
+                "quoted_string"
+              ]
+            },
+            "query": {
+              "syntax": "DISP:TEXT?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "quoted_string": {
                 "type": "string"
               }
             }
           },
-          "initiate_scan": {
-            "description": "initiate scan",
+          "clear_display_text": {
+            "description": "Clear the text message on the front-panel display",
             "set": {
-              "syntax": "INITiate",
-              "args": null
+              "syntax": "DISP:TEXT:CLE"
             },
             "query": null
           },
-          "fetch_readings": {
-            "description": "fetch readings",
+          "format_reading_alarm": {
+            "description": "Enable/disable the inclusion of alarm status information with retrieved readings",
+            "set": {
+              "syntax": "FORM:READ:ALAR {state}",
+              "args": [
+                "state"
+              ]
+            },
+            "query": {
+              "syntax": "FORM:READ:ALAR?",
+              "return_type": "int"
+            },
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "0",
+                  "ON",
+                  "1"
+                ]
+              }
+            }
+          },
+          "format_reading_channel": {
+            "description": "Enable/disable the inclusion of channel number information with retrieved readings",
+            "set": {
+              "syntax": "FORM:READ:CHAN {mode}",
+              "args": [
+                "mode"
+              ]
+            },
+            "query": {
+              "syntax": "FORM:READ:CHAN?",
+              "return_type": "int"
+            },
+            "parameters": {
+              "mode": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "0",
+                  "ON",
+                  "1"
+                ]
+              }
+            }
+          },
+          "format_reading_time": {
+            "description": "Enable/disable the inclusion of a time stamp with retrieved readings",
+            "set": {
+              "syntax": "FORM:READ:TIME {mode}",
+              "args": [
+                "mode"
+              ]
+            },
+            "query": {
+              "syntax": "FORM:READ:TIME?",
+              "return_type": "int"
+            },
+            "parameters": {
+              "mode": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "0",
+                  "ON",
+                  "1"
+                ]
+              }
+            }
+          },
+          "format_reading_time_type": {
+            "description": "Select the time format for time stamps: absolute (time of day with date) or relative (seconds since start of scan)",
+            "set": {
+              "syntax": "FORM:READ:TIME:TYPE {format}",
+              "args": [
+                "format"
+              ]
+            },
+            "query": {
+              "syntax": "FORM:READ:TIME:TYPE?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "format": {
+                "type": "string",
+                "values": [
+                  "ABSolute",
+                  "RELative"
+                ]
+              }
+            }
+          },
+          "format_reading_unit": {
+            "description": "Enable/disable the inclusion of measurement units (VDC, OHM, etc.) with retrieved readings",
+            "set": {
+              "syntax": "FORM:READ:UNIT {mode}",
+              "args": [
+                "mode"
+              ]
+            },
+            "query": {
+              "syntax": "FORM:READ:UNIT?",
+              "return_type": "int"
+            },
+            "parameters": {
+              "mode": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "0",
+                  "ON",
+                  "1"
+                ]
+              }
+            }
+          },
+          "set_alarm_mode": {
+            "description": "Select the configuration of the four TTL alarm output lines: latch or track mode",
+            "set": {
+              "syntax": "OUTP:ALAR:MODE {mode}",
+              "args": [
+                "mode"
+              ]
+            },
+            "query": {
+              "syntax": "OUTP:ALAR:MODE?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "mode": {
+                "type": "string",
+                "values": [
+                  "LATCh",
+                  "TRACk"
+                ]
+              }
+            }
+          },
+          "set_alarm_slope": {
+            "description": "Select the slope of the pulse from the four TTL alarm outputs",
+            "set": {
+              "syntax": "OUTP:ALAR:SLOP {edge}",
+              "args": [
+                "edge"
+              ]
+            },
+            "query": {
+              "syntax": "OUTP:ALAR:SLOP?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "edge": {
+                "type": "string",
+                "values": [
+                  "NEGative",
+                  "POSitive"
+                ]
+              }
+            }
+          },
+          "alarm_source": {
+            "description": "Assign one of four alarm numbers (1-4) to report any alarm conditions on the specified channels",
+            "set": {
+              "syntax": "OUTP:ALAR{alarm}:SOUR (@{channels})",
+              "args": [
+                "alarm",
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "OUTP:ALAR{alarm}:SOUR?",
+              "return_type": "string",
+              "args": [
+                "alarm"
+              ]
+            },
+            "parameters": {
+              "alarm": {
+                "type": "int",
+                "values": [
+                  "1",
+                  "2",
+                  "3",
+                  "4"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "clear_alarms": {
+            "description": "Clear all four alarm output lines",
+            "set": {
+              "syntax": "OUTP:ALAR:CLE:ALL"
+            },
+            "query": null
+          },
+          "clear_alarm": {
+            "description": "Clear the specified alarm output line",
+            "set": {
+              "syntax": "OUTP:ALAR{alarm}:CLE",
+              "args": [
+                "alarm"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "alarm": {
+                "type": "int",
+                "values": [
+                  "1",
+                  "2",
+                  "3",
+                  "4"
+                ]
+              }
+            }
+          },
+          "set_temperature_unit": {
+            "description": "Select the temperature units (Celsius, Fahrenheit, Kelvin) on the specified channels",
+            "set": {
+              "syntax": "UNIT:TEMP {units},(@{channels})",
+              "args": [
+                "units",
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "UNIT:TEMP? (@{channels})",
+              "return_type": "string",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "units": {
+                "type": "string",
+                "values": [
+                  "C",
+                  "F",
+                  "K"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "set_voltage_range": {
+            "description": "Set the DC voltage measurement range (100 mV to 300 V)",
+            "set": {
+              "syntax": "SENS:VOLT:DC:RANG {range},(@{channels})",
+              "args": [
+                "range",
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "SENS:VOLT:DC:RANG? (@{channels})",
+              "return_type": "float",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "range": {
+                "type": "float",
+                "values": [
+                  "0.1",
+                  "1",
+                  "10",
+                  "100",
+                  "300",
+                  "MIN",
+                  "MAX"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "set_voltage_range_auto": {
+            "description": "Enable/disable autoranging for DC voltage measurements",
+            "set": {
+              "syntax": "SENS:VOLT:DC:RANG:AUTO {state},(@{channels})",
+              "args": [
+                "state",
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "SENS:VOLT:DC:RANG:AUTO? (@{channels})",
+              "return_type": "int",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "0",
+                  "ON",
+                  "1"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "set_voltage_resolution": {
+            "description": "Set the DC voltage measurement resolution (setting resolution also sets integration time)",
+            "set": {
+              "syntax": "SENS:VOLT:DC:RES {resolution},(@{channels})",
+              "args": [
+                "resolution",
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "SENS:VOLT:DC:RES? (@{channels})",
+              "return_type": "float",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "resolution": {
+                "type": "float",
+                "values": [
+                  "MIN",
+                  "MAX"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "set_voltage_nplc": {
+            "description": "Set the integration time in number of power line cycles (PLCs) for DC voltage measurements",
+            "set": {
+              "syntax": "SENS:VOLT:DC:NPLC {plcs},(@{channels})",
+              "args": [
+                "plcs",
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "SENS:VOLT:DC:NPLC? (@{channels})",
+              "return_type": "float",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "plcs": {
+                "type": "float",
+                "values": [
+                  "0.02",
+                  "0.2",
+                  "1",
+                  "2",
+                  "10",
+                  "20",
+                  "100",
+                  "200",
+                  "MIN",
+                  "MAX"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "set_voltage_aperture": {
+            "description": "Enable the aperture mode and set the integration time in seconds for DC voltage measurements",
+            "set": {
+              "syntax": "SENS:VOLT:DC:APER {time},(@{channels})",
+              "args": [
+                "time",
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "SENS:VOLT:DC:APER? (@{channels})",
+              "return_type": "float",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "time": {
+                "type": "float",
+                "values": [
+                  "MIN",
+                  "MAX"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "set_ac_voltage_range": {
+            "description": "Set the AC voltage measurement range (100 mV to 300 V)",
+            "set": {
+              "syntax": "SENS:VOLT:AC:RANG {range},(@{channels})",
+              "args": [
+                "range",
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "SENS:VOLT:AC:RANG? (@{channels})",
+              "return_type": "float",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "range": {
+                "type": "float",
+                "values": [
+                  "0.1",
+                  "1",
+                  "10",
+                  "100",
+                  "300",
+                  "MIN",
+                  "MAX"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "set_ac_voltage_range_auto": {
+            "description": "Enable/disable autoranging for AC voltage measurements",
+            "set": {
+              "syntax": "SENS:VOLT:AC:RANG:AUTO {state},(@{channels})",
+              "args": [
+                "state",
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "SENS:VOLT:AC:RANG:AUTO? (@{channels})",
+              "return_type": "int",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "0",
+                  "ON",
+                  "1"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "set_ac_bandwidth": {
+            "description": "Select the lowest expected input frequency (3, 20 or 200 Hz) to choose the AC filter for AC voltage measurements",
+            "set": {
+              "syntax": "SENS:VOLT:AC:BAND {filter},(@{channels})",
+              "args": [
+                "filter",
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "SENS:VOLT:AC:BAND? (@{channels})",
+              "return_type": "int",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "filter": {
+                "type": "int",
+                "values": [
+                  "3",
+                  "20",
+                  "200",
+                  "MIN",
+                  "MAX"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "set_dc_current_range": {
+            "description": "Set the DC current measurement range (10 mA to 1 A, ch 21/22 of 34901A/34902A)",
+            "set": {
+              "syntax": "SENS:CURR:DC:RANG {range},(@{channels})",
+              "args": [
+                "range",
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "SENS:CURR:DC:RANG? (@{channels})",
+              "return_type": "float",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "range": {
+                "type": "float",
+                "values": [
+                  "0.01",
+                  "0.1",
+                  "1",
+                  "MIN",
+                  "MAX"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "121",
+                  "122"
+                ]
+              }
+            }
+          },
+          "set_dc_current_range_auto": {
+            "description": "Enable/disable autoranging for DC current measurements",
+            "set": {
+              "syntax": "SENS:CURR:DC:RANG:AUTO {state},(@{channels})",
+              "args": [
+                "state",
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "SENS:CURR:DC:RANG:AUTO? (@{channels})",
+              "return_type": "int",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "0",
+                  "ON",
+                  "1"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "121",
+                  "122"
+                ]
+              }
+            }
+          },
+          "set_dc_current_nplc": {
+            "description": "Set the integration time in power line cycles for DC current measurements",
+            "set": {
+              "syntax": "SENS:CURR:DC:NPLC {plcs},(@{channels})",
+              "args": [
+                "plcs",
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "SENS:CURR:DC:NPLC? (@{channels})",
+              "return_type": "float",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "plcs": {
+                "type": "float",
+                "values": [
+                  "0.02",
+                  "0.2",
+                  "1",
+                  "2",
+                  "10",
+                  "20",
+                  "100",
+                  "200",
+                  "MIN",
+                  "MAX"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "121",
+                  "122"
+                ]
+              }
+            }
+          },
+          "set_ac_current_range": {
+            "description": "Set the AC current measurement range",
+            "set": {
+              "syntax": "SENS:CURR:AC:RANG {range},(@{channels})",
+              "args": [
+                "range",
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "SENS:CURR:AC:RANG? (@{channels})",
+              "return_type": "float",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "range": {
+                "type": "float",
+                "values": [
+                  "0.01",
+                  "0.1",
+                  "1",
+                  "MIN",
+                  "MAX"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "121",
+                  "122"
+                ]
+              }
+            }
+          },
+          "set_ac_current_range_auto": {
+            "description": "Enable/disable autoranging for AC current measurements",
+            "set": {
+              "syntax": "SENS:CURR:AC:RANG:AUTO {state},(@{channels})",
+              "args": [
+                "state",
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "SENS:CURR:AC:RANG:AUTO? (@{channels})",
+              "return_type": "int",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "0",
+                  "ON",
+                  "1"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "121",
+                  "122"
+                ]
+              }
+            }
+          },
+          "set_ac_current_bandwidth": {
+            "description": "Select the lowest expected input frequency (3, 20 or 200 Hz) to choose the AC filter for AC current measurements",
+            "set": {
+              "syntax": "SENS:CURR:AC:BAND {filter},(@{channels})",
+              "args": [
+                "filter",
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "SENS:CURR:AC:BAND? (@{channels})",
+              "return_type": "int",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "filter": {
+                "type": "int",
+                "values": [
+                  "3",
+                  "20",
+                  "200",
+                  "MIN",
+                  "MAX"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "121",
+                  "122"
+                ]
+              }
+            }
+          },
+          "set_resistance_range": {
+            "description": "Set the 2-wire resistance measurement range",
+            "set": {
+              "syntax": "SENS:RES:RANG {range},(@{channels})",
+              "args": [
+                "range",
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "SENS:RES:RANG? (@{channels})",
+              "return_type": "float",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "range": {
+                "type": "float",
+                "values": [
+                  "MIN",
+                  "MAX"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "set_resistance_range_auto": {
+            "description": "Enable/disable autoranging for 2-wire resistance measurements",
+            "set": {
+              "syntax": "SENS:RES:RANG:AUTO {state},(@{channels})",
+              "args": [
+                "state",
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "SENS:RES:RANG:AUTO? (@{channels})",
+              "return_type": "int",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "0",
+                  "ON",
+                  "1"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "set_resistance_nplc": {
+            "description": "Set the integration time in power line cycles for 2-wire resistance measurements",
+            "set": {
+              "syntax": "SENS:RES:NPLC {plcs},(@{channels})",
+              "args": [
+                "plcs",
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "SENS:RES:NPLC? (@{channels})",
+              "return_type": "float",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "plcs": {
+                "type": "float",
+                "values": [
+                  "0.02",
+                  "0.2",
+                  "1",
+                  "2",
+                  "10",
+                  "20",
+                  "100",
+                  "200",
+                  "MIN",
+                  "MAX"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "set_resistance_resolution": {
+            "description": "Set the 2-wire resistance measurement resolution in ohms",
+            "set": {
+              "syntax": "SENS:RES:RES {resolution},(@{channels})",
+              "args": [
+                "resolution",
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "SENS:RES:RES? (@{channels})",
+              "return_type": "float",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "resolution": {
+                "type": "float",
+                "values": [
+                  "MIN",
+                  "MAX"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "set_fresistance_range": {
+            "description": "Set the 4-wire resistance measurement range",
+            "set": {
+              "syntax": "SENS:FRES:RANG {range},(@{channels})",
+              "args": [
+                "range",
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "SENS:FRES:RANG? (@{channels})",
+              "return_type": "float",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "range": {
+                "type": "float",
+                "values": [
+                  "MIN",
+                  "MAX"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "set_fresistance_range_auto": {
+            "description": "Enable/disable autoranging for 4-wire resistance measurements",
+            "set": {
+              "syntax": "SENS:FRES:RANG:AUTO {state},(@{channels})",
+              "args": [
+                "state",
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "SENS:FRES:RANG:AUTO? (@{channels})",
+              "return_type": "int",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "0",
+                  "ON",
+                  "1"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "set_fresistance_nplc": {
+            "description": "Set the integration time in power line cycles for 4-wire resistance measurements",
+            "set": {
+              "syntax": "SENS:FRES:NPLC {plcs},(@{channels})",
+              "args": [
+                "plcs",
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "SENS:FRES:NPLC? (@{channels})",
+              "return_type": "float",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "plcs": {
+                "type": "float",
+                "values": [
+                  "0.02",
+                  "0.2",
+                  "1",
+                  "2",
+                  "10",
+                  "20",
+                  "100",
+                  "200",
+                  "MIN",
+                  "MAX"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "set_fresistance_resolution": {
+            "description": "Set the 4-wire resistance measurement resolution in ohms",
+            "set": {
+              "syntax": "SENS:FRES:RES {resolution},(@{channels})",
+              "args": [
+                "resolution",
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "SENS:FRES:RES? (@{channels})",
+              "return_type": "float",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "resolution": {
+                "type": "float",
+                "values": [
+                  "MIN",
+                  "MAX"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "set_frequency_range_lower": {
+            "description": "Set the lowest expected input frequency (3 to 300,000 Hz) for frequency measurements",
+            "set": {
+              "syntax": "SENS:FREQ:RANG:LOW {frequency},(@{channels})",
+              "args": [
+                "frequency",
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "SENS:FREQ:RANG:LOW? (@{channels})",
+              "return_type": "int",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "frequency": {
+                "type": "int",
+                "values": [
+                  "3",
+                  "300000",
+                  "MIN",
+                  "MAX"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "set_frequency_aperture": {
+            "description": "Set the aperture time in seconds for frequency measurements",
+            "set": {
+              "syntax": "SENS:FREQ:APER {seconds},(@{channels})",
+              "args": [
+                "seconds",
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "SENS:FREQ:APER? (@{channels})",
+              "return_type": "float",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "seconds": {
+                "type": "float",
+                "values": [
+                  "MIN",
+                  "MAX"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "set_period_aperture": {
+            "description": "Set the aperture time in seconds (default 100 ms) for period measurements",
+            "set": {
+              "syntax": "SENS:PER:APER {seconds},(@{channels})",
+              "args": [
+                "seconds",
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "SENS:PER:APER? (@{channels})",
+              "return_type": "float",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "seconds": {
+                "type": "float",
+                "values": [
+                  "MIN",
+                  "MAX"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "set_temperature_nplc": {
+            "description": "Set the integration time in power line cycles for temperature measurements",
+            "set": {
+              "syntax": "SENS:TEMP:NPLC {plcs},(@{channels})",
+              "args": [
+                "plcs",
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "SENS:TEMP:NPLC? (@{channels})",
+              "return_type": "float",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "plcs": {
+                "type": "float",
+                "values": [
+                  "0.02",
+                  "0.2",
+                  "1",
+                  "2",
+                  "10",
+                  "20",
+                  "100",
+                  "200",
+                  "MIN",
+                  "MAX"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "set_temperature_aperture": {
+            "description": "Enable the aperture mode and set the integration time in seconds for temperature measurements",
+            "set": {
+              "syntax": "SENS:TEMP:APER {seconds},(@{channels})",
+              "args": [
+                "seconds",
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "SENS:TEMP:APER? (@{channels})",
+              "return_type": "float",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "seconds": {
+                "type": "float",
+                "values": [
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "query_reference_junction": {
+            "description": "Return the internal reference junction temperature",
             "set": null,
             "query": {
-              "syntax": "FETCh?",
-              "return_type": "string"
+              "syntax": "SENS:TEMP:RJUN? (@{channels})",
+              "return_type": "float",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "set_temperature_transducer_type": {
+            "description": "Select the temperature transducer type: TCouple, RTD, FRTD or THERmistor",
+            "set": {
+              "syntax": "SENS:TEMP:TRAN:TYPE {type},(@{channels})",
+              "args": [
+                "type",
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "SENS:TEMP:TRAN:TYPE? (@{channels})",
+              "return_type": "string",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "type": {
+                "type": "string",
+                "values": [
+                  "TCouple",
+                  "RTD",
+                  "FRTD",
+                  "THERmistor",
+                  "DEF"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "set_tc_type": {
+            "description": "Select the thermocouple type (B, E, J, K, N, R, S, T) for temperature measurements",
+            "set": {
+              "syntax": "SENS:TEMP:TRAN:TC:TYPE {type},(@{channels})",
+              "args": [
+                "type",
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "SENS:TEMP:TRAN:TC:TYPE? (@{channels})",
+              "return_type": "string",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "type": {
+                "type": "string",
+                "values": [
+                  "B",
+                  "E",
+                  "J",
+                  "K",
+                  "N",
+                  "R",
+                  "S",
+                  "T"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "set_rtd_type": {
+            "description": "Select the RTD type (85 or 91: 0.00385 or 0.00391 alpha) for temperature measurements",
+            "set": {
+              "syntax": "SENS:TEMP:TRAN:RTD:TYPE {type},(@{channels})",
+              "args": [
+                "type",
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "SENS:TEMP:TRAN:RTD:TYPE? (@{channels})",
+              "return_type": "int",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "type": {
+                "type": "int",
+                "values": [
+                  "85",
+                  "91"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "set_frtd_type": {
+            "description": "Select the FRTD type (85 or 91) for temperature measurements",
+            "set": {
+              "syntax": "SENS:TEMP:TRAN:FRTD:TYPE {type},(@{channels})",
+              "args": [
+                "type",
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "SENS:TEMP:TRAN:FRTD:TYPE? (@{channels})",
+              "return_type": "int",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "type": {
+                "type": "int",
+                "values": [
+                  "85",
+                  "91"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "set_thermistor_type": {
+            "description": "Select the thermistor type (2252, 5000 or 10000 ohms) for temperature measurements",
+            "set": {
+              "syntax": "SENS:TEMP:TRAN:THER:TYPE {type},(@{channels})",
+              "args": [
+                "type",
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "SENS:TEMP:TRAN:THER:TYPE? (@{channels})",
+              "return_type": "int",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "type": {
+                "type": "int",
+                "values": [
+                  "2252",
+                  "5000",
+                  "10000"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "set_tc_rjunction": {
+            "description": "Set the thermocouple reference junction temperature in Celsius",
+            "set": {
+              "syntax": "SENS:TEMP:TRAN:TC:RJUN {temperature},(@{channels})",
+              "args": [
+                "temperature",
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "SENS:TEMP:TRAN:TC:RJUN? (@{channels})",
+              "return_type": "float",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "temperature": {
+                "type": "float",
+                "values": [
+                  "MIN",
+                  "MAX"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "set_tc_rjunction_type": {
+            "description": "Select the thermocouple reference junction type (fixed or internal)",
+            "set": {
+              "syntax": "SENS:TEMP:TRAN:TC:RJUN:TYPE {type},(@{channels})",
+              "args": [
+                "type",
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "SENS:TEMP:TRAN:TC:RJUN:TYPE? (@{channels})",
+              "return_type": "string",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "type": {
+                "type": "string",
+                "values": [
+                  "FIXed",
+                  "INTernal"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "set_tc_check": {
+            "description": "Enable/disable the thermocouple open-check function",
+            "set": {
+              "syntax": "SENS:TEMP:TRAN:TC:CHEC {state},(@{channels})",
+              "args": [
+                "state",
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "SENS:TEMP:TRAN:TC:CHEC? (@{channels})",
+              "return_type": "int",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "0",
+                  "ON",
+                  "1"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "set_function": {
+            "description": "Select the measurement function on the specified channels (function name in quotes, e.g. FUNC \"VOLT:DC\")",
+            "set": {
+              "syntax": "SENS:FUNC \"{function}\",(@{channels})",
+              "args": [
+                "function",
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "SENS:FUNC? (@{channels})",
+              "return_type": "string",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "function": {
+                "type": "string",
+                "values": [
+                  "TEMPerature",
+                  "VOLTage:DC",
+                  "VOLTage:AC",
+                  "RESistance",
+                  "FRESistance",
+                  "CURRent:DC",
+                  "CURRent:AC",
+                  "FREQuency",
+                  "PERiod"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "query_digital_data": {
+            "description": "Configure the specified channels as inputs and read an 8-bit byte or 16-bit word digital pattern (34907A)",
+            "set": null,
+            "query": {
+              "syntax": "SENS:DIG:DATA:BYTE? (@{channels})",
+              "return_type": "int",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:102"
+                ]
+              }
+            }
+          },
+          "set_zero_auto": {
+            "description": "Enable/disable the autozero mode on the specified channels",
+            "set": {
+              "syntax": "SENS:ZERO:AUTO {mode},(@{channels})",
+              "args": [
+                "mode",
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "SENS:ZERO:AUTO? (@{channels})",
+              "return_type": "int",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "mode": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "ONCE",
+                  "ON"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "set_totalize_type": {
+            "description": "Select the totalizer mode (read or read-and-reset) on the specified channels (34907A)",
+            "set": {
+              "syntax": "SENS:TOT:TYPE {mode},(@{channels})",
+              "args": [
+                "mode",
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "SENS:TOT:TYPE? (@{channels})",
+              "return_type": "string",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "mode": {
+                "type": "string",
+                "values": [
+                  "READ",
+                  "RRESet"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "301"
+                ]
+              }
+            }
+          },
+          "set_totalize_slope": {
+            "description": "Configure the specified totalizer channels to count on the rising or falling edge (34907A)",
+            "set": {
+              "syntax": "SENS:TOT:SLOP {edge},(@{channels})",
+              "args": [
+                "edge",
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "SENS:TOT:SLOP? (@{channels})",
+              "return_type": "string",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "edge": {
+                "type": "string",
+                "values": [
+                  "NEGative",
+                  "POSitive"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "301"
+                ]
+              }
+            }
+          },
+          "totalize_clear": {
+            "description": "Clear the totalizer count on the specified channels (34907A)",
+            "set": {
+              "syntax": "SENS:TOT:CLE:IMM (@{channels})",
+              "args": [
+                "channels"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "channels": {
+                "type": "string",
+                "values": [
+                  "301"
+                ]
+              }
+            }
+          },
+          "totalize_start": {
+            "description": "Start the totalizer counting on the specified channels (34907A)",
+            "set": {
+              "syntax": "SENS:TOT:STAR (@{channels})",
+              "args": [
+                "channels"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "channels": {
+                "type": "string",
+                "values": [
+                  "301"
+                ]
+              }
+            }
+          },
+          "totalize_stop": {
+            "description": "Stop the totalizer counting on the specified channels (34907A)",
+            "set": {
+              "syntax": "SENS:TOT:STOP (@{channels})",
+              "args": [
+                "channels"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "channels": {
+                "type": "string",
+                "values": [
+                  "301"
+                ]
+              }
+            }
+          },
+          "query_totalize_data": {
+            "description": "Read the totalizer count on the specified channels (34907A)",
+            "set": null,
+            "query": {
+              "syntax": "SENS:TOT:DATA? (@{channels})",
+              "return_type": "int",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "channels": {
+                "type": "string",
+                "values": [
+                  "301"
+                ]
+              }
+            }
+          },
+          "query_average": {
+            "description": "Return the average (arithmetic mean) of readings on the specified channels",
+            "set": null,
+            "query": {
+              "syntax": "CALC:AVER:AVER? (@{channels})",
+              "return_type": "float",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "query_average_min": {
+            "description": "Return the minimum reading on the specified channels",
+            "set": null,
+            "query": {
+              "syntax": "CALC:AVER:MIN? (@{channels})",
+              "return_type": "float",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "query_average_max": {
+            "description": "Return the maximum reading on the specified channels",
+            "set": null,
+            "query": {
+              "syntax": "CALC:AVER:MAX? (@{channels})",
+              "return_type": "float",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "query_average_count": {
+            "description": "Return the number of readings taken on the specified channels",
+            "set": null,
+            "query": {
+              "syntax": "CALC:AVER:COUN? (@{channels})",
+              "return_type": "int",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "query_average_ptpeak": {
+            "description": "Return the peak-to-peak value of readings on the specified channels",
+            "set": null,
+            "query": {
+              "syntax": "CALC:AVER:PTP? (@{channels})",
+              "return_type": "float",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "clear_average": {
+            "description": "Clear all statistical (average) data on the specified channels",
+            "set": {
+              "syntax": "CALC:AVER:CLE (@{channels})",
+              "args": [
+                "channels"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "set_lower_limit": {
+            "description": "Set the lower alarm limit on the specified channels",
+            "set": {
+              "syntax": "CALC:LIM:LOW {lo_limit},(@{channels})",
+              "args": [
+                "lo_limit",
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "CALC:LIM:LOW? (@{channels})",
+              "return_type": "float",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "lo_limit": {
+                "type": "float"
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "set_lower_limit_state": {
+            "description": "Enable/disable the lower alarm limit on the specified channels",
+            "set": {
+              "syntax": "CALC:LIM:LOW:STAT {mode},(@{channels})",
+              "args": [
+                "mode",
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "CALC:LIM:LOW:STAT? (@{channels})",
+              "return_type": "int",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "mode": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "0",
+                  "ON",
+                  "1"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "set_upper_limit": {
+            "description": "Set the upper alarm limit on the specified channels",
+            "set": {
+              "syntax": "CALC:LIM:UPP {hi_limit},(@{channels})",
+              "args": [
+                "hi_limit",
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "CALC:LIM:UPP? (@{channels})",
+              "return_type": "float",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "hi_limit": {
+                "type": "float"
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "set_upper_limit_state": {
+            "description": "Enable/disable the upper alarm limit on the specified channels",
+            "set": {
+              "syntax": "CALC:LIM:UPP:STAT {mode},(@{channels})",
+              "args": [
+                "mode",
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "CALC:LIM:UPP:STAT? (@{channels})",
+              "return_type": "int",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "mode": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "0",
+                  "ON",
+                  "1"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "set_scale_gain": {
+            "description": "Set the Mx+B scaling gain on the specified channels",
+            "set": {
+              "syntax": "CALC:SCAL:GAIN {gain},(@{channels})",
+              "args": [
+                "gain",
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "CALC:SCAL:GAIN? (@{channels})",
+              "return_type": "float",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "gain": {
+                "type": "float"
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "set_scale_offset": {
+            "description": "Set the Mx+B scaling offset on the specified channels",
+            "set": {
+              "syntax": "CALC:SCAL:OFFS {offset},(@{channels})",
+              "args": [
+                "offset",
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "CALC:SCAL:OFFS? (@{channels})",
+              "return_type": "float",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "offset": {
+                "type": "float"
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "null_offset": {
+            "description": "Set the Mx+B scaling offset to the present reading on the specified channels",
+            "set": {
+              "syntax": "CALC:SCAL:OFFS:NULL (@{channels})",
+              "args": [
+                "channels"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "set_scale_state": {
+            "description": "Enable/disable Mx+B scaling on the specified channels",
+            "set": {
+              "syntax": "CALC:SCAL:STAT {state},(@{channels})",
+              "args": [
+                "state",
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "CALC:SCAL:STAT? (@{channels})",
+              "return_type": "int",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "0",
+                  "ON",
+                  "1"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "set_scale_unit": {
+            "description": "Set the Mx+B scaling measurement label (up to 3 characters)",
+            "set": {
+              "syntax": "CALC:SCAL:UNIT {quoted_string},(@{channels})",
+              "args": [
+                "quoted_string",
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "CALC:SCAL:UNIT? (@{channels})",
+              "return_type": "string",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "quoted_string": {
+                "type": "string"
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "101:120"
+                ]
+              }
+            }
+          },
+          "compare_data": {
+            "description": "Set the digital compare data pattern on the specified channels (34907A)",
+            "set": {
+              "syntax": "CALC:COMP:DATA {data},(@{channels})",
+              "args": [
+                "data",
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "CALC:COMP:DATA? (@{channels})",
+              "return_type": "int",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "data": {
+                "type": "int"
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "301:302"
+                ]
+              }
+            }
+          },
+          "compare_mask": {
+            "description": "Set the digital compare mask on the specified channels (34907A)",
+            "set": {
+              "syntax": "CALC:COMP:MASK {mask},(@{channels})",
+              "args": [
+                "mask",
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "CALC:COMP:MASK? (@{channels})",
+              "return_type": "int",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "mask": {
+                "type": "int"
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "301:302"
+                ]
+              }
+            }
+          },
+          "compare_state": {
+            "description": "Enable/disable the digital compare mode on the specified channels (34907A)",
+            "set": {
+              "syntax": "CALC:COMP:STAT {state},(@{channels})",
+              "args": [
+                "state",
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "CALC:COMP:STAT? (@{channels})",
+              "return_type": "int",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "0",
+                  "ON",
+                  "1"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "301:302"
+                ]
+              }
+            }
+          },
+          "compare_type": {
+            "description": "Select the digital compare mode: EQUal or NEQual (34907A)",
+            "set": {
+              "syntax": "CALC:COMP:TYPE {mode},(@{channels})",
+              "args": [
+                "mode",
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "CALC:COMP:TYPE? (@{channels})",
+              "return_type": "string",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "mode": {
+                "type": "string",
+                "values": [
+                  "EQUal",
+                  "NEQual"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "301:302"
+                ]
+              }
+            }
+          },
+          "query_alarm_condition": {
+            "description": "Read the condition register for the Alarm Register group (uses only bit 4)",
+            "set": null,
+            "query": {
+              "syntax": "STAT:ALAR:COND?",
+              "return_type": "int"
+            }
+          },
+          "enable_alarm_status": {
+            "description": "Enable bits in the enable register for the Alarm Register group",
+            "set": {
+              "syntax": "STAT:ALAR:ENAB {enable_val}",
+              "args": [
+                "enable_val"
+              ]
+            },
+            "query": {
+              "syntax": "STAT:ALAR:ENAB?",
+              "return_type": "int"
+            },
+            "parameters": {
+              "enable_val": {
+                "type": "int",
+                "values": [
+                  "0",
+                  "65535"
+                ]
+              }
+            }
+          },
+          "query_alarm_event": {
+            "description": "Read and clear the event register for the Alarm Register group",
+            "set": null,
+            "query": {
+              "syntax": "STAT:ALAR:EVEN?",
+              "return_type": "int"
+            }
+          },
+          "query_operation_condition": {
+            "description": "Read the condition register for the Standard Operation Register group",
+            "set": null,
+            "query": {
+              "syntax": "STAT:OPER:COND?",
+              "return_type": "int"
+            }
+          },
+          "enable_operation_status": {
+            "description": "Enable bits in the enable register for the Standard Operation Register group",
+            "set": {
+              "syntax": "STAT:OPER:ENAB {enable_val}",
+              "args": [
+                "enable_val"
+              ]
+            },
+            "query": {
+              "syntax": "STAT:OPER:ENAB?",
+              "return_type": "int"
+            },
+            "parameters": {
+              "enable_val": {
+                "type": "int",
+                "values": [
+                  "0",
+                  "65535"
+                ]
+              }
+            }
+          },
+          "query_operation_event": {
+            "description": "Read and clear the event register for the Standard Operation Register group",
+            "set": null,
+            "query": {
+              "syntax": "STAT:OPER:EVEN?",
+              "return_type": "int"
+            }
+          },
+          "query_questionable_condition": {
+            "description": "Read the condition register for the Questionable Data Register group",
+            "set": null,
+            "query": {
+              "syntax": "STAT:QUES:COND?",
+              "return_type": "int"
+            }
+          },
+          "enable_questionable_status": {
+            "description": "Enable bits in the enable register for the Questionable Data Register group",
+            "set": {
+              "syntax": "STAT:QUES:ENAB {enable_val}",
+              "args": [
+                "enable_val"
+              ]
+            },
+            "query": {
+              "syntax": "STAT:QUES:ENAB?",
+              "return_type": "int"
+            },
+            "parameters": {
+              "enable_val": {
+                "type": "int",
+                "values": [
+                  "0",
+                  "65535"
+                ]
+              }
+            }
+          },
+          "query_questionable_event": {
+            "description": "Read and clear the event register for the Questionable Data Register group",
+            "set": null,
+            "query": {
+              "syntax": "STAT:QUES:EVEN?",
+              "return_type": "int"
+            }
+          },
+          "status_preset": {
+            "description": "Preset all status registers to a known state",
+            "set": {
+              "syntax": "STAT:PRES"
+            },
+            "query": null
+          },
+          "digital_output": {
+            "description": "Write an 8-bit byte or 16-bit word digital pattern to the specified digital I/O channels (34907A)",
+            "set": {
+              "syntax": "SOUR:DIG:DATA {data},(@{channels})",
+              "args": [
+                "data",
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "SOUR:DIG:DATA? (@{channels})",
+              "return_type": "int",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "data": {
+                "type": "int"
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "301:302"
+                ]
+              }
+            }
+          },
+          "query_digital_output_state": {
+            "description": "Return the direction (input or output) of the specified digital I/O channels (34907A)",
+            "set": null,
+            "query": {
+              "syntax": "SOUR:DIG:STAT? (@{channels})",
+              "return_type": "int",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "channels": {
+                "type": "string",
+                "values": [
+                  "301:302"
+                ]
+              }
+            }
+          },
+          "set_analog_output": {
+            "description": "Set the analog output voltage (0 to +12 V) on the specified channels (34907A)",
+            "set": {
+              "syntax": "SOUR:VOLT {voltage},(@{channels})",
+              "args": [
+                "voltage",
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "SOUR:VOLT? (@{channels})",
+              "return_type": "float",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "voltage": {
+                "type": "float",
+                "values": [
+                  "0",
+                  "12"
+                ]
+              },
+              "channels": {
+                "type": "string",
+                "values": [
+                  "301:302"
+                ]
+              }
             }
           }
         },
@@ -2735,7 +6735,7 @@
                 {
                   "type": "SERIAL",
                   "address_format_example": "ASRL{COM_PORT}::INSTR",
-                  "notes": "Baud 1200..115200, config da front-panel"
+                  "notes": "RS-232, baud 1200..115200, config da front-panel; selezione interfaccia via SYSTem:INTerface {GPIB|RS232}"
                 }
               ]
             },
@@ -2748,30 +6748,21 @@
                 "34904A",
                 "34905A",
                 "34906A",
+                "34907A",
                 "34908A"
-              ]
+              ],
+              "reading_memory": 50000,
+              "max_scan_channels": 120,
+              "internal_dmm": true,
+              "temperature_transducers": [
+                "TCouple",
+                "RTD",
+                "FRTD",
+                "THERmistor"
+              ],
+              "channels": "101:120"
             },
-            "scpi_commands": {
-              "set_voltage_range": {
-                "description": "setup voltage range",
-                "set": {
-                  "syntax": "SENS:VOLT:DC:RANG {range},(@{channels})",
-                  "args": [
-                    "range",
-                    "channels"
-                  ]
-                },
-                "query": null,
-                "parameters": {
-                  "range": {
-                    "type": "float"
-                  },
-                  "channels": {
-                    "type": "string"
-                  }
-                }
-              }
-            },
+            "scpi_commands": {},
             "experimental": true
           }
         ]

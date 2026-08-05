@@ -385,7 +385,7 @@ def main():
 
     channel_ids = model_channel_ids(model)
     if not channel_ids and entry["category"] == "dataloggers_series":
-        channel_ids = ["1001:1020"]
+        channel_ids = ["101:120"]
     channel_id = channel_ids[0] if channel_ids else None
 
     cases = build_cases(cmds, channel_id, args.channel)
