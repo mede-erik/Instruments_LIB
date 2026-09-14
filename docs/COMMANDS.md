@@ -21,7 +21,6 @@ Il software che usa questa libreria deve chiamare gli strumenti tramite questi n
 | R&S HMP | Rohde_Schwarz_HMP_Series | Alimentatori |
 | HP E3631A | HP_E3631A_Series | Alimentatori |
 | K. 3497X | Keysight_3497X_Series | Datalogger |
-| A. 34970A | Agilent_34970A_Series | Datalogger |
 | A. 3499A | Agilent_3499A_Series | Datalogger |
 | HP 3478A | HP_3478A_Series | Multimetri |
 | A. 34401A | Agilent_34401A_Series | Multimetri |
@@ -41,7 +40,7 @@ Il software che usa questa libreria deve chiamare gli strumenti tramite questi n
 | `reset` | Reset strumento | `*RST` (tutte tranne HP 3478A, che usa `CLEAR`) | — |
 | `clear_status` | Azzera registri di stato | `*CLS` (tutte tranne HP 3478A, che usa `K`) | — |
 | `identification_query` | Identificazione strumento | `*IDN?` (tutte tranne HP 3478A — priva di IDN) | string |
-| `error_query` | Legge la coda errori | `SYST:ERR?` (OWON, K. E36300, K. 3497X); `SYSTem:ERRor?` (TDK GEN, R&S HMP, A. 34401A, A. 34970A, A. 3499A, Rigol, Sig. SDS HD); `EVMsg?` (Tek MSO5 — il gruppo SYSTem non esiste); `E` (HP 3478A — 2 cifre ottali) | string |
+| `error_query` | Legge la coda errori | `SYST:ERR?` (OWON, K. E36300, K. 3497X); `SYSTem:ERRor?` (TDK GEN, R&S HMP, A. 34401A, A. 3499A, Rigol, Sig. SDS HD); `EVMsg?` (Tek MSO5 — il gruppo SYSTem non esiste); `E` (HP 3478A — 2 cifre ottali) | string |
 | `self_test` | Self test | `*TST?` (tutte tranne Chroma, EL4900, HP 3478A) | int |
 | `query_status_byte` | Status byte | `*STB?` (K. 3497X, Rigol, Chroma); `SPOLL` (HP 3478A) | int |
 | `query_event_status_register` | Event status register | `*ESR?` (K. 3497X, Rigol, Chroma) | int |
@@ -157,21 +156,21 @@ Il software che usa questa libreria deve chiamare gli strumenti tramite questi n
 
 | Chiave | Descrizione | Sintassi SCPI | Return type |
 |---|---|---|---|
-| `select_channels` | Seleziona la lista di scansione | `ROUT:SCAN (@{channels})` (K. 3497X, A. 34970A); `ROUTe:SCAN (@{channels})` (A. 3499A, formato `@snn`) | — |
-| `close_channel` | Chiude uno o più canali | `ROUT:CLOSe (@{channels})` (K. 3497X, A. 34970A); `ROUTe:CLOSe (@{channels})` (A. 3499A) | — |
-| `open_channels` | Apre i canali | `ROUT:OPEN (@{channels})` (K. 3497X, A. 34970A); `ROUTe:OPEN (@{channels})` (A. 3499A) | — |
-| `initiate_scan` | Avvia la scansione | `INITiate` (K. 3497X, A. 34970A); `ROUTe:SCAN INITiate` (A. 3499A) | — |
+| `select_channels` | Seleziona la lista di scansione | `ROUT:SCAN (@{channels})` (K. 3497X); `ROUTe:SCAN (@{channels})` (A. 3499A, formato `@snn`) | — |
+| `close_channel` | Chiude uno o più canali | `ROUT:CLOSe (@{channels})` (K. 3497X); `ROUTe:CLOSe (@{channels})` (A. 3499A) | — |
+| `open_channels` | Apre i canali | `ROUT:OPEN (@{channels})` (K. 3497X); `ROUTe:OPEN (@{channels})` (A. 3499A) | — |
+| `initiate_scan` | Avvia la scansione | `INITiate` (K. 3497X); `ROUTe:SCAN INITiate` (A. 3499A) | — |
 | `read_scan` | Avvia la scansione e legge le misure | `READ?` (K. 3497X — non usare con trigger BUS, causa deadlock) | string |
-| `fetch_readings` | Legge le misure dell'ultima scansione | `FETCh?` (K. 3497X, A. 34970A) | string |
+| `fetch_readings` | Legge le misure dell'ultima scansione | `FETCh?` (K. 3497X) | string |
 | `set_trigger_source` | Sorgente di trigger | `TRIG:SOUR {source}` (K. 3497X: BUS, IMMediate, EXTernal, TIMer, ALARm1..4); `TRIGger:SOURce {source}` (A. 3499A: IMMediate, BUS, EXternal, TTLTrg0..2, STIMulus) | — |
-| `set_trigger_count` | Numero di trigger | `TRIG:COUN {count}` (K. 3497X, A. 34970A). **NON esiste su 3499A** (usa `ARM:COUNt`) | — |
+| `set_trigger_count` | Numero di trigger | `TRIG:COUN {count}` (K. 3497X). **NON esiste su 3499A** (usa `ARM:COUNt`) | — |
 | `set_arm_count` | Numero di arm del 3499A | `ARM:COUNt {count}` (A. 3499A, unico: es. 1..99999, MAX, INFinity) | — |
-| `trigger_bus` | Trigger via bus | `*TRG` (K. 3497X, A. 34970A, A. 3499A) | — |
-| `configure_dc_voltage` | Configura misura DCV sui canali | `CONF:VOLT:DC {range},{resolution},(@{channels})` (K. 3497X, A. 34970A) | — |
-| `measure_dc_voltage` | Misura DCV immediata | `MEAS:VOLT:DC? {range},{resolution},(@{channels})` (K. 3497X, A. 34970A) | float |
-| `set_voltage_range` | Range DCV di misura | `SENS:VOLT:DC:RANG {range},(@{channels})` (K. 34972A, A. 34970A) | — |
+| `trigger_bus` | Trigger via bus | `*TRG` (K. 3497X, A. 3499A) | — |
+| `configure_dc_voltage` | Configura misura DCV sui canali | `CONF:VOLT:DC {range},{resolution},(@{channels})` (K. 3497X) | — |
+| `measure_dc_voltage` | Misura DCV immediata | `MEAS:VOLT:DC? {range},{resolution},(@{channels})` (K. 3497X) | float |
+| `set_voltage_range` | Range DCV di misura | `SENS:VOLT:DC:RANG {range},(@{channels})` (K. 3497X) | — |
 
-> **Nota 34970A**: 172 comandi verificati sul manuale dedicato (Command Reference 34970A/72A): sottosistemi CALCulate (AVERage/LIMit/SCALe/COMPare), DATA (POINts?, REMove?, LAST?), DISPlay, FORMat:READing (ALARm/CHANnel/TIME/UNIT), OUTPut:ALARm*, ROUTe (CLOSe:EXCLusive, CHANnel:ADVance, MONitor), SOURce (34907A), UNIT:TEMPerature, TRIGger:TIMer. Formato canali a 3 cifre `(@101:120)`. `READ?` non accetta scan-list (solo 34972A).
+> **Nota serie K. 3497X** (modelli 34970A e 34972A): 172 comandi verificati sul manuale dedicato (Command Reference 34970A/72A): sottosistemi CALCulate (AVERage/LIMit/SCALe/COMPare), DATA (POINts?, REMove?, LAST?), DISPlay, FORMat:READing (ALARm/CHANnel/TIME/UNIT), OUTPut:ALARm*, ROUTe (CLOSe:EXCLusive, CHANnel:ADVance, MONitor), SOURce (34907A), UNIT:TEMPerature, TRIGger:TIMer. Formato canali a 3 cifre `(@101:120)`. `READ?` non accetta scan-list (solo 34972A).
 
 > **Nota 3499A**: mainframe di switching/scanning **senza motore di misura** — nessun comando `MEASure?`/`FETCh?`/`READ?`; le misure avvengono su dispositivo esterno.
 

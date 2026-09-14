@@ -9,7 +9,7 @@ Il file `instruments_lib.json` è un unico oggetto con la chiave `instrument_lib
 | Chiave | Categoria | Esempi |
 |---|---|---|
 | `power_supplies_series` | Alimentatori | OWON ODP, Keysight E36300, TDK-Lambda GEN, R&S HMP, HP E3631A |
-| `dataloggers_series` | Data logger (mainframe) | Keysight 3497XA/B, Agilent 34970A, Agilent 3499A |
+| `dataloggers_series` | Data logger (mainframe) | Keysight 34970A/34972A, Agilent 3499A |
 | `datalogger_modules` | Datalogger card (moduli) | Keysight 34901A, 34902A, 34908A |
 | `multimeters_series` | Multimetri | HP 3478A, Agilent 34401A |
 | `oscilloscopes_series` | Oscilloscopi | Tektronix 5 Series MSO, Rigol DS1000Z, Siglent SDS HD |
@@ -237,7 +237,7 @@ Segue la struttura standard serie → modelli. Il modello del mainframe dichiara
 }
 ```
 
-I comandi SCPI che operano sui canali usano il formato a range Keysight a **3 cifre** (slot + canale, K. 3497X e A. 34970A): `"101:120"` → `(@101:120)`:
+I comandi SCPI che operano sui canali usano il formato a range Keysight a **3 cifre** (slot + canale, K. 3497X per 34970A e 34972A): `"101:120"` → `(@101:120)`:
 ```json
 "select_channels": {
   "set": {
@@ -338,8 +338,7 @@ Gli ID seguono `{TYPE}_{MANUFACTURER}_{MODEL}`:
 | TDK-Lambda GEN | X |
 | R&S HMP | X |
 | HP E3631A | X |
-| Keysight 3497X | X |
-| Agilent 34970A | X |
+| Keysight 3497X (34970A, 34972A) | X |
 | Agilent 3499A | X |
 | Moduli datalogger (34901A..34908A) | X |
 | HP 3478A | X |

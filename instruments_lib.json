@@ -2176,310 +2176,6 @@
         "series_name": "Keysight 3497XA/B Series",
         "common_scpi_commands": {
           "reset": {
-            "description": "reset",
-            "set": {
-              "syntax": "*RST"
-            },
-            "query": null
-          },
-          "clear_status": {
-            "description": "clear status",
-            "set": {
-              "syntax": "*CLS"
-            },
-            "query": null
-          },
-          "identification_query": {
-            "description": "identification query",
-            "set": null,
-            "query": {
-              "syntax": "*IDN?",
-              "return_type": "string"
-            }
-          },
-          "error_query": {
-            "description": "error query",
-            "set": null,
-            "query": {
-              "syntax": "SYST:ERR?",
-              "return_type": "string"
-            }
-          },
-          "self_test": {
-            "description": "self test",
-            "set": null,
-            "query": {
-              "syntax": "*TST?",
-              "return_type": "int"
-            }
-          },
-          "query_status_byte": {
-            "description": "query status byte",
-            "set": null,
-            "query": {
-              "syntax": "*STB?",
-              "return_type": "int"
-            }
-          },
-          "query_event_status_register": {
-            "description": "query event status register",
-            "set": null,
-            "query": {
-              "syntax": "*ESR?",
-              "return_type": "int"
-            }
-          },
-          "enable_event_status_register": {
-            "description": "enable event status register",
-            "set": {
-              "syntax": "*ESE {value}",
-              "args": [
-                "value"
-              ]
-            },
-            "query": null,
-            "parameters": {
-              "value": {
-                "type": "int"
-              }
-            }
-          },
-          "query_event_status_enable": {
-            "description": "query event status enable",
-            "set": null,
-            "query": {
-              "syntax": "*ESE?",
-              "return_type": "int"
-            }
-          },
-          "select_channels": {
-            "description": "select channels",
-            "set": {
-              "syntax": "ROUT:SCAN (@{channels})",
-              "args": [
-                "channels"
-              ]
-            },
-            "query": null,
-            "parameters": {
-              "channels": {
-                "type": "string"
-              }
-            }
-          },
-          "read_scan": {
-            "description": "read scan",
-            "set": null,
-            "query": {
-              "syntax": "READ?",
-              "return_type": "string"
-            }
-          },
-          "trigger_bus": {
-            "description": "trigger bus",
-            "set": {
-              "syntax": "*TRG"
-            },
-            "query": null
-          },
-          "set_trigger_source": {
-            "description": "set trigger source",
-            "set": {
-              "syntax": "TRIG:SOUR {source}",
-              "args": [
-                "source"
-              ]
-            },
-            "query": null,
-            "parameters": {
-              "source": {
-                "type": "string",
-                "values": [
-                  "BUS",
-                  "IMMediate",
-                  "EXTernal",
-                  "TIMer",
-                  "ALARm1",
-                  "ALARm2",
-                  "ALARm3",
-                  "ALARm4"
-                ]
-              }
-            }
-          },
-          "set_trigger_count": {
-            "description": "set trigger count",
-            "set": {
-              "syntax": "TRIG:COUN {count}",
-              "args": [
-                "count"
-              ]
-            },
-            "query": null,
-            "parameters": {
-              "count": {
-                "type": "int"
-              }
-            }
-          },
-          "configure_dc_voltage": {
-            "description": "configure dc voltage",
-            "set": {
-              "syntax": "CONF:VOLT:DC {range},{resolution},(@{channels})",
-              "args": [
-                "range",
-                "resolution",
-                "channels"
-              ]
-            },
-            "query": null,
-            "parameters": {
-              "range": {
-                "type": "float"
-              },
-              "resolution": {
-                "type": "float"
-              },
-              "channels": {
-                "type": "string"
-              }
-            }
-          },
-          "measure_dc_voltage": {
-            "description": "measure dc voltage",
-            "set": null,
-            "query": {
-              "syntax": "MEAS:VOLT:DC? {range},{resolution},(@{channels})",
-              "args": [
-                "range",
-                "resolution",
-                "channels"
-              ],
-              "return_type": "float"
-            },
-            "parameters": {
-              "range": {
-                "type": "float"
-              },
-              "resolution": {
-                "type": "float"
-              },
-              "channels": {
-                "type": "string"
-              }
-            }
-          },
-          "close_channel": {
-            "description": "close channel",
-            "set": {
-              "syntax": "ROUT:CLOSe (@{channels})",
-              "args": [
-                "channels"
-              ]
-            },
-            "query": null,
-            "parameters": {
-              "channels": {
-                "type": "string"
-              }
-            }
-          },
-          "open_channels": {
-            "description": "open channels",
-            "set": {
-              "syntax": "ROUT:OPEN (@{channels})",
-              "args": [
-                "channels"
-              ]
-            },
-            "query": null,
-            "parameters": {
-              "channels": {
-                "type": "string"
-              }
-            }
-          },
-          "initiate_scan": {
-            "description": "initiate scan",
-            "set": {
-              "syntax": "INITiate",
-              "args": null
-            },
-            "query": null
-          },
-          "fetch_readings": {
-            "description": "fetch readings",
-            "set": null,
-            "query": {
-              "syntax": "FETCh?",
-              "return_type": "string"
-            }
-          }
-        },
-        "models": [
-          {
-            "id": "DL_Keysight_34972A",
-            "name": "Keysight 34972A",
-            "manufacturer": "Keysight Technologies",
-            "model": "34972A",
-            "documentation_path": "docs/Keysight/3497X_Series/Agilent 34970A⁄72A Command Reference.pdf",
-            "interface": {
-              "supported_connection_types": [
-                {
-                  "type": "USB-TMC",
-                  "visa_resource_id_template": "USB_DL_{serial_number}",
-                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR"
-                },
-                {
-                  "type": "LXI",
-                  "visa_resource_id_template": "LXI_DL_{unique_id}",
-                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR"
-                }
-              ]
-            },
-            "capabilities": {
-              "number_of_slots": 3,
-              "compatible_modules": [
-                "34901A",
-                "34902A",
-                "34903A",
-                "34904A",
-                "34905A",
-                "34906A",
-                "34908A"
-              ],
-              "channels": "101:120"
-            },
-            "scpi_commands": {
-              "set_voltage_range": {
-                "description": "setup voltage range",
-                "set": {
-                  "syntax": "SENS:VOLT:DC:RANG {range},(@{channels})",
-                  "args": [
-                    "range",
-                    "channels"
-                  ]
-                },
-                "query": null,
-                "parameters": {
-                  "range": {
-                    "type": "float"
-                  },
-                  "channels": {
-                    "type": "string"
-                  }
-                }
-              }
-            },
-            "experimental": true
-          }
-        ]
-      },
-      {
-        "series_id": "Agilent_34970A_Series",
-        "series_name": "Agilent 34970A Data Acquisition / Switch Unit",
-        "common_scpi_commands": {
-          "reset": {
             "description": "Factory reset: abort scan, clear scan list, restore all measurement parameters to factory settings",
             "set": {
               "syntax": "*RST"
@@ -6759,6 +6455,42 @@
                 "RTD",
                 "FRTD",
                 "THERmistor"
+              ],
+              "channels": "101:120"
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "DL_Keysight_34972A",
+            "name": "Keysight 34972A",
+            "manufacturer": "Keysight Technologies",
+            "model": "34972A",
+            "documentation_path": "docs/Keysight/3497X_Series/Agilent 34970A⁄72A Command Reference.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "USB-TMC",
+                  "visa_resource_id_template": "USB_DL_{serial_number}",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR"
+                },
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_DL_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR"
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_slots": 3,
+              "compatible_modules": [
+                "34901A",
+                "34902A",
+                "34903A",
+                "34904A",
+                "34905A",
+                "34906A",
+                "34908A"
               ],
               "channels": "101:120"
             },
