@@ -9,9 +9,9 @@ Il file `instruments_lib.json` è un unico oggetto con la chiave `instrument_lib
 | Chiave | Categoria | Esempi |
 |---|---|---|
 | `power_supplies_series` | Alimentatori | OWON ODP, Keysight E36300, TDK-Lambda GEN, R&S HMP, HP E3631A |
-| `dataloggers_series` | Data logger (mainframe) | Keysight 34970A/34972A |
+| `dataloggers_series` | Data logger (mainframe) | Keysight 34970A/34972A, Keysight DAQ970A |
 | `switch_units_series` | Unità di commutazione (senza motore di misura) | Agilent 3499A |
-| `datalogger_modules` | Datalogger card (moduli) | Keysight 34901A, 34902A, 34908A |
+| `datalogger_modules` | Datalogger card (moduli) | Keysight 34901A, 34902A, 34908A, DAQM900A, DAQM901A |
 | `multimeters_series` | Multimetri | HP 3478A, Agilent 34401A |
 | `oscilloscopes_series` | Oscilloscopi | Tektronix 5 Series MSO, Rigol DS1000Z, Siglent SDS HD |
 | `electronic_loads_series` | Carichi elettronici | Chroma 6330A, Keysight EL4900, Siglent SDL1000X-E |

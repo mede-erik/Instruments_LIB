@@ -33,7 +33,7 @@ Channel, range and value placeholders use the names `channel_number`, `channels`
 | Electronic loads | Chroma 6330A, Keysight EL4900, Siglent SDL1000X | complete |
 | Oscilloscopes | Tektronix 5 Series MSO, Rigol DS1000Z, Siglent SDS800X HD | complete |
 | Multimeters | Agilent 34401A, HP 3478A | **provisional**: the 3478A PDF is a scanned image without text, and there are only two manuals |
-| Dataloggers | Keysight 34970A/34972A, Keysight DAQ970A | **provisional**: the DAQ970A manual is not yet in `docs/` |
+| Dataloggers | Keysight 34970A/34972A, Keysight DAQ970A/DAQ973A | complete |
 | Switch units | Agilent 3499A | **provisional**: only one manual |
 
 ## 3. Common calls (all categories)
@@ -169,13 +169,32 @@ Based on the two manuals available. The 3478A manual is scanned, so its coverage
 
 **Optional**: `identification_query` (not on the 3478A), `clear_status`, `error_query`, `query_status_byte`, `measure_*`, `configure_*`, `fetch_readings`, `set_auto_range`, `set_trigger_count`, `set_trigger_delay`, `set_sample_count`, `set_math_*`, `set_limit_*`, `set_nulls`, display commands.
 
-### 4.5 Dataloggers (`dataloggers_series`) — provisional
+### 4.5 Dataloggers (`dataloggers_series`)
 
-Reference manuals: 34970A/34972A and DAQ970A. **The DAQ970A manual must be added to `docs/` before this list is final**; until then the list below comes from the 34970A/34972A manual only.
+Reference manuals: Keysight 34970A/34972A and Keysight DAQ970A/DAQ973A. Every call below was found in both manuals (the DAQ970A manual was checked against the 34970A syntax for each call).
 
-**Mandatory (provisional)**: `identification_query`, `reset`, `clear_status`, `error_query`, `select_channels`, `open_channels`, `close_channel`, `monitor_channel`, `initiate_scan`, `read_scan`, `fetch_readings`, `abort`, `read_measurement`, `configure_*`/`measure_*` for each function in the manual, `set_function`, `set_trigger_source`, `set_trigger_count`, `set_trigger_timer`, `trigger_bus`, `set_channel_delay`.
+**Mandatory**
 
-**Optional**: alarm, scale, totalizer and digital I/O calls.
+| Group | Calls |
+|---|---|
+| Common | `identification_query`, `reset`, `clear_status`, `error_query`, `self_test`, `operation_complete_query`, `preset`, `set_local`, `set_remote`, `save_state`, `recall_state`, `trigger_bus` |
+| Channels and scan list | `select_channels`, `query_scan_size`, `open_channels`, `close_channel`, `close_channel_exclusive`, `monitor_channel`, `set_monitor_state`, `query_monitor_data`, `query_relay_done`, `set_channel_delay`, `set_channel_advance_source`, `query_card_type` |
+| Function and triggering | `set_function`, `set_trigger_source`, `set_trigger_count`, `set_trigger_timer`, `initiate_scan`, `abort` |
+| Readings | `read_scan` (`READ?`), `fetch_readings` (`FETCh?`), `read_and_remove` (`R?`), `query_last_reading`, `query_data_points` |
+| Function configuration | `configure_<f>` and `measure_<f>` for `dc_voltage`, `ac_voltage`, `dc_current`, `ac_current`, `resistance`, `fresistance`, `frequency`, `period`, `temperature`; `configure_totalize` |
+| Display and units | `display_text`, `clear_display_text`, `set_temperature_unit` |
+
+**Optional**
+
+| Call | Documented in |
+|---|---|
+| `set_trigger_delay`, `operation_complete` | DAQ970A |
+| alarm calls (`set_alarm_*`, `query_alarm*`, `clear_alarm*`), scale calls (`set_scale_*`), `set_*_nplc`, `set_*_range`, digital I/O calls, totalizer read calls, `compare_*` | 34970A/34972A (DAQ970A has a different or partial set; check the manual before adding) |
+| strain `configure_*`/`measure_*`, FETCh variants for the digitizer, `ACQuire?` | DAQ970A |
+
+**Notes**
+* The app currently asks for `read_measurement` on dataloggers; neither manual defines a command with that meaning. `read_scan` is the equivalent action (`READ?`).
+* Channels use the 3-digit form `(@101)`; `capabilities.channels` holds the range, e.g. `101:120`.
 
 ### 4.6 Switch units (`switch_units_series`) — provisional
 
