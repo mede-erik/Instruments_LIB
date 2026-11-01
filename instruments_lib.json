@@ -759,6 +759,116 @@
               "syntax": "OUTP OFF"
             },
             "query": null
+          },
+          "output_state_query": {
+            "description": "output state of the selected channel",
+            "set": null,
+            "query": {
+              "syntax": "OUTP?",
+              "return_type": "int"
+            }
+          },
+          "set_remote": {
+            "description": "place the instrument in remote mode",
+            "set": {
+              "syntax": "SYST:REM"
+            },
+            "query": null
+          },
+          "set_local": {
+            "description": "return the instrument to local mode",
+            "set": {
+              "syntax": "SYST:LOC"
+            },
+            "query": null
+          },
+          "set_ovp_level": {
+            "description": "overvoltage protection level of the selected channel, in volts",
+            "set": {
+              "syntax": "VOLT:PROT {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": {
+              "syntax": "VOLT:PROT?",
+              "return_type": "float"
+            },
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "enable_ocp": {
+            "description": "enable overcurrent protection on the selected channel",
+            "set": {
+              "syntax": "CURR:PROT:STAT ON"
+            },
+            "query": {
+              "syntax": "CURR:PROT:STAT?",
+              "return_type": "int"
+            }
+          },
+          "disable_ocp": {
+            "description": "disable overcurrent protection on the selected channel",
+            "set": {
+              "syntax": "CURR:PROT:STAT OFF"
+            },
+            "query": null
+          },
+          "query_ovp_tripped": {
+            "description": "1 if the overvoltage protection has tripped on the selected channel",
+            "set": null,
+            "query": {
+              "syntax": "VOLT:PROT:TRIP?",
+              "return_type": "int"
+            }
+          },
+          "query_ocp_tripped": {
+            "description": "1 if the overcurrent protection has tripped on the selected channel",
+            "set": null,
+            "query": {
+              "syntax": "CURR:PROT:TRIP?",
+              "return_type": "int"
+            }
+          },
+          "clear_protection": {
+            "description": "clear tripped protections (OVP/OCP/OTP) on all outputs",
+            "set": {
+              "syntax": "OUTP:PROT:CLE"
+            },
+            "query": null
+          },
+          "save_state": {
+            "description": "store the instrument state in a memory location (0-9)",
+            "set": {
+              "syntax": "*SAV {location}",
+              "args": [
+                "location"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "location": {
+                "type": "int"
+              }
+            }
+          },
+          "recall_state": {
+            "description": "recall the instrument state from a memory location (0-9)",
+            "set": {
+              "syntax": "*RCL {location}",
+              "args": [
+                "location"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "location": {
+                "type": "int"
+              }
+            }
           }
         },
         "models": [
@@ -8124,6 +8234,28 @@
                 "type": "string"
               }
             }
+          },
+          "set_internal_dmm": {
+            "description": "enable/disable the internal DMM (the instrument issues a factory reset when the state changes)",
+            "set": {
+              "syntax": "INST:DMM {state}",
+              "args": [
+                "state"
+              ]
+            },
+            "query": {
+              "syntax": "INST:DMM?",
+              "return_type": "int"
+            },
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "ON",
+                  "OFF"
+                ]
+              }
+            }
           }
         },
         "models": [
@@ -8132,6 +8264,47 @@
             "name": "Keysight DAQ970A Data Acquisition System",
             "manufacturer": "Keysight Technologies",
             "model": "DAQ970A",
+            "documentation_path": "docs/Keysight/DAQ97x_Series/DAQ970A-973A-Programming.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_DL_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR"
+                },
+                {
+                  "type": "USB-TMC",
+                  "visa_resource_id_template": "USB_DL_{serial_number}",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR"
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_slots": 3,
+              "compatible_modules": [
+                "DAQM900A",
+                "DAQM901A",
+                "DAQM902A",
+                "DAQM903A",
+                "DAQM904A",
+                "DAQM905A",
+                "DAQM907A",
+                "DAQM908A",
+                "DAQM909A"
+              ],
+              "reading_memory": 100000,
+              "max_scan_channels": 120,
+              "internal_dmm": true,
+              "channels": "101:120"
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "DL_Keysight_DAQ973A",
+            "name": "Keysight DAQ973A Data Acquisition System",
+            "manufacturer": "Keysight Technologies",
+            "model": "DAQ973A",
             "documentation_path": "docs/Keysight/DAQ97x_Series/DAQ970A-973A-Programming.pdf",
             "interface": {
               "supported_connection_types": [
@@ -10456,19 +10629,24 @@
             }
           },
           "set_trigger_mode": {
-            "description": "set trigger mode",
+            "description": "trigger sweep mode (AUTO, NORMal, SINGle)",
             "set": {
-              "syntax": ":TRIGger:MODE {mode}",
+              "syntax": ":TRIGger:SWEep {mode}",
               "args": [
                 "mode"
               ]
             },
-            "query": null,
+            "query": {
+              "syntax": ":TRIGger:SWEep?",
+              "return_type": "string"
+            },
             "parameters": {
               "mode": {
                 "type": "string",
                 "values": [
                   "AUTO",
+                  "NORMal",
+                  "SINGle",
                   "NORM",
                   "SING"
                 ]
@@ -10612,7 +10790,7 @@
             }
           },
           "set_acquisition_depth": {
-            "description": "set acquisition depth",
+            "description": "memory depth: AUTO or a number of points (allowed values depend on the number of enabled channels)",
             "set": {
               "syntax": ":ACQuire:MDEPth {value}",
               "args": [
@@ -10621,11 +10799,11 @@
             },
             "query": {
               "syntax": ":ACQuire:MDEPth?",
-              "return_type": "int"
+              "return_type": "string"
             },
             "parameters": {
               "value": {
-                "type": "int"
+                "type": "string"
               }
             }
           },
@@ -10635,6 +10813,283 @@
               "syntax": ":SINGle"
             },
             "query": null
+          },
+          "operation_complete_query": {
+            "description": "1 when the current operation is finished",
+            "set": null,
+            "query": {
+              "syntax": "*OPC?",
+              "return_type": "int"
+            }
+          },
+          "set_timebase_delay": {
+            "description": "main timebase offset in seconds",
+            "set": {
+              "syntax": ":TIMebase:MAIN:OFFSet {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": {
+              "syntax": ":TIMebase:MAIN:OFFSet?",
+              "return_type": "float"
+            },
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "set_channel_state": {
+            "description": "show/hide a channel",
+            "set": {
+              "syntax": ":CHANnel{channel_number}:DISPlay {state}",
+              "args": [
+                "channel_number",
+                "state"
+              ]
+            },
+            "query": {
+              "syntax": ":CHANnel{channel_number}:DISPlay?",
+              "return_type": "int",
+              "args": [
+                "channel_number"
+              ]
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "state": {
+                "type": "string",
+                "values": [
+                  "ON",
+                  "OFF"
+                ]
+              }
+            }
+          },
+          "set_channel_bandwidth_limit": {
+            "description": "channel bandwidth limit",
+            "set": {
+              "syntax": ":CHANnel{channel_number}:BWLimit {bandwidth}",
+              "args": [
+                "channel_number",
+                "bandwidth"
+              ]
+            },
+            "query": {
+              "syntax": ":CHANnel{channel_number}:BWLimit?",
+              "return_type": "string",
+              "args": [
+                "channel_number"
+              ]
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "bandwidth": {
+                "type": "string",
+                "values": [
+                  "20M",
+                  "OFF"
+                ]
+              }
+            }
+          },
+          "set_probe_attenuation": {
+            "description": "probe attenuation ratio of a channel",
+            "set": {
+              "syntax": ":CHANnel{channel_number}:PROBe {value}",
+              "args": [
+                "channel_number",
+                "value"
+              ]
+            },
+            "query": {
+              "syntax": ":CHANnel{channel_number}:PROBe?",
+              "return_type": "float",
+              "args": [
+                "channel_number"
+              ]
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "set_channel_invert": {
+            "description": "invert a channel",
+            "set": {
+              "syntax": ":CHANnel{channel_number}:INVert {state}",
+              "args": [
+                "channel_number",
+                "state"
+              ]
+            },
+            "query": {
+              "syntax": ":CHANnel{channel_number}:INVert?",
+              "return_type": "int",
+              "args": [
+                "channel_number"
+              ]
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "state": {
+                "type": "string",
+                "values": [
+                  "ON",
+                  "OFF"
+                ]
+              }
+            }
+          },
+          "set_channel_unit": {
+            "description": "channel unit",
+            "set": {
+              "syntax": ":CHANnel{channel_number}:UNITs {unit}",
+              "args": [
+                "channel_number",
+                "unit"
+              ]
+            },
+            "query": {
+              "syntax": ":CHANnel{channel_number}:UNITs?",
+              "return_type": "string",
+              "args": [
+                "channel_number"
+              ]
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "unit": {
+                "type": "string",
+                "values": [
+                  "VOLTage",
+                  "WATT",
+                  "AMPere",
+                  "UNKNown"
+                ]
+              }
+            }
+          },
+          "set_trigger_holdoff": {
+            "description": "trigger holdoff time in seconds (16 ns to 10 s)",
+            "set": {
+              "syntax": ":TRIGger:HOLDoff {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": {
+              "syntax": ":TRIGger:HOLDoff?",
+              "return_type": "float"
+            },
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "set_trigger_coupling": {
+            "description": "trigger coupling",
+            "set": {
+              "syntax": ":TRIGger:COUPling {coupling_type}",
+              "args": [
+                "coupling_type"
+              ]
+            },
+            "query": {
+              "syntax": ":TRIGger:COUPling?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "coupling_type": {
+                "type": "string",
+                "values": [
+                  "AC",
+                  "DC",
+                  "LFReject",
+                  "HFReject"
+                ]
+              }
+            }
+          },
+          "set_trigger_type": {
+            "description": "trigger type (EDGE, PULSe, SLOPe, VIDeo, PATTern, ... see the programming guide)",
+            "set": {
+              "syntax": ":TRIGger:MODE {trigger_type}",
+              "args": [
+                "trigger_type"
+              ]
+            },
+            "query": {
+              "syntax": ":TRIGger:MODE?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "trigger_type": {
+                "type": "string"
+              }
+            }
+          },
+          "query_trigger_mode": {
+            "description": "trigger sweep mode",
+            "set": null,
+            "query": {
+              "syntax": ":TRIGger:SWEep?",
+              "return_type": "string"
+            }
+          },
+          "query_trigger_source": {
+            "description": "edge trigger source",
+            "set": null,
+            "query": {
+              "syntax": ":TRIGger:EDGe:SOURce?",
+              "return_type": "string"
+            }
+          },
+          "set_acquisition_type": {
+            "description": "acquisition type",
+            "set": {
+              "syntax": ":ACQuire:TYPE {acquisition_type}",
+              "args": [
+                "acquisition_type"
+              ]
+            },
+            "query": {
+              "syntax": ":ACQuire:TYPE?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "acquisition_type": {
+                "type": "string",
+                "values": [
+                  "NORMal",
+                  "AVERages",
+                  "PEAK",
+                  "HRESolution"
+                ]
+              }
+            }
+          },
+          "query_sample_rate": {
+            "description": "current sample rate",
+            "set": null,
+            "query": {
+              "syntax": ":ACQuire:SRATe?",
+              "return_type": "float"
+            }
           }
         },
         "models": [
@@ -11139,17 +11594,20 @@
             "query": null
           },
           "set_acquisition_depth": {
-            "description": "acquire memory depth",
+            "description": "memory depth; the allowed strings depend on the model, see capabilities.memory_size_options (e.g. 10k, 100k, 1M, 10M, 100M); the query returns the maximum memory depth",
             "set": {
               "syntax": ":ACQuire:MDEPth {depth}",
               "args": [
                 "depth"
               ]
             },
-            "query": null,
+            "query": {
+              "syntax": ":ACQuire:MDEPth?",
+              "return_type": "string"
+            },
             "parameters": {
               "depth": {
-                "type": "int"
+                "type": "string"
               }
             }
           },
@@ -12965,6 +13423,259 @@
             "query": {
               "syntax": "MEAS:POW?",
               "return_type": "float"
+            }
+          },
+          "query_input_state": {
+            "description": "read the input state (1 = on)",
+            "set": null,
+            "query": {
+              "syntax": "INPut?",
+              "return_type": "int"
+            }
+          },
+          "query_mode": {
+            "description": "read the operating mode",
+            "set": null,
+            "query": {
+              "syntax": "FUNC?",
+              "return_type": "string"
+            }
+          },
+          "set_current_slew_rate_rise": {
+            "description": "current slew rate, rising edge (A/us)",
+            "set": {
+              "syntax": "CURR:SLEW:POS {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": {
+              "syntax": "CURR:SLEW:POS?",
+              "return_type": "float"
+            },
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "set_current_slew_rate_fall": {
+            "description": "current slew rate, falling edge (A/us)",
+            "set": {
+              "syntax": "CURR:SLEW:NEG {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": {
+              "syntax": "CURR:SLEW:NEG?",
+              "return_type": "float"
+            },
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "short": {
+            "description": "short circuit the input",
+            "set": {
+              "syntax": "SHOR ON"
+            },
+            "query": null
+          },
+          "open": {
+            "description": "remove the short circuit",
+            "set": {
+              "syntax": "SHOR OFF"
+            },
+            "query": null
+          },
+          "query_short_state": {
+            "description": "read the short circuit state",
+            "set": null,
+            "query": {
+              "syntax": "SHOR?",
+              "return_type": "int"
+            }
+          },
+          "enable_ocp": {
+            "description": "enable overcurrent protection",
+            "set": {
+              "syntax": "CURR:PROT:STAT ON"
+            },
+            "query": {
+              "syntax": "CURR:PROT:STAT?",
+              "return_type": "int"
+            }
+          },
+          "disable_ocp": {
+            "description": "disable overcurrent protection",
+            "set": {
+              "syntax": "CURR:PROT:STAT OFF"
+            },
+            "query": null
+          },
+          "set_ocp_level": {
+            "description": "overcurrent protection level",
+            "set": {
+              "syntax": "CURR:PROT:LEV {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": {
+              "syntax": "CURR:PROT:LEV?",
+              "return_type": "float"
+            },
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "enable_opp": {
+            "description": "enable overpower protection",
+            "set": {
+              "syntax": "POW:PROT:STAT ON"
+            },
+            "query": {
+              "syntax": "POW:PROT:STAT?",
+              "return_type": "int"
+            }
+          },
+          "disable_opp": {
+            "description": "disable overpower protection",
+            "set": {
+              "syntax": "POW:PROT:STAT OFF"
+            },
+            "query": null
+          },
+          "set_opp_level": {
+            "description": "overpower protection level",
+            "set": {
+              "syntax": "POW:PROT:LEV {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": {
+              "syntax": "POW:PROT:LEV?",
+              "return_type": "float"
+            },
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "enable_dynamic_mode": {
+            "description": "select the transient (dynamic) constant-current function",
+            "set": {
+              "syntax": "FUNC:TRAN CURR"
+            },
+            "query": null
+          },
+          "disable_dynamic_mode": {
+            "description": "return to the static constant-current function",
+            "set": {
+              "syntax": "FUNC CURR"
+            },
+            "query": null
+          },
+          "set_dynamic_mode_type": {
+            "description": "transient operating mode of the constant-current function",
+            "set": {
+              "syntax": "CURR:TRAN:MODE {mode_type}",
+              "args": [
+                "mode_type"
+              ]
+            },
+            "query": {
+              "syntax": "CURR:TRAN:MODE?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "mode_type": {
+                "type": "string",
+                "values": [
+                  "CONTinuous",
+                  "PULSe",
+                  "TOGGle"
+                ]
+              }
+            }
+          },
+          "set_dynamic_level_high": {
+            "description": "transient level A (A)",
+            "set": {
+              "syntax": "CURR:TRAN:ALEV {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": {
+              "syntax": "CURR:TRAN:ALEV?",
+              "return_type": "float"
+            },
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "set_dynamic_level_low": {
+            "description": "transient level B (A)",
+            "set": {
+              "syntax": "CURR:TRAN:BLEV {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": {
+              "syntax": "CURR:TRAN:BLEV?",
+              "return_type": "float"
+            },
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "set_dynamic_width_high": {
+            "description": "transient level A width (s)",
+            "set": {
+              "syntax": "CURR:TRAN:AWID {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": {
+              "syntax": "CURR:TRAN:AWID?",
+              "return_type": "float"
+            },
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "set_dynamic_width_low": {
+            "description": "transient level B width (s)",
+            "set": {
+              "syntax": "CURR:TRAN:BWID {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": {
+              "syntax": "CURR:TRAN:BWID?",
+              "return_type": "float"
+            },
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
             }
           }
         },

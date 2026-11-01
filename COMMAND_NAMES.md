@@ -80,7 +80,7 @@ Verified in all five manuals.
 | `query_selected_channel` | read selected channel | OWON ODP, R&S HMP, Keysight E36300, HP E3631A |
 | `read_power` | measured output power | OWON ODP |
 | `set_ovp_level` | overvoltage protection level | OWON ODP, Keysight E36300, TDK-Lambda GEN, R&S HMP (not HP E3631A) |
-| `set_ocp_level` | overcurrent protection level | OWON ODP, Keysight E36300 |
+| `set_ocp_level` | overcurrent protection level | OWON ODP (Keysight E36300 has only the on/off state) |
 | `enable_ocp` / `disable_ocp` | overcurrent protection state | Keysight E36300, TDK-Lambda GEN, R&S HMP (FUSE) |
 | `query_ovp_tripped`, `query_ocp_tripped` | protection tripped | Keysight E36300, TDK-Lambda GEN, R&S HMP |
 | `clear_protection` | clear tripped protection | Keysight E36300, R&S HMP |
@@ -208,14 +208,19 @@ New category for mainframes that only route signals (no measurement engine). Ref
 
 | Series | Status |
 |---|---|
-| OWON ODP | calls from section 4.1 added where the manual documents the command |
-| Siglent SDS HD | calls from section 4.3 added where the manual documents the command |
-| all other series | not yet aligned to this list |
+| OWON ODP | aligned |
+| Keysight E36300 | aligned |
+| Siglent SDL1000X-E | aligned (dynamic mode uses level/width calls; the SDL has no frequency setting, so `set_dynamic_frequency` does not exist there) |
+| Siglent SDS HD | aligned |
+| Rigol DS1000Z | aligned |
+| Keysight 3497X, DAQ97x | aligned (section 4.5) |
+| other series (TDK-Lambda GEN, R&S HMP, HP E3631A, Tektronix 5 Series, Chroma 6330A, Keysight EL4900, multimeters, 3499A) | not yet aligned |
 
 ## 6. Known gaps and legacy names
 
 * **OWON ODP**: the manual does not document `*CLS`, `SYSTem:ERRor?` and `*TST?`. The entries `clear_status`, `error_query` and `self_test` exist in the library but are **not confirmed by the manual**.
 * **Siglent SDS HD**: the programming guide documents only `*IDN`, `*OPC` and `*RST` as common commands. `clear_status`, `error_query` and `self_test` exist in the library but are **not confirmed by the guide**. `force_trigger` is `:TRIGger:MODE FTRIG`.
-* **Siglent SDS HD** `set_acquisition_depth`: the guide defines `<memory_size>` as a string such as `10k`/`100M`; the library declares an `int`.
+* **Siglent SDS HD** `set_acquisition_depth` is a string (`10k`, `100M`, ...); the allowed values depend on the model (`capabilities.memory_size_options`).
+* **Rigol DS1000Z** `set_trigger_mode` was corrected: the sweep mode is `:TRIGger:SWEep` (the old entry used `:TRIGger:MODE`, which selects the trigger *type*; that is now `set_trigger_type`).
 * **OWON ODP** `select_channel` uses `INST:NSEL` (numeric); by the convention of the other power supplies that should be `select_channel_numeric`. The by-name variant is added as `select_channel_named`.
 * Legacy names for the same action: `set_local_mode` / `set_remote_mode` (HP E3631A) and `set_local_remote` (TDK-Lambda GEN) correspond to `set_local` / `set_remote`.
