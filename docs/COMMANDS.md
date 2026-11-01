@@ -21,7 +21,7 @@ Il software che usa questa libreria deve chiamare gli strumenti tramite questi n
 | R&S HMP | Rohde_Schwarz_HMP_Series | Alimentatori |
 | HP E3631A | HP_E3631A_Series | Alimentatori |
 | K. 3497X | Keysight_3497X_Series | Datalogger |
-| A. 3499A | Agilent_3499A_Series | Datalogger |
+| A. 3499A | Agilent_3499A_Series | Unità di commutazione (`switch_units_series`) |
 | HP 3478A | HP_3478A_Series | Multimetri |
 | A. 34401A | Agilent_34401A_Series | Multimetri |
 | Tek MSO5 | Tektronix_5_Series_MSO | Oscilloscopi |

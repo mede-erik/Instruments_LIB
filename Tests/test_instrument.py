@@ -384,7 +384,7 @@ def main():
     cmds.update(model.get("scpi_commands") or {})
 
     channel_ids = model_channel_ids(model)
-    if not channel_ids and entry["category"] == "dataloggers_series":
+    if not channel_ids and entry["category"] in ("dataloggers_series", "switch_units_series"):
         channel_ids = ["101:120"]
     channel_id = channel_ids[0] if channel_ids else None
 

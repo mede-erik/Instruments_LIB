@@ -4,12 +4,13 @@ Libreria JSON data-only che funge da **motore di regole** (Rule Engine) per un d
 
 ## Struttura del file
 
-Il file `instruments_lib.json` è un unico oggetto con la chiave `instrument_library`, contenente 6 categorie:
+Il file `instruments_lib.json` è un unico oggetto con la chiave `instrument_library`, contenente 7 categorie:
 
 | Chiave | Categoria | Esempi |
 |---|---|---|
 | `power_supplies_series` | Alimentatori | OWON ODP, Keysight E36300, TDK-Lambda GEN, R&S HMP, HP E3631A |
-| `dataloggers_series` | Data logger (mainframe) | Keysight 34970A/34972A, Agilent 3499A |
+| `dataloggers_series` | Data logger (mainframe) | Keysight 34970A/34972A |
+| `switch_units_series` | Unità di commutazione (senza motore di misura) | Agilent 3499A |
 | `datalogger_modules` | Datalogger card (moduli) | Keysight 34901A, 34902A, 34908A |
 | `multimeters_series` | Multimetri | HP 3478A, Agilent 34401A |
 | `oscilloscopes_series` | Oscilloscopi | Tektronix 5 Series MSO, Rigol DS1000Z, Siglent SDS HD |
@@ -20,6 +21,7 @@ Il file `instruments_lib.json` è un unico oggetto con la chiave `instrument_lib
   "instrument_library": {
     "power_supplies_series": [],
     "dataloggers_series": [],
+    "switch_units_series": [],
     "datalogger_modules": [],
     "multimeters_series": [],
     "oscilloscopes_series": [],
@@ -250,7 +252,7 @@ I comandi SCPI che operano sui canali usano il formato a range Keysight a **3 ci
 }
 ```
 
-> **Eccezione Agilent 3499A**: usa il formato `@snn` (slot + canale a 2 cifre, es. `(@101)`, `(@100:107)`). Il valore di `capabilities.channels` è una stringa tipo `"100:107"` — la `@` fa parte della sintassi SCPI (`(@{channels})`), non dell'ID canale. Il 3499A è inoltre un mainframe di switching **senza motore di misura** (niente `MEAS?`/`FETCh?`/`READ?`).
+> **Eccezione Agilent 3499A** (categoria `switch_units_series`, vedi sotto): usa il formato `@snn` (slot + canale a 2 cifre, es. `(@101)`, `(@100:107)`). Il valore di `capabilities.channels` è una stringa tipo `"100:107"` — la `@` fa parte della sintassi SCPI (`(@{channels})`), non dell'ID canale. Il 3499A è inoltre un mainframe di switching **senza motore di misura** (niente `MEAS?`/`FETCh?`/`READ?`).
 
 ### Le card (`datalogger_modules`)
 

@@ -6738,7 +6738,9 @@
             "experimental": true
           }
         ]
-      },
+      }
+    ],
+    "switch_units_series": [
       {
         "series_id": "Agilent_3499A_Series",
         "series_name": "Agilent 3499A/B/C Series",

@@ -33,7 +33,8 @@ Channel, range and value placeholders use the names `channel_number`, `channels`
 | Electronic loads | Chroma 6330A, Keysight EL4900, Siglent SDL1000X | complete |
 | Oscilloscopes | Tektronix 5 Series MSO, Rigol DS1000Z, Siglent SDS800X HD | complete |
 | Multimeters | Agilent 34401A, HP 3478A | **provisional**: the 3478A PDF is a scanned image without text, and there are only two manuals |
-| Dataloggers / switch units | Keysight 34970A/34972A, Agilent 3499A | **provisional**: the 3499A is a switch unit without a measurement engine |
+| Dataloggers | Keysight 34970A/34972A, Keysight DAQ970A | **provisional**: the DAQ970A manual is not yet in `docs/` |
+| Switch units | Agilent 3499A | **provisional**: only one manual |
 
 ## 3. Common calls (all categories)
 
@@ -168,13 +169,21 @@ Based on the two manuals available. The 3478A manual is scanned, so its coverage
 
 **Optional**: `identification_query` (not on the 3478A), `clear_status`, `error_query`, `query_status_byte`, `measure_*`, `configure_*`, `fetch_readings`, `set_auto_range`, `set_trigger_count`, `set_trigger_delay`, `set_sample_count`, `set_math_*`, `set_limit_*`, `set_nulls`, display commands.
 
-### 4.5 Dataloggers / switch units (`dataloggers_series`) — provisional
+### 4.5 Dataloggers (`dataloggers_series`) — provisional
 
-Based on 34970A/34972A and 3499A. **Needs at least one more measurement-capable manual (or a split of the 3499A into a separate switch-unit category).**
+Reference manuals: 34970A/34972A and DAQ970A. **The DAQ970A manual must be added to `docs/` before this list is final**; until then the list below comes from the 34970A/34972A manual only.
 
-**Mandatory (provisional)**: `identification_query`, `reset`, `clear_status`, `select_channels`, `open_channels`, `close_channel`, `monitor_channel`, `initiate_scan`, `query_scan_size`, `set_function`, `set_trigger_source`, `set_trigger_timer`, `trigger_bus`, `set_channel_delay`.
+**Mandatory (provisional)**: `identification_query`, `reset`, `clear_status`, `error_query`, `select_channels`, `open_channels`, `close_channel`, `monitor_channel`, `initiate_scan`, `read_scan`, `fetch_readings`, `abort`, `read_measurement`, `configure_*`/`measure_*` for each function in the manual, `set_function`, `set_trigger_source`, `set_trigger_count`, `set_trigger_timer`, `trigger_bus`, `set_channel_delay`.
 
-**Optional**: `read_measurement`, `read_scan`, `fetch_readings`, `abort`, `configure_*`, `measure_*`, alarm, scale and totalizer calls, digital I/O calls.
+**Optional**: alarm, scale, totalizer and digital I/O calls.
+
+### 4.6 Switch units (`switch_units_series`) — provisional
+
+New category for mainframes that only route signals (no measurement engine). Reference manual: Agilent 3499A. The 3499A keeps its model id `DL_Agilent_3499A` so saved projects stay valid.
+
+**Mandatory (provisional)**: `identification_query`, `reset`, `clear_status`, `select_channels`, `open_channels`, `close_channel`, `monitor_channel`, `initiate_scan`, `abort_scan`, `query_scan_size`, `set_trigger_source`, `trigger_bus`, `set_channel_delay`, `set_local`, `set_remote`.
+
+**Optional**: relay-cycle, digital I/O, card pairing and state save/recall calls.
 
 ## 5. Implementation status
 
