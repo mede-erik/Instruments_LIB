@@ -122,25 +122,265 @@
             }
           },
           "output_on": {
-            "description": "output on",
+            "description": "output on (all channels)",
             "set": {
               "syntax": "OUTP ON"
             },
             "query": null
           },
           "output_off": {
-            "description": "output off",
+            "description": "output off (all channels)",
             "set": {
               "syntax": "OUTP OFF"
             },
             "query": null
           },
           "output_state_query": {
-            "description": "output state query",
+            "description": "output state query (returns 1 if at least one channel is on, otherwise 0)",
             "set": null,
             "query": {
               "syntax": "OUTP?",
               "return_type": "int"
+            }
+          },
+          "set_remote": {
+            "description": "place the power supply in remote mode (front panel keys disabled except KeyLock)",
+            "set": {
+              "syntax": "SYST:REM"
+            },
+            "query": null
+          },
+          "set_local": {
+            "description": "return the power supply to local mode",
+            "set": {
+              "syntax": "SYST:LOC"
+            },
+            "query": null
+          },
+          "select_channel_named": {
+            "description": "select the current channel by name (CH1..CH3)",
+            "set": {
+              "syntax": "INST CH{channel_number}",
+              "args": [
+                "channel_number"
+              ]
+            },
+            "query": {
+              "syntax": "INST?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              }
+            }
+          },
+          "apply_voltage": {
+            "description": "set the voltage of all channels without changing the selected channel; values is a comma separated list \"CH1[,CH2[,CH3]]\"",
+            "set": {
+              "syntax": "APP:VOLT {values}",
+              "args": [
+                "values"
+              ]
+            },
+            "query": {
+              "syntax": "APP:VOLT?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "values": {
+                "type": "string"
+              }
+            }
+          },
+          "apply_current": {
+            "description": "set the current of all channels without changing the selected channel; values is a comma separated list \"CH1[,CH2[,CH3]]\"",
+            "set": {
+              "syntax": "APP:CURR {values}",
+              "args": [
+                "values"
+              ]
+            },
+            "query": {
+              "syntax": "APP:CURR?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "values": {
+                "type": "string"
+              }
+            }
+          },
+          "read_voltage_all": {
+            "description": "read the voltage measured on the output terminals of all channels",
+            "set": null,
+            "query": {
+              "syntax": "MEAS:VOLT:ALL?",
+              "return_type": "string"
+            }
+          },
+          "read_current_all": {
+            "description": "read the current measured on the output terminals of all channels",
+            "set": null,
+            "query": {
+              "syntax": "MEAS:CURR:ALL?",
+              "return_type": "string"
+            }
+          },
+          "set_channel_outputs": {
+            "description": "enable/disable the output of each channel without changing the selected channel; states is \"CH1,CH2,CH3\" with 1/0 or ON/OFF",
+            "set": {
+              "syntax": "CHAN:OUTP:ALL {states}",
+              "args": [
+                "states"
+              ]
+            },
+            "query": {
+              "syntax": "CHAN:OUTP:ALL?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "states": {
+                "type": "string"
+              }
+            }
+          },
+          "set_track_mode": {
+            "description": "enable/disable track mode of CH1 and CH2 (triple output models only)",
+            "set": {
+              "syntax": "OUTP:TRAC {state}",
+              "args": [
+                "state"
+              ]
+            },
+            "query": {
+              "syntax": "OUTP:TRAC?",
+              "return_type": "int"
+            },
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "ON",
+                  "OFF"
+                ]
+              }
+            }
+          },
+          "set_series_mode": {
+            "description": "enable/disable series mode of CH1 and CH2 (triple output models only)",
+            "set": {
+              "syntax": "OUTP:SER {state}",
+              "args": [
+                "state"
+              ]
+            },
+            "query": {
+              "syntax": "OUTP:SER?",
+              "return_type": "int"
+            },
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "ON",
+                  "OFF"
+                ]
+              }
+            }
+          },
+          "set_parallel_mode": {
+            "description": "enable/disable parallel mode of CH1 and CH2 (triple output models only)",
+            "set": {
+              "syntax": "OUTP:PAR {state}",
+              "args": [
+                "state"
+              ]
+            },
+            "query": {
+              "syntax": "OUTP:PAR?",
+              "return_type": "int"
+            },
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "ON",
+                  "OFF"
+                ]
+              }
+            }
+          },
+          "set_ovp_level": {
+            "description": "overvoltage protection (OVP) value of the selected channel",
+            "set": {
+              "syntax": "VOLT:LIM {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": {
+              "syntax": "VOLT:LIM?",
+              "return_type": "float"
+            },
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "set_ocp_level": {
+            "description": "overcurrent protection (OCP) value of the selected channel",
+            "set": {
+              "syntax": "CURR:LIM {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": {
+              "syntax": "CURR:LIM?",
+              "return_type": "float"
+            },
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "set_ovp_level_all": {
+            "description": "OVP value of all channels; values is \"CH1[,CH2[,CH3]]\"",
+            "set": {
+              "syntax": "VOLT:LIM:ALL {values}",
+              "args": [
+                "values"
+              ]
+            },
+            "query": {
+              "syntax": "VOLT:LIM:ALL?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "values": {
+                "type": "string"
+              }
+            }
+          },
+          "set_ocp_level_all": {
+            "description": "OCP value of all channels; values is \"CH1[,CH2[,CH3]]\"",
+            "set": {
+              "syntax": "CURR:LIM:ALL {values}",
+              "args": [
+                "values"
+              ]
+            },
+            "query": {
+              "syntax": "CURR:LIM:ALL?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "values": {
+                "type": "string"
+              }
             }
           }
         },
@@ -9406,6 +9646,481 @@
             "parameters": {
               "depth": {
                 "type": "int"
+              }
+            }
+          },
+          "force_trigger": {
+            "description": "force the acquisition of one frame regardless of the trigger condition",
+            "set": {
+              "syntax": ":TRIGger:MODE FTRIG"
+            },
+            "query": null
+          },
+          "query_trigger_mode": {
+            "description": "query the trigger mode (SINGle, NORMal, AUTO, FTRIG)",
+            "set": null,
+            "query": {
+              "syntax": ":TRIGger:MODE?",
+              "return_type": "string"
+            }
+          },
+          "query_trigger_status": {
+            "description": "query the trigger state (Arm, Ready, Auto, Trig'd, Stop, Roll)",
+            "set": null,
+            "query": {
+              "syntax": ":TRIGger:STATus?",
+              "return_type": "string"
+            }
+          },
+          "query_trigger_source": {
+            "description": "query the edge trigger source",
+            "set": null,
+            "query": {
+              "syntax": ":TRIGger:EDGE:SOURce?",
+              "return_type": "string"
+            }
+          },
+          "set_trigger_holdoff": {
+            "description": "edge trigger holdoff time in seconds (effective when the holdoff type is TIME)",
+            "set": {
+              "syntax": ":TRIGger:EDGE:HLDTime {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": {
+              "syntax": ":TRIGger:EDGE:HLDTime?",
+              "return_type": "float"
+            },
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "set_trigger_coupling": {
+            "description": "edge trigger coupling",
+            "set": {
+              "syntax": ":TRIGger:EDGE:COUPling {coupling_type}",
+              "args": [
+                "coupling_type"
+              ]
+            },
+            "query": {
+              "syntax": ":TRIGger:EDGE:COUPling?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "coupling_type": {
+                "type": "string",
+                "values": [
+                  "DC",
+                  "AC",
+                  "LFREJect",
+                  "HFREJect"
+                ]
+              }
+            }
+          },
+          "set_trigger_type": {
+            "description": "trigger type (EDGE, PULSE, SLOPe, INTerval, PATTern, RUNT, ... see the programming guide)",
+            "set": {
+              "syntax": ":TRIGger:TYPE {trigger_type}",
+              "args": [
+                "trigger_type"
+              ]
+            },
+            "query": {
+              "syntax": ":TRIGger:TYPE?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "trigger_type": {
+                "type": "string"
+              }
+            }
+          },
+          "set_channel_state": {
+            "description": "show/hide a channel",
+            "set": {
+              "syntax": ":CHANnel{channel_number}:SWITch {state}",
+              "args": [
+                "channel_number",
+                "state"
+              ]
+            },
+            "query": {
+              "syntax": ":CHANnel{channel_number}:SWITch?",
+              "return_type": "string",
+              "args": [
+                "channel_number"
+              ]
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "state": {
+                "type": "string",
+                "values": [
+                  "ON",
+                  "OFF"
+                ]
+              }
+            }
+          },
+          "set_channel_bandwidth_limit": {
+            "description": "channel bandwidth limit filter",
+            "set": {
+              "syntax": ":CHANnel{channel_number}:BWLimit {bandwidth}",
+              "args": [
+                "channel_number",
+                "bandwidth"
+              ]
+            },
+            "query": {
+              "syntax": ":CHANnel{channel_number}:BWLimit?",
+              "return_type": "string",
+              "args": [
+                "channel_number"
+              ]
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "bandwidth": {
+                "type": "string",
+                "values": [
+                  "FULL",
+                  "20M",
+                  "200M"
+                ]
+              }
+            }
+          },
+          "set_probe_attenuation": {
+            "description": "probe attenuation ratio of a channel (1e-6 to 1e6)",
+            "set": {
+              "syntax": ":CHANnel{channel_number}:PROBe VALue,{value}",
+              "args": [
+                "channel_number",
+                "value"
+              ]
+            },
+            "query": {
+              "syntax": ":CHANnel{channel_number}:PROBe?",
+              "return_type": "float",
+              "args": [
+                "channel_number"
+              ]
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "set_channel_invert": {
+            "description": "invert a channel",
+            "set": {
+              "syntax": ":CHANnel{channel_number}:INVert {state}",
+              "args": [
+                "channel_number",
+                "state"
+              ]
+            },
+            "query": {
+              "syntax": ":CHANnel{channel_number}:INVert?",
+              "return_type": "string",
+              "args": [
+                "channel_number"
+              ]
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "state": {
+                "type": "string",
+                "values": [
+                  "ON",
+                  "OFF"
+                ]
+              }
+            }
+          },
+          "set_channel_impedance": {
+            "description": "channel input impedance (1 MOhm or 50 Ohm, depending on model)",
+            "set": {
+              "syntax": ":CHANnel{channel_number}:IMPedance {impedance}",
+              "args": [
+                "channel_number",
+                "impedance"
+              ]
+            },
+            "query": {
+              "syntax": ":CHANnel{channel_number}:IMPedance?",
+              "return_type": "string",
+              "args": [
+                "channel_number"
+              ]
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "impedance": {
+                "type": "string",
+                "values": [
+                  "ONEMeg",
+                  "FIFTy"
+                ]
+              }
+            }
+          },
+          "set_channel_unit": {
+            "description": "channel unit",
+            "set": {
+              "syntax": ":CHANnel{channel_number}:UNIT {unit}",
+              "args": [
+                "channel_number",
+                "unit"
+              ]
+            },
+            "query": {
+              "syntax": ":CHANnel{channel_number}:UNIT?",
+              "return_type": "string",
+              "args": [
+                "channel_number"
+              ]
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "unit": {
+                "type": "string",
+                "values": [
+                  "V",
+                  "A"
+                ]
+              }
+            }
+          },
+          "query_channel_coupling": {
+            "description": "query the channel coupling",
+            "set": null,
+            "query": {
+              "syntax": ":CHANnel{channel_number}:COUPling?",
+              "return_type": "string",
+              "args": [
+                "channel_number"
+              ]
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              }
+            }
+          },
+          "query_timebase_delay": {
+            "description": "query the horizontal delay",
+            "set": null,
+            "query": {
+              "syntax": ":TIMebase:DELay?",
+              "return_type": "float"
+            }
+          },
+          "set_acquisition_type": {
+            "description": "acquisition type: NORMal, PEAK, AVERage[,times], ERES[,bits]",
+            "set": {
+              "syntax": ":ACQuire:TYPE {acquisition_type}",
+              "args": [
+                "acquisition_type"
+              ]
+            },
+            "query": {
+              "syntax": ":ACQuire:TYPE?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "acquisition_type": {
+                "type": "string"
+              }
+            }
+          },
+          "query_sample_rate": {
+            "description": "query the current sample rate",
+            "set": null,
+            "query": {
+              "syntax": ":ACQuire:SRATe?",
+              "return_type": "float"
+            }
+          },
+          "set_waveform_start": {
+            "description": "first waveform point to transfer with :WAVeform:DATA?",
+            "set": {
+              "syntax": ":WAVeform:STARt {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": {
+              "syntax": ":WAVeform:STARt?",
+              "return_type": "int"
+            },
+            "parameters": {
+              "value": {
+                "type": "int"
+              }
+            }
+          },
+          "set_waveform_points": {
+            "description": "number of waveform points to transfer with :WAVeform:DATA?",
+            "set": {
+              "syntax": ":WAVeform:POINt {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": {
+              "syntax": ":WAVeform:POINt?",
+              "return_type": "int"
+            },
+            "parameters": {
+              "value": {
+                "type": "int"
+              }
+            }
+          },
+          "set_waveform_interval": {
+            "description": "interval between transferred waveform points",
+            "set": {
+              "syntax": ":WAVeform:INTerval {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": {
+              "syntax": ":WAVeform:INTerval?",
+              "return_type": "int"
+            },
+            "parameters": {
+              "value": {
+                "type": "int"
+              }
+            }
+          },
+          "query_waveform_max_points": {
+            "description": "query the maximum number of waveform points that can be transferred",
+            "set": null,
+            "query": {
+              "syntax": ":WAVeform:MAXPoint?",
+              "return_type": "int"
+            }
+          },
+          "set_waveform_byte_order": {
+            "description": "byte order of the transferred waveform data",
+            "set": {
+              "syntax": ":WAVeform:BYTeorder {order}",
+              "args": [
+                "order"
+              ]
+            },
+            "query": {
+              "syntax": ":WAVeform:BYTeorder?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "order": {
+                "type": "string",
+                "values": [
+                  "MSB",
+                  "LSB"
+                ]
+              }
+            }
+          },
+          "set_measurement_item": {
+            "description": "add (ON) or remove (OFF) a simple measurement item, e.g. PKPK, MAX, MIN, AMPL, MEAN, RMS, FREQ, PER",
+            "set": {
+              "syntax": ":MEASure:SIMPle:ITEM {item},{state}",
+              "args": [
+                "item",
+                "state"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "item": {
+                "type": "string"
+              },
+              "state": {
+                "type": "string",
+                "values": [
+                  "ON",
+                  "OFF"
+                ]
+              }
+            }
+          },
+          "set_measurement_source": {
+            "description": "source of the simple measurements",
+            "set": {
+              "syntax": ":MEASure:SIMPle:SOURce C{channel_number}",
+              "args": [
+                "channel_number"
+              ]
+            },
+            "query": {
+              "syntax": ":MEASure:SIMPle:SOURce?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              }
+            }
+          },
+          "query_measurement_value": {
+            "description": "value of a simple measurement item (same item names as set_measurement_item, or ALL)",
+            "set": null,
+            "query": {
+              "syntax": ":MEASure:SIMPle:VALue? {item}",
+              "return_type": "float",
+              "args": [
+                "item"
+              ]
+            },
+            "parameters": {
+              "item": {
+                "type": "string"
+              }
+            }
+          },
+          "set_remote": {
+            "description": "remote lock state of the front panel",
+            "set": {
+              "syntax": ":SYSTem:REMote {state}",
+              "args": [
+                "state"
+              ]
+            },
+            "query": {
+              "syntax": ":SYSTem:REMote?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "ON",
+                  "OFF"
+                ]
               }
             }
           }
