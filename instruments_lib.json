@@ -7492,7 +7492,7 @@
             }
           },
           "query_card_type": {
-            "description": "Return the identity of the plug-in module in the specified slot",
+            "description": "identity of the module in a slot (slot = 1, 2 or 3)",
             "set": null,
             "query": {
               "syntax": "SYST:CTYP? {slot}",
@@ -7503,12 +7503,7 @@
             },
             "parameters": {
               "slot": {
-                "type": "string",
-                "values": [
-                  "100",
-                  "200",
-                  "300"
-                ]
+                "type": "int"
               }
             }
           },
