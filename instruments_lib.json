@@ -2756,7 +2756,8 @@
                       "read_termination": "\n",
                       "factory_defaults": true
                     }
-                  ]
+                  ],
+                  "notes": "RS-232 is configured from the front panel only (I/O Config). The power supply is a DTE device: connect it to the computer with a DTE-to-DTE (null-modem / crossover) cable. It uses the DTR/DSR handshake and 2 stop bits; send SYSTem:REMote before other commands."
                 }
               ],
               "notes": "GPIB e RS-232 entrambi standard. Nessuna interfaccia USB-TMC o LAN/LXI. Baud rate RS-232 configurabile da front-panel."
@@ -6838,7 +6839,7 @@
                 {
                   "type": "SERIAL",
                   "address_format_example": "ASRL{COM_PORT}::INSTR",
-                  "notes": "RS-232, baud 1200..115200, config da front-panel; selezione interfaccia via SYSTem:INTerface {GPIB|RS232}",
+                  "notes": "GPIB is the interface selected at the factory; select RS-232 from the front panel (Interface key): the display then shows \"RS-232\" at power-on. Baud rate, parity and flow control are set from the front panel only and must match the computer. A wrong or straight (non null-modem) cable gives no answer at all.",
                   "transports": [
                     {
                       "kind": "serial",
