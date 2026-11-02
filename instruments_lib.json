@@ -2743,7 +2743,20 @@
                 },
                 {
                   "type": "SERIAL",
-                  "address_format_example": "ASRL{COM_PORT}::INSTR"
+                  "address_format_example": "ASRL{COM_PORT}::INSTR",
+                  "transports": [
+                    {
+                      "kind": "serial",
+                      "baud": 9600,
+                      "data_bits": 8,
+                      "parity": "N",
+                      "stop_bits": 2,
+                      "flow_control": "dtr_dsr",
+                      "write_termination": "\n",
+                      "read_termination": "\n",
+                      "factory_defaults": true
+                    }
+                  ]
                 }
               ],
               "notes": "GPIB e RS-232 entrambi standard. Nessuna interfaccia USB-TMC o LAN/LXI. Baud rate RS-232 configurabile da front-panel."
@@ -6825,7 +6838,19 @@
                 {
                   "type": "SERIAL",
                   "address_format_example": "ASRL{COM_PORT}::INSTR",
-                  "notes": "RS-232, baud 1200..115200, config da front-panel; selezione interfaccia via SYSTem:INTerface {GPIB|RS232}"
+                  "notes": "RS-232, baud 1200..115200, config da front-panel; selezione interfaccia via SYSTem:INTerface {GPIB|RS232}",
+                  "transports": [
+                    {
+                      "kind": "serial",
+                      "baud": 57600,
+                      "data_bits": 8,
+                      "parity": "N",
+                      "flow_control": "xon_xoff",
+                      "write_termination": "\n",
+                      "read_termination": "\n",
+                      "factory_defaults": true
+                    }
+                  ]
                 }
               ]
             },

@@ -115,7 +115,7 @@ An entry of `interface.supported_connection_types` can list the transports the m
 | `vxi11` | - (VISA address `TCPIP0::<ip>::inst0::INSTR`) |
 | `raw_socket` | `port` (and `port_configurable: true` if the user can change it) |
 | `usbtmc` | - |
-| `serial` | `baud`, `data_bits`, `parity`, `stop_bits`, `write_termination`, `read_termination` |
+| `serial` | `baud`, `data_bits`, `parity` (`N`/`E`/`O`), `stop_bits`, `flow_control` (`none`, `xon_xoff`, `rts_cts`, `dtr_dsr`), `write_termination`, `read_termination`; `factory_defaults: true` means the values are the manual's factory settings and the instrument's front-panel menu may differ (a project can override them per instrument) |
 
 Example (Siglent SDS HD, from its programming guide): `"transports": [{"kind": "vxi11"}, {"kind": "raw_socket", "port": 5025}]`. Models without `transports` are not specified yet: the software must not assume a transport for them.
 
