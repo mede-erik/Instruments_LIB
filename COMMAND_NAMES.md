@@ -126,6 +126,8 @@ Verified in all three manuals.
 
 ### 4.3 Oscilloscopes (`oscilloscopes_series`)
 
+> The machine-readable version of this section is `schema/oscilloscope.json` (logical argument names, types, units and enums). Check it with `python3 Tests/check_conformance.py`; if the two disagree, the schema file wins.
+
 Verified in all three manuals.
 
 **Mandatory**

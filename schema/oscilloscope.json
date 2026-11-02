@@ -1,0 +1,666 @@
+{
+  "schema_version": 1,
+  "category": "oscilloscopes_series",
+  "description": "Logical calls every oscilloscope must implement (mandatory) or may implement (optional). Argument names and logical types are the same for all instruments.",
+  "types": {
+    "bool": {
+      "kind": "bool",
+      "description": "true/false; default text sent to the instrument is ON/OFF unless the library gives a map"
+    },
+    "coupling": {
+      "kind": "enum",
+      "values": [
+        "DC",
+        "AC",
+        "GND"
+      ]
+    },
+    "slope": {
+      "kind": "enum",
+      "values": [
+        "RISE",
+        "FALL",
+        "EITHER"
+      ]
+    },
+    "trigger_mode": {
+      "kind": "enum",
+      "values": [
+        "AUTO",
+        "NORMAL",
+        "SINGLE"
+      ]
+    },
+    "trigger_status": {
+      "kind": "enum",
+      "values": [
+        "ARMED",
+        "READY",
+        "AUTO",
+        "TRIGGERED",
+        "STOPPED"
+      ]
+    },
+    "acquisition_type": {
+      "kind": "enum",
+      "values": [
+        "NORMAL",
+        "AVERAGE",
+        "PEAK",
+        "HIRES"
+      ]
+    },
+    "waveform_format": {
+      "kind": "enum",
+      "values": [
+        "BYTE",
+        "WORD",
+        "ASCII"
+      ]
+    }
+  },
+  "calls": {
+    "identification_query": {
+      "requirement": "mandatory",
+      "kind": "query",
+      "description": "identification string (*IDN?)",
+      "result": {
+        "type": "string"
+      }
+    },
+    "reset": {
+      "requirement": "mandatory",
+      "kind": "action",
+      "description": "restore factory defaults"
+    },
+    "operation_complete_query": {
+      "requirement": "mandatory",
+      "kind": "query",
+      "description": "1 when all pending operations are complete",
+      "result": {
+        "type": "int"
+      }
+    },
+    "clear_status": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "clear status registers"
+    },
+    "error_query": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "read and clear the oldest error",
+      "result": {
+        "type": "string"
+      }
+    },
+    "self_test": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "run self test, 0 = pass",
+      "result": {
+        "type": "int"
+      }
+    },
+    "auto_setup": {
+      "requirement": "mandatory",
+      "kind": "action",
+      "description": "automatic setup of the instrument"
+    },
+    "run_acquisition": {
+      "requirement": "mandatory",
+      "kind": "action",
+      "description": "start continuous acquisition"
+    },
+    "stop_acquisition": {
+      "requirement": "mandatory",
+      "kind": "action",
+      "description": "stop acquisition"
+    },
+    "acquire_single": {
+      "requirement": "mandatory",
+      "kind": "action",
+      "description": "arm a single acquisition"
+    },
+    "force_trigger": {
+      "requirement": "mandatory",
+      "kind": "action",
+      "description": "force one triggered acquisition"
+    },
+    "set_timebase_scale": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "horizontal scale",
+      "args": {
+        "value": {
+          "type": "float",
+          "unit": "s/div",
+          "description": "value"
+        }
+      }
+    },
+    "query_timebase_scale": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "horizontal scale",
+      "result": {
+        "type": "float",
+        "unit": "s/div"
+      }
+    },
+    "set_timebase_delay": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "horizontal delay/offset (trigger point position)",
+      "args": {
+        "value": {
+          "type": "float",
+          "unit": "s",
+          "description": "value"
+        }
+      }
+    },
+    "query_timebase_delay": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "horizontal delay/offset",
+      "result": {
+        "type": "float",
+        "unit": "s"
+      }
+    },
+    "set_channel_state": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "show/hide a channel",
+      "args": {
+        "channel_number": {
+          "type": "int",
+          "min": 1,
+          "description": "analog channel number (1-based)"
+        },
+        "state": {
+          "type": "bool",
+          "description": "true = on/enabled"
+        }
+      }
+    },
+    "set_channel_scale": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "vertical scale",
+      "args": {
+        "channel_number": {
+          "type": "int",
+          "min": 1,
+          "description": "analog channel number (1-based)"
+        },
+        "value": {
+          "type": "float",
+          "unit": "V/div",
+          "description": "value"
+        }
+      }
+    },
+    "query_channel_scale": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "vertical scale",
+      "args": {
+        "channel_number": {
+          "type": "int",
+          "min": 1,
+          "description": "analog channel number (1-based)"
+        }
+      },
+      "result": {
+        "type": "float",
+        "unit": "V/div"
+      }
+    },
+    "set_channel_offset": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "vertical offset",
+      "args": {
+        "channel_number": {
+          "type": "int",
+          "min": 1,
+          "description": "analog channel number (1-based)"
+        },
+        "value": {
+          "type": "float",
+          "unit": "V",
+          "description": "value"
+        }
+      }
+    },
+    "query_channel_offset": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "vertical offset",
+      "args": {
+        "channel_number": {
+          "type": "int",
+          "min": 1,
+          "description": "analog channel number (1-based)"
+        }
+      },
+      "result": {
+        "type": "float",
+        "unit": "V"
+      }
+    },
+    "set_channel_coupling": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "input coupling",
+      "args": {
+        "channel_number": {
+          "type": "int",
+          "min": 1,
+          "description": "analog channel number (1-based)"
+        },
+        "coupling_type": {
+          "type": "coupling"
+        }
+      }
+    },
+    "query_channel_coupling": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "input coupling",
+      "args": {
+        "channel_number": {
+          "type": "int",
+          "min": 1,
+          "description": "analog channel number (1-based)"
+        }
+      },
+      "result": {
+        "type": "coupling"
+      }
+    },
+    "set_channel_bandwidth_limit": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "channel bandwidth limit; 0 = no limit (full bandwidth)",
+      "args": {
+        "channel_number": {
+          "type": "int",
+          "min": 1,
+          "description": "analog channel number (1-based)"
+        },
+        "bandwidth": {
+          "type": "float",
+          "unit": "Hz",
+          "min": 0
+        }
+      }
+    },
+    "set_probe_attenuation": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "probe attenuation ratio (10 = 10:1)",
+      "args": {
+        "channel_number": {
+          "type": "int",
+          "min": 1,
+          "description": "analog channel number (1-based)"
+        },
+        "value": {
+          "type": "float",
+          "unit": "ratio",
+          "description": "value"
+        }
+      }
+    },
+    "set_channel_invert": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "invert a channel",
+      "args": {
+        "channel_number": {
+          "type": "int",
+          "min": 1,
+          "description": "analog channel number (1-based)"
+        },
+        "state": {
+          "type": "bool",
+          "description": "true = on/enabled"
+        }
+      }
+    },
+    "set_channel_impedance": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "input impedance",
+      "args": {
+        "channel_number": {
+          "type": "int",
+          "min": 1,
+          "description": "analog channel number (1-based)"
+        },
+        "impedance": {
+          "type": "string",
+          "description": "model dependent (e.g. 1 MOhm / 50 Ohm)"
+        }
+      }
+    },
+    "set_channel_unit": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "channel unit",
+      "args": {
+        "channel_number": {
+          "type": "int",
+          "min": 1,
+          "description": "analog channel number (1-based)"
+        },
+        "unit": {
+          "type": "string",
+          "description": "V or A"
+        }
+      }
+    },
+    "set_trigger_source": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "edge trigger source",
+      "args": {
+        "channel_number": {
+          "type": "int",
+          "min": 1,
+          "description": "analog channel number (1-based)"
+        }
+      }
+    },
+    "query_trigger_source": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "edge trigger source",
+      "result": {
+        "type": "string"
+      }
+    },
+    "set_trigger_level": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "edge trigger level; some instruments set it per channel, then channel_number is the trigger source channel",
+      "args": {
+        "value": {
+          "type": "float",
+          "unit": "V",
+          "description": "value"
+        },
+        "channel_number": {
+          "type": "int",
+          "min": 1,
+          "required": false,
+          "description": "trigger source channel; ignored by instruments with a single trigger level"
+        }
+      }
+    },
+    "query_trigger_level": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "edge trigger level",
+      "args": {
+        "channel_number": {
+          "type": "int",
+          "min": 1,
+          "required": false
+        }
+      },
+      "result": {
+        "type": "float",
+        "unit": "V"
+      }
+    },
+    "set_trigger_slope": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "edge trigger slope",
+      "args": {
+        "slope": {
+          "type": "slope"
+        }
+      }
+    },
+    "set_trigger_mode": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "trigger sweep mode",
+      "args": {
+        "mode": {
+          "type": "trigger_mode"
+        }
+      }
+    },
+    "query_trigger_mode": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "trigger sweep mode",
+      "result": {
+        "type": "trigger_mode"
+      }
+    },
+    "set_trigger_holdoff": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "trigger holdoff time",
+      "args": {
+        "value": {
+          "type": "float",
+          "unit": "s",
+          "description": "value"
+        }
+      }
+    },
+    "query_trigger_status": {
+      "requirement": "mandatory",
+      "kind": "query",
+      "description": "state of the triggering system",
+      "result": {
+        "type": "trigger_status"
+      }
+    },
+    "set_trigger_type": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "trigger type",
+      "args": {
+        "trigger_type": {
+          "type": "string",
+          "description": "EDGE, PULSE, SLOPE, ... (model dependent)"
+        }
+      }
+    },
+    "set_trigger_coupling": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "trigger coupling",
+      "args": {
+        "coupling_type": {
+          "type": "string",
+          "description": "AC, DC, LF reject, HF reject"
+        }
+      }
+    },
+    "set_acquisition_type": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "acquisition type",
+      "args": {
+        "acquisition_type": {
+          "type": "acquisition_type"
+        }
+      }
+    },
+    "set_acquisition_depth": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "memory depth in points",
+      "args": {
+        "depth": {
+          "type": "int",
+          "unit": "points",
+          "min": 1
+        }
+      }
+    },
+    "query_sample_rate": {
+      "requirement": "mandatory",
+      "kind": "query",
+      "description": "current sample rate",
+      "result": {
+        "type": "float",
+        "unit": "Sa/s"
+      }
+    },
+    "set_waveform_source": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "source of the waveform transfer",
+      "args": {
+        "channel_number": {
+          "type": "int",
+          "min": 1,
+          "description": "analog channel number (1-based)"
+        }
+      }
+    },
+    "set_waveform_format": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "format of the transferred waveform data",
+      "args": {
+        "format_type": {
+          "type": "waveform_format"
+        }
+      }
+    },
+    "query_waveform_preamble": {
+      "requirement": "mandatory",
+      "kind": "query",
+      "description": "scaling/descriptor of the waveform to transfer",
+      "result": {
+        "type": "binary"
+      }
+    },
+    "query_waveform_data": {
+      "requirement": "mandatory",
+      "kind": "query",
+      "description": "waveform data of the selected source",
+      "result": {
+        "type": "binary"
+      }
+    },
+    "set_waveform_start": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "first point to transfer",
+      "args": {
+        "value": {
+          "type": "int",
+          "unit": "points",
+          "min": 0
+        }
+      }
+    },
+    "set_waveform_points": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "number of points to transfer",
+      "args": {
+        "value": {
+          "type": "int",
+          "unit": "points",
+          "min": 1
+        }
+      }
+    },
+    "set_waveform_interval": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "interval between transferred points",
+      "args": {
+        "value": {
+          "type": "int",
+          "unit": "points",
+          "min": 1
+        }
+      }
+    },
+    "query_waveform_max_points": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "maximum number of points that can be transferred",
+      "result": {
+        "type": "int",
+        "unit": "points"
+      }
+    },
+    "set_waveform_byte_order": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "byte order of transferred data",
+      "args": {
+        "order": {
+          "type": "string",
+          "description": "MSB or LSB"
+        }
+      }
+    },
+    "set_measurement_item": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "add/remove a built-in measurement",
+      "args": {
+        "item": {
+          "type": "string"
+        },
+        "state": {
+          "type": "bool",
+          "description": "true = on/enabled"
+        }
+      }
+    },
+    "set_measurement_source": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "source of the built-in measurements",
+      "args": {
+        "channel_number": {
+          "type": "int",
+          "min": 1,
+          "description": "analog channel number (1-based)"
+        }
+      }
+    },
+    "query_measurement_value": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "value of a built-in measurement",
+      "args": {
+        "item": {
+          "type": "string"
+        }
+      },
+      "result": {
+        "type": "float"
+      }
+    },
+    "set_remote": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "remote lock of the front panel",
+      "args": {
+        "state": {
+          "type": "bool",
+          "description": "true = on/enabled"
+        }
+      }
+    }
+  }
+}

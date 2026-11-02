@@ -1,4 +1,5 @@
 {
+  "schema_version": 1,
   "instrument_library": {
     "power_supplies_series": [
       {
