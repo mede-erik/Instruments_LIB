@@ -39,7 +39,7 @@ More categories are added one at a time (power supplies, electronic loads, datal
 | `result` | for queries: `type` and `unit` of the logical value |
 | `types` | named logical types: `enum` (fixed list of logical values) and `bool` |
 
-Base types: `int`, `float`, `string`, `binary`, plus the names in `types`. Units are SI-based (`V`, `V/div`, `s`, `s/div`, `Hz`, `Sa/s`, `points`, `ratio`).
+Base types: `int`, `float`, `string`, `binary` (IEEE 488.2 block, bytes), `raw` (the answer as the instrument gives it: text or bytes, model dependent), `number_or_keyword`, plus the names in `types`. Units are SI-based (`V`, `V/div`, `s`, `s/div`, `Hz`, `Sa/s`, `points`, `ratio`).
 
 An argument with `"required": false` may be ignored by instruments that do not need it (for example `channel_number` in `set_trigger_level`, which only some instruments set per channel). The software always passes every argument it has.
 

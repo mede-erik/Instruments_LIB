@@ -274,7 +274,7 @@ Logical types:
 | `query_sample_rate` | query |  | float, Sa/s | current sample rate |
 | `set_waveform_source` | set | `channel_number` (int, 1..) |  | source of the waveform transfer |
 | `set_waveform_format` | set | `format_type` (waveform_format) |  | format of the transferred waveform data |
-| `query_waveform_preamble` | query |  | binary | scaling/descriptor of the waveform to transfer |
+| `query_waveform_preamble` | query |  | raw | scaling/descriptor of the waveform to transfer (model dependent: text for Tektronix and Rigol, a binary descriptor for Siglent) |
 | `query_waveform_data` | query |  | binary | waveform data of the selected source |
 
 **Optional**

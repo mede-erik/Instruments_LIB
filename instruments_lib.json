@@ -10002,7 +10002,7 @@
             "set": null,
             "query": {
               "syntax": "CURVe?",
-              "return_type": "string"
+              "return_type": "binary"
             }
           },
           "set_acquisition_stop_after": {
@@ -10108,7 +10108,7 @@
             "set": null,
             "query": {
               "syntax": "WAVFrm?",
-              "return_type": "string"
+              "return_type": "binary"
             }
           },
           "set_waveform_source": {
@@ -11106,7 +11106,7 @@
             "set": null,
             "query": {
               "syntax": ":WAVeform:DATA?",
-              "return_type": "string"
+              "return_type": "binary"
             }
           },
           "run_acquisition": {
@@ -11946,7 +11946,7 @@
             "set": null,
             "query": {
               "syntax": ":WAVeform:PREamble?",
-              "return_type": "string"
+              "return_type": "binary"
             }
           },
           "query_waveform_data": {
@@ -11954,7 +11954,7 @@
             "set": null,
             "query": {
               "syntax": ":WAVeform:DATA?",
-              "return_type": "string"
+              "return_type": "binary"
             }
           },
           "run_acquisition": {
