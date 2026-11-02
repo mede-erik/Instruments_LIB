@@ -214,7 +214,9 @@ New category for mainframes that only route signals (no measurement engine). Ref
 | Siglent SDS HD | aligned |
 | Rigol DS1000Z | aligned |
 | Keysight 3497X, DAQ97x | aligned (section 4.5) |
-| other series (TDK-Lambda GEN, R&S HMP, HP E3631A, Tektronix 5 Series, Chroma 6330A, Keysight EL4900, multimeters, 3499A) | not yet aligned |
+| TDK-Lambda GEN, R&S HMP, HP E3631A, Chroma 6330A, Keysight EL4900, Tektronix 5 Series | aligned (all mandatory calls of their category are defined) |
+| multimeters (HP 3478A, Agilent 34401A) | not aligned: category list is provisional, waiting for more manuals |
+| switch units (Agilent 3499A) | not aligned: category list is provisional |
 
 ## 6. Known gaps and legacy names
 
@@ -223,4 +225,5 @@ New category for mainframes that only route signals (no measurement engine). Ref
 * **Siglent SDS HD** `set_acquisition_depth` is a string (`10k`, `100M`, ...); the allowed values depend on the model (`capabilities.memory_size_options`).
 * **Rigol DS1000Z** `set_trigger_mode` was corrected: the sweep mode is `:TRIGger:SWEep` (the old entry used `:TRIGger:MODE`, which selects the trigger *type*; that is now `set_trigger_type`).
 * **OWON ODP** `select_channel` uses `INST:NSEL` (numeric); by the convention of the other power supplies that should be `select_channel_numeric`. The by-name variant is added as `select_channel_named`.
+* Legacy duplicates kept for compatibility: Tektronix `set_acquisition_mode` (same command as `set_acquisition_type`), HP E3631A `set_local_mode`/`set_remote_mode` (same commands as `set_local`/`set_remote`).
 * Legacy names for the same action: `set_local_mode` / `set_remote_mode` (HP E3631A) and `set_local_remote` (TDK-Lambda GEN) correspond to `set_local` / `set_remote`.

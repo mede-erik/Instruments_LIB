@@ -1227,6 +1227,27 @@
               "syntax": "VOLT:PROTection:TRIPped?",
               "return_type": "int"
             }
+          },
+          "set_remote": {
+            "description": "place the supply under control of the interface (remote mode)",
+            "set": {
+              "syntax": "SYSTem:SET REM"
+            },
+            "query": null
+          },
+          "set_local": {
+            "description": "place the supply under control of the front panel (local mode)",
+            "set": {
+              "syntax": "SYSTem:SET LOC"
+            },
+            "query": null
+          },
+          "set_remote_lock": {
+            "description": "remote mode with front panel local button disabled (local lockout)",
+            "set": {
+              "syntax": "SYSTem:SET LLO"
+            },
+            "query": null
           }
         },
         "models": [
@@ -1518,6 +1539,27 @@
               "syntax": "INST:SEL?",
               "return_type": "string"
             }
+          },
+          "set_remote": {
+            "description": "place the instrument in remote mode",
+            "set": {
+              "syntax": "SYST:REM"
+            },
+            "query": null
+          },
+          "set_local": {
+            "description": "return the instrument to local mode",
+            "set": {
+              "syntax": "SYST:LOC"
+            },
+            "query": null
+          },
+          "set_remote_lock": {
+            "description": "remote mode with the front panel keys locked",
+            "set": {
+              "syntax": "SYST:RWL"
+            },
+            "query": null
           }
         },
         "models": [
@@ -2446,6 +2488,20 @@
                 ]
               }
             }
+          },
+          "set_remote": {
+            "description": "place the supply in remote mode (must be sent before RS-232 programming)",
+            "set": {
+              "syntax": "SYSTem:REMote"
+            },
+            "query": null
+          },
+          "set_local": {
+            "description": "return the supply to local mode (RS-232)",
+            "set": {
+              "syntax": "SYSTem:LOCal"
+            },
+            "query": null
           }
         },
         "models": [
@@ -10079,6 +10135,215 @@
                 "type": "int"
               }
             }
+          },
+          "operation_complete_query": {
+            "description": "1 when all pending operations are complete",
+            "set": null,
+            "query": {
+              "syntax": "*OPC?",
+              "return_type": "int"
+            }
+          },
+          "set_timebase_delay": {
+            "description": "horizontal delay time in seconds (used when horizontal delay is on)",
+            "set": {
+              "syntax": "HORizontal:DELay:TIMe {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": {
+              "syntax": "HORizontal:DELay:TIMe?",
+              "return_type": "float"
+            },
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "set_channel_state": {
+            "description": "show/hide a channel",
+            "set": {
+              "syntax": "DISplay:GLObal:CH{channel_number}:STATE {state}",
+              "args": [
+                "channel_number",
+                "state"
+              ]
+            },
+            "query": {
+              "syntax": "DISplay:GLObal:CH{channel_number}:STATE?",
+              "return_type": "int",
+              "args": [
+                "channel_number"
+              ]
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "state": {
+                "type": "string",
+                "values": [
+                  "ON",
+                  "OFF"
+                ]
+              }
+            }
+          },
+          "set_channel_bandwidth_limit": {
+            "description": "channel bandwidth in Hz, or FULl",
+            "set": {
+              "syntax": "CH{channel_number}:BANdwidth {bandwidth}",
+              "args": [
+                "channel_number",
+                "bandwidth"
+              ]
+            },
+            "query": {
+              "syntax": "CH{channel_number}:BANdwidth?",
+              "return_type": "string",
+              "args": [
+                "channel_number"
+              ]
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "bandwidth": {
+                "type": "string"
+              }
+            }
+          },
+          "set_probe_attenuation": {
+            "description": "external attenuation (probe scale factor) of a channel",
+            "set": {
+              "syntax": "CH{channel_number}:PROBEFunc:EXTAtten {value}",
+              "args": [
+                "channel_number",
+                "value"
+              ]
+            },
+            "query": {
+              "syntax": "CH{channel_number}:PROBEFunc:EXTAtten?",
+              "return_type": "float",
+              "args": [
+                "channel_number"
+              ]
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "set_trigger_holdoff": {
+            "description": "A trigger holdoff time in seconds",
+            "set": {
+              "syntax": "TRIGger:A:HOLDoff:TIMe {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": {
+              "syntax": "TRIGger:A:HOLDoff:TIMe?",
+              "return_type": "float"
+            },
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_trigger_status": {
+            "description": "state of the triggering system (ARMED, AUTO, READY, SAVE, TRIGGER)",
+            "set": null,
+            "query": {
+              "syntax": "TRIGger:STATE?",
+              "return_type": "string"
+            }
+          },
+          "set_acquisition_type": {
+            "description": "acquisition mode",
+            "set": {
+              "syntax": "ACQuire:MODe {acquisition_type}",
+              "args": [
+                "acquisition_type"
+              ]
+            },
+            "query": {
+              "syntax": "ACQuire:MODe?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "acquisition_type": {
+                "type": "string",
+                "values": [
+                  "SAMple",
+                  "PEAKdetect",
+                  "HIRes",
+                  "AVErage",
+                  "ENVelope"
+                ]
+              }
+            }
+          },
+          "set_acquisition_depth": {
+            "description": "horizontal record length in points",
+            "set": {
+              "syntax": "HORizontal:RECOrdlength {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": {
+              "syntax": "HORizontal:RECOrdlength?",
+              "return_type": "int"
+            },
+            "parameters": {
+              "value": {
+                "type": "int"
+              }
+            }
+          },
+          "query_sample_rate": {
+            "description": "horizontal sample rate in samples per second",
+            "set": null,
+            "query": {
+              "syntax": "HORizontal:SAMPLERate?",
+              "return_type": "float"
+            }
+          },
+          "set_waveform_format": {
+            "description": "format of the outgoing waveform data",
+            "set": {
+              "syntax": "DATa:ENCdg {format_type}",
+              "args": [
+                "format_type"
+              ]
+            },
+            "query": {
+              "syntax": "DATa:ENCdg?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "format_type": {
+                "type": "string",
+                "values": [
+                  "ASCIi",
+                  "RIBinary",
+                  "RPBinary",
+                  "FPBinary",
+                  "SRIbinary",
+                  "SRPbinary",
+                  "SFPbinary"
+                ]
+              }
+            }
           }
         },
         "models": [
@@ -12735,6 +13000,42 @@
               "syntax": "LOAD?",
               "return_type": "int"
             }
+          },
+          "set_current_slew_rate_rise": {
+            "description": "static constant-current rise slew rate (A/us)",
+            "set": {
+              "syntax": "CURR:STAT:RISE {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": {
+              "syntax": "CURR:STAT:RISE?",
+              "return_type": "float"
+            },
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "set_current_slew_rate_fall": {
+            "description": "static constant-current fall slew rate (A/us)",
+            "set": {
+              "syntax": "CURR:STAT:FALL {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": {
+              "syntax": "CURR:STAT:FALL?",
+              "return_type": "float"
+            },
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
           }
         },
         "models": [
@@ -13213,6 +13514,50 @@
             "query": {
               "syntax": "INP:SHORt?",
               "return_type": "int"
+            }
+          },
+          "query_mode": {
+            "description": "read the operating mode (CURRent, VOLTage, POWer, RESistance, CVCC, CRCC, CVCR)",
+            "set": null,
+            "query": {
+              "syntax": "FUNC?",
+              "return_type": "string"
+            }
+          },
+          "set_current_slew_rate_rise": {
+            "description": "positive current slew rate (A/s)",
+            "set": {
+              "syntax": "CURR:SLEW:POS {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": {
+              "syntax": "CURR:SLEW:POS?",
+              "return_type": "float"
+            },
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "set_current_slew_rate_fall": {
+            "description": "negative current slew rate (A/s)",
+            "set": {
+              "syntax": "CURR:SLEW:NEG {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": {
+              "syntax": "CURR:SLEW:NEG?",
+              "return_type": "float"
+            },
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
             }
           }
         },
