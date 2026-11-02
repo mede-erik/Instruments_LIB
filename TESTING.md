@@ -111,6 +111,8 @@ The tool asks for the **category**, the **model** and the **interface**, then th
 | `serial`, `probe`, `loopback` | RS-232 settings and diagnostics |
 | `reconnect`, `quit` | |
 
+The up and down arrows recall earlier commands (also from earlier sessions, kept in `~/.ola_instrument_shell_history`) and Tab completes command and call names. On Windows this needs `pyreadline3` (in `requirements.txt`).
+
 Every call shows `commands:` (what was sent) and `result:` (what the library translated the answer into).
 
 ### Recommended procedure
@@ -134,7 +136,58 @@ Every call shows `commands:` (what was sent) and `result:` (what the library tra
 * **Switch units / relays**: disconnect the signals before switching tests.
 * `self_test` can take about a minute and may reset the instrument; it is excluded from `test` and runs only with `test writes`.
 
-## 5. Reporting results
+## 5. Checklists by instrument type
+
+Each list gives a safe order. Replace the channel numbers and values with ones that suit your setup. `plan` shows the commands without sending them, so use it first when a value could be dangerous.
+
+### Oscilloscope
+
+1. `call error_query`, `call clear_status`, `test` (read-only).
+2. Horizontal and vertical settings: `call set_timebase_scale value=1e-3`, `readback set_timebase_scale`, then the same for `set_channel_scale channel_number=1`, `set_channel_offset`, `set_channel_coupling` (try every logical value: `DC`, `AC`, `GND`).
+3. Trigger: `set_trigger_source`, `set_trigger_level`, `set_trigger_slope` (`RISE`, `FALL`, `EITHER`), `set_trigger_mode` (`AUTO`, `NORMAL`, `SINGLE`), then `call query_trigger_status` while the instrument is running, stopped and after `call force_trigger`. A state the library does not know gives `CALL-005`: report its exact text.
+4. Waveform transfer, with the probe-compensation signal (about 3 V peak-peak, 1 kHz) connected to channel 1 and the acquisition stopped (`call stop_acquisition`) so that every read comes from the same capture:
+   ```
+   call read_waveform channel_number=1
+   stats
+   save wave.csv 5000
+   ```
+   Check against the instrument: peak-peak voltage (about 3 V), the time span (`points` x `sample_interval` must equal 10 x the timebase when the whole screen is transferred), and the `vertical_gain` printed against `call query_channel_scale channel_number=1`. A peak-peak value wrong by a constant factor (2, 256, ...) means a wrong scale in the parser or in the library entry.
+5. Long memories: if the instrument can transfer fewer points than its memory depth, read the blocks with `start`, for example `call read_waveform channel_number=1 start=5000000`, and check that the time axis of the second block continues after the first. The 16-bit format is `bits=16` (default is 8).
+
+### Power supply
+
+Disconnect the load first. Keep the output off while setting values.
+
+1. `call identification_query`, `call output_state_query` (must be off), `test`.
+2. `call set_voltage channel_number=1 value=1.0`, `call set_current channel_number=1 value=0.1`, `readback` both.
+3. `call output_on`, `call read_voltage`, `call read_current`, `call output_off`. Compare `read_voltage` with the display and with an external multimeter if you have one.
+4. Several channels: repeat for each channel number the model has, and check that the right channel changed on the front panel.
+
+### Electronic load
+
+Connect a power source that suits the load, with current limited, only for the steps that need input.
+
+1. `test`, `call query_mode`, `call query_input_state` (must be off).
+2. `call set_mode mode=CC` and each other mode of the schema (`CV`, `CR`, `CP`); a mode the model does not support must answer `CALL-002`, not change the instrument.
+3. `call set_current_level value=0.1`, `call load_on`, `call read_voltage`, `call read_current`, `call read_power`, `call load_off`.
+4. Slew rate and dynamic (pulse) calls only after the static ones work.
+
+### Datalogger
+
+1. `call identification_query`, `call self_test` (about a minute, may reset the instrument), `call query_card_type slot=1`.
+2. Configure the channels with a `configure_...` call and `select_channels`, then `call read_scan`. Check each value against a known source (a shorted input reads about 0 V, a resistor reads its value).
+3. `fetch_readings` returns the last scan: run it after `read_scan`.
+4. Switching calls (`close_channel`, `open_channels`) only with the signals disconnected.
+
+### Multimeter and switch unit
+
+Follow the same pattern: `test` first, then a measurement of a known source. These categories are not yet fully covered by the schema: report what is missing.
+
+### Checking a translation
+
+When a call has a `map`, test **every** logical value in the schema, not only one: a missing or wrong value shows up as `CALL-002` (not handled) or as the wrong behaviour on the instrument. Use `plan NAME ...` to see the text sent, `readback` to see that the instrument holds the value, and compare with the front panel.
+
+## 6. Reporting results
 
 Please send, for each instrument tested:
 
@@ -147,7 +200,7 @@ Error codes start with `CALL-`: `CALL-001` the model does not support the call, 
 
 Results that are confirmed on real hardware are recorded in `COMMAND_NAMES.md`, section *Known gaps and legacy names*, so the next person knows what is verified and what is only taken from the manual.
 
-## 6. Troubleshooting
+## 7. Troubleshooting
 
 | Symptom | Likely cause |
 |---|---|
@@ -161,6 +214,6 @@ Results that are confirmed on real hardware are recorded in `COMMAND_NAMES.md`, 
 | waveform values wrong by a constant factor | check the scale fields against the screen; report gain, offset and a screenshot |
 | a call works from `raw` but not from `call` | the library syntax differs from what you typed; compare `plan NAME` with your text |
 
-## 7. Adding or correcting a command
+## 8. Adding or correcting a command
 
 A command goes into the library **only if it is documented in the instrument's manual or verified on the instrument**. See `COMMAND_NAMES.md` for the call names (mandatory and optional per category), `schema/README.md` for the entry format (`steps`, `map`, `response_map`, `parse`), and run level 1 before opening a pull request.
