@@ -2,6 +2,8 @@
 
 Libreria JSON data-only che funge da **motore di regole** (Rule Engine) per un driver Python SCPI. Non contiene codice: il file `instruments_lib.json` descrive serie, modelli, comandi SCPI, interfacce fisiche e limiti hardware di ogni strumento, permettendo al driver di validare i dati, formattare le richieste, gestire le connessioni e interpretare le risposte in modo dinamico.
 
+Per verificare la libreria con uno strumento reale vedi [TESTING.md](TESTING.md) (in inglese).
+
 ## Struttura del file
 
 Il file `instruments_lib.json` è un unico oggetto con la chiave `instrument_library`, contenente 7 categorie:
