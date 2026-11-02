@@ -229,7 +229,7 @@ Logical types:
 <!-- BEGIN GENERATED oscilloscopes_series -->
 ### 3.3 Oscilloscopes (`oscilloscopes_series`)
 
-Generated from `schema/oscilloscope.json` — do not edit this section by hand. 29 mandatory and 33 optional calls.
+Generated from `schema/oscilloscope.json` — do not edit this section by hand. 29 mandatory and 34 optional calls.
 
 Logical calls every oscilloscope must implement (mandatory) or may implement (optional). Argument names and logical types are the same for all instruments.
 
@@ -239,6 +239,8 @@ Logical types:
 * `coupling`: `DC`, `AC`, `GND`
 * `slope`: `RISE`, `FALL`, `EITHER` (accepted aliases: `RISING`→`RISE`, `FALLING`→`FALL`, `BOTH`→`EITHER`, `ALTERNATE`→`EITHER`, `RIS`→`RISE`)
 * `trigger_mode`: `AUTO`, `NORMAL`, `SINGLE` (accepted aliases: `NORM`→`NORMAL`, `SING`→`SINGLE`)
+* `trigger_mode_state`: `AUTO`, `NORMAL`, `SINGLE`, `FORCED`
+* `waveform`: dict with arrays "time" (s) and "voltage" (V) and the acquisition values: points, sample_interval, vertical_gain, vertical_offset, trigger_delay, timebase
 * `trigger_status`: `ARMED`, `READY`, `AUTO`, `TRIGGERED`, `STOPPED`
 * `acquisition_type`: `NORMAL`, `AVERAGE`, `PEAK`, `HIRES`
 * `waveform_format`: `BYTE`, `WORD`, `ASCII`
@@ -294,9 +296,10 @@ Logical types:
 | `set_channel_unit` | set | `channel_number` (int, 1..)<br>`unit` (string) |  | channel unit |
 | `query_trigger_source` | query |  | string | edge trigger source |
 | `query_trigger_level` | query | `channel_number` (int, 1.., optional) | float, V | edge trigger level |
-| `query_trigger_mode` | query |  | trigger_mode | trigger sweep mode |
+| `query_trigger_mode` | query |  | trigger_mode_state | trigger sweep mode |
 | `set_trigger_type` | set | `trigger_type` (string) |  | trigger type |
 | `set_trigger_coupling` | set | `coupling_type` (string) |  | trigger coupling |
+| `read_waveform` | query | `channel_number` (int, 1..) | waveform | read a channel waveform as time and voltage arrays (needs a parser for the model) |
 | `set_waveform_start` | set | `value` (int, points, 0..) |  | first point to transfer |
 | `set_waveform_points` | set | `value` (int, points, 1..) |  | number of points to transfer |
 | `set_waveform_interval` | set | `value` (int, points, 1..) |  | interval between transferred points |
@@ -539,7 +542,7 @@ The same logical call has the same arguments and logical values for every brand;
 ## 5. Known gaps and legacy names
 
 * **OWON ODP**: the manual does not document `*CLS`, `SYSTem:ERRor?` and `*TST?`. `clear_status`, `error_query` and `self_test` exist in the library but are **not confirmed by the manual** (to be verified on the instrument).
-* **Siglent SDS HD**: the programming guide documents only `*IDN`, `*OPC` and `*RST` as common commands. Tested on a real SDS824X HD (FW 4.8.12.1.1.6.5): `error_query` (`SYSTem:ERRor?` → `0,"No error"`) works and `clear_status` (`*CLS`) is accepted, so both are kept although the guide does not list them. `self_test` is not tested yet. Verified on the same instrument: `*IDN?`, `*OPC?`, trigger status and mode, timebase, vertical settings, sample rate, and the waveform transfer (`:WAVeform:PREamble?` is a 346-byte binary descriptor, `:WAVeform:DATA?` a binary block of 400 000 bytes = 10 divisions × 20 µs/div × 2 GSa/s).
+* **Siglent SDS HD**: the programming guide documents only `*IDN`, `*OPC` and `*RST` as common commands. Tested on a real SDS824X HD (FW 4.8.12.1.1.6.5): `error_query` (`SYSTem:ERRor?` → `0,"No error"`) works and `clear_status` (`*CLS`) is accepted, so both are kept although the guide does not list them. `self_test` (`*TST?` → 0) also works. `query_trigger_mode` can answer `FTRIG` after a forced trigger; it is mapped to `FORCED`. Verified on the same instrument: `*IDN?`, `*OPC?`, trigger status and mode, timebase, vertical settings, sample rate, and the waveform transfer (`:WAVeform:PREamble?` is a 346-byte binary descriptor, `:WAVeform:DATA?` a binary block of 400 000 bytes = 10 divisions × 20 µs/div × 2 GSa/s).
 * **Rigol DS1000Z**: the manual lists `RUN` as a trigger state without defining it; the library maps it to `ARMED` (to be verified).
 * **Siglent SDS HD** `set_trigger_slope`: `EITHER` is mapped to `ALTernate`, which the guide describes as alternating edges.
 * **Siglent SDS2000X HD** `set_acquisition_depth`: the table of memory depths is the union of the single-channel and dual-channel values of the guide.

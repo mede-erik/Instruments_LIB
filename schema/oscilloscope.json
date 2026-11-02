@@ -42,6 +42,20 @@
         "SING": "SINGLE"
       }
     },
+    "trigger_mode_state": {
+      "kind": "enum",
+      "values": [
+        "AUTO",
+        "NORMAL",
+        "SINGLE",
+        "FORCED"
+      ],
+      "description": "state reported by the mode query; FORCED = a forced trigger was requested"
+    },
+    "waveform": {
+      "kind": "mapping",
+      "description": "dict with arrays \"time\" (s) and \"voltage\" (V) and the acquisition values: points, sample_interval, vertical_gain, vertical_offset, trigger_delay, timebase"
+    },
     "trigger_status": {
       "kind": "enum",
       "values": [
@@ -453,7 +467,7 @@
       "kind": "query",
       "description": "trigger sweep mode",
       "result": {
-        "type": "trigger_mode"
+        "type": "trigger_mode_state"
       }
     },
     "set_trigger_holdoff": {
@@ -565,6 +579,21 @@
       "description": "waveform data of the selected source",
       "result": {
         "type": "binary"
+      }
+    },
+    "read_waveform": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "read a channel waveform as time and voltage arrays (needs a parser for the model)",
+      "args": {
+        "channel_number": {
+          "type": "int",
+          "min": 1,
+          "description": "analog channel number (1-based)"
+        }
+      },
+      "result": {
+        "type": "waveform"
       }
     },
     "set_waveform_start": {

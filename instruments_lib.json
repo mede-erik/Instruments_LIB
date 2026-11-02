@@ -12023,7 +12023,8 @@
                 "NORMal": "NORMAL",
                 "NORM": "NORMAL",
                 "SINGle": "SINGLE",
-                "SING": "SINGLE"
+                "SING": "SINGLE",
+                "FTRIG": "FORCED"
               }
             }
           },
@@ -12507,6 +12508,51 @@
                   "ON",
                   "OFF"
                 ]
+              }
+            }
+          },
+          "read_waveform": {
+            "description": "read the waveform of an analog channel as time and voltage arrays (8-bit samples)",
+            "set": null,
+            "query": {
+              "steps": [
+                {
+                  "op": "write",
+                  "text": ":WAVeform:SOURce C{channel_number}"
+                },
+                {
+                  "op": "write",
+                  "text": ":WAVeform:WIDTh BYTE"
+                },
+                {
+                  "op": "query",
+                  "text": ":TIMebase:SCALe?",
+                  "returns": "float"
+                },
+                {
+                  "op": "query",
+                  "text": ":WAVeform:PREamble?",
+                  "returns": "binary"
+                },
+                {
+                  "op": "query",
+                  "text": ":WAVeform:DATA?",
+                  "returns": "binary"
+                }
+              ],
+              "return_type": "binary",
+              "parse": {
+                "name": "siglent_waveform",
+                "from_steps": [
+                  3,
+                  4,
+                  2
+                ]
+              }
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
               }
             }
           }
