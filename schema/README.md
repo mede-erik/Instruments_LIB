@@ -119,6 +119,15 @@ An entry of `interface.supported_connection_types` can list the transports the m
 
 Example (Siglent SDS HD, from its programming guide): `"transports": [{"kind": "vxi11"}, {"kind": "raw_socket", "port": 5025}]`. Models without `transports` are not specified yet: the software must not assume a transport for them.
 
+## Documentation
+
+`COMMAND_NAMES.md` contains tables of the mandatory and optional calls of every category **generated from these schema files**. After changing a schema run:
+
+```bash
+python3 schema/generate_command_names.py          # rewrite the generated sections
+python3 schema/generate_command_names.py --check  # exit 1 if COMMAND_NAMES.md is out of date
+```
+
 ## Conformance check
 
 ```bash
