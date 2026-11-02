@@ -547,6 +547,7 @@ The same logical call has the same arguments and logical values for every brand;
 * **Siglent SDS HD** `set_trigger_slope`: `EITHER` is mapped to `ALTernate`, which the guide describes as alternating edges.
 * **Siglent SDS2000X HD** `set_acquisition_depth`: the table of memory depths is the union of the single-channel and dual-channel values of the guide.
 * **Chroma 6330A** `set_mode`: the low range (`CCL`, `CRL`, `CPL`) is selected; the high range has no logical call yet.
+* **Multimeters** (HP 3478A, Agilent 34401A): there is no schema yet and no instrument available for testing. The library entries come from the manuals only and have never been run on a real instrument.
 * **HP 3478A** `read_measurement`: the library entry `ENTER` is a GPIB read, not a command string. A read-only step is needed in the executor, and the manual is a scanned image (no text).
 * **OWON ODP** `select_channel` uses `INST:NSEL` (numeric); by the convention of the other power supplies that should be `select_channel_numeric`. The by-name variant is `select_channel_named`.
 * Legacy duplicates kept for compatibility: Tektronix `set_acquisition_mode` (same command as `set_acquisition_type`), HP E3631A `set_local_mode`/`set_remote_mode` (same commands as `set_local`/`set_remote`), TDK-Lambda GEN `set_local_remote`.
