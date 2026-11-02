@@ -2842,11 +2842,17 @@
             }
           },
           "self_test": {
-            "description": "Self test query, returns 0 (pass) or 1 (fail)",
+            "description": "run the instrument self test (takes several seconds, may reset the instrument); 0 = pass",
             "set": null,
             "query": {
-              "syntax": "*TST?",
-              "return_type": "int"
+              "steps": [
+                {
+                  "op": "query",
+                  "text": "*TST?",
+                  "returns": "int",
+                  "timeout_ms": 60000
+                }
+              ]
             }
           },
           "query_status_byte": {
@@ -3536,11 +3542,13 @@
             }
           },
           "query_monitor_data": {
-            "description": "Read one reading from the monitor channel (reading only, no units/time/channel/alarm)",
+            "description": "reading of the monitored channel (empty list when the monitor is off)",
             "set": null,
             "query": {
               "syntax": "ROUT:MON:DATA?",
-              "return_type": "float"
+              "return_type": "float",
+              "split": ",",
+              "as_list": true
             }
           },
           "set_monitor_state": {
@@ -6946,11 +6954,17 @@
             }
           },
           "self_test": {
-            "description": "Self test query, returns 0 (pass) or 1 (fail)",
+            "description": "run the instrument self test (takes several seconds, may reset the instrument); 0 = pass",
             "set": null,
             "query": {
-              "syntax": "*TST?",
-              "return_type": "int"
+              "steps": [
+                {
+                  "op": "query",
+                  "text": "*TST?",
+                  "returns": "int",
+                  "timeout_ms": 60000
+                }
+              ]
             }
           },
           "operation_complete_query": {
@@ -7118,11 +7132,13 @@
             }
           },
           "query_monitor_data": {
-            "description": "Read one reading from the monitor channel (reading only, no units/time/channel/alarm)",
+            "description": "reading of the monitored channel (empty list when the monitor is off)",
             "set": null,
             "query": {
               "syntax": "ROUT:MON:DATA?",
-              "return_type": "float"
+              "return_type": "float",
+              "split": ",",
+              "as_list": true
             }
           },
           "query_relay_done": {

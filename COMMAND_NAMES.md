@@ -343,7 +343,7 @@ Logical types:
 | `reset` | action |  |  | Factory reset: abort scan, clear scan list, restore all measurement parameters to factory settings |
 | `clear_status` | action |  |  | Clear event registers, error queue and alarm queue (does not clear enable registers) |
 | `identification_query` | query |  | string | Identification query (HEWLETT-PACKARD,34970A,0,XX-Y-Z on the 34970A) |
-| `self_test` | query |  | int | Self test query, returns 0 (pass) or 1 (fail) |
+| `self_test` | query |  | string | run the instrument self test (takes several seconds, may reset the instrument); 0 = pass |
 | `operation_complete_query` | query |  | int | Operation complete query, returns 1 when the current operation completes |
 | `trigger_bus` | action |  |  | Software (bus) trigger, used with TRIGger:SOURce BUS |
 | `save_state` | set | `location` (int) |  | Save the present instrument state to the specified location |
@@ -366,7 +366,7 @@ Logical types:
 | `set_channel_delay` | set | `seconds` (float)<br>`channels` (string) |  | Add a delay (0 to 60 s, 1 ms resolution) between multiplexer channels in the scan list |
 | `query_relay_done` | query |  | int | Return 1 when all relay operations on cards not involved in the scan are finished |
 | `monitor_channel` | set | `channel` (string) |  | Select the channel to be displayed on the front panel (single channel, e.g. (@103)) |
-| `query_monitor_data` | query |  | float | Read one reading from the monitor channel (reading only, no units/time/channel/alarm) |
+| `query_monitor_data` | query |  | float_list | reading of the monitored channel (empty list when the monitor is off) |
 | `set_monitor_state` | set | `mode` (string) |  | Enable/disable the Monitor mode (continuous measurements on a single channel) |
 | `set_trigger_source` | set | `source` (string) |  | Select the trigger source for each sweep through the scan list |
 | `set_trigger_count` | set | `count` (string) |  | Specify the number of times to sweep through the scan list |

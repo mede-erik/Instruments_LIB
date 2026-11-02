@@ -31,9 +31,9 @@
     "self_test": {
       "requirement": "mandatory",
       "kind": "query",
-      "description": "Self test query, returns 0 (pass) or 1 (fail)",
+      "description": "run the instrument self test (takes several seconds, may reset the instrument); 0 = pass",
       "result": {
-        "type": "int"
+        "type": "string"
       }
     },
     "query_status_byte": {
@@ -446,9 +446,9 @@
     "query_monitor_data": {
       "requirement": "mandatory",
       "kind": "query",
-      "description": "Read one reading from the monitor channel (reading only, no units/time/channel/alarm)",
+      "description": "reading of the monitored channel (empty list when the monitor is off)",
       "result": {
-        "type": "float"
+        "type": "float_list"
       }
     },
     "set_monitor_state": {
