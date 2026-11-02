@@ -21,7 +21,14 @@
         "RISE",
         "FALL",
         "EITHER"
-      ]
+      ],
+      "aliases": {
+        "RISING": "RISE",
+        "FALLING": "FALL",
+        "BOTH": "EITHER",
+        "ALTERNATE": "EITHER",
+        "RIS": "RISE"
+      }
     },
     "trigger_mode": {
       "kind": "enum",
@@ -29,7 +36,11 @@
         "AUTO",
         "NORMAL",
         "SINGLE"
-      ]
+      ],
+      "aliases": {
+        "NORM": "NORMAL",
+        "SING": "SINGLE"
+      }
     },
     "trigger_status": {
       "kind": "enum",
