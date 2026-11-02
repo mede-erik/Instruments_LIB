@@ -211,10 +211,10 @@
     "query_card_type": {
       "requirement": "mandatory",
       "kind": "query",
-      "description": "Return the identity of the plug-in module in the specified slot",
+      "description": "identity of the module in a slot (slot = 1, 2 or 3; the 34970A addresses slots as 100, 200, 300)",
       "args": {
         "slot": {
-          "type": "string"
+          "type": "int"
         }
       },
       "result": {

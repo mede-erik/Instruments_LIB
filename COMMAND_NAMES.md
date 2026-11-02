@@ -354,7 +354,7 @@ Logical types:
 | `read_scan` | query |  | float_list | Place the instrument in the wait-for-trigger state, scan the present scan list once and send readings to the output buffer (list of readings) |
 | `read_and_remove` | query | `max_count` (int) | float_list | Read and erase up to <max_count> readings from memory, starting with the oldest (list of readings) |
 | `preset` | action |  |  | Instrument preset to a known configuration (aborts measurement, does not clear scan list) |
-| `query_card_type` | query | `slot` (string) | string | Return the identity of the plug-in module in the specified slot |
+| `query_card_type` | query | `slot` (int) | string | identity of the module in a slot (slot = 1, 2 or 3; the 34970A addresses slots as 100, 200, 300) |
 | `set_local` | action |  |  | Place the instrument in local mode (front panel fully functional; not allowed over GPIB on the 34970A) |
 | `set_remote` | action |  |  | Place the instrument in remote mode (most front panel keys disabled) |
 | `select_channels` | set | `channels` (string) |  | Select the channels to be included in the scan list (channels are 4-digit channel numbers in the (@ch_list) form, e.g. (@101:120); use ROUT:SCAN (@) to clear) |
