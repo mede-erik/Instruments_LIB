@@ -227,3 +227,36 @@ New category for mainframes that only route signals (no measurement engine). Ref
 * **OWON ODP** `select_channel` uses `INST:NSEL` (numeric); by the convention of the other power supplies that should be `select_channel_numeric`. The by-name variant is added as `select_channel_named`.
 * Legacy duplicates kept for compatibility: Tektronix `set_acquisition_mode` (same command as `set_acquisition_type`), HP E3631A `set_local_mode`/`set_remote_mode` (same commands as `set_local`/`set_remote`).
 * Legacy names for the same action: `set_local_mode` / `set_remote_mode` (HP E3631A) and `set_local_remote` (TDK-Lambda GEN) correspond to `set_local` / `set_remote`.
+
+## 7. Model-specific commands
+
+A series defines the calls shared by all its models (`common_scpi_commands`). When one model behaves slightly differently, the difference is written in that model's `scpi_commands`, keyed by the **same call name**. The software resolves the final command set of a model with `LoadInstruments.resolve_model_commands()` (also used by the remote panel), so the call names never change, only their definition.
+
+Each entry of a model's `scpi_commands` has one of three forms:
+
+| Form | Effect |
+|---|---|
+| a full definition (`"set"` and/or `"query"`, `"parameters"`) | **replaces** the series definition of that call |
+| `null` | the call is **removed**: the model does not support it |
+| `{"patch": {...}}` | the fields are **deep-merged** into the series definition (dicts are merged, lists and scalars replaced); use it to change only one syntax or one list of allowed values |
+
+Examples (for a hypothetical model `X` whose memory depth allows other values and whose manual has no `force_trigger`):
+
+```json
+"scpi_commands": {
+  "set_acquisition_depth": {
+    "patch": { "parameters": { "depth": { "values": ["20k", "200k", "2M"] } } }
+  },
+  "set_trigger_holdoff": {
+    "set": { "syntax": ":TRIGger:EDGE:HOLDoff {value}" },
+    "query": { "syntax": ":TRIGger:EDGE:HOLDoff?", "return_type": "float" },
+    "parameters": { "value": { "type": "float" } }
+  },
+  "force_trigger": null
+}
+```
+
+Rules:
+* Patching a call that the series does not define is ignored (a warning is logged); define the full call instead.
+* Keep the parameter names of the series definition, so the software can fill the placeholders the same way on every model.
+* A model-specific difference is written only when the model's manual documents it (rule 3 in section 1).

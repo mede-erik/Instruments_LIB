@@ -77,7 +77,7 @@ Tutte le categorie (eccetto i datalogger, vedi sotto) seguono lo stesso schema a
 | `documentation_path` | string | sì | Percorso del manuale PDF |
 | `interface` | object | sì | Tipi di connessione supportati |
 | `capabilities` | object | sì | Limiti fisici e funzionalità |
-| `scpi_commands` | object | no | Comandi specifici del modello (sovrascrivono/estendono la serie) |
+| `scpi_commands` | object | no | Comandi specifici del modello: sostituiscono, rimuovono (`null`) o modificano (`{"patch": {...}}`) quelli della serie, vedi `COMMAND_NAMES.md` sezione 7 |
 | `experimental` | bool | sì | `true` = non ancora validato su hardware reale |
 
 ## Il blocco `interface`
