@@ -153,6 +153,7 @@ Each list gives a safe order. Replace the channel numbers and values with ones t
    ```
    Check against the instrument: peak-peak voltage (about 3 V), the time span (`points` x `sample_interval` must equal 10 x the timebase when the whole screen is transferred), and the `vertical_gain` printed against `call query_channel_scale channel_number=1`. A peak-peak value wrong by a constant factor (2, 256, ...) means a wrong scale in the parser or in the library entry.
 5. Long memories: if the instrument can transfer fewer points than its memory depth, read the blocks with `start`, for example `call read_waveform channel_number=1 start=5000000`, and check that the time axis of the second block continues after the first. The 16-bit format is `bits=16` (default is 8).
+   To read the whole memory in one go use `fullwave 1 bits=16`: it stops the acquisition, reads the blocks of the model's maximum transfer size up to the memory depth and joins them (`stats` and `save` then work on the joined waveform; the acquisition stays stopped, start it again with `call run_acquisition`). Check that `points` equals the memory depth and that the time span equals the memory depth x `sample_interval`.
 
 ### Power supply
 
