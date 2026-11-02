@@ -9780,7 +9780,11 @@
                   "DC",
                   "AC",
                   "DCREJ"
-                ]
+                ],
+                "map": {
+                  "DC": "DC",
+                  "AC": "AC"
+                }
               }
             }
           },
@@ -9892,7 +9896,11 @@
                 "values": [
                   "AUTO",
                   "NORMal"
-                ]
+                ],
+                "map": {
+                  "AUTO": "AUTO",
+                  "NORMAL": "NORMal"
+                }
               }
             }
           },
@@ -9930,7 +9938,12 @@
                   "RISe",
                   "FALL",
                   "EITher"
-                ]
+                ],
+                "map": {
+                  "RISE": "RISe",
+                  "FALL": "FALL",
+                  "EITHER": "EITher"
+                }
               }
             }
           },
@@ -9977,9 +9990,18 @@
             "query": null
           },
           "run_acquisition": {
-            "description": "run acquisition",
+            "description": "continuous acquisition: run until stopped",
             "set": {
-              "syntax": "ACQuire:STATE RUN"
+              "steps": [
+                {
+                  "op": "write",
+                  "text": "ACQuire:STOPAfter RUNSTop"
+                },
+                {
+                  "op": "write",
+                  "text": "ACQuire:STATE RUN"
+                }
+              ]
             },
             "query": null
           },
@@ -9991,9 +10013,18 @@
             "query": null
           },
           "acquire_single": {
-            "description": "acquire single",
+            "description": "single acquisition: stop after one sequence, then run",
             "set": {
-              "syntax": "ACQuire:STATE RUN;*OPC"
+              "steps": [
+                {
+                  "op": "write",
+                  "text": "ACQuire:STOPAfter SEQuence"
+                },
+                {
+                  "op": "write",
+                  "text": "ACQuire:STATE RUN"
+                }
+              ]
             },
             "query": null
           },
@@ -10148,9 +10179,15 @@
           "set_timebase_delay": {
             "description": "horizontal delay time in seconds (used when horizontal delay is on)",
             "set": {
-              "syntax": "HORizontal:DELay:TIMe {value}",
-              "args": [
-                "value"
+              "steps": [
+                {
+                  "op": "write",
+                  "text": "HORizontal:DELay:MODe ON"
+                },
+                {
+                  "op": "write",
+                  "text": "HORizontal:DELay:TIMe {value}"
+                }
               ]
             },
             "query": {
@@ -10213,7 +10250,11 @@
                 "type": "int"
               },
               "bandwidth": {
-                "type": "string"
+                "type": "float",
+                "map": {
+                  "0": "FULl"
+                },
+                "map_default": "pass"
               }
             }
           },
@@ -10265,7 +10306,14 @@
             "set": null,
             "query": {
               "syntax": "TRIGger:STATE?",
-              "return_type": "string"
+              "return_type": "string",
+              "response_map": {
+                "ARMED": "ARMED",
+                "AUTO": "AUTO",
+                "READY": "READY",
+                "SAVE": "STOPPED",
+                "TRIGGER": "TRIGGERED"
+              }
             }
           },
           "set_acquisition_type": {
@@ -10289,7 +10337,13 @@
                   "HIRes",
                   "AVErage",
                   "ENVelope"
-                ]
+                ],
+                "map": {
+                  "NORMAL": "SAMple",
+                  "AVERAGE": "AVErage",
+                  "PEAK": "PEAKdetect",
+                  "HIRES": "HIRes"
+                }
               }
             }
           },
@@ -10320,11 +10374,17 @@
             }
           },
           "set_waveform_format": {
-            "description": "format of the outgoing waveform data",
+            "description": "format of the outgoing waveform data: signed integer binary with 1 byte (BYTE) or 2 bytes (WORD) per point, or ASCII",
             "set": {
-              "syntax": "DATa:ENCdg {format_type}",
-              "args": [
-                "format_type"
+              "steps": [
+                {
+                  "op": "write",
+                  "text": "DATa:ENCdg {encoding}"
+                },
+                {
+                  "op": "write",
+                  "text": "DATa:WIDth {width}"
+                }
               ]
             },
             "query": {
@@ -10333,16 +10393,23 @@
             },
             "parameters": {
               "format_type": {
-                "type": "string",
-                "values": [
-                  "ASCIi",
-                  "RIBinary",
-                  "RPBinary",
-                  "FPBinary",
-                  "SRIbinary",
-                  "SRPbinary",
-                  "SFPbinary"
-                ]
+                "type": "string"
+              },
+              "encoding": {
+                "from": "format_type",
+                "map": {
+                  "BYTE": "RIBinary",
+                  "WORD": "RIBinary",
+                  "ASCII": "ASCIi"
+                }
+              },
+              "width": {
+                "from": "format_type",
+                "map": {
+                  "BYTE": "1",
+                  "WORD": "2",
+                  "ASCII": "1"
+                }
               }
             }
           }
@@ -10359,7 +10426,14 @@
                 {
                   "type": "LXI",
                   "visa_resource_id_template": "LXI_OSC_{unique_id}",
-                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR"
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "raw_socket",
+                      "port": 4000,
+                      "port_configurable": true
+                    }
+                  ]
                 },
                 {
                   "type": "USB-TMC",
@@ -10435,7 +10509,14 @@
                 {
                   "type": "LXI",
                   "visa_resource_id_template": "LXI_OSC_{unique_id}",
-                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR"
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "raw_socket",
+                      "port": 4000,
+                      "port_configurable": true
+                    }
+                  ]
                 },
                 {
                   "type": "USB-TMC",
@@ -10518,7 +10599,14 @@
                 {
                   "type": "LXI",
                   "visa_resource_id_template": "LXI_OSC_{unique_id}",
-                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR"
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "raw_socket",
+                      "port": 4000,
+                      "port_configurable": true
+                    }
+                  ]
                 },
                 {
                   "type": "USB-TMC",
@@ -10610,7 +10698,14 @@
                 {
                   "type": "LXI",
                   "visa_resource_id_template": "LXI_OSC_{unique_id}",
-                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR"
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "raw_socket",
+                      "port": 4000,
+                      "port_configurable": true
+                    }
+                  ]
                 },
                 {
                   "type": "USB-TMC",
@@ -10797,7 +10892,12 @@
                 "type": "int"
               },
               "coupling_type": {
-                "type": "string"
+                "type": "string",
+                "map": {
+                  "DC": "DC",
+                  "AC": "AC",
+                  "GND": "GND"
+                }
               }
             }
           },
@@ -10915,7 +11015,12 @@
                   "SINGle",
                   "NORM",
                   "SING"
-                ]
+                ],
+                "map": {
+                  "AUTO": "AUTO",
+                  "NORMAL": "NORMal",
+                  "SINGLE": "SINGle"
+                }
               }
             }
           },
@@ -10953,7 +11058,12 @@
                   "POSitive",
                   "NEGative",
                   "RFALl"
-                ]
+                ],
+                "map": {
+                  "RISE": "POSitive",
+                  "FALL": "NEGative",
+                  "EITHER": "RFALl"
+                }
               }
             }
           },
@@ -11013,7 +11123,12 @@
             "query": null,
             "parameters": {
               "format_type": {
-                "type": "string"
+                "type": "string",
+                "map": {
+                  "BYTE": "BYTE",
+                  "WORD": "WORD",
+                  "ASCII": "ASCii"
+                }
               }
             }
           },
@@ -11052,7 +11167,14 @@
             "set": null,
             "query": {
               "syntax": ":TRIGger:STATus?",
-              "return_type": "string"
+              "return_type": "string",
+              "response_map": {
+                "TD": "TRIGGERED",
+                "WAIT": "READY",
+                "RUN": "ARMED",
+                "AUTO": "AUTO",
+                "STOP": "STOPPED"
+              }
             }
           },
           "set_acquisition_depth": {
@@ -11069,7 +11191,7 @@
             },
             "parameters": {
               "depth": {
-                "type": "string"
+                "type": "int"
               }
             }
           },
@@ -11156,11 +11278,15 @@
                 "type": "int"
               },
               "bandwidth": {
-                "type": "string",
+                "type": "float",
                 "values": [
                   "20M",
                   "OFF"
-                ]
+                ],
+                "map": {
+                  "0": "OFF",
+                  "20000000": "20M"
+                }
               }
             }
           },
@@ -11314,7 +11440,14 @@
             "set": null,
             "query": {
               "syntax": ":TRIGger:SWEep?",
-              "return_type": "string"
+              "return_type": "string",
+              "response_map": {
+                "AUTO": "AUTO",
+                "NORMal": "NORMAL",
+                "NORM": "NORMAL",
+                "SINGle": "SINGLE",
+                "SING": "SINGLE"
+              }
             }
           },
           "query_trigger_source": {
@@ -11345,7 +11478,13 @@
                   "AVERages",
                   "PEAK",
                   "HRESolution"
-                ]
+                ],
+                "map": {
+                  "NORMAL": "NORMal",
+                  "AVERAGE": "AVERages",
+                  "PEAK": "PEAK",
+                  "HIRES": "HRESolution"
+                }
               }
             }
           },
@@ -11592,7 +11731,12 @@
                   "AC",
                   "DC",
                   "GND"
-                ]
+                ],
+                "map": {
+                  "DC": "DC",
+                  "AC": "AC",
+                  "GND": "GND"
+                }
               }
             }
           },
@@ -11720,7 +11864,12 @@
                   "AUTO",
                   "NORMal",
                   "SINGle"
-                ]
+                ],
+                "map": {
+                  "AUTO": "AUTO",
+                  "NORMAL": "NORMal",
+                  "SINGLE": "SINGle"
+                }
               }
             }
           },
@@ -11758,7 +11907,12 @@
                   "RISing",
                   "FALLing",
                   "ALTernate"
-                ]
+                ],
+                "map": {
+                  "RISE": "RISing",
+                  "FALL": "FALLing",
+                  "EITHER": "ALTernate"
+                }
               }
             }
           },
@@ -11818,7 +11972,11 @@
                 "values": [
                   "BYTE",
                   "WORD"
-                ]
+                ],
+                "map": {
+                  "BYTE": "BYTE",
+                  "WORD": "WORD"
+                }
               }
             }
           },
@@ -11873,7 +12031,16 @@
             },
             "parameters": {
               "depth": {
-                "type": "string"
+                "type": "int",
+                "map": {
+                  "10000": "10k",
+                  "100000": "100k",
+                  "1000000": "1M",
+                  "10000000": "10M",
+                  "25000000": "25M",
+                  "50000000": "50M",
+                  "100000000": "100M"
+                }
               }
             }
           },
@@ -11889,7 +12056,14 @@
             "set": null,
             "query": {
               "syntax": ":TRIGger:MODE?",
-              "return_type": "string"
+              "return_type": "string",
+              "response_map": {
+                "AUTO": "AUTO",
+                "NORMal": "NORMAL",
+                "NORM": "NORMAL",
+                "SINGle": "SINGLE",
+                "SING": "SINGLE"
+              }
             }
           },
           "query_trigger_status": {
@@ -11897,7 +12071,14 @@
             "set": null,
             "query": {
               "syntax": ":TRIGger:STATus?",
-              "return_type": "string"
+              "return_type": "string",
+              "response_map": {
+                "Arm": "ARMED",
+                "Ready": "READY",
+                "Auto": "AUTO",
+                "Trig'd": "TRIGGERED",
+                "Stop": "STOPPED"
+              }
             }
           },
           "query_trigger_source": {
@@ -12018,12 +12199,17 @@
                 "type": "int"
               },
               "bandwidth": {
-                "type": "string",
+                "type": "float",
                 "values": [
                   "FULL",
                   "20M",
                   "200M"
-                ]
+                ],
+                "map": {
+                  "0": "FULL",
+                  "20000000": "20M",
+                  "200000000": "200M"
+                }
               }
             }
           },
@@ -12147,7 +12333,12 @@
               "return_type": "string",
               "args": [
                 "channel_number"
-              ]
+              ],
+              "response_map": {
+                "DC": "DC",
+                "AC": "AC",
+                "GND": "GND"
+              }
             },
             "parameters": {
               "channel_number": {
@@ -12177,7 +12368,13 @@
             },
             "parameters": {
               "acquisition_type": {
-                "type": "string"
+                "type": "string",
+                "map": {
+                  "NORMAL": "NORMal",
+                  "AVERAGE": "AVERage",
+                  "PEAK": "PEAK",
+                  "HIRES": "ERES"
+                }
               }
             }
           },
@@ -12370,7 +12567,16 @@
                 {
                   "type": "LXI",
                   "visa_resource_id_template": "LXI_OSC_{unique_id}",
-                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR"
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    },
+                    {
+                      "kind": "raw_socket",
+                      "port": 5025
+                    }
+                  ]
                 }
               ]
             },
@@ -12454,7 +12660,16 @@
                 {
                   "type": "LXI",
                   "visa_resource_id_template": "LXI_OSC_{unique_id}",
-                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR"
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    },
+                    {
+                      "kind": "raw_socket",
+                      "port": 5025
+                    }
+                  ]
                 }
               ]
             },
@@ -12517,7 +12732,16 @@
                 {
                   "type": "LXI",
                   "visa_resource_id_template": "LXI_OSC_{unique_id}",
-                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR"
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    },
+                    {
+                      "kind": "raw_socket",
+                      "port": 5025
+                    }
+                  ]
                 }
               ]
             },
@@ -12574,7 +12798,16 @@
                 {
                   "type": "LXI",
                   "visa_resource_id_template": "LXI_OSC_{unique_id}",
-                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR"
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    },
+                    {
+                      "kind": "raw_socket",
+                      "port": 5025
+                    }
+                  ]
                 }
               ]
             },
@@ -12640,7 +12873,16 @@
                 {
                   "type": "LXI",
                   "visa_resource_id_template": "LXI_OSC_{unique_id}",
-                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR"
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    },
+                    {
+                      "kind": "raw_socket",
+                      "port": 5025
+                    }
+                  ]
                 }
               ]
             },
@@ -12687,7 +12929,16 @@
                 {
                   "type": "LXI",
                   "visa_resource_id_template": "LXI_OSC_{unique_id}",
-                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR"
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    },
+                    {
+                      "kind": "raw_socket",
+                      "port": 5025
+                    }
+                  ]
                 }
               ]
             },
@@ -12723,7 +12974,39 @@
                 }
               ]
             },
-            "experimental": true
+            "experimental": true,
+            "scpi_commands": {
+              "set_acquisition_depth": {
+                "description": "memory depth; the allowed strings depend on the model, see capabilities.memory_size_options (e.g. 10k, 100k, 1M, 10M, 100M); the query returns the maximum memory depth",
+                "set": {
+                  "syntax": ":ACQuire:MDEPth {depth}",
+                  "args": [
+                    "depth"
+                  ]
+                },
+                "query": {
+                  "syntax": ":ACQuire:MDEPth?",
+                  "return_type": "string"
+                },
+                "parameters": {
+                  "depth": {
+                    "type": "int",
+                    "map": {
+                      "10000": "10k",
+                      "100000": "100k",
+                      "1000000": "1M",
+                      "10000000": "10M",
+                      "100000000": "100M",
+                      "20000": "20k",
+                      "200000": "200k",
+                      "2000000": "2M",
+                      "20000000": "20M",
+                      "200000000": "200M"
+                    }
+                  }
+                }
+              }
+            }
           },
           {
             "id": "OSC_Siglent_SDS2354X_HD",
@@ -12741,7 +13024,16 @@
                 {
                   "type": "LXI",
                   "visa_resource_id_template": "LXI_OSC_{unique_id}",
-                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR"
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    },
+                    {
+                      "kind": "raw_socket",
+                      "port": 5025
+                    }
+                  ]
                 }
               ]
             },
@@ -12770,7 +13062,38 @@
                 }
               ]
             },
-            "scpi_commands": {},
+            "scpi_commands": {
+              "set_acquisition_depth": {
+                "description": "memory depth; the allowed strings depend on the model, see capabilities.memory_size_options (e.g. 10k, 100k, 1M, 10M, 100M); the query returns the maximum memory depth",
+                "set": {
+                  "syntax": ":ACQuire:MDEPth {depth}",
+                  "args": [
+                    "depth"
+                  ]
+                },
+                "query": {
+                  "syntax": ":ACQuire:MDEPth?",
+                  "return_type": "string"
+                },
+                "parameters": {
+                  "depth": {
+                    "type": "int",
+                    "map": {
+                      "10000": "10k",
+                      "100000": "100k",
+                      "1000000": "1M",
+                      "10000000": "10M",
+                      "100000000": "100M",
+                      "20000": "20k",
+                      "200000": "200k",
+                      "2000000": "2M",
+                      "20000000": "20M",
+                      "200000000": "200M"
+                    }
+                  }
+                }
+              }
+            },
             "experimental": true
           }
         ]

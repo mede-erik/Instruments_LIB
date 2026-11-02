@@ -612,6 +612,82 @@
         }
       }
     },
+    "query_status_byte": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "status byte (*STB?)",
+      "result": {
+        "type": "int"
+      }
+    },
+    "query_event_status_register": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "standard event status register (*ESR?)",
+      "result": {
+        "type": "int"
+      }
+    },
+    "enable_event_status_register": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "standard event status enable mask (*ESE)",
+      "args": {
+        "value": {
+          "type": "int",
+          "min": 0,
+          "max": 255
+        }
+      }
+    },
+    "query_event_status_enable": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "standard event status enable mask (*ESE?)",
+      "result": {
+        "type": "int"
+      }
+    },
+    "set_acquisition_stop_after": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "acquisition end: keep running or stop after one sequence (model dependent, Tektronix)",
+      "args": {
+        "mode": {
+          "type": "string",
+          "description": "RUNSTop or SEQuence"
+        }
+      }
+    },
+    "set_acquisition_mode": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "legacy name of set_acquisition_type (Tektronix); use set_acquisition_type",
+      "args": {
+        "mode": {
+          "type": "string"
+        }
+      }
+    },
+    "set_horizontal_mode": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "horizontal mode (model dependent, Tektronix)",
+      "args": {
+        "mode": {
+          "type": "string",
+          "description": "AUTO or MANual"
+        }
+      }
+    },
+    "query_waveform_all": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "preamble and data in one answer (model dependent, Tektronix)",
+      "result": {
+        "type": "binary"
+      }
+    },
     "set_measurement_item": {
       "requirement": "optional",
       "kind": "set",

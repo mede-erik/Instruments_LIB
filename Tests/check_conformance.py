@@ -76,6 +76,17 @@ def check_series(category, schema, series, report):
         if kind == "action" and not has_set:
             report.error(sid, name, "schema kind 'action' but the call has no set half")
 
+        res = spec.get("result") or {}
+        if res.get("type") in types and types[res["type"]]["kind"] == "enum" and has_query:
+            q = cmd["query"]
+            logical = types[res["type"]]["values"]
+            rmap = q.get("response_map")
+            if not rmap:
+                report.todo(sid, name, f"result is logical {logical}: the query needs a response_map")
+            else:
+                bad = sorted(set(rmap.values()) - set(logical))
+                if bad:
+                    report.error(sid, name, f"response_map gives values {bad} that are not in {logical}")
         schema_args = spec.get("args", {})
         params = cmd.get("parameters") or {}
         used = set()
@@ -85,7 +96,12 @@ def check_series(category, schema, series, report):
                 step_texts = [s.get("text", "") for s in cmd[part].get("steps", [])]
                 for t in step_texts:
                     used |= placeholders(t)
-        for p in set(params) | used:
+        derived = {n for n, d in params.items() if d.get("from")}
+        for n in derived:
+            src = params[n]["from"]
+            if src not in schema_args:
+                report.error(sid, name, f"derived parameter '{n}' comes from '{src}', not a schema argument")
+        for p in (set(params) | used) - derived:
             if p not in schema_args:
                 report.error(sid, name, f"argument '{p}' is not in the schema "
                                         f"(schema args: {sorted(schema_args) or 'none'})")
@@ -94,6 +110,8 @@ def check_series(category, schema, series, report):
                 report.error(sid, name, f"required schema argument '{p}' is not used by the series")
 
         for p, pdef in params.items():
+            if p in derived:
+                continue
             a = schema_args.get(p)
             if not a:
                 continue
@@ -102,6 +120,8 @@ def check_series(category, schema, series, report):
             ptype = pdef.get("type")
             if pdef.get("map"):
                 continue
+            if any(d.get("from") == p and d.get("map") for d in params.values()):
+                continue  # the logical value is translated by derived parameters
             if t == "bool":
                 if vals and sorted(map(str, vals)) != ["OFF", "ON"]:
                     report.todo(sid, name, f"argument '{p}' is bool but values are {vals} (needs map)")

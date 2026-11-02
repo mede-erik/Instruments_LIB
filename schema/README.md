@@ -94,6 +94,19 @@ A model may declare `"access"` at model level. There are exactly two values:
 
 A `driver` model has no `steps`; the conformance check accepts a driver entry as an implemented call.
 
+## `transports` (how a connection is opened)
+
+An entry of `interface.supported_connection_types` can list the transports the model accepts on that connection, **only when the manual states them**:
+
+| `kind` | Fields |
+|---|---|
+| `vxi11` | - (VISA address `TCPIP0::<ip>::inst0::INSTR`) |
+| `raw_socket` | `port` (and `port_configurable: true` if the user can change it) |
+| `usbtmc` | - |
+| `serial` | `baud`, `data_bits`, `parity`, `stop_bits`, `write_termination`, `read_termination` |
+
+Example (Siglent SDS HD, from its programming guide): `"transports": [{"kind": "vxi11"}, {"kind": "raw_socket", "port": 5025}]`. Models without `transports` are not specified yet: the software must not assume a transport for them.
+
 ## Conformance check
 
 ```bash
