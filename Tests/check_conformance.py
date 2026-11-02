@@ -87,6 +87,9 @@ def check_series(category, schema, series, report):
                 bad = sorted(set(rmap.values()) - set(logical))
                 if bad:
                     report.error(sid, name, f"response_map gives values {bad} that are not in {logical}")
+        if res.get("type") in types and types[res["type"]]["kind"] == "bool" and has_query:
+            if not cmd["query"].get("bool"):
+                report.todo(sid, name, "result is logical bool: the query needs a 'bool' spec")
         schema_args = spec.get("args", {})
         params = cmd.get("parameters") or {}
         used = set()

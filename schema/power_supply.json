@@ -1,0 +1,764 @@
+{
+  "schema_version": 1,
+  "category": "power_supplies_series",
+  "description": "Logical calls of programmable DC power supplies. channel_number is 1-based; the library selects the output (steps) or maps it to the instrument's own identifier.",
+  "types": {
+    "bool": {
+      "kind": "bool",
+      "description": "true/false; default text sent to the instrument is ON/OFF unless the library gives a map"
+    }
+  },
+  "calls": {
+    "identification_query": {
+      "requirement": "mandatory",
+      "kind": "query",
+      "description": "identification string (*IDN?)",
+      "result": {
+        "type": "string"
+      }
+    },
+    "reset": {
+      "requirement": "mandatory",
+      "kind": "action",
+      "description": "restore factory defaults"
+    },
+    "set_voltage": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "voltage setpoint of an output",
+      "args": {
+        "channel_number": {
+          "type": "int",
+          "min": 1,
+          "required": false,
+          "description": "output/channel number (1-based); ignored by single-output supplies"
+        },
+        "value": {
+          "type": "float",
+          "unit": "V",
+          "min": 0
+        }
+      }
+    },
+    "set_current": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "current limit/setpoint of an output",
+      "args": {
+        "channel_number": {
+          "type": "int",
+          "min": 1,
+          "required": false,
+          "description": "output/channel number (1-based); ignored by single-output supplies"
+        },
+        "value": {
+          "type": "float",
+          "unit": "A",
+          "min": 0
+        }
+      }
+    },
+    "read_voltage": {
+      "requirement": "mandatory",
+      "kind": "query",
+      "description": "measured output voltage",
+      "args": {
+        "channel_number": {
+          "type": "int",
+          "min": 1,
+          "required": false,
+          "description": "output/channel number (1-based); ignored by single-output supplies"
+        }
+      },
+      "result": {
+        "type": "float",
+        "unit": "V"
+      }
+    },
+    "read_current": {
+      "requirement": "mandatory",
+      "kind": "query",
+      "description": "measured output current",
+      "args": {
+        "channel_number": {
+          "type": "int",
+          "min": 1,
+          "required": false,
+          "description": "output/channel number (1-based); ignored by single-output supplies"
+        }
+      },
+      "result": {
+        "type": "float",
+        "unit": "A"
+      }
+    },
+    "output_on": {
+      "requirement": "mandatory",
+      "kind": "action",
+      "description": "enable the output(s) (all outputs of the instrument)"
+    },
+    "output_off": {
+      "requirement": "mandatory",
+      "kind": "action",
+      "description": "disable the output(s) (all outputs of the instrument)"
+    },
+    "output_state_query": {
+      "requirement": "mandatory",
+      "kind": "query",
+      "description": "output state (true = on)",
+      "result": {
+        "type": "bool"
+      }
+    },
+    "set_remote": {
+      "requirement": "mandatory",
+      "kind": "action",
+      "description": "enter remote mode"
+    },
+    "set_local": {
+      "requirement": "mandatory",
+      "kind": "action",
+      "description": "return to local mode"
+    },
+    "clear_status": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "clear status registers"
+    },
+    "error_query": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "read and clear the oldest error",
+      "result": {
+        "type": "string"
+      }
+    },
+    "self_test": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "run self test, 0 = pass",
+      "result": {
+        "type": "int"
+      }
+    },
+    "read_power": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "measured output power",
+      "args": {
+        "channel_number": {
+          "type": "int",
+          "min": 1,
+          "required": false,
+          "description": "output/channel number (1-based); ignored by single-output supplies"
+        }
+      },
+      "result": {
+        "type": "float",
+        "unit": "W"
+      }
+    },
+    "select_channel": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "select the output addressed by the following commands (low level; set_voltage etc. already select it)",
+      "args": {
+        "channel_number": {
+          "type": "int",
+          "min": 1
+        }
+      }
+    },
+    "select_channel_numeric": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "select the output by number (low level)",
+      "args": {
+        "channel_number": {
+          "type": "int",
+          "min": 1
+        }
+      }
+    },
+    "select_channel_named": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "select the output by name (low level)",
+      "args": {
+        "channel_number": {
+          "type": "int",
+          "min": 1
+        }
+      }
+    },
+    "apply": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "select an output and set voltage and current together",
+      "args": {
+        "channel_number": {
+          "type": "int",
+          "min": 1
+        },
+        "voltage": {
+          "type": "float",
+          "unit": "V"
+        },
+        "current": {
+          "type": "float",
+          "unit": "A"
+        }
+      }
+    },
+    "apply_voltage": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "set the voltage of all channels without changing the selected channel; values is a comma separated list \"CH1[,CH2[,CH3]]\" (series-specific)",
+      "args": {
+        "values": {
+          "type": "string"
+        }
+      }
+    },
+    "apply_current": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "set the current of all channels without changing the selected channel; values is a comma separated list \"CH1[,CH2[,CH3]]\" (series-specific)",
+      "args": {
+        "values": {
+          "type": "string"
+        }
+      }
+    },
+    "read_voltage_all": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "read the voltage measured on the output terminals of all channels (series-specific)",
+      "result": {
+        "type": "string"
+      }
+    },
+    "read_current_all": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "read the current measured on the output terminals of all channels (series-specific)",
+      "result": {
+        "type": "string"
+      }
+    },
+    "set_channel_outputs": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "enable/disable the output of each channel without changing the selected channel; states is \"CH1,CH2,CH3\" with 1/0 or ON/OFF (series-specific)",
+      "args": {
+        "states": {
+          "type": "string"
+        }
+      }
+    },
+    "set_track_mode": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "enable/disable track mode of CH1 and CH2 (triple output models only) (series-specific)",
+      "args": {
+        "state": {
+          "type": "string"
+        }
+      }
+    },
+    "set_series_mode": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "enable/disable series mode of CH1 and CH2 (triple output models only) (series-specific)",
+      "args": {
+        "state": {
+          "type": "string"
+        }
+      }
+    },
+    "set_parallel_mode": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "enable/disable parallel mode of CH1 and CH2 (triple output models only) (series-specific)",
+      "args": {
+        "state": {
+          "type": "string"
+        }
+      }
+    },
+    "set_ovp_level": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "overvoltage protection (OVP) value of the selected channel (series-specific)",
+      "args": {
+        "value": {
+          "type": "float"
+        }
+      }
+    },
+    "set_ocp_level": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "overcurrent protection (OCP) value of the selected channel (series-specific)",
+      "args": {
+        "value": {
+          "type": "float"
+        }
+      }
+    },
+    "set_ovp_level_all": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "OVP value of all channels; values is \"CH1[,CH2[,CH3]]\" (series-specific)",
+      "args": {
+        "values": {
+          "type": "string"
+        }
+      }
+    },
+    "set_ocp_level_all": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "OCP value of all channels; values is \"CH1[,CH2[,CH3]]\" (series-specific)",
+      "args": {
+        "values": {
+          "type": "string"
+        }
+      }
+    },
+    "enable_ocp": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "enable overcurrent protection on the selected channel (series-specific)"
+    },
+    "disable_ocp": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "disable overcurrent protection on the selected channel (series-specific)"
+    },
+    "query_ovp_tripped": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "1 if the overvoltage protection has tripped on the selected channel (series-specific)",
+      "result": {
+        "type": "int"
+      }
+    },
+    "query_ocp_tripped": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "1 if the overcurrent protection has tripped on the selected channel (series-specific)",
+      "result": {
+        "type": "int"
+      }
+    },
+    "clear_protection": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "clear tripped protections (OVP/OCP/OTP) on all outputs (series-specific)"
+    },
+    "save_state": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "store the instrument state in a memory location (0-9) (series-specific)",
+      "args": {
+        "location": {
+          "type": "int"
+        }
+      }
+    },
+    "recall_state": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "recall the instrument state from a memory location (0-9) (series-specific)",
+      "args": {
+        "location": {
+          "type": "int"
+        }
+      }
+    },
+    "read_programmed_voltage": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "read programmed voltage (series-specific)",
+      "result": {
+        "type": "float"
+      }
+    },
+    "read_programmed_current": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "read programmed current (series-specific)",
+      "result": {
+        "type": "float"
+      }
+    },
+    "set_local_remote": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "set local remote (series-specific)",
+      "args": {
+        "mode": {
+          "type": "int"
+        }
+      }
+    },
+    "set_remote_lock": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "remote mode with front panel local button disabled (local lockout) (series-specific)"
+    },
+    "query_selected_channel": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query selected channel (series-specific)",
+      "result": {
+        "type": "string"
+      }
+    },
+    "set_triggered_voltage": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "program pending triggered voltage level, transferred to output on trigger (series-specific)",
+      "args": {
+        "value": {
+          "type": "float"
+        }
+      }
+    },
+    "set_triggered_current": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "program pending triggered current level, transferred to output on trigger (series-specific)",
+      "args": {
+        "value": {
+          "type": "float"
+        }
+      }
+    },
+    "set_coupling": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "couple triggered levels between logical outputs (list of output identifiers) (series-specific)",
+      "args": {
+        "output_list": {
+          "type": "string"
+        }
+      }
+    },
+    "initiate_trigger": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "initiate the trigger system (transfers triggered levels) (series-specific)"
+    },
+    "set_trigger_source": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "select trigger source (default BUS at *RST) (series-specific)",
+      "args": {
+        "source": {
+          "type": "string"
+        }
+      }
+    },
+    "set_trigger_delay": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "delay between trigger detection and output change, 0..3600 s (bus trigger source only) (series-specific)",
+      "args": {
+        "seconds": {
+          "type": "float"
+        }
+      }
+    },
+    "trigger_bus": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "generate a bus trigger (IEEE-488 GET); over RS-232 requires SYSTem:REMote (series-specific)"
+    },
+    "operation_complete": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "set Operation Complete bit (bit 0) of Standard Event register when pending operations complete (series-specific)"
+    },
+    "operation_complete_query": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "returns '1' when pending operations complete (series-specific)",
+      "result": {
+        "type": "int"
+      }
+    },
+    "wait_to_complete": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "wait for all pending operations to complete before executing further commands (series-specific)"
+    },
+    "query_status_byte": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query Status Byte summary register (bit 3=QUES, 4=MAV, 5=ESB, 6=RQS) (series-specific)",
+      "result": {
+        "type": "int"
+      }
+    },
+    "query_event_status_register": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query Standard Event register (bit 0=OPC, 2=QYE, 3=DDE, 4=EXE, 5=CME, 7=PON) (series-specific)",
+      "result": {
+        "type": "int"
+      }
+    },
+    "enable_event_status_register": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "enable bits in the Standard Event enable register (series-specific)",
+      "args": {
+        "value": {
+          "type": "int"
+        }
+      }
+    },
+    "query_event_status_enable": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query Standard Event enable register (series-specific)",
+      "result": {
+        "type": "int"
+      }
+    },
+    "set_service_request_enable": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "enable bits in the Status Byte enable register for SRQ generation (series-specific)",
+      "args": {
+        "value": {
+          "type": "int"
+        }
+      }
+    },
+    "query_service_request_enable": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query Status Byte enable register (series-specific)",
+      "result": {
+        "type": "int"
+      }
+    },
+    "set_power_on_status_clear": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "power-on status clear: 1 clears enable masks at power-on, 0 preserves them (series-specific)",
+      "args": {
+        "state": {
+          "type": "int"
+        }
+      }
+    },
+    "set_display_state": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "turn front-panel display off or on (series-specific)",
+      "args": {
+        "state": {
+          "type": "string"
+        }
+      }
+    },
+    "display_text": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "display a message on the front panel (up to 12 characters) (series-specific)",
+      "args": {
+        "text": {
+          "type": "string"
+        }
+      }
+    },
+    "clear_display_text": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "clear the message displayed on the front panel (series-specific)"
+    },
+    "beep": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "issue a single beep immediately (series-specific)"
+    },
+    "query_scpi_version": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query SCPI language version, returns string YYYY.V (series-specific)",
+      "result": {
+        "type": "string"
+      }
+    },
+    "set_local_mode": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "return to local mode over RS-232 (GPIB uses GTL/Local key instead) (series-specific)"
+    },
+    "set_remote_mode": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "place in remote mode over RS-232 (must be sent before RS-232 programming) (series-specific)"
+    },
+    "query_questionable_status": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query Questionable Status event register (bit 4=FAN, bit 13=ISUM); also clears it (series-specific)",
+      "result": {
+        "type": "int"
+      }
+    },
+    "enable_questionable_status": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "enable bits in Questionable Status enable register (series-specific)",
+      "args": {
+        "value": {
+          "type": "int"
+        }
+      }
+    },
+    "query_questionable_instrument_status": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query Questionable Instrument event register (bit 1=+6V, bit 2=+25V, bit 3=-25V overload) (series-specific)",
+      "result": {
+        "type": "int"
+      }
+    },
+    "enable_questionable_instrument_status": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "set Questionable Instrument enable register (series-specific)",
+      "args": {
+        "value": {
+          "type": "int"
+        }
+      }
+    },
+    "query_instrument_summary": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query Questionable Instrument ISUM event register for one output (bit 0=voltage unregulated, bit 1=current unregulated) (series-specific)",
+      "args": {
+        "channel_number": {
+          "type": "int"
+        }
+      },
+      "result": {
+        "type": "int"
+      }
+    },
+    "query_instrument_summary_condition": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query CV/CC operating condition of one output: 0=off/unregulated, 1=CC, 2=CV, 3=hardware failure (series-specific)",
+      "args": {
+        "channel_number": {
+          "type": "int"
+        }
+      },
+      "result": {
+        "type": "int"
+      }
+    },
+    "enable_instrument_summary": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "set Questionable Instrument ISUM enable register for one output (series-specific)",
+      "args": {
+        "channel_number": {
+          "type": "int"
+        },
+        "value": {
+          "type": "int"
+        }
+      }
+    },
+    "calibration_count_query": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query number of times the unit has been calibrated (series-specific)",
+      "result": {
+        "type": "int"
+      }
+    },
+    "calibration_secure_state": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "secure/unsecure calibration (requires the security code) (series-specific)",
+      "args": {
+        "state": {
+          "type": "string"
+        },
+        "code": {
+          "type": "string"
+        }
+      }
+    },
+    "calibration_secure_code": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "change the calibration security code (series-specific)",
+      "args": {
+        "code": {
+          "type": "string"
+        }
+      }
+    },
+    "calibration_string": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "store/query calibration message (up to 40 characters) (series-specific)",
+      "args": {
+        "text": {
+          "type": "string"
+        }
+      }
+    },
+    "calibration_voltage_data": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "enter voltage value read from external meter for calibration (requires unsecured state) (series-specific)",
+      "args": {
+        "value": {
+          "type": "float"
+        }
+      }
+    },
+    "calibration_voltage_level": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "select voltage calibration point (MIN must be entered first, then MAX) (series-specific)",
+      "args": {
+        "level": {
+          "type": "string"
+        }
+      }
+    },
+    "calibration_current_data": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "enter current value read from external meter for calibration (requires unsecured state) (series-specific)",
+      "args": {
+        "value": {
+          "type": "float"
+        }
+      }
+    },
+    "calibration_current_level": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "select current calibration point (MIN must be entered first, then MAX) (series-specific)",
+      "args": {
+        "level": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

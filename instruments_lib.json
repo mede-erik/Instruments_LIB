@@ -63,63 +63,146 @@
             }
           },
           "set_voltage": {
-            "description": "set voltage",
+            "description": "set the voltage of a channel (selects the channel first)",
             "set": {
-              "syntax": "VOLT {value}",
-              "args": [
-                "value"
+              "steps": [
+                {
+                  "op": "write",
+                  "text": "INST:NSEL {channel_number}"
+                },
+                {
+                  "op": "write",
+                  "text": "VOLT {value}"
+                }
               ]
             },
             "query": {
-              "syntax": "VOLT?",
+              "steps": [
+                {
+                  "op": "write",
+                  "text": "INST:NSEL {channel_number}"
+                },
+                {
+                  "op": "query",
+                  "text": "VOLT?",
+                  "returns": "float"
+                }
+              ],
               "return_type": "float"
             },
             "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
               "value": {
                 "type": "float"
               }
             }
           },
           "set_current": {
-            "description": "set current",
+            "description": "set the current limit of a channel (selects the channel first)",
             "set": {
-              "syntax": "CURR {value}",
-              "args": [
-                "value"
+              "steps": [
+                {
+                  "op": "write",
+                  "text": "INST:NSEL {channel_number}"
+                },
+                {
+                  "op": "write",
+                  "text": "CURR {value}"
+                }
               ]
             },
             "query": {
-              "syntax": "CURR?",
+              "steps": [
+                {
+                  "op": "write",
+                  "text": "INST:NSEL {channel_number}"
+                },
+                {
+                  "op": "query",
+                  "text": "CURR?",
+                  "returns": "float"
+                }
+              ],
               "return_type": "float"
             },
             "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
               "value": {
                 "type": "float"
               }
             }
           },
           "read_voltage": {
-            "description": "read voltage",
+            "description": "measured voltage of a channel (selects the channel first)",
             "set": null,
             "query": {
-              "syntax": "MEAS:VOLT?",
+              "steps": [
+                {
+                  "op": "write",
+                  "text": "INST:NSEL {channel_number}"
+                },
+                {
+                  "op": "query",
+                  "text": "MEAS:VOLT?",
+                  "returns": "float"
+                }
+              ],
               "return_type": "float"
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              }
             }
           },
           "read_current": {
-            "description": "read current",
+            "description": "measured current of a channel (selects the channel first)",
             "set": null,
             "query": {
-              "syntax": "MEAS:CURR?",
+              "steps": [
+                {
+                  "op": "write",
+                  "text": "INST:NSEL {channel_number}"
+                },
+                {
+                  "op": "query",
+                  "text": "MEAS:CURR?",
+                  "returns": "float"
+                }
+              ],
               "return_type": "float"
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              }
             }
           },
           "read_power": {
-            "description": "read power",
+            "description": "measured power of a channel (selects the channel first)",
             "set": null,
             "query": {
-              "syntax": "MEAS:POW?",
+              "steps": [
+                {
+                  "op": "write",
+                  "text": "INST:NSEL {channel_number}"
+                },
+                {
+                  "op": "query",
+                  "text": "MEAS:POW?",
+                  "returns": "float"
+                }
+              ],
               "return_type": "float"
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              }
             }
           },
           "output_on": {
@@ -141,7 +224,17 @@
             "set": null,
             "query": {
               "syntax": "OUTP?",
-              "return_type": "int"
+              "return_type": "string",
+              "bool": {
+                "true": [
+                  "1",
+                  "ON"
+                ],
+                "false": [
+                  "0",
+                  "OFF"
+                ]
+              }
             }
           },
           "set_remote": {
@@ -686,30 +779,48 @@
             }
           },
           "set_voltage": {
-            "description": "set voltage",
+            "description": "set the voltage of a channel (selects the channel first)",
             "set": {
-              "syntax": "VOLT {value}",
-              "args": [
-                "value"
+              "steps": [
+                {
+                  "op": "write",
+                  "text": "INST:SEL CH{channel_number}"
+                },
+                {
+                  "op": "write",
+                  "text": "VOLT {value}"
+                }
               ]
             },
             "query": null,
             "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
               "value": {
                 "type": "float"
               }
             }
           },
           "set_current": {
-            "description": "set current",
+            "description": "set the current limit of a channel (selects the channel first)",
             "set": {
-              "syntax": "CURR {value}",
-              "args": [
-                "value"
+              "steps": [
+                {
+                  "op": "write",
+                  "text": "INST:SEL CH{channel_number}"
+                },
+                {
+                  "op": "write",
+                  "text": "CURR {value}"
+                }
               ]
             },
             "query": null,
             "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
               "value": {
                 "type": "float"
               }
@@ -766,7 +877,17 @@
             "set": null,
             "query": {
               "syntax": "OUTP?",
-              "return_type": "int"
+              "return_type": "string",
+              "bool": {
+                "true": [
+                  "1",
+                  "ON"
+                ],
+                "false": [
+                  "0",
+                  "OFF"
+                ]
+              }
             }
           },
           "set_remote": {
@@ -1166,7 +1287,17 @@
             "set": null,
             "query": {
               "syntax": "OUTPut?",
-              "return_type": "int"
+              "return_type": "string",
+              "bool": {
+                "true": [
+                  "1",
+                  "ON"
+                ],
+                "false": [
+                  "0",
+                  "OFF"
+                ]
+              }
             }
           },
           "read_programmed_voltage": {
@@ -1450,49 +1581,97 @@
             }
           },
           "set_voltage": {
-            "description": "set voltage",
+            "description": "set the voltage of a channel (selects the channel first)",
             "set": {
-              "syntax": "VOLT {value}",
-              "args": [
-                "value"
+              "steps": [
+                {
+                  "op": "write",
+                  "text": "INST:SEL OUT{channel_number}"
+                },
+                {
+                  "op": "write",
+                  "text": "VOLT {value}"
+                }
               ]
             },
             "query": null,
             "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
               "value": {
                 "type": "float"
               }
             }
           },
           "set_current": {
-            "description": "set current",
+            "description": "set the current limit of a channel (selects the channel first)",
             "set": {
-              "syntax": "CURR {value}",
-              "args": [
-                "value"
+              "steps": [
+                {
+                  "op": "write",
+                  "text": "INST:SEL OUT{channel_number}"
+                },
+                {
+                  "op": "write",
+                  "text": "CURR {value}"
+                }
               ]
             },
             "query": null,
             "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
               "value": {
                 "type": "float"
               }
             }
           },
           "read_voltage": {
-            "description": "read voltage",
+            "description": "measured voltage of a channel (selects the channel first)",
             "set": null,
             "query": {
-              "syntax": "MEAS:VOLT?",
+              "steps": [
+                {
+                  "op": "write",
+                  "text": "INST:SEL OUT{channel_number}"
+                },
+                {
+                  "op": "query",
+                  "text": "MEAS:VOLT?",
+                  "returns": "float"
+                }
+              ],
               "return_type": "float"
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              }
             }
           },
           "read_current": {
-            "description": "read current",
+            "description": "measured current of a channel (selects the channel first)",
             "set": null,
             "query": {
-              "syntax": "MEAS:CURR?",
+              "steps": [
+                {
+                  "op": "write",
+                  "text": "INST:SEL OUT{channel_number}"
+                },
+                {
+                  "op": "query",
+                  "text": "MEAS:CURR?",
+                  "returns": "float"
+                }
+              ],
               "return_type": "float"
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              }
             }
           },
           "output_on": {
@@ -1514,7 +1693,17 @@
             "set": null,
             "query": {
               "syntax": "OUTPut?",
-              "return_type": "int"
+              "return_type": "string",
+              "bool": {
+                "true": [
+                  "1",
+                  "ON"
+                ],
+                "false": [
+                  "0",
+                  "OFF"
+                ]
+              }
             }
           },
           "read_programmed_voltage": {
@@ -1713,7 +1902,7 @@
             }
           },
           "select_channel": {
-            "description": "select output to be programmed by output identifier",
+            "description": "select the output to be programmed (1 = +6 V, 2 = +25 V, 3 = -25 V)",
             "set": {
               "syntax": "INSTrument:SELect {output_identifier}",
               "args": [
@@ -1725,13 +1914,16 @@
               "return_type": "string"
             },
             "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
               "output_identifier": {
-                "type": "string",
-                "values": [
-                  "P6V",
-                  "P25V",
-                  "N25V"
-                ]
+                "from": "channel_number",
+                "map": {
+                  "1": "P6V",
+                  "2": "P25V",
+                  "3": "N25V"
+                }
               }
             }
           },
@@ -1771,47 +1963,68 @@
               ]
             },
             "parameters": {
-              "output_identifier": {
-                "type": "string",
-                "values": [
-                  "P6V",
-                  "P25V",
-                  "N25V"
-                ]
+              "channel_number": {
+                "type": "int"
               },
               "voltage": {
                 "type": "float"
               },
               "current": {
                 "type": "float"
+              },
+              "output_identifier": {
+                "from": "channel_number",
+                "map": {
+                  "1": "P6V",
+                  "2": "P25V",
+                  "3": "N25V"
+                }
               }
             }
           },
           "set_voltage": {
-            "description": "program immediate voltage level of the selected output (MINimum|MAXimum accepted)",
+            "description": "set the voltage of an output (1 = +6 V, 2 = +25 V, 3 = -25 V; selects the output first)",
             "set": {
-              "syntax": "VOLTage {value}",
-              "args": [
-                "value"
+              "steps": [
+                {
+                  "op": "write",
+                  "text": "INSTrument:NSELect {channel_number}"
+                },
+                {
+                  "op": "write",
+                  "text": "VOLTage {value}"
+                }
               ]
             },
             "query": null,
             "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
               "value": {
                 "type": "float"
               }
             }
           },
           "set_current": {
-            "description": "program immediate current limit of the selected output (MINimum|MAXimum accepted)",
+            "description": "set the current limit of an output (selects the output first)",
             "set": {
-              "syntax": "CURRent {value}",
-              "args": [
-                "value"
+              "steps": [
+                {
+                  "op": "write",
+                  "text": "INSTrument:NSELect {channel_number}"
+                },
+                {
+                  "op": "write",
+                  "text": "CURRent {value}"
+                }
               ]
             },
             "query": null,
             "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
               "value": {
                 "type": "float"
               }
@@ -1874,19 +2087,19 @@
             "set": null,
             "query": {
               "syntax": "MEASure:VOLTage? {output_identifier}",
-              "return_type": "float",
-              "args": [
-                "output_identifier"
-              ]
+              "return_type": "float"
             },
             "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
               "output_identifier": {
-                "type": "string",
-                "values": [
-                  "P6V",
-                  "P25V",
-                  "N25V"
-                ]
+                "from": "channel_number",
+                "map": {
+                  "1": "P6V",
+                  "2": "P25V",
+                  "3": "N25V"
+                }
               }
             }
           },
@@ -1895,19 +2108,19 @@
             "set": null,
             "query": {
               "syntax": "MEASure:CURRent? {output_identifier}",
-              "return_type": "float",
-              "args": [
-                "output_identifier"
-              ]
+              "return_type": "float"
             },
             "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
               "output_identifier": {
-                "type": "string",
-                "values": [
-                  "P6V",
-                  "P25V",
-                  "N25V"
-                ]
+                "from": "channel_number",
+                "map": {
+                  "1": "P6V",
+                  "2": "P25V",
+                  "3": "N25V"
+                }
               }
             }
           },
@@ -1930,7 +2143,17 @@
             "set": null,
             "query": {
               "syntax": "OUTPut?",
-              "return_type": "int"
+              "return_type": "string",
+              "bool": {
+                "true": [
+                  "1",
+                  "ON"
+                ],
+                "false": [
+                  "0",
+                  "OFF"
+                ]
+              }
             }
           },
           "set_track_mode": {
