@@ -1,0 +1,481 @@
+{
+  "schema_version": 1,
+  "category": "electronic_loads_series",
+  "description": "Logical calls of programmable DC electronic loads (single input).",
+  "types": {
+    "bool": {
+      "kind": "bool",
+      "description": "true/false; default text sent to the instrument is ON/OFF unless the library gives a map"
+    },
+    "load_mode": {
+      "kind": "enum",
+      "values": [
+        "CC",
+        "CV",
+        "CR",
+        "CP"
+      ]
+    }
+  },
+  "calls": {
+    "identification_query": {
+      "requirement": "mandatory",
+      "kind": "query",
+      "description": "identification string (*IDN?)",
+      "result": {
+        "type": "string"
+      }
+    },
+    "reset": {
+      "requirement": "mandatory",
+      "kind": "action",
+      "description": "restore factory defaults"
+    },
+    "clear_status": {
+      "requirement": "mandatory",
+      "kind": "action",
+      "description": "clear status registers"
+    },
+    "load_on": {
+      "requirement": "mandatory",
+      "kind": "action",
+      "description": "enable the load input"
+    },
+    "load_off": {
+      "requirement": "mandatory",
+      "kind": "action",
+      "description": "disable the load input"
+    },
+    "query_input_state": {
+      "requirement": "mandatory",
+      "kind": "query",
+      "description": "input state (true = on)",
+      "result": {
+        "type": "bool"
+      }
+    },
+    "set_mode": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "operating mode: constant current/voltage/resistance/power",
+      "args": {
+        "mode": {
+          "type": "load_mode"
+        }
+      }
+    },
+    "query_mode": {
+      "requirement": "mandatory",
+      "kind": "query",
+      "description": "operating mode",
+      "result": {
+        "type": "load_mode"
+      }
+    },
+    "set_current_level": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "constant-current level",
+      "args": {
+        "value": {
+          "type": "float",
+          "unit": "A",
+          "min": 0
+        }
+      }
+    },
+    "set_voltage_level": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "constant-voltage level",
+      "args": {
+        "value": {
+          "type": "float",
+          "unit": "V",
+          "min": 0
+        }
+      }
+    },
+    "set_resistance_level": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "constant-resistance level",
+      "args": {
+        "value": {
+          "type": "float",
+          "unit": "Ohm",
+          "min": 0
+        }
+      }
+    },
+    "set_power_level": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "constant-power level",
+      "args": {
+        "value": {
+          "type": "float",
+          "unit": "W",
+          "min": 0
+        }
+      }
+    },
+    "read_voltage": {
+      "requirement": "mandatory",
+      "kind": "query",
+      "description": "measured input voltage",
+      "result": {
+        "type": "float",
+        "unit": "V"
+      }
+    },
+    "read_current": {
+      "requirement": "mandatory",
+      "kind": "query",
+      "description": "measured input current",
+      "result": {
+        "type": "float",
+        "unit": "A"
+      }
+    },
+    "read_power": {
+      "requirement": "mandatory",
+      "kind": "query",
+      "description": "measured input power",
+      "result": {
+        "type": "float",
+        "unit": "W"
+      }
+    },
+    "set_current_slew_rate_rise": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "current slew rate, rising edge",
+      "args": {
+        "value": {
+          "type": "float",
+          "unit": "A/us",
+          "min": 0
+        }
+      }
+    },
+    "set_current_slew_rate_fall": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "current slew rate, falling edge",
+      "args": {
+        "value": {
+          "type": "float",
+          "unit": "A/us",
+          "min": 0
+        }
+      }
+    },
+    "error_query": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "read and clear the oldest error",
+      "result": {
+        "type": "string"
+      }
+    },
+    "self_test": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "run self test, 0 = pass",
+      "result": {
+        "type": "int"
+      }
+    },
+    "set_dynamic_level_high": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "dynamic mode: high current level",
+      "args": {
+        "value": {
+          "type": "float",
+          "unit": "A",
+          "min": 0
+        }
+      }
+    },
+    "set_dynamic_level_low": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "dynamic mode: low current level",
+      "args": {
+        "value": {
+          "type": "float",
+          "unit": "A",
+          "min": 0
+        }
+      }
+    },
+    "set_dynamic_timing": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "dynamic mode: repetition frequency and duty cycle (the library computes the instrument's own timing parameters)",
+      "args": {
+        "frequency": {
+          "type": "float",
+          "unit": "Hz",
+          "min": 0
+        },
+        "duty": {
+          "type": "float",
+          "unit": "%",
+          "min": 0,
+          "max": 100,
+          "default": 50
+        }
+      }
+    },
+    "enable_dynamic_mode": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "switch to the constant-current dynamic mode"
+    },
+    "disable_dynamic_mode": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "return to the static constant-current mode"
+    },
+    "query_status_byte": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query status byte (series-specific)",
+      "result": {
+        "type": "int"
+      }
+    },
+    "query_event_status_register": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query event status register (series-specific)",
+      "result": {
+        "type": "int"
+      }
+    },
+    "enable_event_status_register": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "enable event status register (series-specific)",
+      "args": {
+        "value": {
+          "type": "int"
+        }
+      }
+    },
+    "query_event_status_enable": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query event status enable (series-specific)",
+      "result": {
+        "type": "int"
+      }
+    },
+    "select_channel": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "select channel (series-specific)",
+      "args": {
+        "channel_number": {
+          "type": "int"
+        }
+      }
+    },
+    "enable_ovp": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "enable ovp (series-specific)"
+    },
+    "disable_ovp": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "disable ovp (series-specific)"
+    },
+    "set_ovp_level": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "set ovp level (series-specific)",
+      "args": {
+        "value": {
+          "type": "float"
+        }
+      }
+    },
+    "enable_ocp": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "enable ocp (series-specific)"
+    },
+    "set_ocp_level": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "set ocp level (series-specific)",
+      "args": {
+        "value": {
+          "type": "float"
+        }
+      }
+    },
+    "enable_opp": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "enable opp (series-specific)"
+    },
+    "set_opp_level": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "set opp level (series-specific)",
+      "args": {
+        "value": {
+          "type": "float"
+        }
+      }
+    },
+    "set_voltage_slew_rate": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "set voltage slew rate (series-specific)",
+      "args": {
+        "value": {
+          "type": "float"
+        }
+      }
+    },
+    "set_voltage_slew_rate_neg": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "set voltage slew rate neg (series-specific)",
+      "args": {
+        "value": {
+          "type": "float"
+        }
+      }
+    },
+    "set_current_slew_rate": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "set current slew rate (series-specific)",
+      "args": {
+        "value": {
+          "type": "float"
+        }
+      }
+    },
+    "set_current_slew_rate_neg": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "set current slew rate neg (series-specific)",
+      "args": {
+        "value": {
+          "type": "float"
+        }
+      }
+    },
+    "short": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "short (series-specific)"
+    },
+    "open": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "open (series-specific)"
+    },
+    "enable_ucp": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "enable ucp (series-specific)"
+    },
+    "set_ucp_level": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "set ucp level (series-specific)",
+      "args": {
+        "value": {
+          "type": "float"
+        }
+      }
+    },
+    "set_uvp_level": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "set uvp level (series-specific)",
+      "args": {
+        "value": {
+          "type": "float"
+        }
+      }
+    },
+    "enable_uvp": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "enable uvp (series-specific)"
+    },
+    "clear_protection_fault": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "clear protection fault (series-specific)"
+    },
+    "disable_ocp": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "disable ocp (series-specific)"
+    },
+    "disable_opp": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "disable opp (series-specific)"
+    },
+    "disable_ucp": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "disable ucp (series-specific)"
+    },
+    "disable_uvp": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "disable uvp (series-specific)"
+    },
+    "query_short_state": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query short state (series-specific)",
+      "result": {
+        "type": "int"
+      }
+    },
+    "set_dynamic_mode_type": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "transient operating mode of the constant-current function (series-specific)",
+      "args": {
+        "mode_type": {
+          "type": "string"
+        }
+      }
+    },
+    "set_dynamic_width_high": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "transient level A width (s) (series-specific)",
+      "args": {
+        "value": {
+          "type": "float"
+        }
+      }
+    },
+    "set_dynamic_width_low": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "transient level B width (s) (series-specific)",
+      "args": {
+        "value": {
+          "type": "float"
+        }
+      }
+    }
+  }
+}

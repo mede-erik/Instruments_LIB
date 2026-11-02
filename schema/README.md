@@ -5,6 +5,8 @@ One file per instrument category. A schema file is the **contract** of that cate
 | File | Library category |
 |---|---|
 | `oscilloscope.json` | `oscilloscopes_series` |
+| `power_supply.json` | `power_supplies_series` |
+| `electronic_load.json` | `electronic_loads_series` |
 
 More categories are added one at a time (power supplies, electronic loads, dataloggers, multimeters, switch units).
 
@@ -71,6 +73,16 @@ A step has `op` (`write`, `query`, `delay`), `text` (the string, with `{argument
 ```
 
 `map` goes from the logical value to the text the instrument expects. A logical value that is not in the map is **not handled by this model** (error `CALL-002`). Without a `map`, an argument of type `bool` is sent as `ON`/`OFF`.
+
+### Derived parameters: one logical argument, several instrument values
+
+A library parameter with `"from"` is computed from the logical arguments instead of being passed by the caller. With a `map` it translates one argument into several texts (Tektronix waveform format: `DATa:ENCdg` and `DATa:WIDth`). With `"expr"` it is a formula over logical arguments (numbers, names, `+ - * / **`, parentheses) for instruments whose own parameters differ from the logical ones (dynamic load timing):
+
+```json
+"t_high": { "from": ["frequency", "duty"], "expr": "duty / 100 / frequency" }
+```
+
+A schema argument can have a `"default"` (for example `duty`: 50) that is used when the caller omits it.
 
 ### Response translation: `response_map`
 

@@ -13404,7 +13404,7 @@
             "query": null
           },
           "set_mode": {
-            "description": "set mode",
+            "description": "operating mode: CC, CV, CR, CP (the low current/resistance/power range of the Chroma is selected)",
             "set": {
               "syntax": "MODE {mode}",
               "args": [
@@ -13414,7 +13414,13 @@
             "query": null,
             "parameters": {
               "mode": {
-                "type": "string"
+                "type": "string",
+                "map": {
+                  "CC": "CCL",
+                  "CV": "CV",
+                  "CR": "CRL",
+                  "CP": "CPL"
+                }
               }
             }
           },
@@ -13519,7 +13525,18 @@
             "set": null,
             "query": {
               "syntax": "MODE?",
-              "return_type": "string"
+              "return_type": "string",
+              "response_map": {
+                "CCL": "CC",
+                "CCH": "CC",
+                "CCDL": "CC",
+                "CCDH": "CC",
+                "CV": "CV",
+                "CRL": "CR",
+                "CRH": "CR",
+                "CPL": "CP",
+                "CPH": "CP"
+              }
             }
           },
           "select_channel": {
@@ -13545,7 +13562,17 @@
             "set": null,
             "query": {
               "syntax": "LOAD?",
-              "return_type": "int"
+              "return_type": "string",
+              "bool": {
+                "true": [
+                  "1",
+                  "ON"
+                ],
+                "false": [
+                  "0",
+                  "OFF"
+                ]
+              }
             }
           },
           "set_current_slew_rate_rise": {
@@ -13583,6 +13610,88 @@
                 "type": "float"
               }
             }
+          },
+          "set_dynamic_level_high": {
+            "description": "dynamic load level L1 (constant current)",
+            "set": {
+              "syntax": "CURR:DYN:L1 {value}"
+            },
+            "query": {
+              "syntax": "CURR:DYN:L1?",
+              "return_type": "float"
+            },
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "set_dynamic_level_low": {
+            "description": "dynamic load level L2 (constant current)",
+            "set": {
+              "syntax": "CURR:DYN:L2 {value}"
+            },
+            "query": {
+              "syntax": "CURR:DYN:L2?",
+              "return_type": "float"
+            },
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "set_dynamic_timing": {
+            "description": "dynamic load timing from frequency and duty: T1 (at L1) = duty/frequency, T2 (at L2) = rest of the period",
+            "set": {
+              "steps": [
+                {
+                  "op": "write",
+                  "text": "CURR:DYN:T1 {t_high}S"
+                },
+                {
+                  "op": "write",
+                  "text": "CURR:DYN:T2 {t_low}S"
+                }
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "frequency": {
+                "type": "float"
+              },
+              "duty": {
+                "type": "float"
+              },
+              "t_high": {
+                "from": [
+                  "frequency",
+                  "duty"
+                ],
+                "expr": "duty / 100 / frequency"
+              },
+              "t_low": {
+                "from": [
+                  "frequency",
+                  "duty"
+                ],
+                "expr": "(100 - duty) / 100 / frequency"
+              }
+            }
+          },
+          "enable_dynamic_mode": {
+            "description": "select the constant-current dynamic mode (high range)",
+            "set": {
+              "syntax": "MODE CCDH"
+            },
+            "query": null
+          },
+          "disable_dynamic_mode": {
+            "description": "return to the static constant-current mode (high range)",
+            "set": {
+              "syntax": "MODE CCH"
+            },
+            "query": null
           }
         },
         "models": [
@@ -13770,7 +13879,7 @@
           "set_mode": {
             "description": "set mode",
             "set": {
-              "syntax": "FUNC|MODE {mode}",
+              "syntax": "FUNC {mode}",
               "args": [
                 "mode"
               ]
@@ -13779,16 +13888,12 @@
             "parameters": {
               "mode": {
                 "type": "string",
-                "values": [
-                  "CURRent",
-                  "VOLTage",
-                  "POWer",
-                  "RESistance",
-                  "CVCC",
-                  "CRCC",
-                  "CVCR",
-                  "AUTO"
-                ]
+                "map": {
+                  "CC": "CURRent",
+                  "CV": "VOLTage",
+                  "CR": "RESistance",
+                  "CP": "POWer"
+                }
               }
             }
           },
@@ -13915,28 +14020,28 @@
           "short": {
             "description": "short",
             "set": {
-              "syntax": "INP|OUTP:SHORt ON"
+              "syntax": "INP:SHORt ON"
             },
             "query": null
           },
           "open": {
             "description": "open",
             "set": {
-              "syntax": "INP|OUTP:SHORt OFF"
+              "syntax": "INP:SHORt OFF"
             },
             "query": null
           },
           "load_on": {
             "description": "load on",
             "set": {
-              "syntax": "INP|OUTP ON"
+              "syntax": "INP ON"
             },
             "query": null
           },
           "load_off": {
             "description": "load off",
             "set": {
-              "syntax": "INP|OUTP OFF"
+              "syntax": "INP OFF"
             },
             "query": null
           },
@@ -13987,7 +14092,7 @@
           "clear_protection_fault": {
             "description": "clear protection fault",
             "set": {
-              "syntax": "INP|OUTP:PROTection:CLEar"
+              "syntax": "INP:PROTection:CLEar"
             },
             "query": null
           },
@@ -14052,7 +14157,17 @@
             "set": null,
             "query": {
               "syntax": "INP?",
-              "return_type": "int"
+              "return_type": "string",
+              "bool": {
+                "true": [
+                  "1",
+                  "ON"
+                ],
+                "false": [
+                  "0",
+                  "OFF"
+                ]
+              }
             }
           },
           "query_short_state": {
@@ -14068,7 +14183,17 @@
             "set": null,
             "query": {
               "syntax": "FUNC?",
-              "return_type": "string"
+              "return_type": "string",
+              "response_map": {
+                "CURR": "CC",
+                "CURRENT": "CC",
+                "VOLT": "CV",
+                "VOLTAGE": "CV",
+                "RES": "CR",
+                "RESISTANCE": "CR",
+                "POW": "CP",
+                "POWER": "CP"
+              }
             }
           },
           "set_current_slew_rate_rise": {
@@ -14223,13 +14348,12 @@
             "parameters": {
               "mode": {
                 "type": "string",
-                "values": [
-                  "CURRent",
-                  "VOLTage",
-                  "POWer",
-                  "RESistance",
-                  "LED"
-                ]
+                "map": {
+                  "CC": "CURRent",
+                  "CV": "VOLTage",
+                  "CR": "RESistance",
+                  "CP": "POWer"
+                }
               }
             }
           },
@@ -14322,7 +14446,17 @@
             "set": null,
             "query": {
               "syntax": "INPut?",
-              "return_type": "int"
+              "return_type": "string",
+              "bool": {
+                "true": [
+                  "1",
+                  "ON"
+                ],
+                "false": [
+                  "0",
+                  "OFF"
+                ]
+              }
             }
           },
           "query_mode": {
@@ -14330,7 +14464,17 @@
             "set": null,
             "query": {
               "syntax": "FUNC?",
-              "return_type": "string"
+              "return_type": "string",
+              "response_map": {
+                "CURR": "CC",
+                "CURRENT": "CC",
+                "VOLT": "CV",
+                "VOLTAGE": "CV",
+                "RES": "CR",
+                "RESISTANCE": "CR",
+                "POW": "CP",
+                "POWER": "CP"
+              }
             }
           },
           "set_current_slew_rate_rise": {
@@ -14567,6 +14711,48 @@
             "parameters": {
               "value": {
                 "type": "float"
+              }
+            }
+          },
+          "set_dynamic_timing": {
+            "description": "transient timing from frequency and duty: level A width = duty/frequency, level B width = rest of the period (continuous transient)",
+            "set": {
+              "steps": [
+                {
+                  "op": "write",
+                  "text": "CURR:TRAN:MODE CONT"
+                },
+                {
+                  "op": "write",
+                  "text": "CURR:TRAN:AWID {t_high}"
+                },
+                {
+                  "op": "write",
+                  "text": "CURR:TRAN:BWID {t_low}"
+                }
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "frequency": {
+                "type": "float"
+              },
+              "duty": {
+                "type": "float"
+              },
+              "t_high": {
+                "from": [
+                  "frequency",
+                  "duty"
+                ],
+                "expr": "duty / 100 / frequency"
+              },
+              "t_low": {
+                "from": [
+                  "frequency",
+                  "duty"
+                ],
+                "expr": "(100 - duty) / 100 / frequency"
               }
             }
           }

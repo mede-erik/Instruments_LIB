@@ -102,8 +102,10 @@ def check_series(category, schema, series, report):
         derived = {n for n, d in params.items() if d.get("from")}
         for n in derived:
             src = params[n]["from"]
-            if src not in schema_args:
-                report.error(sid, name, f"derived parameter '{n}' comes from '{src}', not a schema argument")
+            for s_ in src if isinstance(src, list) else [src]:
+                if s_ not in schema_args:
+                    report.error(sid, name, f"derived parameter '{n}' comes from '{s_}', "
+                                            f"not a schema argument")
         for p in (set(params) | used) - derived:
             if p not in schema_args:
                 report.error(sid, name, f"argument '{p}' is not in the schema "
