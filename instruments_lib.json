@@ -6847,7 +6847,7 @@
                 {
                   "type": "SERIAL",
                   "address_format_example": "ASRL{COM_PORT}::INSTR",
-                  "notes": "GPIB is the interface selected at the factory; select RS-232 from the front panel (Interface key): the display then shows \"RS-232\" at power-on. Baud rate, parity and flow control are set from the front panel only and must match the computer. A wrong or straight (non null-modem) cable gives no answer at all.",
+                  "notes": "GPIB is the interface selected at the factory; select RS-232 from the front panel (Interface key): the display then shows \"RS-232\" at power-on. Baud rate, parity and flow control are set from the front panel only and must match the computer. A wrong or straight (non null-modem) cable gives no answer at all; tested working with a null-modem cable at the factory settings (57600 baud, 8N, XON/XOFF).",
                   "transports": [
                     {
                       "kind": "serial",
