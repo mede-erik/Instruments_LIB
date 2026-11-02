@@ -10062,9 +10062,9 @@
           "set_trigger_type": {
             "description": "set trigger type",
             "set": {
-              "syntax": "TRIGger:A:TYPe {type}",
+              "syntax": "TRIGger:A:TYPe {trigger_type}",
               "args": [
-                "type"
+                "trigger_type"
               ]
             },
             "query": {
@@ -10072,7 +10072,7 @@
               "return_type": "string"
             },
             "parameters": {
-              "type": {
+              "trigger_type": {
                 "type": "string",
                 "values": [
                   "EDGE",
@@ -10295,9 +10295,9 @@
           "set_acquisition_depth": {
             "description": "horizontal record length in points",
             "set": {
-              "syntax": "HORizontal:RECOrdlength {value}",
+              "syntax": "HORizontal:RECOrdlength {depth}",
               "args": [
-                "value"
+                "depth"
               ]
             },
             "query": {
@@ -10305,7 +10305,7 @@
               "return_type": "int"
             },
             "parameters": {
-              "value": {
+              "depth": {
                 "type": "int"
               }
             }
@@ -11057,9 +11057,9 @@
           "set_acquisition_depth": {
             "description": "memory depth: AUTO or a number of points (allowed values depend on the number of enabled channels)",
             "set": {
-              "syntax": ":ACQuire:MDEPth {value}",
+              "syntax": ":ACQuire:MDEPth {depth}",
               "args": [
-                "value"
+                "depth"
               ]
             },
             "query": {
@@ -11067,7 +11067,7 @@
               "return_type": "string"
             },
             "parameters": {
-              "value": {
+              "depth": {
                 "type": "string"
               }
             }
