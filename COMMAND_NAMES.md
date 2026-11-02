@@ -539,7 +539,7 @@ The same logical call has the same arguments and logical values for every brand;
 ## 5. Known gaps and legacy names
 
 * **OWON ODP**: the manual does not document `*CLS`, `SYSTem:ERRor?` and `*TST?`. `clear_status`, `error_query` and `self_test` exist in the library but are **not confirmed by the manual** (to be verified on the instrument).
-* **Siglent SDS HD**: the programming guide documents only `*IDN`, `*OPC` and `*RST` as common commands. `clear_status`, `error_query` and `self_test` exist in the library but are **not confirmed by the guide** (to be verified on the instrument).
+* **Siglent SDS HD**: the programming guide documents only `*IDN`, `*OPC` and `*RST` as common commands. Tested on a real SDS824X HD (FW 4.8.12.1.1.6.5): `error_query` (`SYSTem:ERRor?` → `0,"No error"`) works and `clear_status` (`*CLS`) is accepted, so both are kept although the guide does not list them. `self_test` is not tested yet. Verified on the same instrument: `*IDN?`, `*OPC?`, trigger status and mode, timebase, vertical settings, sample rate, and the waveform transfer (`:WAVeform:PREamble?` is a 346-byte binary descriptor, `:WAVeform:DATA?` a binary block of 400 000 bytes = 10 divisions × 20 µs/div × 2 GSa/s).
 * **Rigol DS1000Z**: the manual lists `RUN` as a trigger state without defining it; the library maps it to `ARMED` (to be verified).
 * **Siglent SDS HD** `set_trigger_slope`: `EITHER` is mapped to `ALTernate`, which the guide describes as alternating edges.
 * **Siglent SDS2000X HD** `set_acquisition_depth`: the table of memory depths is the union of the single-channel and dual-channel values of the guide.
