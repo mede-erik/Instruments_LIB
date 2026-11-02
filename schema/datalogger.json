@@ -1,0 +1,2339 @@
+{
+  "schema_version": 1,
+  "category": "dataloggers_series",
+  "description": "Logical calls of data acquisition / datalogger mainframes (Keysight 34970A/34972A and DAQ970A/DAQ973A). Channels use the 3-digit form of the instrument, e.g. \"101:120\". Optional calls are generated from the library.",
+  "types": {
+    "float_list": {
+      "kind": "list",
+      "item": "float",
+      "description": "list of numbers (readings of the scan list, in scan order)"
+    }
+  },
+  "calls": {
+    "reset": {
+      "requirement": "mandatory",
+      "kind": "action",
+      "description": "Factory reset: abort scan, clear scan list, restore all measurement parameters to factory settings"
+    },
+    "clear_status": {
+      "requirement": "mandatory",
+      "kind": "action",
+      "description": "Clear event registers, error queue and alarm queue (does not clear enable registers)"
+    },
+    "identification_query": {
+      "requirement": "mandatory",
+      "kind": "query",
+      "description": "Identification query (HEWLETT-PACKARD,34970A,0,XX-Y-Z on the 34970A)",
+      "result": {
+        "type": "string"
+      }
+    },
+    "self_test": {
+      "requirement": "mandatory",
+      "kind": "query",
+      "description": "Self test query, returns 0 (pass) or 1 (fail)",
+      "result": {
+        "type": "int"
+      }
+    },
+    "query_status_byte": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "Read the Status Byte Register",
+      "result": {
+        "type": "int"
+      }
+    },
+    "query_event_status_register": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "Read and clear the Standard Event Status Register",
+      "result": {
+        "type": "int"
+      }
+    },
+    "enable_event_status_register": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Enable bits in the Standard Event Status Register enable register",
+      "args": {
+        "value": {
+          "type": "int"
+        }
+      }
+    },
+    "query_event_status_enable": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "Read the Standard Event Status Register enable register",
+      "result": {
+        "type": "int"
+      }
+    },
+    "enable_service_request_enable": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Enable bits in the Service Request Enable register",
+      "args": {
+        "value": {
+          "type": "int"
+        }
+      }
+    },
+    "query_service_request_enable": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "Read the Service Request Enable register",
+      "result": {
+        "type": "int"
+      }
+    },
+    "set_operation_complete": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "Set Operation Complete bit (bit 0) in the Standard Event Register at the end of the current scan"
+    },
+    "operation_complete_query": {
+      "requirement": "mandatory",
+      "kind": "query",
+      "description": "Operation complete query, returns 1 when the current operation completes",
+      "result": {
+        "type": "int"
+      }
+    },
+    "trigger_bus": {
+      "requirement": "mandatory",
+      "kind": "action",
+      "description": "Software (bus) trigger, used with TRIGger:SOURce BUS"
+    },
+    "wait_to_continue": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "Wait-to-continue: prevent further commands until all pending operations complete"
+    },
+    "set_power_on_status_clear": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Power-on status clear: enable/disable clearing of enable registers at power-on",
+      "args": {
+        "state": {
+          "type": "string"
+        }
+      }
+    },
+    "save_state": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "Save the present instrument state to the specified location",
+      "args": {
+        "location": {
+          "type": "int"
+        }
+      }
+    },
+    "recall_state": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "Recall the instrument state stored at the specified location",
+      "args": {
+        "location": {
+          "type": "int"
+        }
+      }
+    },
+    "abort": {
+      "requirement": "mandatory",
+      "kind": "action",
+      "description": "Abort a measurement in progress from a scan (readings remain in memory)"
+    },
+    "initiate_scan": {
+      "requirement": "mandatory",
+      "kind": "action",
+      "description": "Change the triggering system from idle to wait-for-trigger state; readings are stored in memory"
+    },
+    "fetch_readings": {
+      "requirement": "mandatory",
+      "kind": "query",
+      "description": "Transfer readings from memory to the output buffer (list of readings)",
+      "result": {
+        "type": "float_list"
+      }
+    },
+    "read_scan": {
+      "requirement": "mandatory",
+      "kind": "query",
+      "description": "Place the instrument in the wait-for-trigger state, scan the present scan list once and send readings to the output buffer (list of readings)",
+      "result": {
+        "type": "float_list"
+      }
+    },
+    "read_and_remove": {
+      "requirement": "mandatory",
+      "kind": "query",
+      "description": "Read and erase up to <max_count> readings from memory, starting with the oldest (list of readings)",
+      "args": {
+        "max_count": {
+          "type": "int"
+        }
+      },
+      "result": {
+        "type": "float_list"
+      }
+    },
+    "input_impedance_auto": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Enable/disable automatic input resistance (>10 GOhm on 100 mV, 1 V, 10 V ranges) for DC voltage measurements",
+      "args": {
+        "state": {
+          "type": "string"
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "preset": {
+      "requirement": "mandatory",
+      "kind": "action",
+      "description": "Instrument preset to a known configuration (aborts measurement, does not clear scan list)"
+    },
+    "card_power_on": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Reset the module in the specified slot to its power-on state",
+      "args": {
+        "slot": {
+          "type": "string"
+        }
+      }
+    },
+    "query_card_type": {
+      "requirement": "mandatory",
+      "kind": "query",
+      "description": "Return the identity of the plug-in module in the specified slot",
+      "args": {
+        "slot": {
+          "type": "string"
+        }
+      },
+      "result": {
+        "type": "string"
+      }
+    },
+    "set_date": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Set/query the instrument calendar (readings and alarms are stored with date)",
+      "args": {
+        "year": {
+          "type": "int"
+        },
+        "month": {
+          "type": "int"
+        },
+        "day": {
+          "type": "int"
+        }
+      }
+    },
+    "set_time": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Set/query the instrument time-of-day clock",
+      "args": {
+        "hour": {
+          "type": "int"
+        },
+        "minute": {
+          "type": "int"
+        },
+        "second": {
+          "type": "float"
+        }
+      }
+    },
+    "query_scan_start_time": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "Return the time and date at the start of the most recent scan (yyyy,mm,dd,hh,mm,ss.sss)",
+      "result": {
+        "type": "string"
+      }
+    },
+    "set_interface": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Select the remote interface (34970A only: GPIB or RS-232; only one interface enabled at a time)",
+      "args": {
+        "interface": {
+          "type": "string"
+        }
+      }
+    },
+    "query_line_frequency": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "Return the power-line reference frequency used for NPLC integration (50 or 60)",
+      "result": {
+        "type": "int"
+      }
+    },
+    "query_scpi_version": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "Return the version of the SCPI standard with which the instrument complies (1994.0)",
+      "result": {
+        "type": "string"
+      }
+    },
+    "query_alarm": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "Read one alarm event from the alarm queue (read and delete, FIFO, up to 20 alarms)",
+      "result": {
+        "type": "string"
+      }
+    },
+    "set_local": {
+      "requirement": "mandatory",
+      "kind": "action",
+      "description": "Place the instrument in local mode (front panel fully functional; not allowed over GPIB on the 34970A)"
+    },
+    "set_remote": {
+      "requirement": "mandatory",
+      "kind": "action",
+      "description": "Place the instrument in remote mode (most front panel keys disabled)"
+    },
+    "set_remote_lock": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "Local lockout mode (all front panel keys disabled)"
+    },
+    "instrument_dmm": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Disable/enable the internal DMM (changing state issues a Factory Reset)",
+      "args": {
+        "state": {
+          "type": "string"
+        }
+      }
+    },
+    "query_dmm_installed": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "Return 1 if the internal DMM is installed",
+      "result": {
+        "type": "int"
+      }
+    },
+    "select_channels": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "Select the channels to be included in the scan list (channels are 4-digit channel numbers in the (@ch_list) form, e.g. (@101:120); use ROUT:SCAN (@) to clear)",
+      "args": {
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "query_scan_size": {
+      "requirement": "mandatory",
+      "kind": "query",
+      "description": "Return the number of channels in the scan list",
+      "result": {
+        "type": "int"
+      }
+    },
+    "close_channel": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "Close the specified channels on a multiplexer or switch module",
+      "args": {
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "close_channel_exclusive": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "Open all channels on the module, then close the specified channels (one at a time)",
+      "args": {
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "open_channels": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "Open the specified channels on a multiplexer or switch module",
+      "args": {
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "set_channel_advance_source": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "Select the channel advance source for external scanning (internal DMM disabled), {EXTernal|BUS|IMMediate}",
+      "args": {
+        "source": {
+          "type": "string"
+        }
+      }
+    },
+    "set_channel_delay": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "Add a delay (0 to 60 s, 1 ms resolution) between multiplexer channels in the scan list",
+      "args": {
+        "seconds": {
+          "type": "float"
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "set_channel_delay_auto": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Enable/disable automatic channel delay on the specified channels",
+      "args": {
+        "state": {
+          "type": "string"
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "set_four_wire": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Configure the specified channels for 4-wire external scanning without the internal DMM (34901A/34902A only)",
+      "args": {
+        "state": {
+          "type": "string"
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "query_relay_done": {
+      "requirement": "mandatory",
+      "kind": "query",
+      "description": "Return 1 when all relay operations on cards not involved in the scan are finished",
+      "result": {
+        "type": "int"
+      }
+    },
+    "monitor_channel": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "Select the channel to be displayed on the front panel (single channel, e.g. (@103))",
+      "args": {
+        "channel": {
+          "type": "string"
+        }
+      }
+    },
+    "query_monitor_data": {
+      "requirement": "mandatory",
+      "kind": "query",
+      "description": "Read one reading from the monitor channel (reading only, no units/time/channel/alarm)",
+      "result": {
+        "type": "float"
+      }
+    },
+    "set_monitor_state": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "Enable/disable the Monitor mode (continuous measurements on a single channel)",
+      "args": {
+        "mode": {
+          "type": "string"
+        }
+      }
+    },
+    "set_trigger_source": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "Select the trigger source for each sweep through the scan list",
+      "args": {
+        "source": {
+          "type": "string"
+        }
+      }
+    },
+    "set_trigger_count": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "Specify the number of times to sweep through the scan list",
+      "args": {
+        "count": {
+          "type": "string"
+        }
+      }
+    },
+    "set_trigger_timer": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "Set the trigger-to-trigger interval (0 to 359,999 s, 1 ms resolution) for the TIMer trigger source",
+      "args": {
+        "seconds": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "MIN",
+            "MAX"
+          ]
+        },
+        "minmax": {
+          "type": "string"
+        }
+      }
+    },
+    "configure_dc_voltage": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "Configure the specified channels for DC voltage measurements (does not initiate the scan)",
+      "args": {
+        "range": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "AUTO",
+            "MIN",
+            "MAX",
+            "DEF"
+          ]
+        },
+        "resolution": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "AUTO",
+            "MIN",
+            "MAX",
+            "DEF"
+          ]
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "configure_ac_voltage": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "Configure the specified channels for AC voltage measurements (resolution fixed at 6 1/2 digits)",
+      "args": {
+        "range": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "AUTO",
+            "MIN",
+            "MAX",
+            "DEF"
+          ]
+        },
+        "resolution": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "AUTO",
+            "MIN",
+            "MAX",
+            "DEF"
+          ]
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "configure_dc_current": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "Configure the specified channels (34901A/34902A ch 21/22 only) for DC current measurements",
+      "args": {
+        "range": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "AUTO",
+            "MIN",
+            "MAX",
+            "DEF"
+          ]
+        },
+        "resolution": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "AUTO",
+            "MIN",
+            "MAX",
+            "DEF"
+          ]
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "configure_ac_current": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "Configure the specified channels (34901A/34902A ch 21/22 only) for AC current measurements",
+      "args": {
+        "range": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "AUTO",
+            "MIN",
+            "MAX",
+            "DEF"
+          ]
+        },
+        "resolution": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "AUTO",
+            "MIN",
+            "MAX",
+            "DEF"
+          ]
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "configure_resistance": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "Configure the specified channels for 2-wire resistance measurements",
+      "args": {
+        "range": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "AUTO",
+            "MIN",
+            "MAX",
+            "DEF"
+          ]
+        },
+        "resolution": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "AUTO",
+            "MIN",
+            "MAX",
+            "DEF"
+          ]
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "configure_fresistance": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "Configure the specified channels for 4-wire resistance measurements (channels auto-paired with Bank 2)",
+      "args": {
+        "range": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "AUTO",
+            "MIN",
+            "MAX",
+            "DEF"
+          ]
+        },
+        "resolution": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "AUTO",
+            "MIN",
+            "MAX",
+            "DEF"
+          ]
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "configure_frequency": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "Configure the specified channels for frequency measurements",
+      "args": {
+        "range": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "AUTO",
+            "MIN",
+            "MAX",
+            "DEF"
+          ]
+        },
+        "resolution": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "AUTO",
+            "MIN",
+            "MAX",
+            "DEF"
+          ]
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "configure_period": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "Configure the specified channels for period measurements",
+      "args": {
+        "range": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "AUTO",
+            "MIN",
+            "MAX",
+            "DEF"
+          ]
+        },
+        "resolution": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "AUTO",
+            "MIN",
+            "MAX",
+            "DEF"
+          ]
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "configure_temperature": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "Configure the specified channels for temperature measurements",
+      "args": {
+        "probe_type": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "resolution": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "MIN",
+            "MAX",
+            "DEF"
+          ]
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "configure_totalize": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "Configure the specified totalizer channels on the multifunction module (34907A)",
+      "args": {
+        "mode": {
+          "type": "string"
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "configure_digital_byte": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Configure the instrument to scan the specified digital input channels (34907A) as byte data",
+      "args": {
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "query_configuration": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "Return the present function, range and resolution configuration on the specified channels",
+      "args": {
+        "channels": {
+          "type": "string"
+        }
+      },
+      "result": {
+        "type": "string"
+      }
+    },
+    "measure_dc_voltage": {
+      "requirement": "mandatory",
+      "kind": "query",
+      "description": "Configure and measure DC voltage (equivalent to CONFigure:VOLTage:DC followed by READ?)",
+      "args": {
+        "range": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "AUTO",
+            "MIN",
+            "MAX",
+            "DEF"
+          ]
+        },
+        "resolution": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "AUTO",
+            "MIN",
+            "MAX",
+            "DEF"
+          ]
+        },
+        "channels": {
+          "type": "string"
+        }
+      },
+      "result": {
+        "type": "float"
+      }
+    },
+    "measure_ac_voltage": {
+      "requirement": "mandatory",
+      "kind": "query",
+      "description": "Configure and measure AC voltage",
+      "args": {
+        "range": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "AUTO",
+            "MIN",
+            "MAX",
+            "DEF"
+          ]
+        },
+        "resolution": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "AUTO",
+            "MIN",
+            "MAX",
+            "DEF"
+          ]
+        },
+        "channels": {
+          "type": "string"
+        }
+      },
+      "result": {
+        "type": "float"
+      }
+    },
+    "measure_dc_current": {
+      "requirement": "mandatory",
+      "kind": "query",
+      "description": "Configure and measure DC current (34901A/34902A ch 21/22 only)",
+      "args": {
+        "range": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "AUTO",
+            "MIN",
+            "MAX",
+            "DEF"
+          ]
+        },
+        "resolution": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "AUTO",
+            "MIN",
+            "MAX",
+            "DEF"
+          ]
+        },
+        "channels": {
+          "type": "string"
+        }
+      },
+      "result": {
+        "type": "float"
+      }
+    },
+    "measure_ac_current": {
+      "requirement": "mandatory",
+      "kind": "query",
+      "description": "Configure and measure AC current (34901A/34902A ch 21/22 only)",
+      "args": {
+        "range": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "AUTO",
+            "MIN",
+            "MAX",
+            "DEF"
+          ]
+        },
+        "resolution": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "AUTO",
+            "MIN",
+            "MAX",
+            "DEF"
+          ]
+        },
+        "channels": {
+          "type": "string"
+        }
+      },
+      "result": {
+        "type": "float"
+      }
+    },
+    "measure_resistance": {
+      "requirement": "mandatory",
+      "kind": "query",
+      "description": "Configure and measure 2-wire resistance",
+      "args": {
+        "range": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "AUTO",
+            "MIN",
+            "MAX",
+            "DEF"
+          ]
+        },
+        "resolution": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "AUTO",
+            "MIN",
+            "MAX",
+            "DEF"
+          ]
+        },
+        "channels": {
+          "type": "string"
+        }
+      },
+      "result": {
+        "type": "float"
+      }
+    },
+    "measure_fresistance": {
+      "requirement": "mandatory",
+      "kind": "query",
+      "description": "Configure and measure 4-wire resistance",
+      "args": {
+        "range": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "AUTO",
+            "MIN",
+            "MAX",
+            "DEF"
+          ]
+        },
+        "resolution": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "AUTO",
+            "MIN",
+            "MAX",
+            "DEF"
+          ]
+        },
+        "channels": {
+          "type": "string"
+        }
+      },
+      "result": {
+        "type": "float"
+      }
+    },
+    "measure_frequency": {
+      "requirement": "mandatory",
+      "kind": "query",
+      "description": "Configure and measure frequency",
+      "args": {
+        "range": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "AUTO",
+            "MIN",
+            "MAX",
+            "DEF"
+          ]
+        },
+        "resolution": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "AUTO",
+            "MIN",
+            "MAX",
+            "DEF"
+          ]
+        },
+        "channels": {
+          "type": "string"
+        }
+      },
+      "result": {
+        "type": "float"
+      }
+    },
+    "measure_period": {
+      "requirement": "mandatory",
+      "kind": "query",
+      "description": "Configure and measure period",
+      "args": {
+        "range": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "AUTO",
+            "MIN",
+            "MAX",
+            "DEF"
+          ]
+        },
+        "resolution": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "AUTO",
+            "MIN",
+            "MAX",
+            "DEF"
+          ]
+        },
+        "channels": {
+          "type": "string"
+        }
+      },
+      "result": {
+        "type": "float"
+      }
+    },
+    "measure_temperature": {
+      "requirement": "mandatory",
+      "kind": "query",
+      "description": "Configure and measure temperature",
+      "args": {
+        "probe_type": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "resolution": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "MIN",
+            "MAX",
+            "DEF"
+          ]
+        },
+        "channels": {
+          "type": "string"
+        }
+      },
+      "result": {
+        "type": "float"
+      }
+    },
+    "measure_totalize": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "Configure and measure totalizer count (34907A)",
+      "args": {
+        "mode": {
+          "type": "string"
+        },
+        "channels": {
+          "type": "string"
+        }
+      },
+      "result": {
+        "type": "float"
+      }
+    },
+    "measure_digital_byte": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "Configure and measure digital input byte data (34907A)",
+      "args": {
+        "channels": {
+          "type": "string"
+        }
+      },
+      "result": {
+        "type": "int"
+      }
+    },
+    "query_data_points": {
+      "requirement": "mandatory",
+      "kind": "query",
+      "description": "Return the total number of readings currently stored in reading memory",
+      "result": {
+        "type": "int"
+      }
+    },
+    "remove_readings": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "Read and erase the specified number of readings from memory, starting with the oldest",
+      "args": {
+        "num_rdgs": {
+          "type": "int"
+        }
+      },
+      "result": {
+        "type": "string"
+      }
+    },
+    "query_last_reading": {
+      "requirement": "mandatory",
+      "kind": "query",
+      "description": "Return the most recent reading(s) taken on the specified channel during the scan",
+      "args": {
+        "num_rdgs": {
+          "type": "int"
+        },
+        "channel": {
+          "type": "string"
+        }
+      },
+      "result": {
+        "type": "string"
+      }
+    },
+    "set_memory_threshold": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Set the number of readings that sets the Memory Threshold bit (bit 9) in the Standard Operation event register",
+      "args": {
+        "num_rdgs": {
+          "type": "int"
+        }
+      }
+    },
+    "set_display": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Disable/enable the front-panel display",
+      "args": {
+        "state": {
+          "type": "string"
+        }
+      }
+    },
+    "display_text": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "Display a text message (up to 12 characters) on the front panel",
+      "args": {
+        "quoted_string": {
+          "type": "string"
+        }
+      }
+    },
+    "clear_display_text": {
+      "requirement": "mandatory",
+      "kind": "action",
+      "description": "Clear the text message on the front-panel display"
+    },
+    "format_reading_alarm": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Enable/disable the inclusion of alarm status information with retrieved readings",
+      "args": {
+        "state": {
+          "type": "string"
+        }
+      }
+    },
+    "format_reading_channel": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Enable/disable the inclusion of channel number information with retrieved readings",
+      "args": {
+        "mode": {
+          "type": "string"
+        }
+      }
+    },
+    "format_reading_time": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Enable/disable the inclusion of a time stamp with retrieved readings",
+      "args": {
+        "mode": {
+          "type": "string"
+        }
+      }
+    },
+    "format_reading_time_type": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Select the time format for time stamps: absolute (time of day with date) or relative (seconds since start of scan)",
+      "args": {
+        "format": {
+          "type": "string"
+        }
+      }
+    },
+    "format_reading_unit": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Enable/disable the inclusion of measurement units (VDC, OHM, etc.) with retrieved readings",
+      "args": {
+        "mode": {
+          "type": "string"
+        }
+      }
+    },
+    "set_alarm_mode": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Select the configuration of the four TTL alarm output lines: latch or track mode",
+      "args": {
+        "mode": {
+          "type": "string"
+        }
+      }
+    },
+    "set_alarm_slope": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Select the slope of the pulse from the four TTL alarm outputs",
+      "args": {
+        "edge": {
+          "type": "string"
+        }
+      }
+    },
+    "alarm_source": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Assign one of four alarm numbers (1-4) to report any alarm conditions on the specified channels",
+      "args": {
+        "alarm": {
+          "type": "int"
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "clear_alarms": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "Clear all four alarm output lines"
+    },
+    "clear_alarm": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Clear the specified alarm output line",
+      "args": {
+        "alarm": {
+          "type": "int"
+        }
+      }
+    },
+    "set_temperature_unit": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "Select the temperature units (Celsius, Fahrenheit, Kelvin) on the specified channels",
+      "args": {
+        "units": {
+          "type": "string"
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "set_voltage_range": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Set the DC voltage measurement range (100 mV to 300 V)",
+      "args": {
+        "range": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "MIN",
+            "MAX"
+          ]
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "set_voltage_range_auto": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Enable/disable autoranging for DC voltage measurements",
+      "args": {
+        "state": {
+          "type": "string"
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "set_voltage_resolution": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Set the DC voltage measurement resolution (setting resolution also sets integration time)",
+      "args": {
+        "resolution": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "MIN",
+            "MAX"
+          ]
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "set_voltage_nplc": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Set the integration time in number of power line cycles (PLCs) for DC voltage measurements",
+      "args": {
+        "plcs": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "MIN",
+            "MAX"
+          ]
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "set_voltage_aperture": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Enable the aperture mode and set the integration time in seconds for DC voltage measurements",
+      "args": {
+        "time": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "MIN",
+            "MAX"
+          ]
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "set_ac_voltage_range": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Set the AC voltage measurement range (100 mV to 300 V)",
+      "args": {
+        "range": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "MIN",
+            "MAX"
+          ]
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "set_ac_voltage_range_auto": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Enable/disable autoranging for AC voltage measurements",
+      "args": {
+        "state": {
+          "type": "string"
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "set_ac_bandwidth": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Select the lowest expected input frequency (3, 20 or 200 Hz) to choose the AC filter for AC voltage measurements",
+      "args": {
+        "filter": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "MIN",
+            "MAX"
+          ]
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "set_dc_current_range": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Set the DC current measurement range (10 mA to 1 A, ch 21/22 of 34901A/34902A)",
+      "args": {
+        "range": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "MIN",
+            "MAX"
+          ]
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "set_dc_current_range_auto": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Enable/disable autoranging for DC current measurements",
+      "args": {
+        "state": {
+          "type": "string"
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "set_dc_current_nplc": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Set the integration time in power line cycles for DC current measurements",
+      "args": {
+        "plcs": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "MIN",
+            "MAX"
+          ]
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "set_ac_current_range": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Set the AC current measurement range",
+      "args": {
+        "range": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "MIN",
+            "MAX"
+          ]
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "set_ac_current_range_auto": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Enable/disable autoranging for AC current measurements",
+      "args": {
+        "state": {
+          "type": "string"
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "set_ac_current_bandwidth": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Select the lowest expected input frequency (3, 20 or 200 Hz) to choose the AC filter for AC current measurements",
+      "args": {
+        "filter": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "MIN",
+            "MAX"
+          ]
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "set_resistance_range": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Set the 2-wire resistance measurement range",
+      "args": {
+        "range": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "MIN",
+            "MAX"
+          ]
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "set_resistance_range_auto": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Enable/disable autoranging for 2-wire resistance measurements",
+      "args": {
+        "state": {
+          "type": "string"
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "set_resistance_nplc": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Set the integration time in power line cycles for 2-wire resistance measurements",
+      "args": {
+        "plcs": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "MIN",
+            "MAX"
+          ]
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "set_resistance_resolution": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Set the 2-wire resistance measurement resolution in ohms",
+      "args": {
+        "resolution": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "MIN",
+            "MAX"
+          ]
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "set_fresistance_range": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Set the 4-wire resistance measurement range",
+      "args": {
+        "range": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "MIN",
+            "MAX"
+          ]
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "set_fresistance_range_auto": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Enable/disable autoranging for 4-wire resistance measurements",
+      "args": {
+        "state": {
+          "type": "string"
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "set_fresistance_nplc": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Set the integration time in power line cycles for 4-wire resistance measurements",
+      "args": {
+        "plcs": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "MIN",
+            "MAX"
+          ]
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "set_fresistance_resolution": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Set the 4-wire resistance measurement resolution in ohms",
+      "args": {
+        "resolution": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "MIN",
+            "MAX"
+          ]
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "set_frequency_range_lower": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Set the lowest expected input frequency (3 to 300,000 Hz) for frequency measurements",
+      "args": {
+        "frequency": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "MIN",
+            "MAX"
+          ]
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "set_frequency_aperture": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Set the aperture time in seconds for frequency measurements",
+      "args": {
+        "seconds": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "MIN",
+            "MAX"
+          ]
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "set_period_aperture": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Set the aperture time in seconds (default 100 ms) for period measurements",
+      "args": {
+        "seconds": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "MIN",
+            "MAX"
+          ]
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "set_temperature_nplc": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Set the integration time in power line cycles for temperature measurements",
+      "args": {
+        "plcs": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "MIN",
+            "MAX"
+          ]
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "set_temperature_aperture": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Enable the aperture mode and set the integration time in seconds for temperature measurements",
+      "args": {
+        "seconds": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "MIN",
+            "MAX",
+            "DEF"
+          ]
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "query_reference_junction": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "Return the internal reference junction temperature",
+      "args": {
+        "channels": {
+          "type": "string"
+        }
+      },
+      "result": {
+        "type": "float"
+      }
+    },
+    "set_temperature_transducer_type": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Select the temperature transducer type: TCouple, RTD, FRTD or THERmistor",
+      "args": {
+        "type": {
+          "type": "string"
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "set_tc_type": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Select the thermocouple type (B, E, J, K, N, R, S, T) for temperature measurements",
+      "args": {
+        "type": {
+          "type": "string"
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "set_rtd_type": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Select the RTD type (85 or 91: 0.00385 or 0.00391 alpha) for temperature measurements",
+      "args": {
+        "type": {
+          "type": "int"
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "set_frtd_type": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Select the FRTD type (85 or 91) for temperature measurements",
+      "args": {
+        "type": {
+          "type": "int"
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "set_thermistor_type": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Select the thermistor type (2252, 5000 or 10000 ohms) for temperature measurements",
+      "args": {
+        "type": {
+          "type": "int"
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "set_tc_rjunction": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Set the thermocouple reference junction temperature in Celsius",
+      "args": {
+        "temperature": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "MIN",
+            "MAX"
+          ]
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "set_tc_rjunction_type": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Select the thermocouple reference junction type (fixed or internal)",
+      "args": {
+        "type": {
+          "type": "string"
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "set_tc_check": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Enable/disable the thermocouple open-check function",
+      "args": {
+        "state": {
+          "type": "string"
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "set_function": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "Select the measurement function on the specified channels (function name in quotes, e.g. FUNC \"VOLT:DC\")",
+      "args": {
+        "function": {
+          "type": "string"
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "query_digital_data": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "Configure the specified channels as inputs and read an 8-bit byte or 16-bit word digital pattern (34907A)",
+      "args": {
+        "channels": {
+          "type": "string"
+        }
+      },
+      "result": {
+        "type": "int"
+      }
+    },
+    "set_zero_auto": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Enable/disable the autozero mode on the specified channels",
+      "args": {
+        "mode": {
+          "type": "string"
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "set_totalize_type": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Select the totalizer mode (read or read-and-reset) on the specified channels (34907A)",
+      "args": {
+        "mode": {
+          "type": "string"
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "set_totalize_slope": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Configure the specified totalizer channels to count on the rising or falling edge (34907A)",
+      "args": {
+        "edge": {
+          "type": "string"
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "totalize_clear": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Clear the totalizer count on the specified channels (34907A)",
+      "args": {
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "totalize_start": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Start the totalizer counting on the specified channels (34907A)",
+      "args": {
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "totalize_stop": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Stop the totalizer counting on the specified channels (34907A)",
+      "args": {
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "query_totalize_data": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "Read the totalizer count on the specified channels (34907A)",
+      "args": {
+        "channels": {
+          "type": "string"
+        }
+      },
+      "result": {
+        "type": "int"
+      }
+    },
+    "query_average": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "Return the average (arithmetic mean) of readings on the specified channels",
+      "args": {
+        "channels": {
+          "type": "string"
+        }
+      },
+      "result": {
+        "type": "float"
+      }
+    },
+    "query_average_min": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "Return the minimum reading on the specified channels",
+      "args": {
+        "channels": {
+          "type": "string"
+        }
+      },
+      "result": {
+        "type": "float"
+      }
+    },
+    "query_average_max": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "Return the maximum reading on the specified channels",
+      "args": {
+        "channels": {
+          "type": "string"
+        }
+      },
+      "result": {
+        "type": "float"
+      }
+    },
+    "query_average_count": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "Return the number of readings taken on the specified channels",
+      "args": {
+        "channels": {
+          "type": "string"
+        }
+      },
+      "result": {
+        "type": "int"
+      }
+    },
+    "query_average_ptpeak": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "Return the peak-to-peak value of readings on the specified channels",
+      "args": {
+        "channels": {
+          "type": "string"
+        }
+      },
+      "result": {
+        "type": "float"
+      }
+    },
+    "clear_average": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Clear all statistical (average) data on the specified channels",
+      "args": {
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "set_lower_limit": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Set the lower alarm limit on the specified channels",
+      "args": {
+        "lo_limit": {
+          "type": "float"
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "set_lower_limit_state": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Enable/disable the lower alarm limit on the specified channels",
+      "args": {
+        "mode": {
+          "type": "string"
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "set_upper_limit": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Set the upper alarm limit on the specified channels",
+      "args": {
+        "hi_limit": {
+          "type": "float"
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "set_upper_limit_state": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Enable/disable the upper alarm limit on the specified channels",
+      "args": {
+        "mode": {
+          "type": "string"
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "set_scale_gain": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Set the Mx+B scaling gain on the specified channels",
+      "args": {
+        "gain": {
+          "type": "float"
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "set_scale_offset": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Set the Mx+B scaling offset on the specified channels",
+      "args": {
+        "offset": {
+          "type": "float"
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "null_offset": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Set the Mx+B scaling offset to the present reading on the specified channels",
+      "args": {
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "set_scale_state": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Enable/disable Mx+B scaling on the specified channels",
+      "args": {
+        "state": {
+          "type": "string"
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "set_scale_unit": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Set the Mx+B scaling measurement label (up to 3 characters)",
+      "args": {
+        "quoted_string": {
+          "type": "string"
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "compare_data": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Set the digital compare data pattern on the specified channels (34907A)",
+      "args": {
+        "data": {
+          "type": "int"
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "compare_mask": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Set the digital compare mask on the specified channels (34907A)",
+      "args": {
+        "mask": {
+          "type": "int"
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "compare_state": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Enable/disable the digital compare mode on the specified channels (34907A)",
+      "args": {
+        "state": {
+          "type": "string"
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "compare_type": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Select the digital compare mode: EQUal or NEQual (34907A)",
+      "args": {
+        "mode": {
+          "type": "string"
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "query_alarm_condition": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "Read the condition register for the Alarm Register group (uses only bit 4)",
+      "result": {
+        "type": "int"
+      }
+    },
+    "enable_alarm_status": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Enable bits in the enable register for the Alarm Register group",
+      "args": {
+        "enable_val": {
+          "type": "int"
+        }
+      }
+    },
+    "query_alarm_event": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "Read and clear the event register for the Alarm Register group",
+      "result": {
+        "type": "int"
+      }
+    },
+    "query_operation_condition": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "Read the condition register for the Standard Operation Register group",
+      "result": {
+        "type": "int"
+      }
+    },
+    "enable_operation_status": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Enable bits in the enable register for the Standard Operation Register group",
+      "args": {
+        "enable_val": {
+          "type": "int"
+        }
+      }
+    },
+    "query_operation_event": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "Read and clear the event register for the Standard Operation Register group",
+      "result": {
+        "type": "int"
+      }
+    },
+    "query_questionable_condition": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "Read the condition register for the Questionable Data Register group",
+      "result": {
+        "type": "int"
+      }
+    },
+    "enable_questionable_status": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Enable bits in the enable register for the Questionable Data Register group",
+      "args": {
+        "enable_val": {
+          "type": "int"
+        }
+      }
+    },
+    "query_questionable_event": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "Read and clear the event register for the Questionable Data Register group",
+      "result": {
+        "type": "int"
+      }
+    },
+    "status_preset": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "Preset all status registers to a known state"
+    },
+    "digital_output": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Write an 8-bit byte or 16-bit word digital pattern to the specified digital I/O channels (34907A)",
+      "args": {
+        "data": {
+          "type": "int"
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "query_digital_output_state": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "Return the direction (input or output) of the specified digital I/O channels (34907A)",
+      "args": {
+        "channels": {
+          "type": "string"
+        }
+      },
+      "result": {
+        "type": "int"
+      }
+    },
+    "set_analog_output": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "Set the analog output voltage (0 to +12 V) on the specified channels (34907A)",
+      "args": {
+        "voltage": {
+          "type": "float"
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "error_query": {
+      "requirement": "mandatory",
+      "kind": "query",
+      "description": "read and clear one error from the error queue (up to 20 errors, FIFO)",
+      "result": {
+        "type": "string"
+      }
+    },
+    "operation_complete": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "set the OPC bit when all pending operations complete"
+    },
+    "set_trigger_delay": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "delay between the trigger and the first channel of the scan, in seconds",
+      "args": {
+        "seconds": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "MIN",
+            "MAX",
+            "DEF"
+          ]
+        }
+      }
+    },
+    "set_internal_dmm": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "enable/disable the internal DMM (the instrument issues a factory reset when the state changes)",
+      "args": {
+        "state": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

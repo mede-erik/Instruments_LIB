@@ -38,6 +38,14 @@ def load(path):
         return json.load(f)
 
 
+def _is_number(x):
+    try:
+        float(x)
+        return True
+    except (TypeError, ValueError):
+        return False
+
+
 def placeholders(syntax):
     return set(re.findall(r"\{(\w+)\}", syntax or ""))
 
@@ -135,8 +143,11 @@ def check_series(category, schema, series, report):
                 if vals is None or sorted(vals) != sorted(logical):
                     report.todo(sid, name, f"argument '{p}' is logical {logical}, "
                                            f"library gives {vals if vals else ptype} (needs map)")
+            elif t == "number_or_keyword":
+                continue
             elif t in LOGICAL_NUMERIC:
-                if ptype not in LOGICAL_NUMERIC or vals:
+                numeric_hint = bool(vals) and all(_is_number(x) for x in vals)
+                if ptype not in LOGICAL_NUMERIC or (vals and not numeric_hint):
                     report.todo(sid, name, f"argument '{p}' is numeric ({t}), "
                                            f"library gives {vals if vals else ptype} (needs map/format)")
             elif t == "string" and ptype not in ("string", None):
