@@ -217,3 +217,5 @@ Results that are confirmed on real hardware are recorded in `COMMAND_NAMES.md`, 
 ## 8. Adding or correcting a command
 
 A command goes into the library **only if it is documented in the instrument's manual or verified on the instrument**. See `COMMAND_NAMES.md` for the call names (mandatory and optional per category), `schema/README.md` for the entry format (`steps`, `map`, `response_map`, `parse`), and run level 1 before opening a pull request.
+
+To ask for a new instrument, open an issue with the **New instrument** template (`.github/ISSUE_TEMPLATE/new-instrument.yml`): it asks for the manual, the interfaces and the connection details, and whether you can test it on the real instrument.

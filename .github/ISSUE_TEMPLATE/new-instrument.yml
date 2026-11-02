@@ -1,0 +1,144 @@
+name: New instrument
+description: Propose a new instrument (model or series) for the library
+title: "[New instrument] <brand> <model>"
+labels: ["new-instrument"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for proposing a new instrument. A command goes into the library **only if it is documented in the instrument's manual or verified on the instrument**, so the manual (and, if you have the instrument, a test session) is what makes this request useful.
+
+        Before you start, read `COMMAND_NAMES.md` (the logical call names and which are mandatory) and `TESTING.md` (how to test).
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      options:
+        - Power supply
+        - Datalogger / data acquisition
+        - Datalogger module (plug-in card)
+        - Switch unit
+        - Multimeter
+        - Oscilloscope
+        - Electronic load
+        - Other (describe below)
+    validations:
+      required: true
+
+  - type: input
+    id: model
+    attributes:
+      label: Brand and model(s)
+      description: Every model you want, for example "Siglent SDS1104X-E, SDS1204X-E".
+      placeholder: "Brand Model"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: series
+    attributes:
+      label: Is it a new series or a new model of a series already in the library?
+      options:
+        - New model of a series already in the library
+        - New series
+        - I don't know
+    validations:
+      required: true
+
+  - type: input
+    id: existing_series
+    attributes:
+      label: Series already in the library (if a new model of one)
+      description: The `series_id` in `instruments_lib.json`, if you know it.
+      placeholder: "Siglent_SDS_HD_Series"
+
+  - type: textarea
+    id: manual
+    attributes:
+      label: Manual
+      description: |
+        Link to the programming / remote-control manual (the SCPI or command reference), with the edition or date. If it cannot be linked, say where it can be obtained. **Do not attach a manual if you are not allowed to redistribute it.**
+      placeholder: "https://... (Programming Guide, revision ...)"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: access
+    attributes:
+      label: How is the instrument controlled?
+      options:
+        - SCPI text commands
+        - Other text protocol (not SCPI)
+        - Vendor driver / SDK (no command strings)
+        - I don't know
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: interfaces
+    attributes:
+      label: Interfaces the manual documents
+      options:
+        - label: LAN (VXI-11 / LXI)
+        - label: LAN raw socket
+        - label: USB-TMC
+        - label: RS-232 / serial
+        - label: GPIB
+        - label: Other (describe below)
+
+  - type: textarea
+    id: transport
+    attributes:
+      label: Connection details
+      description: |
+        Only what the manual states: the raw-socket port, the serial settings (baud rate, data bits, parity, stop bits, flow control), write and read terminators, the address format. Say whether the serial values are the factory defaults.
+      placeholder: |
+        LAN raw socket: port 5025
+        RS-232: 9600 8N1, no flow control, write termination \n, read termination \n
+
+  - type: textarea
+    id: differences
+    attributes:
+      label: Differences from the logical calls
+      description: |
+        Anything that does not map one-to-one to the call names in `COMMAND_NAMES.md`: a setting that needs several commands, parameters with other units or names, answers in an unusual format (binary blocks, status registers, text states), calls the instrument cannot do.
+      placeholder: "For example: the range is selected with a code (R0 = 3 V), the answer to the trigger status is a number ..."
+
+  - type: textarea
+    id: limits
+    attributes:
+      label: Hardware limits (if known)
+      description: Voltage, current and power ranges, number of channels or slots, bandwidth, memory depth, and so on, as the manual gives them.
+
+  - type: dropdown
+    id: hardware
+    attributes:
+      label: Can you test it on the real instrument?
+      options:
+        - "Yes, I have the instrument and can run the tests in TESTING.md"
+        - "Yes, but only some interfaces (say which below)"
+        - "No, I only have the manual"
+    validations:
+      required: true
+
+  - type: input
+    id: firmware
+    attributes:
+      label: Firmware version (answer of `*IDN?` if you have the instrument)
+      placeholder: "Brand,Model,Serial,Firmware"
+
+  - type: checkboxes
+    id: contribution
+    attributes:
+      label: Contribution
+      options:
+        - label: I can prepare a pull request with the library entry myself
+        - label: I need help writing the library entry
+        - label: I checked that the model is not already in the library
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Anything else
+      description: Known quirks of the instrument, similar models already supported, links to forum posts or application notes.
