@@ -12525,6 +12525,14 @@
                   "text": ":WAVeform:WIDTh {bits}"
                 },
                 {
+                  "op": "write",
+                  "text": ":WAVeform:STARt {start}"
+                },
+                {
+                  "op": "write",
+                  "text": ":WAVeform:POINt {points}"
+                },
+                {
                   "op": "query",
                   "text": ":TIMebase:SCALe?",
                   "returns": "float"
@@ -12538,15 +12546,21 @@
                   "op": "query",
                   "text": ":WAVeform:DATA?",
                   "returns": "binary"
+                },
+                {
+                  "op": "query",
+                  "text": ":WAVeform:STARt?",
+                  "returns": "int"
                 }
               ],
               "return_type": "binary",
               "parse": {
                 "name": "siglent_waveform",
                 "from_steps": [
-                  3,
+                  5,
+                  6,
                   4,
-                  2
+                  7
                 ]
               }
             },
@@ -12560,6 +12574,12 @@
                   "8": "BYTE",
                   "16": "WORD"
                 }
+              },
+              "start": {
+                "type": "int"
+              },
+              "points": {
+                "type": "int"
               }
             }
           }

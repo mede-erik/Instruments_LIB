@@ -299,7 +299,7 @@ Logical types:
 | `query_trigger_mode` | query |  | trigger_mode_state | trigger sweep mode |
 | `set_trigger_type` | set | `trigger_type` (string) |  | trigger type |
 | `set_trigger_coupling` | set | `coupling_type` (string) |  | trigger coupling |
-| `read_waveform` | query | `channel_number` (int, 1..)<br>`bits` (int, 8..16, default 8, optional) | waveform | read a channel waveform as time and voltage arrays (needs a parser for the model) |
+| `read_waveform` | query | `channel_number` (int, 1..)<br>`bits` (int, 8..16, default 8, optional)<br>`start` (int, points, 0.., default 0, optional)<br>`points` (int, points, 0.., default 0, optional) | waveform | read a channel waveform as time and voltage arrays (needs a parser for the model) |
 | `set_waveform_start` | set | `value` (int, points, 0..) |  | first point to transfer |
 | `set_waveform_points` | set | `value` (int, points, 1..) |  | number of points to transfer |
 | `set_waveform_interval` | set | `value` (int, points, 1..) |  | interval between transferred points |
