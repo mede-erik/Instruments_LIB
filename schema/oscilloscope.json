@@ -590,6 +590,14 @@
           "type": "int",
           "min": 1,
           "description": "analog channel number (1-based)"
+        },
+        "bits": {
+          "type": "int",
+          "min": 8,
+          "max": 16,
+          "required": false,
+          "default": 8,
+          "description": "sample resolution transferred: 8 or 16 bits (model dependent)"
         }
       },
       "result": {

@@ -12512,7 +12512,7 @@
             }
           },
           "read_waveform": {
-            "description": "read the waveform of an analog channel as time and voltage arrays (8-bit samples)",
+            "description": "read the waveform of an analog channel as time and voltage arrays (8 or 16-bit samples)",
             "set": null,
             "query": {
               "steps": [
@@ -12522,7 +12522,7 @@
                 },
                 {
                   "op": "write",
-                  "text": ":WAVeform:WIDTh BYTE"
+                  "text": ":WAVeform:WIDTh {bits}"
                 },
                 {
                   "op": "query",
@@ -12553,6 +12553,13 @@
             "parameters": {
               "channel_number": {
                 "type": "int"
+              },
+              "bits": {
+                "type": "int",
+                "map": {
+                  "8": "BYTE",
+                  "16": "WORD"
+                }
               }
             }
           }
