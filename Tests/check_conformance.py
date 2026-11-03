@@ -75,8 +75,9 @@ def check_series(category, schema, series, report):
             report.todo(sid, name, "call not in schema")
             continue
         kind = spec["kind"]
-        has_set = bool(cmd.get("set"))
-        has_query = bool(cmd.get("query"))
+        # a driver entry (access "driver") implements the call, whichever half the schema asks
+        has_set = bool(cmd.get("set") or cmd.get("driver"))
+        has_query = bool(cmd.get("query") or cmd.get("driver"))
         if kind == "set" and not has_set:
             report.error(sid, name, "schema kind 'set' but the call has no set half")
         if kind == "query" and not has_query:

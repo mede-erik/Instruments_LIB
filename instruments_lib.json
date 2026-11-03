@@ -16723,6 +16723,246 @@
           }
         ]
       }
+    ],
+    "network_analyzers_series": [
+      {
+        "series_id": "Zenko_LiteVNA_Series",
+        "series_name": "Zenko LiteVNA portable vector network analyzers (T/R, S11 and S21)",
+        "common_scpi_commands": {
+          "identification_query": {
+            "description": "identification from the device registers (variant, hardware revision, firmware)",
+            "driver": {
+              "function": "identification_query"
+            }
+          },
+          "set_frequency_sweep": {
+            "description": "writes sweepStartHz, sweepStepHz and sweepPoints (registers 0x00, 0x10, 0x20); the step is (stop - start)/(points - 1), rounded to 1 Hz",
+            "driver": {
+              "function": "set_frequency_sweep"
+            },
+            "parameters": {
+              "start_frequency": {
+                "type": "float"
+              },
+              "stop_frequency": {
+                "type": "float"
+              },
+              "points": {
+                "type": "int"
+              }
+            }
+          },
+          "select_sparameters": {
+            "description": "ChannelSelect register 0x44: 1 = S11, 2 = S21, 0 = both; the LiteVNA is a T/R analyzer, S12 and S22 are not handled",
+            "driver": {
+              "function": "select_sparameters"
+            },
+            "parameters": {
+              "sparameters": {
+                "type": "sparameter_list"
+              }
+            }
+          },
+          "run_sweep": {
+            "description": "clears the valuesFIFO (0x30) so that the next records belong to a new sweep",
+            "driver": {
+              "function": "run_sweep"
+            }
+          },
+          "read_sparameters": {
+            "description": "reads the valuesFIFO records (32 bytes) and divides the incoming waves by the reference wave; the data are raw, the calibration is done by the driver",
+            "driver": {
+              "function": "read_sparameters"
+            }
+          },
+          "calibration_measure": {
+            "description": "measures a standard (software calibration in the driver)",
+            "driver": {
+              "function": "calibration_measure"
+            },
+            "parameters": {
+              "standard": {
+                "type": "calibration_standard",
+                "values": [
+                  "OPEN",
+                  "SHORT",
+                  "LOAD",
+                  "THRU"
+                ]
+              },
+              "port": {
+                "type": "int"
+              }
+            }
+          },
+          "calibration_apply": {
+            "description": "computes the software calibration from the measured standards",
+            "driver": {
+              "function": "calibration_apply"
+            },
+            "parameters": {
+              "kind": {
+                "type": "calibration_kind",
+                "values": [
+                  "ONE_PORT",
+                  "TRANSMISSION_RESPONSE"
+                ]
+              }
+            }
+          },
+          "set_correction_state": {
+            "description": "uses or bypasses the software calibration",
+            "driver": {
+              "function": "set_correction_state"
+            },
+            "parameters": {
+              "state": {
+                "type": "bool"
+              }
+            }
+          },
+          "calibration_clear": {
+            "description": "forgets the measured standards and the software calibration",
+            "driver": {
+              "function": "calibration_clear"
+            }
+          }
+        },
+        "models": [
+          {
+            "id": "VNA_Zenko_LiteVNA62",
+            "name": "Zenko LiteVNA 62",
+            "manufacturer": "Zenko",
+            "model": "LiteVNA 62",
+            "documentation_path": "docs/Zenko/LiteVNA/LiteVNA_User_guide.pdf",
+            "access": "driver",
+            "driver_id": "litevna",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "SERIAL",
+                  "address_format_example": "ASRL{COM_PORT}::INSTR",
+                  "notes": "USB CDC virtual serial port with a binary register protocol (User Guide, appendix 'USB data interface'); the baud rate is not used over USB. SMA connectors.",
+                  "transports": [
+                    {
+                      "kind": "serial",
+                      "baud": 115200,
+                      "data_bits": 8,
+                      "parity": "N",
+                      "stop_bits": 1,
+                      "flow_control": "none",
+                      "factory_defaults": true,
+                      "write_termination": "",
+                      "read_termination": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_ports": 2,
+              "frequency_min_hz": 50000,
+              "frequency_max_hz": 6300000000,
+              "max_sweep_points": 65535,
+              "measurable_sparameters": [
+                "S11",
+                "S21"
+              ],
+              "calibration": "software"
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "VNA_Zenko_LiteVNA64",
+            "name": "Zenko LiteVNA 64",
+            "manufacturer": "Zenko",
+            "model": "LiteVNA 64",
+            "documentation_path": "docs/Zenko/LiteVNA/LiteVNA_User_guide.pdf",
+            "access": "driver",
+            "driver_id": "litevna",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "SERIAL",
+                  "address_format_example": "ASRL{COM_PORT}::INSTR",
+                  "notes": "USB CDC virtual serial port with a binary register protocol (User Guide, appendix 'USB data interface'); the baud rate is not used over USB. SMA connectors.",
+                  "transports": [
+                    {
+                      "kind": "serial",
+                      "baud": 115200,
+                      "data_bits": 8,
+                      "parity": "N",
+                      "stop_bits": 1,
+                      "flow_control": "none",
+                      "factory_defaults": true,
+                      "write_termination": "",
+                      "read_termination": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_ports": 2,
+              "frequency_min_hz": 50000,
+              "frequency_max_hz": 6300000000,
+              "max_sweep_points": 65535,
+              "measurable_sparameters": [
+                "S11",
+                "S21"
+              ],
+              "calibration": "software"
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "VNA_Zenko_LiteVNA67",
+            "name": "Zenko LiteVNA 67",
+            "manufacturer": "Zenko",
+            "model": "LiteVNA 67",
+            "documentation_path": "docs/Zenko/LiteVNA/LiteVNA_User_guide.pdf",
+            "access": "driver",
+            "driver_id": "litevna",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "SERIAL",
+                  "address_format_example": "ASRL{COM_PORT}::INSTR",
+                  "notes": "USB CDC virtual serial port with a binary register protocol (User Guide, appendix 'USB data interface'); the baud rate is not used over USB. N connectors; 2.5 A USB supply.",
+                  "transports": [
+                    {
+                      "kind": "serial",
+                      "baud": 115200,
+                      "data_bits": 8,
+                      "parity": "N",
+                      "stop_bits": 1,
+                      "flow_control": "none",
+                      "factory_defaults": true,
+                      "write_termination": "",
+                      "read_termination": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_ports": 2,
+              "frequency_min_hz": 50000,
+              "frequency_max_hz": 6300000000,
+              "max_sweep_points": 65535,
+              "measurable_sparameters": [
+                "S11",
+                "S21"
+              ],
+              "calibration": "software"
+            },
+            "scpi_commands": {},
+            "experimental": true
+          }
+        ]
+      }
     ]
   }
 }
