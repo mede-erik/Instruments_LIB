@@ -16751,17 +16751,6 @@
               }
             }
           },
-          "select_sparameters": {
-            "description": "ChannelSelect register 0x44: 1 = S11, 2 = S21, 0 = both; the LiteVNA is a T/R analyzer, S12 and S22 are not handled",
-            "driver": {
-              "function": "select_sparameters"
-            },
-            "parameters": {
-              "sparameters": {
-                "type": "sparameter_list"
-              }
-            }
-          },
           "run_sweep": {
             "description": "clears the valuesFIFO (0x30) so that the next records belong to a new sweep",
             "driver": {
@@ -16769,9 +16758,36 @@
             }
           },
           "read_sparameters": {
-            "description": "reads the valuesFIFO records (32 bytes) and divides the incoming waves by the reference wave; the data are raw, the calibration is done by the driver",
+            "description": "reads the valuesFIFO records (32 bytes) of the channel register 0x44 selected by the asked parameters, divides the incoming waves by the reference wave; the driver applies its software calibration",
             "driver": {
               "function": "read_sparameters"
+            },
+            "parameters": {
+              "sparameters": {
+                "type": "sparameter_list"
+              }
+            }
+          },
+          "calibration_begin": {
+            "description": "chooses the software calibration (ONE_PORT on port 1, TRANSMISSION_RESPONSE from port 1 to port 2)",
+            "driver": {
+              "function": "calibration_begin"
+            },
+            "parameters": {
+              "kind": {
+                "type": "calibration_kind",
+                "values": [
+                  "ONE_PORT",
+                  "TRANSMISSION_RESPONSE",
+                  "TWO_PORT"
+                ]
+              },
+              "port": {
+                "type": "int"
+              },
+              "port2": {
+                "type": "int"
+              }
             }
           },
           "calibration_measure": {
@@ -16791,6 +16807,9 @@
               },
               "port": {
                 "type": "int"
+              },
+              "port2": {
+                "type": "int"
               }
             }
           },
@@ -16798,15 +16817,6 @@
             "description": "computes the software calibration from the measured standards",
             "driver": {
               "function": "calibration_apply"
-            },
-            "parameters": {
-              "kind": {
-                "type": "calibration_kind",
-                "values": [
-                  "ONE_PORT",
-                  "TRANSMISSION_RESPONSE"
-                ]
-              }
             }
           },
           "set_correction_state": {
@@ -16959,6 +16969,2033 @@
             },
             "scpi_commands": {},
             "experimental": true
+          }
+        ]
+      },
+      {
+        "series_id": "Siglent_SNA_Series",
+        "series_name": "Siglent SNA5000A / SNA5000X-E / SNA6000A vector network analyzers and SHN900A handheld analyzers",
+        "common_scpi_commands": {
+          "identification_query": {
+            "description": "identification (IEEE 488.2)",
+            "query": {
+              "syntax": "*IDN?",
+              "return_type": "string"
+            }
+          },
+          "set_frequency_sweep": {
+            "description": "linear sweep from start to stop frequency (channel 1)",
+            "set": {
+              "steps": [
+                {
+                  "op": "write",
+                  "text": ":SENSe1:SWEep:TYPE LINear"
+                },
+                {
+                  "op": "write",
+                  "text": ":SENSe1:FREQuency:STARt {start_frequency}"
+                },
+                {
+                  "op": "write",
+                  "text": ":SENSe1:FREQuency:STOP {stop_frequency}"
+                },
+                {
+                  "op": "write",
+                  "text": ":SENSe1:SWEep:POINts {points}"
+                }
+              ]
+            },
+            "parameters": {
+              "start_frequency": {
+                "type": "float"
+              },
+              "stop_frequency": {
+                "type": "float"
+              },
+              "points": {
+                "type": "int"
+              }
+            }
+          },
+          "run_sweep": {
+            "description": "single sweep, wait for its end",
+            "set": {
+              "steps": [
+                {
+                  "op": "write",
+                  "text": ":INITiate1:CONTinuous OFF"
+                },
+                {
+                  "op": "write",
+                  "text": ":INITiate1:IMMediate"
+                },
+                {
+                  "op": "query",
+                  "text": "*OPC?",
+                  "timeout_ms": 120000
+                }
+              ]
+            }
+          },
+          "read_sparameters": {
+            "description": "corrected S-parameter data of the last sweep (ASCII), with the frequencies and the correction state",
+            "query": {
+              "steps": [
+                {
+                  "op": "query",
+                  "text": ":SENSe1:CORRection:STATe?"
+                },
+                {
+                  "op": "write",
+                  "text": ":FORMat:DATA ASCii"
+                },
+                {
+                  "op": "query",
+                  "text": ":SENSe1:FREQuency:DATA?",
+                  "timeout_ms": 30000
+                },
+                {
+                  "foreach": "sparameters",
+                  "steps": [
+                    {
+                      "op": "query",
+                      "text": ":SENSe1:DATA:CORRdata? {item}",
+                      "timeout_ms": 30000
+                    }
+                  ]
+                }
+              ],
+              "parse": {
+                "name": "vna_sparameters",
+                "from_steps": "queries",
+                "args": [
+                  "sparameters"
+                ]
+              }
+            },
+            "parameters": {
+              "sparameters": {
+                "type": "sparameter_list"
+              }
+            }
+          },
+          "calibration_begin": {
+            "description": "calibration type: OSL on one port, response (THRU) from port to port2, SOLT on two ports",
+            "set": {
+              "steps": [
+                {
+                  "op": "write",
+                  "text": ":SENSe1:CORRection:COLLect:METHod:SOLT1 {port}",
+                  "when": {
+                    "kind": "ONE_PORT"
+                  }
+                },
+                {
+                  "op": "write",
+                  "text": ":SENSe1:CORRection:COLLect:METHod:THRU {port2},{port}",
+                  "when": {
+                    "kind": "TRANSMISSION_RESPONSE"
+                  }
+                },
+                {
+                  "op": "write",
+                  "text": ":SENSe1:CORRection:COLLect:METHod:SOLT2 {port},{port2}",
+                  "when": {
+                    "kind": "TWO_PORT"
+                  }
+                }
+              ]
+            },
+            "parameters": {
+              "kind": {
+                "type": "string",
+                "values": [
+                  "ONE_PORT",
+                  "TRANSMISSION_RESPONSE",
+                  "TWO_PORT"
+                ]
+              },
+              "port": {
+                "type": "int"
+              },
+              "port2": {
+                "type": "int"
+              }
+            }
+          },
+          "calibration_measure": {
+            "description": "measure a standard (THRU: response port port2, stimulus port port)",
+            "set": {
+              "steps": [
+                {
+                  "op": "write",
+                  "text": ":SENSe1:CORRection:COLLect:ACQuire:OPEN {port}",
+                  "when": {
+                    "standard": "OPEN"
+                  }
+                },
+                {
+                  "op": "write",
+                  "text": ":SENSe1:CORRection:COLLect:ACQuire:SHORt {port}",
+                  "when": {
+                    "standard": "SHORT"
+                  }
+                },
+                {
+                  "op": "write",
+                  "text": ":SENSe1:CORRection:COLLect:ACQuire:LOAD {port}",
+                  "when": {
+                    "standard": "LOAD"
+                  }
+                },
+                {
+                  "op": "write",
+                  "text": ":SENSe1:CORRection:COLLect:ACQuire:THRU {port2},{port}",
+                  "when": {
+                    "standard": "THRU"
+                  }
+                },
+                {
+                  "op": "query",
+                  "text": "*OPC?",
+                  "timeout_ms": 120000
+                }
+              ]
+            },
+            "parameters": {
+              "standard": {
+                "type": "string",
+                "values": [
+                  "OPEN",
+                  "SHORT",
+                  "LOAD",
+                  "THRU"
+                ]
+              },
+              "port": {
+                "type": "int"
+              },
+              "port2": {
+                "type": "int"
+              }
+            }
+          },
+          "calibration_apply": {
+            "description": "calculate the calibration coefficients from the measured standards and save them",
+            "set": {
+              "steps": [
+                {
+                  "op": "write",
+                  "text": ":SENSe1:CORRection:COLLect:SAVE"
+                },
+                {
+                  "op": "query",
+                  "text": "*OPC?",
+                  "timeout_ms": 120000
+                }
+              ]
+            }
+          },
+          "set_correction_state": {
+            "description": "error correction on or off",
+            "set": {
+              "steps": [
+                {
+                  "op": "write",
+                  "text": ":SENSe1:CORRection:STATe {state}"
+                }
+              ]
+            },
+            "parameters": {
+              "state": {
+                "type": "bool"
+              }
+            }
+          },
+          "calibration_clear": {
+            "description": "cancel the calibration measurement and clear the error coefficients",
+            "set": {
+              "steps": [
+                {
+                  "op": "write",
+                  "text": ":SENSe1:CORRection:COLLect:CLEar"
+                },
+                {
+                  "op": "write",
+                  "text": ":SENSe1:CORRection:CLEar"
+                }
+              ]
+            }
+          },
+          "set_source_power": {
+            "description": "test signal power (channel 1)",
+            "set": {
+              "steps": [
+                {
+                  "op": "write",
+                  "text": ":SOURce1:POWer:LEVel:IMMediate:AMPLitude {value}"
+                }
+              ]
+            },
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "set_if_bandwidth": {
+            "description": "IF bandwidth (channel 1)",
+            "set": {
+              "steps": [
+                {
+                  "op": "write",
+                  "text": ":SENSe1:BANDwidth:RESolution {value}"
+                }
+              ]
+            },
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          }
+        },
+        "models": [
+          {
+            "id": "VNA_Siglent_SNA5002A",
+            "name": "Siglent SNA5002A",
+            "manufacturer": "Siglent",
+            "model": "SNA5002A",
+            "documentation_path": "docs/Sigilent/VNA_Series_ProgrammingGuide_EN05A.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_VNA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    }
+                  ]
+                },
+                {
+                  "type": "LXI raw socket",
+                  "address_format_example": "{IP_ADDRESS}",
+                  "transports": [
+                    {
+                      "kind": "raw_socket",
+                      "port": 5025,
+                      "port_configurable": true
+                    }
+                  ]
+                },
+                {
+                  "type": "USB-TMC",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR",
+                  "transports": [
+                    {
+                      "kind": "usbtmc"
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_ports": 2,
+              "frequency_min_hz": 9000.0,
+              "frequency_max_hz": 4500000000.0,
+              "calibration": "instrument"
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "VNA_Siglent_SNA5004A",
+            "name": "Siglent SNA5004A",
+            "manufacturer": "Siglent",
+            "model": "SNA5004A",
+            "documentation_path": "docs/Sigilent/VNA_Series_ProgrammingGuide_EN05A.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_VNA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    }
+                  ]
+                },
+                {
+                  "type": "LXI raw socket",
+                  "address_format_example": "{IP_ADDRESS}",
+                  "transports": [
+                    {
+                      "kind": "raw_socket",
+                      "port": 5025,
+                      "port_configurable": true
+                    }
+                  ]
+                },
+                {
+                  "type": "USB-TMC",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR",
+                  "transports": [
+                    {
+                      "kind": "usbtmc"
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_ports": 4,
+              "frequency_min_hz": 9000.0,
+              "frequency_max_hz": 4500000000.0,
+              "calibration": "instrument"
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "VNA_Siglent_SNA5012A",
+            "name": "Siglent SNA5012A",
+            "manufacturer": "Siglent",
+            "model": "SNA5012A",
+            "documentation_path": "docs/Sigilent/VNA_Series_ProgrammingGuide_EN05A.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_VNA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    }
+                  ]
+                },
+                {
+                  "type": "LXI raw socket",
+                  "address_format_example": "{IP_ADDRESS}",
+                  "transports": [
+                    {
+                      "kind": "raw_socket",
+                      "port": 5025,
+                      "port_configurable": true
+                    }
+                  ]
+                },
+                {
+                  "type": "USB-TMC",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR",
+                  "transports": [
+                    {
+                      "kind": "usbtmc"
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_ports": 2,
+              "frequency_min_hz": 9000.0,
+              "frequency_max_hz": 8500000000.0,
+              "calibration": "instrument"
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "VNA_Siglent_SNA5014A",
+            "name": "Siglent SNA5014A",
+            "manufacturer": "Siglent",
+            "model": "SNA5014A",
+            "documentation_path": "docs/Sigilent/VNA_Series_ProgrammingGuide_EN05A.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_VNA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    }
+                  ]
+                },
+                {
+                  "type": "LXI raw socket",
+                  "address_format_example": "{IP_ADDRESS}",
+                  "transports": [
+                    {
+                      "kind": "raw_socket",
+                      "port": 5025,
+                      "port_configurable": true
+                    }
+                  ]
+                },
+                {
+                  "type": "USB-TMC",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR",
+                  "transports": [
+                    {
+                      "kind": "usbtmc"
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_ports": 4,
+              "frequency_min_hz": 9000.0,
+              "frequency_max_hz": 8500000000.0,
+              "calibration": "instrument"
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "VNA_Siglent_SNA5022A",
+            "name": "Siglent SNA5022A",
+            "manufacturer": "Siglent",
+            "model": "SNA5022A",
+            "documentation_path": "docs/Sigilent/VNA_Series_ProgrammingGuide_EN05A.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_VNA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    }
+                  ]
+                },
+                {
+                  "type": "LXI raw socket",
+                  "address_format_example": "{IP_ADDRESS}",
+                  "transports": [
+                    {
+                      "kind": "raw_socket",
+                      "port": 5025,
+                      "port_configurable": true
+                    }
+                  ]
+                },
+                {
+                  "type": "USB-TMC",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR",
+                  "transports": [
+                    {
+                      "kind": "usbtmc"
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_ports": 2,
+              "frequency_min_hz": 100000.0,
+              "frequency_max_hz": 13500000000.0,
+              "calibration": "instrument"
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "VNA_Siglent_SNA5032A",
+            "name": "Siglent SNA5032A",
+            "manufacturer": "Siglent",
+            "model": "SNA5032A",
+            "documentation_path": "docs/Sigilent/VNA_Series_ProgrammingGuide_EN05A.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_VNA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    }
+                  ]
+                },
+                {
+                  "type": "LXI raw socket",
+                  "address_format_example": "{IP_ADDRESS}",
+                  "transports": [
+                    {
+                      "kind": "raw_socket",
+                      "port": 5025,
+                      "port_configurable": true
+                    }
+                  ]
+                },
+                {
+                  "type": "USB-TMC",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR",
+                  "transports": [
+                    {
+                      "kind": "usbtmc"
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_ports": 2,
+              "frequency_min_hz": 100000.0,
+              "frequency_max_hz": 26500000000.0,
+              "calibration": "instrument"
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "VNA_Siglent_SNA6022A",
+            "name": "Siglent SNA6022A",
+            "manufacturer": "Siglent",
+            "model": "SNA6022A",
+            "documentation_path": "docs/Sigilent/VNA_Series_ProgrammingGuide_EN05A.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_VNA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    }
+                  ]
+                },
+                {
+                  "type": "LXI raw socket",
+                  "address_format_example": "{IP_ADDRESS}",
+                  "transports": [
+                    {
+                      "kind": "raw_socket",
+                      "port": 5025,
+                      "port_configurable": true
+                    }
+                  ]
+                },
+                {
+                  "type": "USB-TMC",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR",
+                  "transports": [
+                    {
+                      "kind": "usbtmc"
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_ports": 2,
+              "frequency_min_hz": 100000.0,
+              "frequency_max_hz": 13500000000.0,
+              "calibration": "instrument"
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "VNA_Siglent_SNA6122A",
+            "name": "Siglent SNA6122A",
+            "manufacturer": "Siglent",
+            "model": "SNA6122A",
+            "documentation_path": "docs/Sigilent/VNA_Series_ProgrammingGuide_EN05A.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_VNA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    }
+                  ]
+                },
+                {
+                  "type": "LXI raw socket",
+                  "address_format_example": "{IP_ADDRESS}",
+                  "transports": [
+                    {
+                      "kind": "raw_socket",
+                      "port": 5025,
+                      "port_configurable": true
+                    }
+                  ]
+                },
+                {
+                  "type": "USB-TMC",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR",
+                  "transports": [
+                    {
+                      "kind": "usbtmc"
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_ports": 2,
+              "frequency_min_hz": 100000.0,
+              "frequency_max_hz": 13500000000.0,
+              "calibration": "instrument"
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "VNA_Siglent_SNA6024A",
+            "name": "Siglent SNA6024A",
+            "manufacturer": "Siglent",
+            "model": "SNA6024A",
+            "documentation_path": "docs/Sigilent/VNA_Series_ProgrammingGuide_EN05A.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_VNA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    }
+                  ]
+                },
+                {
+                  "type": "LXI raw socket",
+                  "address_format_example": "{IP_ADDRESS}",
+                  "transports": [
+                    {
+                      "kind": "raw_socket",
+                      "port": 5025,
+                      "port_configurable": true
+                    }
+                  ]
+                },
+                {
+                  "type": "USB-TMC",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR",
+                  "transports": [
+                    {
+                      "kind": "usbtmc"
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_ports": 4,
+              "frequency_min_hz": 100000.0,
+              "frequency_max_hz": 13500000000.0,
+              "calibration": "instrument"
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "VNA_Siglent_SNA6124A",
+            "name": "Siglent SNA6124A",
+            "manufacturer": "Siglent",
+            "model": "SNA6124A",
+            "documentation_path": "docs/Sigilent/VNA_Series_ProgrammingGuide_EN05A.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_VNA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    }
+                  ]
+                },
+                {
+                  "type": "LXI raw socket",
+                  "address_format_example": "{IP_ADDRESS}",
+                  "transports": [
+                    {
+                      "kind": "raw_socket",
+                      "port": 5025,
+                      "port_configurable": true
+                    }
+                  ]
+                },
+                {
+                  "type": "USB-TMC",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR",
+                  "transports": [
+                    {
+                      "kind": "usbtmc"
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_ports": 4,
+              "frequency_min_hz": 100000.0,
+              "frequency_max_hz": 13500000000.0,
+              "calibration": "instrument"
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "VNA_Siglent_SNA6032A",
+            "name": "Siglent SNA6032A",
+            "manufacturer": "Siglent",
+            "model": "SNA6032A",
+            "documentation_path": "docs/Sigilent/VNA_Series_ProgrammingGuide_EN05A.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_VNA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    }
+                  ]
+                },
+                {
+                  "type": "LXI raw socket",
+                  "address_format_example": "{IP_ADDRESS}",
+                  "transports": [
+                    {
+                      "kind": "raw_socket",
+                      "port": 5025,
+                      "port_configurable": true
+                    }
+                  ]
+                },
+                {
+                  "type": "USB-TMC",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR",
+                  "transports": [
+                    {
+                      "kind": "usbtmc"
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_ports": 2,
+              "frequency_min_hz": 100000.0,
+              "frequency_max_hz": 26500000000.0,
+              "calibration": "instrument"
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "VNA_Siglent_SNA6132A",
+            "name": "Siglent SNA6132A",
+            "manufacturer": "Siglent",
+            "model": "SNA6132A",
+            "documentation_path": "docs/Sigilent/VNA_Series_ProgrammingGuide_EN05A.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_VNA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    }
+                  ]
+                },
+                {
+                  "type": "LXI raw socket",
+                  "address_format_example": "{IP_ADDRESS}",
+                  "transports": [
+                    {
+                      "kind": "raw_socket",
+                      "port": 5025,
+                      "port_configurable": true
+                    }
+                  ]
+                },
+                {
+                  "type": "USB-TMC",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR",
+                  "transports": [
+                    {
+                      "kind": "usbtmc"
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_ports": 2,
+              "frequency_min_hz": 100000.0,
+              "frequency_max_hz": 26500000000.0,
+              "calibration": "instrument"
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "VNA_Siglent_SNA6034A",
+            "name": "Siglent SNA6034A",
+            "manufacturer": "Siglent",
+            "model": "SNA6034A",
+            "documentation_path": "docs/Sigilent/VNA_Series_ProgrammingGuide_EN05A.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_VNA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    }
+                  ]
+                },
+                {
+                  "type": "LXI raw socket",
+                  "address_format_example": "{IP_ADDRESS}",
+                  "transports": [
+                    {
+                      "kind": "raw_socket",
+                      "port": 5025,
+                      "port_configurable": true
+                    }
+                  ]
+                },
+                {
+                  "type": "USB-TMC",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR",
+                  "transports": [
+                    {
+                      "kind": "usbtmc"
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_ports": 4,
+              "frequency_min_hz": 100000.0,
+              "frequency_max_hz": 26500000000.0,
+              "calibration": "instrument"
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "VNA_Siglent_SNA6134A",
+            "name": "Siglent SNA6134A",
+            "manufacturer": "Siglent",
+            "model": "SNA6134A",
+            "documentation_path": "docs/Sigilent/VNA_Series_ProgrammingGuide_EN05A.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_VNA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    }
+                  ]
+                },
+                {
+                  "type": "LXI raw socket",
+                  "address_format_example": "{IP_ADDRESS}",
+                  "transports": [
+                    {
+                      "kind": "raw_socket",
+                      "port": 5025,
+                      "port_configurable": true
+                    }
+                  ]
+                },
+                {
+                  "type": "USB-TMC",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR",
+                  "transports": [
+                    {
+                      "kind": "usbtmc"
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_ports": 4,
+              "frequency_min_hz": 100000.0,
+              "frequency_max_hz": 26500000000.0,
+              "calibration": "instrument"
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "VNA_Siglent_SHN914A",
+            "name": "Siglent SHN914A",
+            "manufacturer": "Siglent",
+            "model": "SHN914A",
+            "documentation_path": "docs/Sigilent/VNA_Series_ProgrammingGuide_EN05A.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_VNA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    }
+                  ]
+                },
+                {
+                  "type": "LXI raw socket",
+                  "address_format_example": "{IP_ADDRESS}",
+                  "transports": [
+                    {
+                      "kind": "raw_socket",
+                      "port": 5025,
+                      "port_configurable": true
+                    }
+                  ]
+                },
+                {
+                  "type": "USB-TMC",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR",
+                  "transports": [
+                    {
+                      "kind": "usbtmc"
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_ports": 2,
+              "frequency_min_hz": 30000.0,
+              "frequency_max_hz": 14000000000.0,
+              "calibration": "instrument"
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "VNA_Siglent_SHN920N",
+            "name": "Siglent SHN920N",
+            "manufacturer": "Siglent",
+            "model": "SHN920N",
+            "documentation_path": "docs/Sigilent/VNA_Series_ProgrammingGuide_EN05A.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_VNA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    }
+                  ]
+                },
+                {
+                  "type": "LXI raw socket",
+                  "address_format_example": "{IP_ADDRESS}",
+                  "transports": [
+                    {
+                      "kind": "raw_socket",
+                      "port": 5025,
+                      "port_configurable": true
+                    }
+                  ]
+                },
+                {
+                  "type": "USB-TMC",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR",
+                  "transports": [
+                    {
+                      "kind": "usbtmc"
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_ports": 2,
+              "frequency_min_hz": 30000.0,
+              "frequency_max_hz": 20000000000.0,
+              "calibration": "instrument"
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "VNA_Siglent_SHN926A",
+            "name": "Siglent SHN926A",
+            "manufacturer": "Siglent",
+            "model": "SHN926A",
+            "documentation_path": "docs/Sigilent/VNA_Series_ProgrammingGuide_EN05A.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_VNA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    }
+                  ]
+                },
+                {
+                  "type": "LXI raw socket",
+                  "address_format_example": "{IP_ADDRESS}",
+                  "transports": [
+                    {
+                      "kind": "raw_socket",
+                      "port": 5025,
+                      "port_configurable": true
+                    }
+                  ]
+                },
+                {
+                  "type": "USB-TMC",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR",
+                  "transports": [
+                    {
+                      "kind": "usbtmc"
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_ports": 2,
+              "frequency_min_hz": 30000.0,
+              "frequency_max_hz": 26500000000.0,
+              "calibration": "instrument"
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "VNA_Siglent_SNA5003XE",
+            "name": "Siglent SNA5003X-E",
+            "manufacturer": "Siglent",
+            "model": "SNA5003X-E",
+            "documentation_path": "docs/Sigilent/VNA_Series_ProgrammingGuide_EN05A.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_VNA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    }
+                  ]
+                },
+                {
+                  "type": "LXI raw socket",
+                  "address_format_example": "{IP_ADDRESS}",
+                  "transports": [
+                    {
+                      "kind": "raw_socket",
+                      "port": 5025,
+                      "port_configurable": true
+                    }
+                  ]
+                },
+                {
+                  "type": "USB-TMC",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR",
+                  "transports": [
+                    {
+                      "kind": "usbtmc"
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_ports": 2,
+              "frequency_min_hz": 9000.0,
+              "frequency_max_hz": 3000000000.0,
+              "calibration": "instrument"
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "VNA_Siglent_SNA5006XE",
+            "name": "Siglent SNA5006X-E",
+            "manufacturer": "Siglent",
+            "model": "SNA5006X-E",
+            "documentation_path": "docs/Sigilent/VNA_Series_ProgrammingGuide_EN05A.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_VNA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    }
+                  ]
+                },
+                {
+                  "type": "LXI raw socket",
+                  "address_format_example": "{IP_ADDRESS}",
+                  "transports": [
+                    {
+                      "kind": "raw_socket",
+                      "port": 5025,
+                      "port_configurable": true
+                    }
+                  ]
+                },
+                {
+                  "type": "USB-TMC",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR",
+                  "transports": [
+                    {
+                      "kind": "usbtmc"
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_ports": 2,
+              "frequency_min_hz": 9000.0,
+              "frequency_max_hz": 6500000000.0,
+              "calibration": "instrument"
+            },
+            "scpi_commands": {},
+            "experimental": true
+          }
+        ]
+      },
+      {
+        "series_id": "Rohde_Schwarz_ZNx_Series",
+        "series_name": "Rohde & Schwarz ZNB and ZNL/ZNLE vector network analyzers",
+        "common_scpi_commands": {
+          "identification_query": {
+            "description": "identification (IEEE 488.2)",
+            "query": {
+              "syntax": "*IDN?",
+              "return_type": "string"
+            }
+          },
+          "set_frequency_sweep": {
+            "description": "linear sweep from start to stop frequency (channel 1)",
+            "set": {
+              "steps": [
+                {
+                  "op": "write",
+                  "text": "SENSe1:SWEep:TYPE LINear"
+                },
+                {
+                  "op": "write",
+                  "text": "SENSe1:FREQuency:STARt {start_frequency}"
+                },
+                {
+                  "op": "write",
+                  "text": "SENSe1:FREQuency:STOP {stop_frequency}"
+                },
+                {
+                  "op": "write",
+                  "text": "SENSe1:SWEep:POINts {points}"
+                }
+              ]
+            },
+            "parameters": {
+              "start_frequency": {
+                "type": "float"
+              },
+              "stop_frequency": {
+                "type": "float"
+              },
+              "points": {
+                "type": "int"
+              }
+            }
+          },
+          "run_sweep": {
+            "description": "single sweep, wait for its end",
+            "set": {
+              "steps": [
+                {
+                  "op": "write",
+                  "text": "INITiate1:CONTinuous OFF"
+                },
+                {
+                  "op": "write",
+                  "text": "INITiate1:IMMediate"
+                },
+                {
+                  "op": "query",
+                  "text": "*OPC?",
+                  "timeout_ms": 120000
+                }
+              ]
+            }
+          },
+          "read_sparameters": {
+            "description": "one trace per parameter, a single sweep, then the unformatted (complex) data of each trace (ASCII)",
+            "query": {
+              "steps": [
+                {
+                  "op": "write",
+                  "text": "FORMat ASCii"
+                },
+                {
+                  "foreach": "sparameters",
+                  "steps": [
+                    {
+                      "op": "write",
+                      "text": "CALCulate1:PARameter:SDEFine 'OLA{n}','{item}'"
+                    }
+                  ]
+                },
+                {
+                  "op": "write",
+                  "text": "INITiate1:CONTinuous OFF"
+                },
+                {
+                  "op": "write",
+                  "text": "INITiate1:IMMediate"
+                },
+                {
+                  "op": "query",
+                  "text": "*OPC?",
+                  "timeout_ms": 120000
+                },
+                {
+                  "op": "query",
+                  "text": "SENSe1:CORRection:STATe?"
+                },
+                {
+                  "op": "write",
+                  "text": "CALCulate1:PARameter:SELect 'OLA1'"
+                },
+                {
+                  "op": "query",
+                  "text": "CALCulate1:DATA:STIMulus?",
+                  "timeout_ms": 30000
+                },
+                {
+                  "foreach": "sparameters",
+                  "steps": [
+                    {
+                      "op": "write",
+                      "text": "CALCulate1:PARameter:SELect 'OLA{n}'"
+                    },
+                    {
+                      "op": "query",
+                      "text": "CALCulate1:DATA? SDATa",
+                      "timeout_ms": 30000
+                    }
+                  ]
+                }
+              ],
+              "parse": {
+                "name": "vna_sparameters",
+                "from_steps": "queries",
+                "args": [
+                  "sparameters"
+                ],
+                "skip_queries": 1
+              }
+            },
+            "parameters": {
+              "sparameters": {
+                "type": "sparameter_list"
+              }
+            }
+          },
+          "calibration_begin": {
+            "description": "calibration type FOPort (one port), FTRans (transmission, the lower port number is the source) or TOSM (two ports)",
+            "set": {
+              "steps": [
+                {
+                  "op": "write",
+                  "text": "SENSe1:CORRection:COLLect:METHod:DEFine 'OLA', FOPort, {port}",
+                  "when": {
+                    "kind": "ONE_PORT"
+                  }
+                },
+                {
+                  "op": "write",
+                  "text": "SENSe1:CORRection:COLLect:METHod:DEFine 'OLA', FTRans, {port},{port2}",
+                  "when": {
+                    "kind": "TRANSMISSION_RESPONSE"
+                  }
+                },
+                {
+                  "op": "write",
+                  "text": "SENSe1:CORRection:COLLect:METHod:DEFine 'OLA', TOSM, {port},{port2}",
+                  "when": {
+                    "kind": "TWO_PORT"
+                  }
+                }
+              ]
+            },
+            "parameters": {
+              "kind": {
+                "type": "string",
+                "values": [
+                  "ONE_PORT",
+                  "TRANSMISSION_RESPONSE",
+                  "TWO_PORT"
+                ]
+              },
+              "port": {
+                "type": "int"
+              },
+              "port2": {
+                "type": "int"
+              }
+            }
+          },
+          "calibration_measure": {
+            "description": "measure a standard (the load is the MATCh standard)",
+            "set": {
+              "steps": [
+                {
+                  "op": "write",
+                  "text": "SENSe1:CORRection:COLLect:ACQuire:SELected OPEN,{port}",
+                  "when": {
+                    "standard": "OPEN"
+                  }
+                },
+                {
+                  "op": "write",
+                  "text": "SENSe1:CORRection:COLLect:ACQuire:SELected SHORt,{port}",
+                  "when": {
+                    "standard": "SHORT"
+                  }
+                },
+                {
+                  "op": "write",
+                  "text": "SENSe1:CORRection:COLLect:ACQuire:SELected MATCh,{port}",
+                  "when": {
+                    "standard": "LOAD"
+                  }
+                },
+                {
+                  "op": "write",
+                  "text": "SENSe1:CORRection:COLLect:ACQuire:SELected THRough,{port},{port2}",
+                  "when": {
+                    "standard": "THRU"
+                  }
+                },
+                {
+                  "op": "query",
+                  "text": "*OPC?",
+                  "timeout_ms": 120000
+                }
+              ]
+            },
+            "parameters": {
+              "standard": {
+                "type": "string",
+                "values": [
+                  "OPEN",
+                  "SHORT",
+                  "LOAD",
+                  "THRU"
+                ]
+              },
+              "port": {
+                "type": "int"
+              },
+              "port2": {
+                "type": "int"
+              }
+            }
+          },
+          "calibration_apply": {
+            "description": "calculate the correction data from the measured standards",
+            "set": {
+              "steps": [
+                {
+                  "op": "write",
+                  "text": "SENSe1:CORRection:COLLect:SAVE:SELected"
+                },
+                {
+                  "op": "query",
+                  "text": "*OPC?",
+                  "timeout_ms": 120000
+                }
+              ]
+            }
+          },
+          "set_correction_state": {
+            "description": "system error correction on or off",
+            "set": {
+              "steps": [
+                {
+                  "op": "write",
+                  "text": "SENSe1:CORRection:STATe {state}"
+                }
+              ]
+            },
+            "parameters": {
+              "state": {
+                "type": "bool"
+              }
+            }
+          },
+          "calibration_clear": {
+            "description": "delete the calibration named OLA",
+            "set": {
+              "steps": [
+                {
+                  "op": "write",
+                  "text": "SENSe1:CORRection:COLLect:DELete 'OLA'"
+                }
+              ]
+            }
+          },
+          "set_source_power": {
+            "description": "test signal power at port 1 (channel 1)",
+            "set": {
+              "steps": [
+                {
+                  "op": "write",
+                  "text": "SOURce1:POWer1:LEVel:IMMediate:AMPLitude {value}"
+                }
+              ]
+            },
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "set_if_bandwidth": {
+            "description": "IF bandwidth (channel 1)",
+            "set": {
+              "steps": [
+                {
+                  "op": "write",
+                  "text": "SENSe1:BANDwidth:RESolution {value}"
+                }
+              ]
+            },
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          }
+        },
+        "models": [
+          {
+            "id": "VNA_RS_ZNB4",
+            "name": "Rohde & Schwarz ZNB4",
+            "manufacturer": "Rohde & Schwarz",
+            "model": "ZNB4",
+            "documentation_path": "docs/Rohde_Schwarz/ZNB_Series/ZNB_UserManual_en_74.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_VNA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_ports": [
+                2,
+                4
+              ],
+              "frequency_min_hz": 9000.0,
+              "frequency_max_hz": 4500000000.0,
+              "calibration": "instrument"
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "VNA_RS_ZNB8",
+            "name": "Rohde & Schwarz ZNB8",
+            "manufacturer": "Rohde & Schwarz",
+            "model": "ZNB8",
+            "documentation_path": "docs/Rohde_Schwarz/ZNB_Series/ZNB_UserManual_en_74.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_VNA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_ports": [
+                2,
+                4
+              ],
+              "frequency_min_hz": 9000.0,
+              "frequency_max_hz": 8500000000.0,
+              "calibration": "instrument"
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "VNA_RS_ZNB20",
+            "name": "Rohde & Schwarz ZNB20",
+            "manufacturer": "Rohde & Schwarz",
+            "model": "ZNB20",
+            "documentation_path": "docs/Rohde_Schwarz/ZNB_Series/ZNB_UserManual_en_74.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_VNA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_ports": [
+                2,
+                4
+              ],
+              "frequency_min_hz": 100000.0,
+              "frequency_max_hz": 20000000000.0,
+              "calibration": "instrument"
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "VNA_RS_ZNB26",
+            "name": "Rohde & Schwarz ZNB26",
+            "manufacturer": "Rohde & Schwarz",
+            "model": "ZNB26",
+            "documentation_path": "docs/Rohde_Schwarz/ZNB_Series/ZNB_UserManual_en_74.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_VNA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_ports": [
+                2,
+                4
+              ],
+              "frequency_min_hz": 100000.0,
+              "frequency_max_hz": 26500000000.0,
+              "calibration": "instrument"
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "VNA_RS_ZNB40",
+            "name": "Rohde & Schwarz ZNB40",
+            "manufacturer": "Rohde & Schwarz",
+            "model": "ZNB40",
+            "documentation_path": "docs/Rohde_Schwarz/ZNB_Series/ZNB_UserManual_en_74.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_VNA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_ports": [
+                2,
+                4
+              ],
+              "frequency_min_hz": 100000.0,
+              "frequency_max_hz": 40000000000.0,
+              "calibration": "instrument"
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "VNA_RS_ZNB43",
+            "name": "Rohde & Schwarz ZNB43",
+            "manufacturer": "Rohde & Schwarz",
+            "model": "ZNB43",
+            "documentation_path": "docs/Rohde_Schwarz/ZNB_Series/ZNB_UserManual_en_74.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_VNA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_ports": [
+                2,
+                4
+              ],
+              "frequency_min_hz": 100000.0,
+              "frequency_max_hz": 43500000000.0,
+              "calibration": "instrument"
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "VNA_RS_ZNL3",
+            "name": "Rohde & Schwarz ZNL3",
+            "manufacturer": "Rohde & Schwarz",
+            "model": "ZNL3",
+            "documentation_path": "docs/Rohde_Schwarz/ZNL-ZNLE_Series/ZNL_ZNLE_UserManual_en_23.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_VNA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_ports": 2,
+              "frequency_min_hz": 5000.0,
+              "frequency_max_hz": 3000000000.0,
+              "calibration": "instrument"
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "VNA_RS_ZNL4",
+            "name": "Rohde & Schwarz ZNL4",
+            "manufacturer": "Rohde & Schwarz",
+            "model": "ZNL4",
+            "documentation_path": "docs/Rohde_Schwarz/ZNL-ZNLE_Series/ZNL_ZNLE_UserManual_en_23.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_VNA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_ports": 2,
+              "frequency_min_hz": 5000.0,
+              "frequency_max_hz": 4500000000.0,
+              "calibration": "instrument"
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "VNA_RS_ZNL6",
+            "name": "Rohde & Schwarz ZNL6",
+            "manufacturer": "Rohde & Schwarz",
+            "model": "ZNL6",
+            "documentation_path": "docs/Rohde_Schwarz/ZNL-ZNLE_Series/ZNL_ZNLE_UserManual_en_23.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_VNA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_ports": 2,
+              "frequency_min_hz": 5000.0,
+              "frequency_max_hz": 6000000000.0,
+              "calibration": "instrument"
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "VNA_RS_ZNL14",
+            "name": "Rohde & Schwarz ZNL14",
+            "manufacturer": "Rohde & Schwarz",
+            "model": "ZNL14",
+            "documentation_path": "docs/Rohde_Schwarz/ZNL-ZNLE_Series/ZNL_ZNLE_UserManual_en_23.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_VNA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_ports": 2,
+              "frequency_min_hz": 5000.0,
+              "frequency_max_hz": 14000000000.0,
+              "calibration": "instrument"
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "VNA_RS_ZNL20",
+            "name": "Rohde & Schwarz ZNL20",
+            "manufacturer": "Rohde & Schwarz",
+            "model": "ZNL20",
+            "documentation_path": "docs/Rohde_Schwarz/ZNL-ZNLE_Series/ZNL_ZNLE_UserManual_en_23.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_VNA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_ports": 2,
+              "frequency_min_hz": 5000.0,
+              "frequency_max_hz": 20000000000.0,
+              "calibration": "instrument"
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "VNA_RS_ZNLE3",
+            "name": "Rohde & Schwarz ZNLE3",
+            "manufacturer": "Rohde & Schwarz",
+            "model": "ZNLE3",
+            "documentation_path": "docs/Rohde_Schwarz/ZNL-ZNLE_Series/ZNL_ZNLE_UserManual_en_23.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_VNA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_ports": 2,
+              "frequency_min_hz": 1000000.0,
+              "frequency_max_hz": 3000000000.0,
+              "calibration": "instrument"
+            },
+            "scpi_commands": {},
+            "experimental": true,
+            "notes": "ZNLE models: 100 kHz with the ZNLE-B100 low frequency extension option"
+          },
+          {
+            "id": "VNA_RS_ZNLE4",
+            "name": "Rohde & Schwarz ZNLE4",
+            "manufacturer": "Rohde & Schwarz",
+            "model": "ZNLE4",
+            "documentation_path": "docs/Rohde_Schwarz/ZNL-ZNLE_Series/ZNL_ZNLE_UserManual_en_23.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_VNA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_ports": 2,
+              "frequency_min_hz": 1000000.0,
+              "frequency_max_hz": 4500000000.0,
+              "calibration": "instrument"
+            },
+            "scpi_commands": {},
+            "experimental": true,
+            "notes": "ZNLE models: 100 kHz with the ZNLE-B100 low frequency extension option"
+          },
+          {
+            "id": "VNA_RS_ZNLE6",
+            "name": "Rohde & Schwarz ZNLE6",
+            "manufacturer": "Rohde & Schwarz",
+            "model": "ZNLE6",
+            "documentation_path": "docs/Rohde_Schwarz/ZNL-ZNLE_Series/ZNL_ZNLE_UserManual_en_23.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_VNA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_ports": 2,
+              "frequency_min_hz": 1000000.0,
+              "frequency_max_hz": 6000000000.0,
+              "calibration": "instrument"
+            },
+            "scpi_commands": {},
+            "experimental": true,
+            "notes": "ZNLE models: 100 kHz with the ZNLE-B100 low frequency extension option"
+          },
+          {
+            "id": "VNA_RS_ZNLE14",
+            "name": "Rohde & Schwarz ZNLE14",
+            "manufacturer": "Rohde & Schwarz",
+            "model": "ZNLE14",
+            "documentation_path": "docs/Rohde_Schwarz/ZNL-ZNLE_Series/ZNL_ZNLE_UserManual_en_23.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_VNA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_ports": 2,
+              "frequency_min_hz": 1000000.0,
+              "frequency_max_hz": 14000000000.0,
+              "calibration": "instrument"
+            },
+            "scpi_commands": {},
+            "experimental": true,
+            "notes": "ZNLE models: 100 kHz with the ZNLE-B100 low frequency extension option"
+          },
+          {
+            "id": "VNA_RS_ZNLE18",
+            "name": "Rohde & Schwarz ZNLE18",
+            "manufacturer": "Rohde & Schwarz",
+            "model": "ZNLE18",
+            "documentation_path": "docs/Rohde_Schwarz/ZNL-ZNLE_Series/ZNL_ZNLE_UserManual_en_23.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_VNA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_ports": 2,
+              "frequency_min_hz": 1000000.0,
+              "frequency_max_hz": 18000000000.0,
+              "calibration": "instrument"
+            },
+            "scpi_commands": {},
+            "experimental": true,
+            "notes": "ZNLE models: 100 kHz with the ZNLE-B100 low frequency extension option"
           }
         ]
       }
