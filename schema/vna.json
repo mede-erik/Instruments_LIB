@@ -1,0 +1,140 @@
+{
+  "schema_version": 1,
+  "category": "network_analyzers_series",
+  "description": "Logical calls of vector network analyzers (VNA). PROVISIONAL: written from the LiteVNA manual only; mandatory / optional will be revised when the manuals of the SCPI VNAs are added (mandatory = documented in every manual of the category). Complex results are returned as arrays of real and imaginary parts.",
+  "types": {
+    "sparameter": {
+      "kind": "enum",
+      "values": [
+        "S11",
+        "S21",
+        "S12",
+        "S22"
+      ],
+      "description": "scattering parameter (S<receiving port><driven port>)"
+    },
+    "sparameter_list": {
+      "kind": "list",
+      "item": "sparameter",
+      "description": "list of S-parameters"
+    },
+    "calibration_standard": {
+      "kind": "enum",
+      "values": [
+        "OPEN",
+        "SHORT",
+        "LOAD",
+        "THRU"
+      ],
+      "description": "calibration standard connected to the test port(s)"
+    },
+    "calibration_kind": {
+      "kind": "enum",
+      "values": [
+        "ONE_PORT",
+        "TRANSMISSION_RESPONSE"
+      ],
+      "description": "ONE_PORT: reflection calibration of port 1 from OPEN, SHORT and LOAD; TRANSMISSION_RESPONSE: normalisation of S21 from THRU"
+    },
+    "sparameters": {
+      "kind": "mapping",
+      "description": "dict with \"frequency\" (array, Hz), \"parameters\" ({name: {\"real\": array, \"imaginary\": array}} for each selected S-parameter) and \"calibrated\" (bool: the calibration of the application or of the instrument was applied)"
+    }
+  },
+  "calls": {
+    "identification_query": {
+      "requirement": "mandatory",
+      "kind": "query",
+      "description": "instrument identification (manufacturer, model, hardware and firmware)",
+      "result": {
+        "type": "string"
+      }
+    },
+    "set_frequency_sweep": {
+      "requirement": "mandatory",
+      "kind": "action",
+      "description": "linear frequency sweep from start to stop frequency with a number of points",
+      "args": {
+        "start_frequency": {
+          "type": "float",
+          "unit": "Hz",
+          "min": 0
+        },
+        "stop_frequency": {
+          "type": "float",
+          "unit": "Hz",
+          "min": 0
+        },
+        "points": {
+          "type": "int",
+          "unit": "points",
+          "min": 1
+        }
+      }
+    },
+    "select_sparameters": {
+      "requirement": "mandatory",
+      "kind": "action",
+      "description": "S-parameters measured by the next sweeps",
+      "args": {
+        "sparameters": {
+          "type": "sparameter_list"
+        }
+      }
+    },
+    "run_sweep": {
+      "requirement": "mandatory",
+      "kind": "action",
+      "description": "start a sweep and discard the data of the previous one (read_sparameters then returns this sweep)"
+    },
+    "read_sparameters": {
+      "requirement": "mandatory",
+      "kind": "query",
+      "description": "frequency and complex values of the selected S-parameters of the last sweep",
+      "result": {
+        "type": "sparameters"
+      }
+    },
+    "calibration_measure": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "measure a calibration standard connected to a test port",
+      "args": {
+        "standard": {
+          "type": "calibration_standard"
+        },
+        "port": {
+          "type": "int",
+          "min": 1,
+          "required": false,
+          "default": 1
+        }
+      }
+    },
+    "calibration_apply": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "compute the calibration from the measured standards and use it for the next read_sparameters",
+      "args": {
+        "kind": {
+          "type": "calibration_kind"
+        }
+      }
+    },
+    "set_correction_state": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "use (true) or bypass (false) the calibration in read_sparameters",
+      "args": {
+        "state": {
+          "type": "bool"
+        }
+      }
+    },
+    "calibration_clear": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "forget the measured standards and the calibration"
+    }
+  }
+}

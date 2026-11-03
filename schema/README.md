@@ -39,7 +39,7 @@ More categories are added one at a time (power supplies, electronic loads, datal
 | `result` | for queries: `type` and `unit` of the logical value |
 | `types` | named logical types: `enum` (fixed list of logical values) and `bool` |
 
-Base types: `int`, `float`, `string`, `binary` (IEEE 488.2 block, bytes), `raw` (the answer as the instrument gives it: text or bytes, model dependent), `number_or_keyword`, plus the names in `types`. Units are SI-based (`V`, `V/div`, `s`, `s/div`, `Hz`, `Sa/s`, `points`, `ratio`).
+Base types: `int`, `float`, `string`, `binary` (IEEE 488.2 block, bytes), `raw` (the answer as the instrument gives it: text or bytes, model dependent), `number_or_keyword`, plus the names in `types` (`enum`, `bool`, `list` of an item type, `mapping`). Units are SI-based (`V`, `V/div`, `s`, `s/div`, `Hz`, `Sa/s`, `points`, `ratio`).
 
 An argument with `"required": false` may be ignored by instruments that do not need it (for example `channel_number` in `set_trigger_level`, which only some instruments set per channel). The software always passes every argument it has.
 
@@ -101,10 +101,10 @@ A model may declare `"access"` at model level. There are exactly two values:
 
 | Value | Meaning |
 |---|---|
-| `scpi` (default) | the call is a **step plan** (`write` / `query` / `delay`) run by the generic executor; it is also used for non-SCPI text protocols such as the LiteVNA67 over a serial port |
-| `driver` | the call is not a command string: it is delegated to a driver (for example Digilent WaveForms for the Analog Discovery) as `{"driver": {"function": "<name>"}}`. The call names and the argument schema are the same, so the software does not change |
+| `scpi` (default) | the call is a **step plan** (`write` / `query` / `delay`) run by the generic executor; it is also used for non-SCPI **text** protocols (a serial shell) |
+| `driver` | the call is not a command string: it is delegated to a driver (for example Digilent WaveForms for the Analog Discovery, or the binary register protocol of the LiteVNA) as `{"driver": {"function": "<name>"}}`. The call names and the argument schema are the same, so the software does not change |
 
-A `driver` model has no `steps`; the conformance check accepts a driver entry as an implemented call.
+A `driver` model has no `steps`; the conformance check accepts a driver entry as an implemented call. The model names its driver with `"driver_id"` (for example `litevna`); the application finds the driver by that id (`ola/drivers/`). The driver receives the logical arguments, already validated by the schema, and raises the `CALL-xxx` errors itself for the values its instrument cannot handle.
 
 ## `transports` (how a connection is opened)
 

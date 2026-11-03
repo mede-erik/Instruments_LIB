@@ -35,6 +35,7 @@ Channel, range and value placeholders use the names `channel_number`, `channels`
 | Multimeters | Agilent 34401A, HP 3478A | **provisional**: the 3478A PDF is a scanned image without text, and there are only two manuals |
 | Dataloggers | Keysight 34970A/34972A, Keysight DAQ970A/DAQ973A | complete |
 | Switch units | Agilent 3499A | **provisional**: only one manual |
+| Vector network analyzers | Zenko LiteVNA 62/64/67 | **provisional, experimental**: one manual (binary USB protocol, software calibration); the SCPI VNAs will be added from their programming manuals. No VNA has been tested on a real instrument |
 
 ## 3. Calls per category
 
@@ -534,6 +535,42 @@ New category for mainframes that only route signals (no measurement engine). Ref
 **Mandatory (provisional)**: `identification_query`, `reset`, `clear_status`, `select_channels`, `open_channels`, `close_channel`, `monitor_channel`, `initiate_scan`, `abort_scan`, `query_scan_size`, `set_trigger_source`, `trigger_bus`, `set_channel_delay`, `set_local`, `set_remote`.
 
 **Optional**: relay-cycle, digital I/O, card pairing and state save/recall calls.
+
+<!-- BEGIN GENERATED network_analyzers_series -->
+### 3.7 Vector network analyzers (`network_analyzers_series`)
+
+Generated from `schema/vna.json` — do not edit this section by hand. 5 mandatory and 4 optional calls.
+
+Logical calls of vector network analyzers (VNA). PROVISIONAL: written from the LiteVNA manual only; mandatory / optional will be revised when the manuals of the SCPI VNAs are added (mandatory = documented in every manual of the category). Complex results are returned as arrays of real and imaginary parts.
+
+Logical types:
+
+* `sparameter`: `S11`, `S21`, `S12`, `S22`
+* `sparameter_list`: list of S-parameters
+* `calibration_standard`: `OPEN`, `SHORT`, `LOAD`, `THRU`
+* `calibration_kind`: `ONE_PORT`, `TRANSMISSION_RESPONSE`
+* `sparameters`: dict with "frequency" (array, Hz), "parameters" ({name: {"real": array, "imaginary": array}} for each selected S-parameter) and "calibrated" (bool: the calibration of the application or of the instrument was applied)
+
+**Mandatory**
+
+| Call | Kind | Arguments | Result | Description |
+|---|---|---|---|---|
+| `identification_query` | query |  | string | instrument identification (manufacturer, model, hardware and firmware) |
+| `set_frequency_sweep` | action | `start_frequency` (float, Hz, 0..)<br>`stop_frequency` (float, Hz, 0..)<br>`points` (int, points, 1..) |  | linear frequency sweep from start to stop frequency with a number of points |
+| `select_sparameters` | action | `sparameters` (sparameter_list) |  | S-parameters measured by the next sweeps |
+| `run_sweep` | action |  |  | start a sweep and discard the data of the previous one (read_sparameters then returns this sweep) |
+| `read_sparameters` | query |  | sparameters | frequency and complex values of the selected S-parameters of the last sweep |
+
+**Optional**
+
+| Call | Kind | Arguments | Result | Description |
+|---|---|---|---|---|
+| `calibration_measure` | action | `standard` (calibration_standard)<br>`port` (int, 1.., default 1, optional) |  | measure a calibration standard connected to a test port |
+| `calibration_apply` | action | `kind` (calibration_kind) |  | compute the calibration from the measured standards and use it for the next read_sparameters |
+| `set_correction_state` | action | `state` (bool) |  | use (true) or bypass (false) the calibration in read_sparameters |
+| `calibration_clear` | action |  |  | forget the measured standards and the calibration |
+
+<!-- END GENERATED network_analyzers_series -->
 
 ## 4. Translation layer (arguments and answers)
 
