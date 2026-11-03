@@ -2,15 +2,18 @@
 
 Libreria JSON data-only che funge da **motore di regole** (Rule Engine) per un driver Python SCPI. Non contiene codice: il file `instruments_lib.json` descrive serie, modelli, comandi SCPI, interfacce fisiche e limiti hardware di ogni strumento, permettendo al driver di validare i dati, formattare le richieste, gestire le connessioni e interpretare le risposte in modo dinamico.
 
+Per verificare la libreria con uno strumento reale vedi [TESTING.md](TESTING.md) (in inglese).
+
 ## Struttura del file
 
-Il file `instruments_lib.json` è un unico oggetto con la chiave `instrument_library`, contenente 6 categorie:
+Il file `instruments_lib.json` è un unico oggetto con la chiave `instrument_library`, contenente 7 categorie:
 
 | Chiave | Categoria | Esempi |
 |---|---|---|
 | `power_supplies_series` | Alimentatori | OWON ODP, Keysight E36300, TDK-Lambda GEN, R&S HMP, HP E3631A |
-| `dataloggers_series` | Data logger (mainframe) | Keysight 34970A/34972A, Agilent 3499A |
-| `datalogger_modules` | Datalogger card (moduli) | Keysight 34901A, 34902A, 34908A |
+| `dataloggers_series` | Data logger (mainframe) | Keysight 34970A/34972A, Keysight DAQ970A |
+| `switch_units_series` | Unità di commutazione (senza motore di misura) | Agilent 3499A |
+| `datalogger_modules` | Datalogger card (moduli) | Keysight 34901A, 34902A, 34908A, DAQM900A, DAQM901A |
 | `multimeters_series` | Multimetri | HP 3478A, Agilent 34401A |
 | `oscilloscopes_series` | Oscilloscopi | Tektronix 5 Series MSO, Rigol DS1000Z, Siglent SDS HD |
 | `electronic_loads_series` | Carichi elettronici | Chroma 6330A, Keysight EL4900, Siglent SDL1000X-E |
@@ -20,6 +23,7 @@ Il file `instruments_lib.json` è un unico oggetto con la chiave `instrument_lib
   "instrument_library": {
     "power_supplies_series": [],
     "dataloggers_series": [],
+    "switch_units_series": [],
     "datalogger_modules": [],
     "multimeters_series": [],
     "oscilloscopes_series": [],
@@ -75,7 +79,7 @@ Tutte le categorie (eccetto i datalogger, vedi sotto) seguono lo stesso schema a
 | `documentation_path` | string | sì | Percorso del manuale PDF |
 | `interface` | object | sì | Tipi di connessione supportati |
 | `capabilities` | object | sì | Limiti fisici e funzionalità |
-| `scpi_commands` | object | no | Comandi specifici del modello (sovrascrivono/estendono la serie) |
+| `scpi_commands` | object | no | Comandi specifici del modello: sostituiscono, rimuovono (`null`) o modificano (`{"patch": {...}}`) quelli della serie, vedi `COMMAND_NAMES.md` sezione 7 |
 | `experimental` | bool | sì | `true` = non ancora validato su hardware reale |
 
 ## Il blocco `interface`
@@ -250,7 +254,7 @@ I comandi SCPI che operano sui canali usano il formato a range Keysight a **3 ci
 }
 ```
 
-> **Eccezione Agilent 3499A**: usa il formato `@snn` (slot + canale a 2 cifre, es. `(@101)`, `(@100:107)`). Il valore di `capabilities.channels` è una stringa tipo `"100:107"` — la `@` fa parte della sintassi SCPI (`(@{channels})`), non dell'ID canale. Il 3499A è inoltre un mainframe di switching **senza motore di misura** (niente `MEAS?`/`FETCh?`/`READ?`).
+> **Eccezione Agilent 3499A** (categoria `switch_units_series`, vedi sotto): usa il formato `@snn` (slot + canale a 2 cifre, es. `(@101)`, `(@100:107)`). Il valore di `capabilities.channels` è una stringa tipo `"100:107"` — la `@` fa parte della sintassi SCPI (`(@{channels})`), non dell'ID canale. Il 3499A è inoltre un mainframe di switching **senza motore di misura** (niente `MEAS?`/`FETCh?`/`READ?`).
 
 ### Le card (`datalogger_modules`)
 
