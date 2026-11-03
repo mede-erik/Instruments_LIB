@@ -18998,6 +18998,706 @@
             "notes": "ZNLE models: 100 kHz with the ZNLE-B100 low frequency extension option"
           }
         ]
+      },
+      {
+        "series_id": "Rohde_Schwarz_ZVx_Series",
+        "series_name": "Rohde & Schwarz ZVA, ZVB, ZVT and ZVL vector network analyzers",
+        "common_scpi_commands": {
+          "identification_query": {
+            "description": "identification (IEEE 488.2)",
+            "query": {
+              "syntax": "*IDN?",
+              "return_type": "string"
+            }
+          },
+          "set_frequency_sweep": {
+            "description": "linear sweep from start to stop frequency (channel 1)",
+            "set": {
+              "steps": [
+                {
+                  "op": "write",
+                  "text": "SENSe1:SWEep:TYPE LINear"
+                },
+                {
+                  "op": "write",
+                  "text": "SENSe1:FREQuency:STARt {start_frequency}"
+                },
+                {
+                  "op": "write",
+                  "text": "SENSe1:FREQuency:STOP {stop_frequency}"
+                },
+                {
+                  "op": "write",
+                  "text": "SENSe1:SWEep:POINts {points}"
+                }
+              ]
+            },
+            "parameters": {
+              "start_frequency": {
+                "type": "float"
+              },
+              "stop_frequency": {
+                "type": "float"
+              },
+              "points": {
+                "type": "int"
+              }
+            }
+          },
+          "run_sweep": {
+            "description": "single sweep, wait for its end",
+            "set": {
+              "steps": [
+                {
+                  "op": "write",
+                  "text": "INITiate1:CONTinuous OFF"
+                },
+                {
+                  "op": "write",
+                  "text": "INITiate1:IMMediate"
+                },
+                {
+                  "op": "query",
+                  "text": "*OPC?",
+                  "timeout_ms": 120000
+                }
+              ]
+            }
+          },
+          "read_sparameters": {
+            "description": "one trace per parameter, a single sweep, then the unformatted (complex) data of each trace (ASCII)",
+            "query": {
+              "steps": [
+                {
+                  "op": "write",
+                  "text": "FORMat ASCii"
+                },
+                {
+                  "foreach": "sparameters",
+                  "steps": [
+                    {
+                      "op": "write",
+                      "text": "CALCulate1:PARameter:SDEFine 'OLA{n}','{item}'"
+                    }
+                  ]
+                },
+                {
+                  "op": "write",
+                  "text": "INITiate1:CONTinuous OFF"
+                },
+                {
+                  "op": "write",
+                  "text": "INITiate1:IMMediate"
+                },
+                {
+                  "op": "query",
+                  "text": "*OPC?",
+                  "timeout_ms": 120000
+                },
+                {
+                  "op": "query",
+                  "text": "SENSe1:CORRection:STATe?"
+                },
+                {
+                  "op": "write",
+                  "text": "CALCulate1:PARameter:SELect 'OLA1'"
+                },
+                {
+                  "op": "query",
+                  "text": "CALCulate1:DATA:STIMulus?",
+                  "timeout_ms": 30000
+                },
+                {
+                  "foreach": "sparameters",
+                  "steps": [
+                    {
+                      "op": "write",
+                      "text": "CALCulate1:PARameter:SELect 'OLA{n}'"
+                    },
+                    {
+                      "op": "query",
+                      "text": "CALCulate1:DATA? SDATa",
+                      "timeout_ms": 30000
+                    }
+                  ]
+                }
+              ],
+              "parse": {
+                "name": "vna_sparameters",
+                "from_steps": "queries",
+                "args": [
+                  "sparameters"
+                ],
+                "skip_queries": 1
+              }
+            },
+            "parameters": {
+              "sparameters": {
+                "type": "sparameter_list"
+              }
+            }
+          },
+          "calibration_begin": {
+            "description": "calibration type FOPort (one port), FRTRans (transmission, both directions) or TOSM (two ports)",
+            "set": {
+              "steps": [
+                {
+                  "op": "write",
+                  "text": "SENSe1:CORRection:COLLect:METHod:DEFine 'OLA', FOPort, {port}",
+                  "when": {
+                    "kind": "ONE_PORT"
+                  }
+                },
+                {
+                  "op": "write",
+                  "text": "SENSe1:CORRection:COLLect:METHod:DEFine 'OLA', FRTRans, {port},{port2}",
+                  "when": {
+                    "kind": "TRANSMISSION_RESPONSE"
+                  }
+                },
+                {
+                  "op": "write",
+                  "text": "SENSe1:CORRection:COLLect:METHod:DEFine 'OLA', TOSM, {port},{port2}",
+                  "when": {
+                    "kind": "TWO_PORT"
+                  }
+                }
+              ]
+            },
+            "parameters": {
+              "kind": {
+                "type": "string",
+                "values": [
+                  "ONE_PORT",
+                  "TRANSMISSION_RESPONSE",
+                  "TWO_PORT"
+                ]
+              },
+              "port": {
+                "type": "int"
+              },
+              "port2": {
+                "type": "int"
+              }
+            }
+          },
+          "calibration_measure": {
+            "description": "measure a standard (the load is the MATCh standard)",
+            "set": {
+              "steps": [
+                {
+                  "op": "write",
+                  "text": "SENSe1:CORRection:COLLect:ACQuire:SELected OPEN,{port}",
+                  "when": {
+                    "standard": "OPEN"
+                  }
+                },
+                {
+                  "op": "write",
+                  "text": "SENSe1:CORRection:COLLect:ACQuire:SELected SHORt,{port}",
+                  "when": {
+                    "standard": "SHORT"
+                  }
+                },
+                {
+                  "op": "write",
+                  "text": "SENSe1:CORRection:COLLect:ACQuire:SELected MATCh,{port}",
+                  "when": {
+                    "standard": "LOAD"
+                  }
+                },
+                {
+                  "op": "write",
+                  "text": "SENSe1:CORRection:COLLect:ACQuire:SELected THRough,{port},{port2}",
+                  "when": {
+                    "standard": "THRU"
+                  }
+                },
+                {
+                  "op": "query",
+                  "text": "*OPC?",
+                  "timeout_ms": 120000
+                }
+              ]
+            },
+            "parameters": {
+              "standard": {
+                "type": "string",
+                "values": [
+                  "OPEN",
+                  "SHORT",
+                  "LOAD",
+                  "THRU"
+                ]
+              },
+              "port": {
+                "type": "int"
+              },
+              "port2": {
+                "type": "int"
+              }
+            }
+          },
+          "calibration_apply": {
+            "description": "calculate the correction data from the measured standards",
+            "set": {
+              "steps": [
+                {
+                  "op": "write",
+                  "text": "SENSe1:CORRection:COLLect:SAVE:SELected"
+                },
+                {
+                  "op": "query",
+                  "text": "*OPC?",
+                  "timeout_ms": 120000
+                }
+              ]
+            }
+          },
+          "set_correction_state": {
+            "description": "system error correction on or off",
+            "set": {
+              "steps": [
+                {
+                  "op": "write",
+                  "text": "SENSe1:CORRection:STATe {state}"
+                }
+              ]
+            },
+            "parameters": {
+              "state": {
+                "type": "bool"
+              }
+            }
+          },
+          "calibration_clear": {
+            "description": "delete the calibration named OLA",
+            "set": {
+              "steps": [
+                {
+                  "op": "write",
+                  "text": "SENSe1:CORRection:COLLect:DELete 'OLA'"
+                }
+              ]
+            }
+          },
+          "set_source_power": {
+            "description": "test signal power (channel 1)",
+            "set": {
+              "steps": [
+                {
+                  "op": "write",
+                  "text": "SOURce1:POWer:LEVel:IMMediate:AMPLitude {value}"
+                }
+              ]
+            },
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "set_if_bandwidth": {
+            "description": "IF bandwidth (channel 1)",
+            "set": {
+              "steps": [
+                {
+                  "op": "write",
+                  "text": "SENSe1:BANDwidth:RESolution {value}"
+                }
+              ]
+            },
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          }
+        },
+        "models": [
+          {
+            "id": "VNA_RS_ZVA8",
+            "name": "Rohde & Schwarz ZVA8",
+            "manufacturer": "Rohde & Schwarz",
+            "model": "ZVA8",
+            "documentation_path": "docs/Rohde_Schwarz/ZVA_ZVB_ZVT_OperatingManual_en_33.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_VNA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "calibration": "instrument"
+            },
+            "scpi_commands": {},
+            "experimental": true,
+            "notes": "Frequency range and number of test ports depend on the options: see the manual."
+          },
+          {
+            "id": "VNA_RS_ZVA24",
+            "name": "Rohde & Schwarz ZVA24",
+            "manufacturer": "Rohde & Schwarz",
+            "model": "ZVA24",
+            "documentation_path": "docs/Rohde_Schwarz/ZVA_ZVB_ZVT_OperatingManual_en_33.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_VNA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "calibration": "instrument"
+            },
+            "scpi_commands": {},
+            "experimental": true,
+            "notes": "Frequency range and number of test ports depend on the options: see the manual."
+          },
+          {
+            "id": "VNA_RS_ZVA40",
+            "name": "Rohde & Schwarz ZVA40",
+            "manufacturer": "Rohde & Schwarz",
+            "model": "ZVA40",
+            "documentation_path": "docs/Rohde_Schwarz/ZVA_ZVB_ZVT_OperatingManual_en_33.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_VNA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "calibration": "instrument"
+            },
+            "scpi_commands": {},
+            "experimental": true,
+            "notes": "Frequency range and number of test ports depend on the options: see the manual."
+          },
+          {
+            "id": "VNA_RS_ZVA50",
+            "name": "Rohde & Schwarz ZVA50",
+            "manufacturer": "Rohde & Schwarz",
+            "model": "ZVA50",
+            "documentation_path": "docs/Rohde_Schwarz/ZVA_ZVB_ZVT_OperatingManual_en_33.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_VNA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "calibration": "instrument"
+            },
+            "scpi_commands": {},
+            "experimental": true,
+            "notes": "Frequency range and number of test ports depend on the options: see the manual."
+          },
+          {
+            "id": "VNA_RS_ZVB4",
+            "name": "Rohde & Schwarz ZVB4",
+            "manufacturer": "Rohde & Schwarz",
+            "model": "ZVB4",
+            "documentation_path": "docs/Rohde_Schwarz/ZVA_ZVB_ZVT_OperatingManual_en_33.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_VNA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "calibration": "instrument"
+            },
+            "scpi_commands": {},
+            "experimental": true,
+            "notes": "Frequency range and number of test ports depend on the options: see the manual."
+          },
+          {
+            "id": "VNA_RS_ZVB8",
+            "name": "Rohde & Schwarz ZVB8",
+            "manufacturer": "Rohde & Schwarz",
+            "model": "ZVB8",
+            "documentation_path": "docs/Rohde_Schwarz/ZVA_ZVB_ZVT_OperatingManual_en_33.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_VNA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "calibration": "instrument"
+            },
+            "scpi_commands": {},
+            "experimental": true,
+            "notes": "Frequency range and number of test ports depend on the options: see the manual."
+          },
+          {
+            "id": "VNA_RS_ZVB14",
+            "name": "Rohde & Schwarz ZVB14",
+            "manufacturer": "Rohde & Schwarz",
+            "model": "ZVB14",
+            "documentation_path": "docs/Rohde_Schwarz/ZVA_ZVB_ZVT_OperatingManual_en_33.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_VNA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "calibration": "instrument"
+            },
+            "scpi_commands": {},
+            "experimental": true,
+            "notes": "Frequency range and number of test ports depend on the options: see the manual."
+          },
+          {
+            "id": "VNA_RS_ZVB20",
+            "name": "Rohde & Schwarz ZVB20",
+            "manufacturer": "Rohde & Schwarz",
+            "model": "ZVB20",
+            "documentation_path": "docs/Rohde_Schwarz/ZVA_ZVB_ZVT_OperatingManual_en_33.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_VNA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "calibration": "instrument"
+            },
+            "scpi_commands": {},
+            "experimental": true,
+            "notes": "Frequency range and number of test ports depend on the options: see the manual."
+          },
+          {
+            "id": "VNA_RS_ZVT8",
+            "name": "Rohde & Schwarz ZVT8",
+            "manufacturer": "Rohde & Schwarz",
+            "model": "ZVT8",
+            "documentation_path": "docs/Rohde_Schwarz/ZVA_ZVB_ZVT_OperatingManual_en_33.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_VNA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "calibration": "instrument"
+            },
+            "scpi_commands": {},
+            "experimental": true,
+            "notes": "Frequency range and number of test ports depend on the options: see the manual."
+          },
+          {
+            "id": "VNA_RS_ZVT20",
+            "name": "Rohde & Schwarz ZVT20",
+            "manufacturer": "Rohde & Schwarz",
+            "model": "ZVT20",
+            "documentation_path": "docs/Rohde_Schwarz/ZVA_ZVB_ZVT_OperatingManual_en_33.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_VNA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "calibration": "instrument"
+            },
+            "scpi_commands": {},
+            "experimental": true,
+            "notes": "Frequency range and number of test ports depend on the options: see the manual."
+          },
+          {
+            "id": "VNA_RS_ZVL3",
+            "name": "Rohde & Schwarz ZVL3",
+            "manufacturer": "Rohde & Schwarz",
+            "model": "ZVL3",
+            "documentation_path": "docs/Rohde_Schwarz/ZVL_Series/ZVL3--Operating_Manual.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_VNA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "calibration": "instrument",
+              "frequency_min_hz": 9000,
+              "frequency_max_hz": 3000000000.0
+            },
+            "scpi_commands": {},
+            "experimental": true,
+            "notes": "Frequency range and number of test ports depend on the options: see the manual."
+          },
+          {
+            "id": "VNA_RS_ZVL375",
+            "name": "Rohde & Schwarz ZVL3-75",
+            "manufacturer": "Rohde & Schwarz",
+            "model": "ZVL3-75",
+            "documentation_path": "docs/Rohde_Schwarz/ZVL_Series/ZVL3--Operating_Manual.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_VNA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "calibration": "instrument",
+              "frequency_min_hz": 9000,
+              "frequency_max_hz": 3000000000.0
+            },
+            "scpi_commands": {},
+            "experimental": true,
+            "notes": "Frequency range and number of test ports depend on the options: see the manual."
+          },
+          {
+            "id": "VNA_RS_ZVL6",
+            "name": "Rohde & Schwarz ZVL6",
+            "manufacturer": "Rohde & Schwarz",
+            "model": "ZVL6",
+            "documentation_path": "docs/Rohde_Schwarz/ZVL_Series/ZVL3--Operating_Manual.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_VNA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "calibration": "instrument"
+            },
+            "scpi_commands": {},
+            "experimental": true,
+            "notes": "Frequency range and number of test ports depend on the options: see the manual."
+          },
+          {
+            "id": "VNA_RS_ZVL13",
+            "name": "Rohde & Schwarz ZVL13",
+            "manufacturer": "Rohde & Schwarz",
+            "model": "ZVL13",
+            "documentation_path": "docs/Rohde_Schwarz/ZVL_Series/ZVL3--Operating_Manual.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_VNA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "calibration": "instrument"
+            },
+            "scpi_commands": {},
+            "experimental": true,
+            "notes": "Frequency range and number of test ports depend on the options: see the manual."
+          }
+        ]
       }
     ]
   }
