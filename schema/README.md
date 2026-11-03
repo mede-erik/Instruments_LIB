@@ -101,8 +101,8 @@ A model may declare `"access"` at model level. There are exactly two values:
 
 | Value | Meaning |
 |---|---|
-| `scpi` (default) | the call is a **step plan** (`write` / `query` / `delay`) run by the generic executor; it is also used for non-SCPI text protocols such as the LiteVNA67 over a serial port |
-| `driver` | the call is not a command string: it is delegated to a driver (for example Digilent WaveForms for the Analog Discovery) as `{"driver": {"function": "<name>"}}`. The call names and the argument schema are the same, so the software does not change |
+| `scpi` (default) | the call is a **step plan** (`write` / `query` / `delay`) run by the generic executor; it is also used for non-SCPI **text** protocols (a serial shell) |
+| `driver` | the call is not a command string: it is delegated to a driver (for example Digilent WaveForms for the Analog Discovery, or the binary register protocol of the LiteVNA) as `{"driver": {"function": "<name>"}}`. The call names and the argument schema are the same, so the software does not change |
 
 A `driver` model has no `steps`; the conformance check accepts a driver entry as an implemented call.
 
