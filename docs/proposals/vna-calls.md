@@ -67,3 +67,28 @@ Candidates, to be checked against their programming manuals before anything is w
 * **Siglent SNA5000A**: the affordable one, SCPI close to Keysight's; likely the one a user of this software owns.
 
 A text-protocol alternative for small VNAs is the NanoVNA family (a serial shell with `sweep`, `frequencies`, `data`); it can be a later addition.
+
+## 5. The SCPI manuals (read; nothing written to the library yet)
+
+Manuals added to `docs/`: **Siglent VNA Series Programming Guide EN05A** (one SCPI guide for the SNA5000A, SNA5000X-E, SNA6000A and SHN900A series; 2 or 4 ports, 9 kHz to 26.5 GHz), **R&S ZNB** and **R&S ZNL/ZNLE** user manuals (they contain the SCPI command reference; the two families share the command set). Command names below were found in those manuals.
+
+| Logical call | Siglent (SNA / SHN) | R&S (ZNB / ZNL) |
+|---|---|---|
+| `identification_query` | `*IDN?` | `*IDN?` |
+| `set_frequency_sweep` | `:SENSe<c>:FREQuency:STARt`, `:STOP`, `:SENSe<c>:SWEep:POINts`, `:SENSe<c>:SWEep:TYPE LINear` | `[SENSe<Ch>:]FREQuency:STARt` / `:STOP`, `[SENSe<Ch>:]SWEep:POINts`, `[SENSe<Ch>:]SWEep:TYPE` |
+| `select_sparameters` | `:CALCulate<c>:PARameter:COUNt`, `:CALCulate<c>:PARameter<t>:DEFine S11` (or read `S<XY>` directly, see below) | `CALCulate<Ch>:PARameter:SDEFine '<trace>','S11'` (one trace per parameter) |
+| `run_sweep` | `:INITiate<c>:CONTinuous OFF`, `:INITiate<c>[:IMMediate]`, wait with `*OPC?` | `INITiate<Ch>:CONTinuous OFF`, `INITiate<Ch>[:IMMediate]`, `*OPC?` |
+| `read_sparameters` | `:FORMat:DATA ASCii\|REAL\|REAL32`; `:SENSe<c>:DATA:CORRdata? S<XY>` (real, imaginary pairs), `:SENSe<c>:DATA:RAWData? S<XY>`; frequencies `:SENSe<c>:FREQuency:DATA?` | `FORMat[:DATA]`; select the trace, `CALCulate<Chn>:DATA? SDATa` (complex), frequencies `CALCulate<Chn>:DATA:STIMulus?` |
+| calibration method | `:SENSe<c>:CORRection:COLLect:METHod:SOLT1 <port>` (OSL), `:SOLT2 <p1>,<p2>`, `[:RESPonse]:THRU <p1>,<p2>`, ... | `[SENSe<Ch>:]CORRection:COLLect:METHod:DEFine '<name>', TOSM, 1, 2` |
+| measure a standard | `:SENSe<c>:CORRection:COLLect[:ACQuire]:OPEN <port>` / `:SHORt` / `:LOAD` / `:THRU <p1>,<p2>` | `[SENSe<Ch>:]CORRection:COLLect[:ACQuire]:SELected OPEN, 1` (also `SHORt`, `MATCh`, `THRough, 1, 2`) |
+| finish the calibration | `:SENSe<c>:CORRection:COLLect:SAVE` (cancel: `...:COLLect:CLEar`) | `[SENSe<Ch>:]CORRection:COLLect:SAVE:SELected[:DUMMy]` |
+| correction on / off | `:SENSe<c>:CORRection:STATe <bool>` | `[SENSe<Ch>:]CORRection[:STATe] <bool>` |
+
+### What this changes in the draft
+
+1. **Calibration needs an order on SCPI VNAs**: the method (type and ports) is chosen *before* the standards are measured, and the calibration is calculated at the end. The logical flow therefore becomes `calibration_begin(kind, ports)` -> `calibration_measure(standard, ports)` (repeated) -> `calibration_apply()`. The LiteVNA driver ignores `calibration_begin` except to remember the kind.
+2. **Kinds**: `ONE_PORT` (OSL), `TRANSMISSION_RESPONSE` (THRU) and `TWO_PORT` (SOLT/TOSM) as logical values; `TWO_PORT` is not handled by the LiteVNA (`CALL-002`).
+3. **A list argument in a step plan**: `select_sparameters` and `read_sparameters` repeat a command for each requested parameter. The planner needs a `foreach` step (a step expanded once per item of a list argument, with `{item}` and `{index}`).
+4. **A named parser** for `read_sparameters`: the ASCII answer is a comma-separated list of `real, imaginary` pairs; the parser builds the `sparameters` dict from the frequency answer and the data answers.
+5. **Mandatory / optional**, by the rule "documented in every manual": all of the above except the single frequency calls are in all three manuals, so the five core calls stay mandatory and the calibration calls become mandatory too once the LiteVNA implements them (it does, in software). Source power (dBm), IF bandwidth and averaging exist in the SCPI manuals (`:SOURce<c>:POWer`, `:SENSe<c>:BANDwidth`, `:SENSe<c>:AVERage`) and not in the LiteVNA: optional.
+6. **Models** (all `experimental`): one Siglent series entry covering the SNA5000A, SNA5000X-E, SNA6000A and SHN900A models of the programming guide (same command set; the guide lists the models, ports and ranges), and one R&S series entry for the ZNB and ZNL/ZNLE models.
