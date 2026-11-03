@@ -119,6 +119,10 @@ An entry of `interface.supported_connection_types` can list the transports the m
 
 Example (Siglent SDS HD, from its programming guide): `"transports": [{"kind": "vxi11"}, {"kind": "raw_socket", "port": 5025}]`. Models without `transports` are not specified yet: the software must not assume a transport for them.
 
+## Manual instruments are not in the library
+
+A *manual instrument* is an instrument without remote control (a bench power supply or an electronic load operated by hand). It is a **generic** instrument defined by the user in the project (type, name, channels and limits such as maximum voltage and current), **not** a model of this library: there is no entry for it in `instruments_lib.json`, no SCPI, no transport. The application operates it by asking the operator to set and read values, using the same logical call names and the same argument limits as the schemas of its category. Do not add manual or generic instruments to `instruments_lib.json`.
+
 ## Documentation
 
 `COMMAND_NAMES.md` contains tables of the mandatory and optional calls of every category **generated from these schema files**. After changing a schema run:
