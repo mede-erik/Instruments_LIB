@@ -43,13 +43,20 @@ Names follow the existing categories. *Requirement* is a first guess: the real o
 
 New result type **`sparameters`**: a dict with `frequency` (Hz, array), one complex array per requested parameter (`s11`, `s21`, ...), and `calibrated` (bool). Complex numbers are returned as a pair of arrays (real, imaginary) so that the value is plain JSON and numpy-free.
 
-## 3. Questions to settle
+## 3. Decisions (owner)
 
-1. **Calibration**: when the instrument has it (all SCPI VNAs), the application only starts it with the calls above. For the LiteVNA the driver does it in software. Is software calibration part of the library work or of a separate "calibration" module of the application? (My suggestion: the driver, because the calls are the same for the user.)
-2. **Complex data format**: a dict of real/imaginary arrays, or one list of `[re, im]` pairs?
-3. **One call or two for a sweep**: `run_sweep` + `read_sparameters` (SCPI: `INITiate` and `*OPC?`, then `CALCulate:DATA:SDATa?`), or only `read_sparameters` that sweeps first? I propose two calls, with `read_sparameters` allowed on the last sweep.
-4. **More than two ports** (4-port VNAs): the same calls with the parameter list; the port count is a model capability.
-5. **Time-domain functions (TDR/DTF)**: out of this first version.
+1. **Calibration** is done by a *calibration tool* of the application: the user chooses "Calibrate VNA", the tool reads the VNA of the `.inst` file, runs the calibration calls of the model and tells the operator what to connect. For an instrument without calibration data over its interface (the LiteVNA) the **driver** performs the calibration in software, so that for the application the LiteVNA is **identical** to the other instruments.
+2. **Complex data**: arrays of real and imaginary parts (`sparameters` type, see `schema/vna.json`).
+3. **Sweep**: `run_sweep` then `read_sparameters`; `read_sparameters` starts a sweep by itself if none was started since the last `set_frequency_sweep`.
+4. **VNAs the owner does not have** (LiteVNA and the SCPI models to come) are inserted in the library as **`experimental`** (hidden unless the user enables experimental instruments): they have never been tested on a real instrument. Anyone who owns one can verify it with `TESTING.md`.
+
+Done so far: `schema/vna.json` (provisional), the LiteVNA 62/64/67 as `driver` models, and the driver with a simulated instrument in the application repository.
+
+## 3b. Open points
+
+* The calibration tool itself (application): the sequence of standards to connect for each calibration kind and for the SCPI VNAs.
+* Calibration kits: the software calibration assumes ideal standards (no offsets or fringing capacitance).
+* Time-domain functions (TDR/DTF): out of the first version.
 
 ## 4. Models to choose next (SCPI, "serious")
 
