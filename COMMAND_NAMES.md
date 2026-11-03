@@ -35,7 +35,7 @@ Channel, range and value placeholders use the names `channel_number`, `channels`
 | Multimeters | Agilent 34401A, HP 3478A | **provisional**: the 3478A PDF is a scanned image without text, and there are only two manuals |
 | Dataloggers | Keysight 34970A/34972A, Keysight DAQ970A/DAQ973A | complete |
 | Switch units | Agilent 3499A | **provisional**: only one manual |
-| Vector network analyzers | Zenko LiteVNA 62/64/67 | **provisional, experimental**: one manual (binary USB protocol, software calibration); the SCPI VNAs will be added from their programming manuals. No VNA has been tested on a real instrument |
+| Vector network analyzers | Zenko LiteVNA 62/64/67, Siglent VNA Series Programming Guide (SNA5000A, SNA5000X-E, SNA6000A, SHN900A), R&S ZNB and ZNL/ZNLE user manuals | **provisional, experimental**: no VNA has been tested on a real instrument; the manuals of the Agilent E507x, HP 8753C/8700, R&S ZVA/ZVB/ZVT and ZVL are in `docs/` and not used yet |
 
 ## 3. Calls per category
 
@@ -539,16 +539,16 @@ New category for mainframes that only route signals (no measurement engine). Ref
 <!-- BEGIN GENERATED network_analyzers_series -->
 ### 3.7 Vector network analyzers (`network_analyzers_series`)
 
-Generated from `schema/vna.json` — do not edit this section by hand. 5 mandatory and 4 optional calls.
+Generated from `schema/vna.json` — do not edit this section by hand. 9 mandatory and 2 optional calls.
 
-Logical calls of vector network analyzers (VNA). PROVISIONAL: written from the LiteVNA manual only; mandatory / optional will be revised when the manuals of the SCPI VNAs are added (mandatory = documented in every manual of the category). Complex results are returned as arrays of real and imaginary parts.
+Logical calls of vector network analyzers (VNA). PROVISIONAL: written from the manuals of the Zenko LiteVNA, the Siglent SNA/SHN series and the Rohde & Schwarz ZNB/ZNL (mandatory = documented in every manual of the category). Complex results are returned as arrays of real and imaginary parts. Calibration is a flow: calibration_begin, calibration_measure (once per standard), calibration_apply.
 
 Logical types:
 
 * `sparameter`: `S11`, `S21`, `S12`, `S22`
 * `sparameter_list`: list of S-parameters
 * `calibration_standard`: `OPEN`, `SHORT`, `LOAD`, `THRU`
-* `calibration_kind`: `ONE_PORT`, `TRANSMISSION_RESPONSE`
+* `calibration_kind`: `ONE_PORT`, `TRANSMISSION_RESPONSE`, `TWO_PORT`
 * `sparameters`: dict with "frequency" (array, Hz), "parameters" ({name: {"real": array, "imaginary": array}} for each selected S-parameter) and "calibrated" (bool: the calibration of the application or of the instrument was applied)
 
 **Mandatory**
@@ -557,18 +557,20 @@ Logical types:
 |---|---|---|---|---|
 | `identification_query` | query |  | string | instrument identification (manufacturer, model, hardware and firmware) |
 | `set_frequency_sweep` | action | `start_frequency` (float, Hz, 0..)<br>`stop_frequency` (float, Hz, 0..)<br>`points` (int, points, 1..) |  | linear frequency sweep from start to stop frequency with a number of points |
-| `select_sparameters` | action | `sparameters` (sparameter_list) |  | S-parameters measured by the next sweeps |
 | `run_sweep` | action |  |  | start a sweep and discard the data of the previous one (read_sparameters then returns this sweep) |
-| `read_sparameters` | query |  | sparameters | frequency and complex values of the selected S-parameters of the last sweep |
+| `read_sparameters` | query | `sparameters` (sparameter_list) | sparameters | sweep (when the instrument needs it) and read the frequencies and the complex values of the asked S-parameters |
+| `calibration_begin` | action | `kind` (calibration_kind)<br>`port` (int, 1..)<br>`port2` (int, 1.., optional) |  | choose the calibration and the ports; the standards are then measured with calibration_measure |
+| `calibration_measure` | action | `standard` (calibration_standard)<br>`port` (int, 1..)<br>`port2` (int, 1.., optional) |  | measure a calibration standard connected to the port(s) given to calibration_begin |
+| `calibration_apply` | action |  |  | compute the calibration from the measured standards and use it for the next read_sparameters |
+| `set_correction_state` | action | `state` (bool) |  | use (true) or bypass (false) the calibration in read_sparameters |
+| `calibration_clear` | action |  |  | forget the measured standards and the calibration |
 
 **Optional**
 
 | Call | Kind | Arguments | Result | Description |
 |---|---|---|---|---|
-| `calibration_measure` | action | `standard` (calibration_standard)<br>`port` (int, 1.., default 1, optional) |  | measure a calibration standard connected to a test port |
-| `calibration_apply` | action | `kind` (calibration_kind) |  | compute the calibration from the measured standards and use it for the next read_sparameters |
-| `set_correction_state` | action | `state` (bool) |  | use (true) or bypass (false) the calibration in read_sparameters |
-| `calibration_clear` | action |  |  | forget the measured standards and the calibration |
+| `set_source_power` | action | `value` (float, dBm) |  | test signal power |
+| `set_if_bandwidth` | action | `value` (float, Hz, 0..) |  | IF (resolution) bandwidth |
 
 <!-- END GENERATED network_analyzers_series -->
 
@@ -579,7 +581,9 @@ The same logical call has the same arguments and logical values for every brand;
 ## 5. Known gaps and legacy names
 
 * **OWON ODP**: the manual does not document `*CLS`, `SYSTem:ERRor?` and `*TST?`. `clear_status`, `error_query` and `self_test` exist in the library but are **not confirmed by the manual** (to be verified on the instrument).
+* **Agilent 34970A** (datalogger): tested on a real instrument over RS-232 (null-modem cable, 57600 baud, XON/XOFF): 38 of the 39 calls tried were accepted (the other, `fetch_readings`, needs fresh data) and the readings of the configured channels were correct in the application. It is no longer marked `experimental`. The 34972A (same series), DAQ970A and DAQ973A are still experimental.
 * **Siglent SDS HD**: the programming guide documents only `*IDN`, `*OPC` and `*RST` as common commands. Tested on a real SDS824X HD (FW 4.8.12.1.1.6.5): `error_query` (`SYSTem:ERRor?` → `0,"No error"`) works and `clear_status` (`*CLS`) is accepted, so both are kept although the guide does not list them. `self_test` (`*TST?` → 0) also works. `query_trigger_mode` can answer `FTRIG` after a forced trigger; it is mapped to `FORCED`. Verified on the same instrument: `*IDN?`, `*OPC?`, trigger status and mode, timebase, vertical settings, sample rate, and the waveform transfer (`:WAVeform:PREamble?` is a 346-byte binary descriptor, `:WAVeform:DATA?` a binary block of 400 000 bytes = 10 divisions × 20 µs/div × 2 GSa/s).
+* **Siglent SDS HD, applying a `.was` file** (tested on a real SDS824X HD): after `*RST` only CH1 is on, and the scope **ignores the settings of a channel that is off** (the scale of CH2 read back 1 V/div), so the application sends `set_channel_state` first, then `set_probe_attenuation` (`:CHANnel<n>:PROBe VALue,<ratio>`), then the scale. With that order CH2 turns on. Read back correctly: timebase, CH1 scale, trigger level and trigger mode. The trigger slope has no query call for this model: use `readback set_trigger_slope`.
 * **Rigol DS1000Z**: the manual lists `RUN` as a trigger state without defining it; the library maps it to `ARMED` (to be verified).
 * **Siglent SDS HD** `set_trigger_slope`: `EITHER` is mapped to `ALTernate`, which the guide describes as alternating edges.
 * **Siglent SDS2000X HD** `set_acquisition_depth`: the table of memory depths is the union of the single-channel and dual-channel values of the guide.

@@ -66,6 +66,14 @@ The library entry keeps the schema argument names. Where the instrument's own va
 
 A step has `op` (`write`, `query`, `delay`), `text` (the string, with `{argument}` placeholders), `ms` (for `delay`), optional `timeout_ms`, and for a query `returns` (`float`, `int`, `string`, `binary`; default `string`). Steps are sent in order; they are never joined into one message.
 
+### Steps that depend on an argument, and steps repeated per list item
+
+A step with `"when": {"kind": "ONE_PORT"}` (or a list of values) is used only when the argument has that value; a calibration kind that needs different commands is written as one step per kind. A step (or a group of `"steps"`) with `"foreach": "sparameters"` is repeated for every item of a list argument, with `{item}`, `{index}` (from 0) and `{n}` (from 1) in the text; `{sparameters}` is the comma-separated list and `{sparameters_count}` its length. A list argument is validated item by item (the schema type is `{"kind": "list", "item": "<type>"}`) and may be given as a list or as comma-separated text.
+
+### Named parsers: `parse`
+
+When the answer is several raw answers combined into one logical value (a waveform, the S-parameters of a network analyzer), the query half names a parser of the application (`ola/parsers.py`): `"parse": {"name": "vna_sparameters", "from_steps": "queries", "args": ["sparameters"], "skip_queries": 1}`. `from_steps` is a list of step indexes or `"queries"` (the answers of all the query steps, in order); `skip_queries` drops the first answers (for example an `*OPC?`); `args` are logical arguments the parser needs. Parsers: `siglent_waveform` (an SDS waveform) and `vna_sparameters` (ASCII answers of an SCPI VNA: correction state, frequencies, one list of real/imaginary pairs per S-parameter).
+
 ### Argument translation: `map`
 
 ```json

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "category": "network_analyzers_series",
-  "description": "Logical calls of vector network analyzers (VNA). PROVISIONAL: written from the LiteVNA manual only; mandatory / optional will be revised when the manuals of the SCPI VNAs are added (mandatory = documented in every manual of the category). Complex results are returned as arrays of real and imaginary parts.",
+  "description": "Logical calls of vector network analyzers (VNA). PROVISIONAL: written from the manuals of the Zenko LiteVNA, the Siglent SNA/SHN series and the Rohde & Schwarz ZNB/ZNL (mandatory = documented in every manual of the category). Complex results are returned as arrays of real and imaginary parts. Calibration is a flow: calibration_begin, calibration_measure (once per standard), calibration_apply.",
   "types": {
     "sparameter": {
       "kind": "enum",
@@ -32,9 +32,10 @@
       "kind": "enum",
       "values": [
         "ONE_PORT",
-        "TRANSMISSION_RESPONSE"
+        "TRANSMISSION_RESPONSE",
+        "TWO_PORT"
       ],
-      "description": "ONE_PORT: reflection calibration of port 1 from OPEN, SHORT and LOAD; TRANSMISSION_RESPONSE: normalisation of S21 from THRU"
+      "description": "ONE_PORT: reflection calibration of one port (OPEN, SHORT, LOAD); TRANSMISSION_RESPONSE: normalisation of the transmission from port to port2 (THRU); TWO_PORT: full two-port calibration (OPEN, SHORT, LOAD on both ports and THRU)"
     },
     "sparameters": {
       "kind": "mapping",
@@ -72,16 +73,6 @@
         }
       }
     },
-    "select_sparameters": {
-      "requirement": "mandatory",
-      "kind": "action",
-      "description": "S-parameters measured by the next sweeps",
-      "args": {
-        "sparameters": {
-          "type": "sparameter_list"
-        }
-      }
-    },
     "run_sweep": {
       "requirement": "mandatory",
       "kind": "action",
@@ -90,39 +81,64 @@
     "read_sparameters": {
       "requirement": "mandatory",
       "kind": "query",
-      "description": "frequency and complex values of the selected S-parameters of the last sweep",
+      "description": "sweep (when the instrument needs it) and read the frequencies and the complex values of the asked S-parameters",
+      "args": {
+        "sparameters": {
+          "type": "sparameter_list"
+        }
+      },
       "result": {
         "type": "sparameters"
       }
     },
-    "calibration_measure": {
-      "requirement": "optional",
+    "calibration_begin": {
+      "requirement": "mandatory",
       "kind": "action",
-      "description": "measure a calibration standard connected to a test port",
+      "description": "choose the calibration and the ports; the standards are then measured with calibration_measure",
+      "args": {
+        "kind": {
+          "type": "calibration_kind"
+        },
+        "port": {
+          "type": "int",
+          "min": 1,
+          "description": "test port (the source port of a transmission calibration)"
+        },
+        "port2": {
+          "type": "int",
+          "min": 1,
+          "required": false,
+          "description": "second test port (the receiving port of a transmission calibration, the other port of a two-port calibration)"
+        }
+      }
+    },
+    "calibration_measure": {
+      "requirement": "mandatory",
+      "kind": "action",
+      "description": "measure a calibration standard connected to the port(s) given to calibration_begin",
       "args": {
         "standard": {
           "type": "calibration_standard"
         },
         "port": {
           "type": "int",
+          "min": 1
+        },
+        "port2": {
+          "type": "int",
           "min": 1,
           "required": false,
-          "default": 1
+          "description": "second port, for THRU"
         }
       }
     },
     "calibration_apply": {
-      "requirement": "optional",
+      "requirement": "mandatory",
       "kind": "action",
-      "description": "compute the calibration from the measured standards and use it for the next read_sparameters",
-      "args": {
-        "kind": {
-          "type": "calibration_kind"
-        }
-      }
+      "description": "compute the calibration from the measured standards and use it for the next read_sparameters"
     },
     "set_correction_state": {
-      "requirement": "optional",
+      "requirement": "mandatory",
       "kind": "action",
       "description": "use (true) or bypass (false) the calibration in read_sparameters",
       "args": {
@@ -132,9 +148,32 @@
       }
     },
     "calibration_clear": {
-      "requirement": "optional",
+      "requirement": "mandatory",
       "kind": "action",
       "description": "forget the measured standards and the calibration"
+    },
+    "set_source_power": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "test signal power",
+      "args": {
+        "value": {
+          "type": "float",
+          "unit": "dBm"
+        }
+      }
+    },
+    "set_if_bandwidth": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "IF (resolution) bandwidth",
+      "args": {
+        "value": {
+          "type": "float",
+          "unit": "Hz",
+          "min": 0
+        }
+      }
     }
   }
 }

@@ -43,27 +43,28 @@ Names follow the existing categories. *Requirement* is a first guess: the real o
 
 New result type **`sparameters`**: a dict with `frequency` (Hz, array), one complex array per requested parameter (`s11`, `s21`, ...), and `calibrated` (bool). Complex numbers are returned as a pair of arrays (real, imaginary) so that the value is plain JSON and numpy-free.
 
-## 3. Decisions (owner)
+## 3. Decisions (owner) and what was built
 
-1. **Calibration** is done by a *calibration tool* of the application: the user chooses "Calibrate VNA", the tool reads the VNA of the `.inst` file, runs the calibration calls of the model and tells the operator what to connect. For an instrument without calibration data over its interface (the LiteVNA) the **driver** performs the calibration in software, so that for the application the LiteVNA is **identical** to the other instruments.
-2. **Complex data**: arrays of real and imaginary parts (`sparameters` type, see `schema/vna.json`).
-3. **Sweep**: `run_sweep` then `read_sparameters`; `read_sparameters` starts a sweep by itself if none was started since the last `set_frequency_sweep`.
-4. **VNAs the owner does not have** (LiteVNA and the SCPI models to come) are inserted in the library as **`experimental`** (hidden unless the user enables experimental instruments): they have never been tested on a real instrument. Anyone who owns one can verify it with `TESTING.md`.
+1. **Calibration** is done by a *calibration tool* of the application ("Calibrate VNA": it reads the VNA of the `.inst` file, runs the calibration calls of the model and tells the operator what to connect). The LiteVNA driver calibrates in software, so that for the application the LiteVNA is **identical** to the other instruments. The tool itself is not written yet.
+2. **Complex data**: arrays of real and imaginary parts (`sparameters` type).
+3. **VNAs the owner does not have** are `experimental` (hidden unless the user enables experimental instruments): none has been tested on a real instrument.
+4. **Models**: Zenko LiteVNA 62/64/67 (driver), Siglent SNA5000A, SNA5000X-E, SNA6000A and SHN900A (one SCPI series, 19 models) and R&S ZNB and ZNL/ZNLE (one SCPI series, 16 models).
 
-Done so far: `schema/vna.json` (provisional), the LiteVNA 62/64/67 as `driver` models, and the driver with a simulated instrument in the application repository.
+### Calls (schema `vna.json`)
 
-## 3b. Open points
+`identification_query`, `set_frequency_sweep(start_frequency, stop_frequency, points)`, `run_sweep`, `read_sparameters(sparameters)`, the calibration flow `calibration_begin(kind, port, port2)` -> `calibration_measure(standard, port, port2)` (once per standard) -> `calibration_apply`, `set_correction_state`, `calibration_clear` (all mandatory), and the optional `set_source_power`, `set_if_bandwidth` (the LiteVNA has neither).
 
-* The calibration tool itself (application): the sequence of standards to connect for each calibration kind and for the SCPI VNAs.
-* Calibration kits: the software calibration assumes ideal standards (no offsets or fringing capacitance).
-* Time-domain functions (TDR/DTF): out of the first version.
+Differences from the first draft: there is **no `select_sparameters`** (a step plan cannot remember a selection, and the Siglent read needs the parameter in the command): `read_sparameters` takes the list of parameters; the calibration needs a **`calibration_begin`** because the SCPI VNAs choose the calibration type before the standards are measured.
 
-## 4. Models to choose next (SCPI, "serious")
+### Notes on the SCPI entries
 
-Candidates, to be checked against their programming manuals before anything is written:
+* The channel is always 1.
+* Siglent reads each parameter directly with `:SENSe1:DATA:CORRdata? S<XY>` (real, imaginary pairs, ASCII) and the frequencies with `:SENSe1:FREQuency:DATA?`; the sweep is a single sweep (`:INITiate1:CONTinuous OFF`, `:INITiate1:IMMediate`, `*OPC?`). A THRU measurement uses the response port first (`:THRU <port2>,<port>`).
+* R&S creates one trace per parameter (`CALCulate1:PARameter:SDEFine 'OLA<n>','S11'`), sweeps once inside `read_sparameters`, selects each trace and reads `CALCulate1:DATA? SDATa` (complex, corrected when the correction is on); the frequencies come from `CALCulate1:DATA:STIMulus?`. The calibration is named `OLA`; the load is the `MATCh` standard; a transmission calibration is `FTRans`, in which the lower port number is the source (so `port` must be lower than `port2`).
+* Only the ASCII data format is used. Not verified on an instrument: that a trace that is not shown in a diagram can be read (R&S), and the behaviour of `CORRdata?` when the correction is off (Siglent).
 
-* **Keysight ENA E5061B / E5063A**: very common, a complete public SCPI manual; the reference for the command names (`SENSe:FREQuency`, `CALCulate:PARameter`, `CALCulate:DATA:SDATa?`, `SENSe:CORRection:COLLect`).
-* **Rohde & Schwarz ZNL3 / ZNB**: public manuals, clear command tree, same ideas with different names (so a good test of the translation layer).
-* **Siglent SNA5000A**: the affordable one, SCPI close to Keysight's; likely the one a user of this software owns.
+### Open points
 
-A text-protocol alternative for small VNAs is the NanoVNA family (a serial shell with `sweep`, `frequencies`, `data`); it can be a later addition.
+* The calibration tool of the application: the sequence of standards for each calibration kind, with the instructions for the operator.
+* Software calibration assumes ideal standards (no offsets or fringing capacitance).
+* More manuals are in `docs/` (Agilent E507x, HP 8753C and 8700, R&S ZVA/ZVB/ZVT and ZVL): not used yet. Time-domain functions (TDR/DTF) are out of the first version.
