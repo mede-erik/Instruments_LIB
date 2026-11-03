@@ -6886,8 +6886,7 @@
               ],
               "channels": "101:120"
             },
-            "scpi_commands": {},
-            "experimental": true
+            "scpi_commands": {}
           },
           {
             "id": "DL_Keysight_34972A",
