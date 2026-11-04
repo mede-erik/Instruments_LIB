@@ -16852,6 +16852,17 @@
                 "type": "calibration_data"
               }
             }
+          },
+          "set_calibration_kit": {
+            "description": "the kit of the software calibration (a real SMA kit: capacitance of the open, inductance of the short, offsets)",
+            "driver": {
+              "function": "set_calibration_kit"
+            },
+            "parameters": {
+              "kit": {
+                "type": "calibration_kit"
+              }
+            }
           }
         },
         "models": [
