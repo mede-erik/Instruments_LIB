@@ -40,6 +40,10 @@
     "sparameters": {
       "kind": "mapping",
       "description": "dict with \"frequency\" (array, Hz), \"parameters\" ({name: {\"real\": array, \"imaginary\": array}} for each selected S-parameter) and \"calibrated\" (bool: the calibration of the application or of the instrument was applied)"
+    },
+    "calibration_data": {
+      "kind": "mapping",
+      "description": "calibration of an instrument whose calibration is computed by the driver (LiteVNA): grid (start Hz, step Hz, points), reflection error terms and transmission reference, as lists of [real, imaginary]"
     }
   },
   "calls": {
@@ -172,6 +176,24 @@
           "type": "float",
           "unit": "Hz",
           "min": 0
+        }
+      }
+    },
+    "calibration_export": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "the calibration computed by the driver, to save it with the project (only for instruments that do not keep it themselves)",
+      "result": {
+        "type": "calibration_data"
+      }
+    },
+    "calibration_import": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "restore a calibration exported by calibration_export for the same frequency sweep",
+      "args": {
+        "data": {
+          "type": "calibration_data"
         }
       }
     }
