@@ -56,6 +56,10 @@ New result type **`sparameters`**: a dict with `frequency` (Hz, array), one comp
 
 Differences from the first draft: there is **no `select_sparameters`** (a step plan cannot remember a selection, and the Siglent read needs the parameter in the command): `read_sparameters` takes the list of parameters; the calibration needs a **`calibration_begin`** because the SCPI VNAs choose the calibration type before the standards are measured.
 
+### Sweep type
+
+`set_sweep_type(sweep_type)` (optional, `LINEAR` or `LOG`): Siglent, R&S ZNx and ZVx (`SENSe1:SWEep:TYPE LINear|LOGarithmic`, in the manuals). The LiteVNA has only a linear sweep (start, step, points): `LOG` is `CALL-002`. `set_frequency_sweep` always sets a linear sweep, so `set_sweep_type` is called **after** it. The guided calibration assumes a linear sweep.
+
 ### Notes on the SCPI entries
 
 * The channel is always 1.

@@ -539,7 +539,7 @@ New category for mainframes that only route signals (no measurement engine). Ref
 <!-- BEGIN GENERATED network_analyzers_series -->
 ### 3.7 Vector network analyzers (`network_analyzers_series`)
 
-Generated from `schema/vna.json` — do not edit this section by hand. 9 mandatory and 5 optional calls.
+Generated from `schema/vna.json` — do not edit this section by hand. 9 mandatory and 6 optional calls.
 
 Logical calls of vector network analyzers (VNA). PROVISIONAL: written from the manuals of the Zenko LiteVNA, the Siglent SNA/SHN series and the Rohde & Schwarz ZNB/ZNL (mandatory = documented in every manual of the category). Complex results are returned as arrays of real and imaginary parts. Calibration is a flow: calibration_begin, calibration_measure (once per standard), calibration_apply.
 
@@ -552,6 +552,7 @@ Logical types:
 * `sparameters`: dict with "frequency" (array, Hz), "parameters" ({name: {"real": array, "imaginary": array}} for each selected S-parameter) and "calibrated" (bool: the calibration of the application or of the instrument was applied)
 * `calibration_data`: calibration of an instrument whose calibration is computed by the driver (LiteVNA): grid (start Hz, step Hz, points), reflection error terms and transmission reference, as lists of [real, imaginary]
 * `calibration_kit`: values of a calibration kit with parasitics, for instruments that calibrate in software: open_c0 (fF), open_c1 (1e-27 F/Hz), open_c2 (1e-36), open_c3 (1e-45), short_l0 (pH), short_l1 (1e-24 H/Hz), short_l2 (1e-33), short_l3 (1e-42), open_delay, short_delay, thru_delay (ps), open_loss, short_loss, thru_loss (Gohm/s), open_z0, short_z0, thru_z0 (ohm); a missing value is ideal
+* `sweep_type`: `LINEAR`, `LOG`
 
 **Mandatory**
 
@@ -571,6 +572,7 @@ Logical types:
 
 | Call | Kind | Arguments | Result | Description |
 |---|---|---|---|---|
+| `set_sweep_type` | action | `sweep_type` (sweep_type) |  | linear or logarithmic frequency sweep; call it after set_frequency_sweep, which sets a linear sweep |
 | `set_calibration_kit` | action | `kit` (calibration_kit) |  | the calibration kit used by the next calibration (OPEN capacitance, SHORT inductance, offset delays and losses, THRU delay); an instrument that has its kit defined in its own settings does not take it |
 | `calibration_export` | query |  | calibration_data | the calibration computed by the driver, to save it with the project (only for instruments that do not keep it themselves) |
 | `calibration_import` | action | `data` (calibration_data) |  | restore a calibration exported by calibration_export for the same frequency sweep |

@@ -16751,6 +16751,21 @@
               }
             }
           },
+          "set_sweep_type": {
+            "description": "only a linear sweep (start, step, points); LOG is not handled",
+            "driver": {
+              "function": "set_sweep_type"
+            },
+            "parameters": {
+              "sweep_type": {
+                "type": "sweep_type",
+                "values": [
+                  "LINEAR",
+                  "LOG"
+                ]
+              }
+            }
+          },
           "run_sweep": {
             "description": "clears the valuesFIFO (0x30) so that the next records belong to a new sweep",
             "driver": {
@@ -17054,6 +17069,30 @@
               },
               "points": {
                 "type": "int"
+              }
+            }
+          },
+          "set_sweep_type": {
+            "description": "linear or logarithmic sweep (channel 1)",
+            "set": {
+              "steps": [
+                {
+                  "op": "write",
+                  "text": ":SENSe1:SWEep:TYPE {sweep_type}"
+                }
+              ]
+            },
+            "parameters": {
+              "sweep_type": {
+                "type": "string",
+                "values": [
+                  "LINEAR",
+                  "LOG"
+                ],
+                "map": {
+                  "LINEAR": "LINear",
+                  "LOG": "LOGarithmic"
+                }
               }
             }
           },
@@ -18374,6 +18413,30 @@
               }
             }
           },
+          "set_sweep_type": {
+            "description": "linear or logarithmic sweep (channel 1)",
+            "set": {
+              "steps": [
+                {
+                  "op": "write",
+                  "text": "SENSe1:SWEep:TYPE {sweep_type}"
+                }
+              ]
+            },
+            "parameters": {
+              "sweep_type": {
+                "type": "string",
+                "values": [
+                  "LINEAR",
+                  "LOG"
+                ],
+                "map": {
+                  "LINEAR": "LINear",
+                  "LOG": "LOGarithmic"
+                }
+              }
+            }
+          },
           "run_sweep": {
             "description": "single sweep, wait for its end",
             "set": {
@@ -19256,6 +19319,30 @@
               },
               "points": {
                 "type": "int"
+              }
+            }
+          },
+          "set_sweep_type": {
+            "description": "linear or logarithmic sweep (channel 1)",
+            "set": {
+              "steps": [
+                {
+                  "op": "write",
+                  "text": "SENSe1:SWEep:TYPE {sweep_type}"
+                }
+              ]
+            },
+            "parameters": {
+              "sweep_type": {
+                "type": "string",
+                "values": [
+                  "LINEAR",
+                  "LOG"
+                ],
+                "map": {
+                  "LINEAR": "LINear",
+                  "LOG": "LOGarithmic"
+                }
               }
             }
           },
