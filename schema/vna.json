@@ -48,6 +48,14 @@
     "calibration_kit": {
       "kind": "mapping",
       "description": "values of a calibration kit with parasitics, for instruments that calibrate in software: open_c0 (fF), open_c1 (1e-27 F/Hz), open_c2 (1e-36), open_c3 (1e-45), short_l0 (pH), short_l1 (1e-24 H/Hz), short_l2 (1e-33), short_l3 (1e-42), open_delay, short_delay, thru_delay (ps), open_loss, short_loss, thru_loss (Gohm/s), open_z0, short_z0, thru_z0 (ohm); a missing value is ideal"
+    },
+    "sweep_type": {
+      "kind": "enum",
+      "values": [
+        "LINEAR",
+        "LOG"
+      ],
+      "description": "frequency sweep: points evenly spaced in frequency (LINEAR) or on a logarithmic scale (LOG)"
     }
   },
   "calls": {
@@ -78,6 +86,16 @@
           "type": "int",
           "unit": "points",
           "min": 1
+        }
+      }
+    },
+    "set_sweep_type": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "linear or logarithmic frequency sweep; call it after set_frequency_sweep, which sets a linear sweep",
+      "args": {
+        "sweep_type": {
+          "type": "sweep_type"
         }
       }
     },
