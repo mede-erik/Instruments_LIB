@@ -35,7 +35,7 @@ Channel, range and value placeholders use the names `channel_number`, `channels`
 | Multimeters | Agilent 34401A, HP 3478A | **provisional**: the 3478A PDF is a scanned image without text, and there are only two manuals |
 | Dataloggers | Keysight 34970A/34972A, Keysight DAQ970A/DAQ973A | complete |
 | Switch units | Agilent 3499A | **provisional**: only one manual |
-| Vector network analyzers | Zenko LiteVNA 62/64/67, Siglent VNA Series Programming Guide (SNA5000A, SNA5000X-E, SNA6000A, SHN900A), R&S ZNB and ZNL/ZNLE user manuals | **provisional, experimental**: no VNA has been tested on a real instrument; the manuals of the Agilent E507x, HP 8753C/8700, R&S ZVA/ZVB/ZVT and ZVL are in `docs/` and not used yet |
+| Vector network analyzers | Zenko LiteVNA 62/64/67, Siglent VNA Series Programming Guide (SNA5000A, SNA5000X-E, SNA6000A, SHN900A), R&S ZNB and ZNL/ZNLE, ZVA/ZVB/ZVT and ZVL manuals | **provisional, experimental**: no VNA has been tested on a real instrument. The Agilent E506x/E507x user guides contain no SCPI command reference (it is in the separate Programmer's Guide), the HP 8700 quick reference is a scanned image, the HP 8753C uses HP-IB mnemonics and the Agilent 871x a different SCPI dialect: none of them is used yet |
 
 ## 3. Calls per category
 
@@ -539,7 +539,7 @@ New category for mainframes that only route signals (no measurement engine). Ref
 <!-- BEGIN GENERATED network_analyzers_series -->
 ### 3.7 Vector network analyzers (`network_analyzers_series`)
 
-Generated from `schema/vna.json` — do not edit this section by hand. 9 mandatory and 2 optional calls.
+Generated from `schema/vna.json` — do not edit this section by hand. 9 mandatory and 5 optional calls.
 
 Logical calls of vector network analyzers (VNA). PROVISIONAL: written from the manuals of the Zenko LiteVNA, the Siglent SNA/SHN series and the Rohde & Schwarz ZNB/ZNL (mandatory = documented in every manual of the category). Complex results are returned as arrays of real and imaginary parts. Calibration is a flow: calibration_begin, calibration_measure (once per standard), calibration_apply.
 
@@ -550,6 +550,8 @@ Logical types:
 * `calibration_standard`: `OPEN`, `SHORT`, `LOAD`, `THRU`
 * `calibration_kind`: `ONE_PORT`, `TRANSMISSION_RESPONSE`, `TWO_PORT`
 * `sparameters`: dict with "frequency" (array, Hz), "parameters" ({name: {"real": array, "imaginary": array}} for each selected S-parameter) and "calibrated" (bool: the calibration of the application or of the instrument was applied)
+* `calibration_data`: calibration of an instrument whose calibration is computed by the driver (LiteVNA): grid (start Hz, step Hz, points), reflection error terms and transmission reference, as lists of [real, imaginary]
+* `calibration_kit`: values of a calibration kit with parasitics, for instruments that calibrate in software: open_c0 (fF), open_c1 (1e-27 F/Hz), open_c2 (1e-36), open_c3 (1e-45), short_l0 (pH), short_l1 (1e-24 H/Hz), short_l2 (1e-33), short_l3 (1e-42), open_delay, short_delay, thru_delay (ps), open_loss, short_loss, thru_loss (Gohm/s), open_z0, short_z0, thru_z0 (ohm); a missing value is ideal
 
 **Mandatory**
 
@@ -569,6 +571,9 @@ Logical types:
 
 | Call | Kind | Arguments | Result | Description |
 |---|---|---|---|---|
+| `set_calibration_kit` | action | `kit` (calibration_kit) |  | the calibration kit used by the next calibration (OPEN capacitance, SHORT inductance, offset delays and losses, THRU delay); an instrument that has its kit defined in its own settings does not take it |
+| `calibration_export` | query |  | calibration_data | the calibration computed by the driver, to save it with the project (only for instruments that do not keep it themselves) |
+| `calibration_import` | action | `data` (calibration_data) |  | restore a calibration exported by calibration_export for the same frequency sweep |
 | `set_source_power` | action | `value` (float, dBm) |  | test signal power |
 | `set_if_bandwidth` | action | `value` (float, Hz, 0..) |  | IF (resolution) bandwidth |
 

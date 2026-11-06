@@ -40,6 +40,14 @@
     "sparameters": {
       "kind": "mapping",
       "description": "dict with \"frequency\" (array, Hz), \"parameters\" ({name: {\"real\": array, \"imaginary\": array}} for each selected S-parameter) and \"calibrated\" (bool: the calibration of the application or of the instrument was applied)"
+    },
+    "calibration_data": {
+      "kind": "mapping",
+      "description": "calibration of an instrument whose calibration is computed by the driver (LiteVNA): grid (start Hz, step Hz, points), reflection error terms and transmission reference, as lists of [real, imaginary]"
+    },
+    "calibration_kit": {
+      "kind": "mapping",
+      "description": "values of a calibration kit with parasitics, for instruments that calibrate in software: open_c0 (fF), open_c1 (1e-27 F/Hz), open_c2 (1e-36), open_c3 (1e-45), short_l0 (pH), short_l1 (1e-24 H/Hz), short_l2 (1e-33), short_l3 (1e-42), open_delay, short_delay, thru_delay (ps), open_loss, short_loss, thru_loss (Gohm/s), open_z0, short_z0, thru_z0 (ohm); a missing value is ideal"
     }
   },
   "calls": {
@@ -151,6 +159,34 @@
       "requirement": "mandatory",
       "kind": "action",
       "description": "forget the measured standards and the calibration"
+    },
+    "set_calibration_kit": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "the calibration kit used by the next calibration (OPEN capacitance, SHORT inductance, offset delays and losses, THRU delay); an instrument that has its kit defined in its own settings does not take it",
+      "args": {
+        "kit": {
+          "type": "calibration_kit"
+        }
+      }
+    },
+    "calibration_export": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "the calibration computed by the driver, to save it with the project (only for instruments that do not keep it themselves)",
+      "result": {
+        "type": "calibration_data"
+      }
+    },
+    "calibration_import": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "restore a calibration exported by calibration_export for the same frequency sweep",
+      "args": {
+        "data": {
+          "type": "calibration_data"
+        }
+      }
     },
     "set_source_power": {
       "requirement": "optional",

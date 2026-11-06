@@ -108,6 +108,8 @@ The tool asks for the **category**, the **model** and the **interface**, then th
 | `test all` | also list the calls that were skipped, and why |
 | `raw TEXT` | send a text as it is and show the answer (debugging) |
 | `save FILE.csv [N]`, `stats` | save / summarise the last waveform |
+| `was FILE.was [plan]` | apply an oscilloscope `.was` file call by call (`plan`: only show the commands) |
+| `calibrate [PROJECT.json]` | guided calibration of a network analyzer: asks the kind (one port, transmission, two ports), the ports and the sweep, the calibration kit (ideal standards, a JSON file or typed values: the capacitance of the OPEN, the inductance of the SHORT, the offset delays; only for instruments that calibrate in software), then what to connect, one standard at a time; the record is saved in a `calibrations` folder next to the project and listed in the project file. `calibrate restore FILE` restores a software calibration (LiteVNA) for the same sweep |
 | `serial`, `probe`, `loopback` | RS-232 settings and diagnostics |
 | `reconnect`, `quit` | |
 

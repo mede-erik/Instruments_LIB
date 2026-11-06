@@ -48,7 +48,7 @@ New result type **`sparameters`**: a dict with `frequency` (Hz, array), one comp
 1. **Calibration** is done by a *calibration tool* of the application ("Calibrate VNA": it reads the VNA of the `.inst` file, runs the calibration calls of the model and tells the operator what to connect). The LiteVNA driver calibrates in software, so that for the application the LiteVNA is **identical** to the other instruments. The tool itself is not written yet.
 2. **Complex data**: arrays of real and imaginary parts (`sparameters` type).
 3. **VNAs the owner does not have** are `experimental` (hidden unless the user enables experimental instruments): none has been tested on a real instrument.
-4. **Models**: Zenko LiteVNA 62/64/67 (driver), Siglent SNA5000A, SNA5000X-E, SNA6000A and SHN900A (one SCPI series, 19 models) and R&S ZNB and ZNL/ZNLE (one SCPI series, 16 models).
+4. **Models**: Zenko LiteVNA 62/64/67 (driver), Siglent SNA5000A, SNA5000X-E, SNA6000A and SHN900A (one SCPI series, 19 models), R&S ZNB and ZNL/ZNLE (16 models) and the older R&S ZVA, ZVB, ZVT and ZVL (14 models, `Rohde_Schwarz_ZVx_Series`).
 
 ### Calls (schema `vna.json`)
 
@@ -66,5 +66,6 @@ Differences from the first draft: there is **no `select_sparameters`** (a step p
 ### Open points
 
 * The calibration tool of the application: the sequence of standards for each calibration kind, with the instructions for the operator.
-* Software calibration assumes ideal standards (no offsets or fringing capacitance).
-* More manuals are in `docs/` (Agilent E507x, HP 8753C and 8700, R&S ZVA/ZVB/ZVT and ZVL): not used yet. Time-domain functions (TDR/DTF) are out of the first version.
+* **Calibration kit with parasitics**: the software calibration (LiteVNA) takes the values of a real kit with `set_calibration_kit(kit)`: OPEN capacitance C0..C3, SHORT inductance L0..L3, offset delay, loss and impedance of OPEN/SHORT, delay and loss of the THRU (the units of the usual kit files; a missing value is ideal). The default is ideal standards. A calibration made with ideal standards on a real kit is wrong by more than 1e-2 in the reflection coefficient in the tests, and with the kit values by less than 1e-4. The SCPI VNAs keep the kit in their own settings and do not take the values (the tool then does not ask for them).
+* **R&S ZVA/ZVB/ZVT/ZVL** (added): the same commands as the ZNB/ZNL (checked in the ZVA/ZVB/ZVT and ZVL manuals) with two differences: the transmission calibration type is `FRTRans` (both directions; the ZNB also has `FTRans`) and the power command has no port suffix (`SOURce1:POWer:LEVel:IMMediate:AMPLitude`). The manuals give no model table: the frequency range and the number of ports depend on the options and are not in the library (except the ZVL3).
+* **Not used yet**: Agilent E506x/E507x user guides (no SCPI command reference: the Programmer's Guide PDF is needed), HP 8700 HP-IB quick reference (scanned image, no text), HP 8753C (HP-IB mnemonics, not SCPI), Agilent 871x (a different SCPI dialect with numbered standards: possible with its own series). Time-domain functions (TDR/DTF) are out of the first version.
