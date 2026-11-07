@@ -1,0 +1,136 @@
+# Copyright (C) 2025-2026 Erik Medeossi
+# This file is part of Open Lab Automation.
+# Licensed under the GNU General Public License v3.0; see the LICENSE file.
+
+name: CI
+
+# Runs on every push (any branch) and on every pull request.
+#
+# Runner: GitHub-hosted by default. To move the jobs to a self-hosted runner set the repository
+# variable CI_RUNS_ON (Settings > Secrets and variables > Actions > Variables) to a JSON value,
+# for example  ["self-hosted", "linux", "x64"]  or  "my-runner-label".
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      app_ref:
+        description: Open-Lab-Automation branch/tag/commit to test the library with
+        default: main
+
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.ref }}-${{ github.event_name }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  PIP_DISABLE_PIP_VERSION_CHECK: "1"
+  PYTHONDONTWRITEBYTECODE: "1"
+
+jobs:
+  library:
+    name: Library data and conformance
+    runs-on: ${{ fromJSON(vars.CI_RUNS_ON || '"ubuntu-latest"') }}
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install pytest
+        run: python -m pip install pytest
+
+      - name: Conformance with the call schemas (strict)
+        run: python Tests/check_conformance.py --strict
+
+      - name: COMMAND_NAMES.md is up to date
+        run: python schema/generate_command_names.py --check
+
+      # Structure of the library and schemas, plus tests of the conformance checker
+      - name: Library tests
+        run: python -m pytest Tests -ra
+
+  application:
+    # The application's own test suite with THIS library in place of its pinned submodule:
+    # every call of every model must plan, the example projects must still resolve, and the
+    # GUI must still open them. A library change that breaks the software fails here.
+    name: Open-Lab-Automation tests with this library
+    runs-on: ${{ fromJSON(vars.CI_RUNS_ON || '"ubuntu-latest"') }}
+    timeout-minutes: 30
+    env:
+      QT_QPA_PLATFORM: offscreen
+    steps:
+      - name: Check out the application
+        uses: actions/checkout@v4
+        with:
+          repository: mede-erik/Open-Lab-Automation
+          ref: ${{ inputs.app_ref || vars.APP_REF || 'main' }}
+          path: app
+
+      - name: Check out this library as the application's submodule
+        uses: actions/checkout@v4
+        with:
+          path: app/Instruments_LIB
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: app/requirements.txt
+
+      - name: Install system packages (Qt offscreen, C compiler)
+        env:
+          RUNNER_KIND: ${{ runner.environment }}
+        run: |
+          PKGS="libxcb-cursor0 libgl1 libegl1 libxkbcommon0 libdbus-1-3 libfontconfig1 gcc make"
+          if [ "$RUNNER_KIND" = "github-hosted" ] || sudo -n true 2>/dev/null; then
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq --no-install-recommends $PKGS
+          else
+            echo "::warning::self-hosted runner without passwordless sudo: make sure these packages are installed: $PKGS"
+          fi
+
+      - name: Install Python dependencies
+        working-directory: app
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest-timeout
+
+      - name: Application revision
+        working-directory: app
+        run: git log -1 --oneline
+
+      - name: Application test suite
+        working-directory: app
+        run: python -m pytest tests -ra --timeout=120
+
+      - name: Dry run of every example .was file on every oscilloscope
+        working-directory: app
+        run: |
+          python - <<'EOF'
+          import glob, json, sys
+          sys.path.insert(0, ".")
+          from ola.library import Library
+          from ola.call_planner import plan_call
+          from ola.was_calls import oscilloscope_calls_from_was
+          lib = Library.load("Instruments_LIB/instruments_lib.json")
+          scopes = [m["id"] for s in lib.categories.get("oscilloscopes_series", []) for m in s["models"]]
+          failed = 0
+          for path in sorted(glob.glob("examples/*/*.was")):
+              calls = oscilloscope_calls_from_was(json.load(open(path, encoding="utf-8")))
+              for model in scopes:
+                  for name, args in calls:
+                      try:
+                          plan_call(lib, model, name, args)
+                      except Exception as exc:
+                          failed += 1
+                          print(f"::error::{path} {model} {name}: {exc}")
+          print(f"{len(scopes)} oscilloscopes, {failed} failures")
+          sys.exit(1 if failed else 0)
+          EOF
