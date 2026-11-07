@@ -13130,6 +13130,314 @@
             "experimental": true
           }
         ]
+      },
+      {
+        "series_id": "Digilent_AnalogDiscovery_Scope_Series",
+        "series_name": "Digilent Analog Discovery USB instruments: oscilloscope (WaveForms SDK)",
+        "common_scpi_commands": {
+          "identification_query": {
+            "description": "the manufacturer, device name and serial number from the WaveForms enumeration (FDwfEnumDeviceName, FDwfEnumSN); there is no firmware field",
+            "driver": {
+              "function": "identification_query"
+            }
+          },
+          "reset": {
+            "description": "FDwfAnalogInReset: every AnalogIn parameter back to its default (the waveform generator of the same device is not touched)",
+            "driver": {
+              "function": "scope_reset"
+            }
+          },
+          "run_acquisition": {
+            "description": "FDwfAnalogInConfigure with reconfigure and start: one single acquisition of the buffer (acquisition mode single, the default). The sample frequency is set from the timebase and the depth (frequency = depth / (10 x time per division)), limited to what FDwfAnalogInFrequencyInfo allows",
+            "driver": {
+              "function": "run_acquisition"
+            }
+          },
+          "acquire_single": {
+            "description": "the same single acquisition (the AnalogIn acquisition mode is single)",
+            "driver": {
+              "function": "run_acquisition"
+            }
+          },
+          "stop_acquisition": {
+            "description": "waits for the running single acquisition to finish (FDwfAnalogInStatus reaches Done), reads the samples of every enabled channel into memory and stops: the instrument has no frozen screen, so the capture is completed, not interrupted; a capture that does not finish within the record time plus the auto-trigger timeout is abandoned",
+            "driver": {
+              "function": "stop_acquisition"
+            }
+          },
+          "set_timebase_scale": {
+            "description": "time per division (10 divisions), used with the depth to set the sample frequency (FDwfAnalogInFrequencySet) when the acquisition starts",
+            "driver": {
+              "function": "set_timebase_scale"
+            },
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_timebase_scale": {
+            "description": "the time per division last set",
+            "driver": {
+              "function": "query_timebase_scale"
+            }
+          },
+          "set_channel_state": {
+            "description": "FDwfAnalogInChannelEnableSet",
+            "driver": {
+              "function": "set_channel_state"
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "state": {
+                "type": "bool"
+              }
+            }
+          },
+          "set_channel_scale": {
+            "description": "FDwfAnalogInChannelRangeSet with the range = volts per division x 10 divisions (the range is peak to peak, the manual gives no number of divisions: 10 is the convention of this driver); a value outside FDwfAnalogInChannelRangeInfo is not handled",
+            "driver": {
+              "function": "set_channel_scale"
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_channel_scale": {
+            "description": "FDwfAnalogInChannelRangeGet / 10",
+            "driver": {
+              "function": "query_channel_scale"
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              }
+            }
+          },
+          "set_channel_offset": {
+            "description": "FDwfAnalogInChannelOffsetSet; a value outside FDwfAnalogInChannelOffsetInfo is not handled",
+            "driver": {
+              "function": "set_channel_offset"
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_channel_offset": {
+            "description": "FDwfAnalogInChannelOffsetGet",
+            "driver": {
+              "function": "query_channel_offset"
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              }
+            }
+          },
+          "set_channel_coupling": {
+            "description": "the AnalogIn functions have no coupling control: DC is accepted (the input is DC coupled), AC and GND are not handled",
+            "driver": {
+              "function": "set_channel_coupling"
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "coupling_type": {
+                "type": "coupling",
+                "values": [
+                  "DC",
+                  "AC",
+                  "GND"
+                ]
+              }
+            }
+          },
+          "set_probe_attenuation": {
+            "description": "FDwfAnalogInChannelAttenuationSet: it tells the library about the attenuation applied outside the device (a probe), it does not change the device",
+            "driver": {
+              "function": "set_probe_attenuation"
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "set_trigger_source": {
+            "description": "trigger source = the AnalogIn detector (trigsrcDetectorAnalogIn, FDwfAnalogInTriggerSourceSet) on the channel (FDwfAnalogInTriggerChannelSet)",
+            "driver": {
+              "function": "set_trigger_source"
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              }
+            }
+          },
+          "set_trigger_level": {
+            "description": "FDwfAnalogInTriggerLevelSet; the channel is the one of set_trigger_source (the trigger detector has one channel)",
+            "driver": {
+              "function": "set_trigger_level"
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "set_trigger_slope": {
+            "description": "FDwfAnalogInTriggerConditionSet: RISE (trigcondRisingPositive) or FALL (trigcondFallingNegative); EITHER is not handled",
+            "driver": {
+              "function": "set_trigger_slope"
+            },
+            "parameters": {
+              "slope": {
+                "type": "slope",
+                "values": [
+                  "RISE",
+                  "FALL",
+                  "EITHER"
+                ]
+              }
+            }
+          },
+          "set_trigger_mode": {
+            "description": "AUTO: auto trigger timeout of 1 s (FDwfAnalogInTriggerAutoTimeoutSet); NORMAL and SINGLE: timeout 0 (an acquisition waits for the trigger); every acquisition is a single one",
+            "driver": {
+              "function": "set_trigger_mode"
+            },
+            "parameters": {
+              "mode": {
+                "type": "trigger_mode",
+                "values": [
+                  "AUTO",
+                  "NORMAL",
+                  "SINGLE"
+                ]
+              }
+            }
+          },
+          "set_trigger_holdoff": {
+            "description": "FDwfAnalogInTriggerHoldOffSet, in s",
+            "driver": {
+              "function": "set_trigger_holdoff"
+            },
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_trigger_status": {
+            "description": "from the state of FDwfAnalogInStatus: Ready READY, Armed / Config / Prefill ARMED, Running TRIGGERED, Done STOPPED (AUTO if the acquisition was auto triggered)",
+            "driver": {
+              "function": "query_trigger_status"
+            }
+          },
+          "set_acquisition_depth": {
+            "description": "FDwfAnalogInBufferSizeSet, in points; a value outside FDwfAnalogInBufferSizeInfo is not handled",
+            "driver": {
+              "function": "set_acquisition_depth"
+            },
+            "parameters": {
+              "depth": {
+                "type": "int"
+              }
+            }
+          },
+          "query_sample_rate": {
+            "description": "FDwfAnalogInFrequencyGet, in Sa/s",
+            "driver": {
+              "function": "query_sample_rate"
+            }
+          },
+          "query_waveform_max_points": {
+            "description": "the largest buffer (FDwfAnalogInBufferSizeInfo): the whole capture is one block",
+            "driver": {
+              "function": "query_waveform_max_points"
+            }
+          },
+          "read_waveform": {
+            "description": "the samples of a channel of the last completed acquisition (FDwfAnalogInStatusData, in volts, read for every enabled channel in one go when the acquisition finishes, so two channels come from the same capture); if no acquisition was started, one is made. time is relative to the middle of the buffer, where the trigger is by default (the trigger position is not changed)",
+            "driver": {
+              "function": "read_waveform"
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "bits": {
+                "type": "int"
+              },
+              "start": {
+                "type": "int"
+              },
+              "points": {
+                "type": "int"
+              }
+            }
+          }
+        },
+        "models": [
+          {
+            "id": "OSC_Digilent_AnalogDiscovery2",
+            "name": "Digilent Analog Discovery 2 (oscilloscope)",
+            "manufacturer": "Digilent",
+            "model": "Analog Discovery 2",
+            "documentation_path": "docs/Digilent/Analog_Discovery_Series/waveforms_sdk_reference_manual.pdf",
+            "access": "driver",
+            "driver_id": "waveforms",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "WAVEFORMS",
+                  "address_format_example": "DWF::<serial number>",
+                  "notes": "USB, through the Digilent WaveForms runtime (the dwf library), not VISA. The address is DWF (the first device found) or DWF::<serial number> as FDwfEnumSN gives it, without the SN: prefix. The same device is also a waveform generator (category function generators): both use the same open device when they have the same address.",
+                  "transports": [
+                    {
+                      "kind": "dwf"
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "notes": "The number of channels, the ranges, the buffer sizes and the sample frequencies are read from the device (FDwfAnalogInChannelCount and the FDwfAnalogIn...Info functions); the reference manual gives no figure for a device."
+            },
+            "scpi_commands": {
+              "operation_complete_query": null,
+              "auto_setup": null,
+              "force_trigger": null,
+              "set_timebase_delay": null,
+              "set_channel_bandwidth_limit": null,
+              "set_acquisition_type": null,
+              "set_waveform_source": null,
+              "set_waveform_format": null,
+              "query_waveform_preamble": null,
+              "query_waveform_data": null
+            },
+            "experimental": true
+          }
+        ]
       }
     ],
     "electronic_loads_series": [
