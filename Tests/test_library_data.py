@@ -33,7 +33,7 @@ STEP_OPS = {"write", "query", "read", "delay"}
 STEP_FIELDS = {"op", "text", "ms", "timeout_ms", "returns", "when", "foreach"}
 GROUP_FIELDS = {"steps", "foreach", "when"}  # a group of steps repeated with foreach
 RETURNS = {"string", "float", "int", "binary"}
-TRANSPORT_KINDS = {"vxi11", "raw_socket", "usbtmc", "serial", "hislip", "gpib"}
+TRANSPORT_KINDS = {"vxi11", "raw_socket", "usbtmc", "serial", "hislip", "gpib", "dwf"}
 FLOW_CONTROL = {"none", "xon_xoff", "rts_cts", "dtr_dsr"}
 PLACEHOLDER = re.compile(r"\{(\w+)\}")
 
