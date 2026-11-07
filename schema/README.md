@@ -39,7 +39,7 @@ More categories are added one at a time (power supplies, electronic loads, datal
 | `result` | for queries: `type` and `unit` of the logical value |
 | `types` | named logical types: `enum` (fixed list of logical values) and `bool` |
 
-Base types: `int`, `float`, `string`, `binary` (IEEE 488.2 block, bytes), `raw` (the answer as the instrument gives it: text or bytes, model dependent), `number_or_keyword`, plus the names in `types`. Units are SI-based (`V`, `V/div`, `s`, `s/div`, `Hz`, `Sa/s`, `points`, `ratio`).
+Base types: `int`, `float`, `string`, `binary` (IEEE 488.2 block, bytes), `raw` (the answer as the instrument gives it: text or bytes, model dependent), `number_or_keyword`, plus the names in `types` (`enum`, `bool`, `list` of an item type, `mapping`). Units are SI-based (`V`, `V/div`, `s`, `s/div`, `Hz`, `Sa/s`, `points`, `ratio`).
 
 An argument with `"required": false` may be ignored by instruments that do not need it (for example `channel_number` in `set_trigger_level`, which only some instruments set per channel). The software always passes every argument it has.
 
@@ -65,6 +65,14 @@ The library entry keeps the schema argument names. Where the instrument's own va
 ```
 
 A step has `op` (`write`, `query`, `delay`), `text` (the string, with `{argument}` placeholders), `ms` (for `delay`), optional `timeout_ms`, and for a query `returns` (`float`, `int`, `string`, `binary`; default `string`). Steps are sent in order; they are never joined into one message.
+
+### Steps that depend on an argument, and steps repeated per list item
+
+A step with `"when": {"kind": "ONE_PORT"}` (or a list of values) is used only when the argument has that value; a calibration kind that needs different commands is written as one step per kind. A step (or a group of `"steps"`) with `"foreach": "sparameters"` is repeated for every item of a list argument, with `{item}`, `{index}` (from 0) and `{n}` (from 1) in the text; `{sparameters}` is the comma-separated list and `{sparameters_count}` its length. A list argument is validated item by item (the schema type is `{"kind": "list", "item": "<type>"}`) and may be given as a list or as comma-separated text.
+
+### Named parsers: `parse`
+
+When the answer is several raw answers combined into one logical value (a waveform, the S-parameters of a network analyzer), the query half names a parser of the application (`ola/parsers.py`): `"parse": {"name": "vna_sparameters", "from_steps": "queries", "args": ["sparameters"], "skip_queries": 1}`. `from_steps` is a list of step indexes or `"queries"` (the answers of all the query steps, in order); `skip_queries` drops the first answers (for example an `*OPC?`); `args` are logical arguments the parser needs. Parsers: `siglent_waveform` (an SDS waveform) and `vna_sparameters` (ASCII answers of an SCPI VNA: correction state, frequencies, one list of real/imaginary pairs per S-parameter).
 
 ### Argument translation: `map`
 
@@ -101,10 +109,10 @@ A model may declare `"access"` at model level. There are exactly two values:
 
 | Value | Meaning |
 |---|---|
-| `scpi` (default) | the call is a **step plan** (`write` / `query` / `delay`) run by the generic executor; it is also used for non-SCPI text protocols such as the LiteVNA67 over a serial port |
-| `driver` | the call is not a command string: it is delegated to a driver (for example Digilent WaveForms for the Analog Discovery) as `{"driver": {"function": "<name>"}}`. The call names and the argument schema are the same, so the software does not change |
+| `scpi` (default) | the call is a **step plan** (`write` / `query` / `delay`) run by the generic executor; it is also used for non-SCPI **text** protocols (a serial shell) |
+| `driver` | the call is not a command string: it is delegated to a driver (for example Digilent WaveForms for the Analog Discovery, or the binary register protocol of the LiteVNA) as `{"driver": {"function": "<name>"}}`. The call names and the argument schema are the same, so the software does not change |
 
-A `driver` model has no `steps`; the conformance check accepts a driver entry as an implemented call.
+A `driver` model has no `steps`; the conformance check accepts a driver entry as an implemented call. The model names its driver with `"driver_id"` (for example `litevna`); the application finds the driver by that id (`ola/drivers/`). The driver receives the logical arguments, already validated by the schema, and raises the `CALL-xxx` errors itself for the values its instrument cannot handle.
 
 ## `transports` (how a connection is opened)
 

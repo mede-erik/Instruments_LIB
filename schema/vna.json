@@ -1,0 +1,233 @@
+{
+  "schema_version": 1,
+  "category": "network_analyzers_series",
+  "description": "Logical calls of vector network analyzers (VNA). PROVISIONAL: written from the manuals of the Zenko LiteVNA, the Siglent SNA/SHN series and the Rohde & Schwarz ZNB/ZNL (mandatory = documented in every manual of the category). Complex results are returned as arrays of real and imaginary parts. Calibration is a flow: calibration_begin, calibration_measure (once per standard), calibration_apply.",
+  "types": {
+    "sparameter": {
+      "kind": "enum",
+      "values": [
+        "S11",
+        "S21",
+        "S12",
+        "S22"
+      ],
+      "description": "scattering parameter (S<receiving port><driven port>)"
+    },
+    "sparameter_list": {
+      "kind": "list",
+      "item": "sparameter",
+      "description": "list of S-parameters"
+    },
+    "calibration_standard": {
+      "kind": "enum",
+      "values": [
+        "OPEN",
+        "SHORT",
+        "LOAD",
+        "THRU"
+      ],
+      "description": "calibration standard connected to the test port(s)"
+    },
+    "calibration_kind": {
+      "kind": "enum",
+      "values": [
+        "ONE_PORT",
+        "TRANSMISSION_RESPONSE",
+        "TWO_PORT"
+      ],
+      "description": "ONE_PORT: reflection calibration of one port (OPEN, SHORT, LOAD); TRANSMISSION_RESPONSE: normalisation of the transmission from port to port2 (THRU); TWO_PORT: full two-port calibration (OPEN, SHORT, LOAD on both ports and THRU)"
+    },
+    "sparameters": {
+      "kind": "mapping",
+      "description": "dict with \"frequency\" (array, Hz), \"parameters\" ({name: {\"real\": array, \"imaginary\": array}} for each selected S-parameter) and \"calibrated\" (bool: the calibration of the application or of the instrument was applied)"
+    },
+    "calibration_data": {
+      "kind": "mapping",
+      "description": "calibration of an instrument whose calibration is computed by the driver (LiteVNA): grid (start Hz, step Hz, points), reflection error terms and transmission reference, as lists of [real, imaginary]"
+    },
+    "calibration_kit": {
+      "kind": "mapping",
+      "description": "values of a calibration kit with parasitics, for instruments that calibrate in software: open_c0 (fF), open_c1 (1e-27 F/Hz), open_c2 (1e-36), open_c3 (1e-45), short_l0 (pH), short_l1 (1e-24 H/Hz), short_l2 (1e-33), short_l3 (1e-42), open_delay, short_delay, thru_delay (ps), open_loss, short_loss, thru_loss (Gohm/s), open_z0, short_z0, thru_z0 (ohm); a missing value is ideal"
+    },
+    "sweep_type": {
+      "kind": "enum",
+      "values": [
+        "LINEAR",
+        "LOG"
+      ],
+      "description": "frequency sweep: points evenly spaced in frequency (LINEAR) or on a logarithmic scale (LOG)"
+    }
+  },
+  "calls": {
+    "identification_query": {
+      "requirement": "mandatory",
+      "kind": "query",
+      "description": "instrument identification (manufacturer, model, hardware and firmware)",
+      "result": {
+        "type": "string"
+      }
+    },
+    "set_frequency_sweep": {
+      "requirement": "mandatory",
+      "kind": "action",
+      "description": "linear frequency sweep from start to stop frequency with a number of points",
+      "args": {
+        "start_frequency": {
+          "type": "float",
+          "unit": "Hz",
+          "min": 0
+        },
+        "stop_frequency": {
+          "type": "float",
+          "unit": "Hz",
+          "min": 0
+        },
+        "points": {
+          "type": "int",
+          "unit": "points",
+          "min": 1
+        }
+      }
+    },
+    "set_sweep_type": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "linear or logarithmic frequency sweep; call it after set_frequency_sweep, which sets a linear sweep",
+      "args": {
+        "sweep_type": {
+          "type": "sweep_type"
+        }
+      }
+    },
+    "run_sweep": {
+      "requirement": "mandatory",
+      "kind": "action",
+      "description": "start a sweep and discard the data of the previous one (read_sparameters then returns this sweep)"
+    },
+    "read_sparameters": {
+      "requirement": "mandatory",
+      "kind": "query",
+      "description": "sweep (when the instrument needs it) and read the frequencies and the complex values of the asked S-parameters",
+      "args": {
+        "sparameters": {
+          "type": "sparameter_list"
+        }
+      },
+      "result": {
+        "type": "sparameters"
+      }
+    },
+    "calibration_begin": {
+      "requirement": "mandatory",
+      "kind": "action",
+      "description": "choose the calibration and the ports; the standards are then measured with calibration_measure",
+      "args": {
+        "kind": {
+          "type": "calibration_kind"
+        },
+        "port": {
+          "type": "int",
+          "min": 1,
+          "description": "test port (the source port of a transmission calibration)"
+        },
+        "port2": {
+          "type": "int",
+          "min": 1,
+          "required": false,
+          "description": "second test port (the receiving port of a transmission calibration, the other port of a two-port calibration)"
+        }
+      }
+    },
+    "calibration_measure": {
+      "requirement": "mandatory",
+      "kind": "action",
+      "description": "measure a calibration standard connected to the port(s) given to calibration_begin",
+      "args": {
+        "standard": {
+          "type": "calibration_standard"
+        },
+        "port": {
+          "type": "int",
+          "min": 1
+        },
+        "port2": {
+          "type": "int",
+          "min": 1,
+          "required": false,
+          "description": "second port, for THRU"
+        }
+      }
+    },
+    "calibration_apply": {
+      "requirement": "mandatory",
+      "kind": "action",
+      "description": "compute the calibration from the measured standards and use it for the next read_sparameters"
+    },
+    "set_correction_state": {
+      "requirement": "mandatory",
+      "kind": "action",
+      "description": "use (true) or bypass (false) the calibration in read_sparameters",
+      "args": {
+        "state": {
+          "type": "bool"
+        }
+      }
+    },
+    "calibration_clear": {
+      "requirement": "mandatory",
+      "kind": "action",
+      "description": "forget the measured standards and the calibration"
+    },
+    "set_calibration_kit": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "the calibration kit used by the next calibration (OPEN capacitance, SHORT inductance, offset delays and losses, THRU delay); an instrument that has its kit defined in its own settings does not take it",
+      "args": {
+        "kit": {
+          "type": "calibration_kit"
+        }
+      }
+    },
+    "calibration_export": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "the calibration computed by the driver, to save it with the project (only for instruments that do not keep it themselves)",
+      "result": {
+        "type": "calibration_data"
+      }
+    },
+    "calibration_import": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "restore a calibration exported by calibration_export for the same frequency sweep",
+      "args": {
+        "data": {
+          "type": "calibration_data"
+        }
+      }
+    },
+    "set_source_power": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "test signal power",
+      "args": {
+        "value": {
+          "type": "float",
+          "unit": "dBm"
+        }
+      }
+    },
+    "set_if_bandwidth": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "IF (resolution) bandwidth",
+      "args": {
+        "value": {
+          "type": "float",
+          "unit": "Hz",
+          "min": 0
+        }
+      }
+    }
+  }
+}
