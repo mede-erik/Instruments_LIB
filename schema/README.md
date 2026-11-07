@@ -7,6 +7,7 @@ One file per instrument category. A schema file is the **contract** of that cate
 | `oscilloscope.json` | `oscilloscopes_series` |
 | `power_supply.json` | `power_supplies_series` |
 | `electronic_load.json` | `electronic_loads_series` |
+| `function_generator.json` | `function_generators_series` (no model yet: see `docs/proposals/function-generator-calls.md`) |
 
 More categories are added one at a time (power supplies, electronic loads, dataloggers, multimeters, switch units).
 

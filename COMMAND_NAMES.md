@@ -581,6 +581,40 @@ Logical types:
 
 <!-- END GENERATED network_analyzers_series -->
 
+<!-- BEGIN GENERATED function_generators_series -->
+### 3.8 Function generators (`function_generators_series`)
+
+Generated from `schema/function_generator.json` — do not edit this section by hand. 5 mandatory and 5 optional calls.
+
+Logical calls of function / arbitrary waveform generators (one or more output channels). The amplitude is the peak-to-peak value the instrument is set to produce; what the circuit under test sees also depends on the output load setting of the instrument, which the application does not change.
+
+Logical types:
+
+* `bool`: true / false
+* `waveform_shape`: `SINE`, `SQUARE`, `RAMP`, `PULSE`, `NOISE`, `DC`, `ARBITRARY`
+
+**Mandatory**
+
+| Call | Kind | Arguments | Result | Description |
+|---|---|---|---|---|
+| `identification_query` | query |  | string | identification string (*IDN?) |
+| `reset` | action |  |  | restore factory defaults (*RST) |
+| `set_output_state` | set | `channel_number` (int, 1.., optional)<br>`state` (bool) |  | switch an output on or off; a measurement switches the outputs off before it starts and when it ends, also after an error |
+| `set_frequency` | set | `channel_number` (int, 1.., optional)<br>`value` (float, Hz, 0..) |  | frequency of the waveform of an output |
+| `set_amplitude` | set | `channel_number` (int, 1.., optional)<br>`value` (float, Vpp, 0..) |  | peak-to-peak amplitude of an output |
+
+**Optional**
+
+| Call | Kind | Arguments | Result | Description |
+|---|---|---|---|---|
+| `set_waveform_shape` | set | `channel_number` (int, 1.., optional)<br>`shape` (waveform_shape) |  | waveform of an output (a sine wave is what a generator gives after a reset) |
+| `set_offset` | set | `channel_number` (int, 1.., optional)<br>`value` (float, V) |  | DC offset of an output |
+| `clear_status` | action |  |  | clear status registers (*CLS) |
+| `error_query` | query |  | string | read and clear the oldest error |
+| `set_remote` | action |  |  | enter remote mode (serial connections of some generators need it) |
+
+<!-- END GENERATED function_generators_series -->
+
 ## 4. Translation layer (arguments and answers)
 
 The same logical call has the same arguments and logical values for every brand; the library translates them for each instrument: `map` (argument values), `response_map` / `bool` / `split` / `as_list` (answers), `steps` (several commands), derived parameters (`from`, `expr`) and defaults. The format is described in `schema/README.md`.
