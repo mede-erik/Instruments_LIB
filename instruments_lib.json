@@ -13395,6 +13395,66 @@
                 "type": "int"
               }
             }
+          },
+          "operation_complete_query": {
+            "description": "not supported by this model: the AnalogIn instrument has no operation complete query: the state is read with FDwfAnalogInStatus",
+            "driver": {
+              "function": "unsupported_operation_complete_query"
+            }
+          },
+          "auto_setup": {
+            "description": "not supported by this model: the SDK has no auto setup",
+            "driver": {
+              "function": "unsupported_auto_setup"
+            }
+          },
+          "force_trigger": {
+            "description": "not supported by this model: the SDK has no forced trigger for the AnalogIn instrument (an auto trigger timeout is set with set_trigger_mode AUTO)",
+            "driver": {
+              "function": "unsupported_force_trigger"
+            }
+          },
+          "set_timebase_delay": {
+            "description": "not supported by this model: the horizontal position is the trigger position (FDwfAnalogInTriggerPositionSet), which this model does not map yet",
+            "driver": {
+              "function": "unsupported_set_timebase_delay"
+            }
+          },
+          "set_channel_bandwidth_limit": {
+            "description": "not supported by this model: the SDK filters decimate or average the samples, they do not limit the bandwidth",
+            "driver": {
+              "function": "unsupported_set_channel_bandwidth_limit"
+            }
+          },
+          "set_acquisition_type": {
+            "description": "not supported by this model: the SDK has sample filters (decimate, average, min / max), which this model does not map yet",
+            "driver": {
+              "function": "unsupported_set_acquisition_type"
+            }
+          },
+          "set_waveform_source": {
+            "description": "not supported by this model: the samples are read with read_waveform, not with the SCPI waveform transfer",
+            "driver": {
+              "function": "unsupported_set_waveform_source"
+            }
+          },
+          "set_waveform_format": {
+            "description": "not supported by this model: the samples are read with read_waveform, not with the SCPI waveform transfer",
+            "driver": {
+              "function": "unsupported_set_waveform_format"
+            }
+          },
+          "query_waveform_preamble": {
+            "description": "not supported by this model: the samples are read with read_waveform, not with the SCPI waveform transfer",
+            "driver": {
+              "function": "unsupported_query_waveform_preamble"
+            }
+          },
+          "query_waveform_data": {
+            "description": "not supported by this model: the samples are read with read_waveform, not with the SCPI waveform transfer",
+            "driver": {
+              "function": "unsupported_query_waveform_data"
+            }
           }
         },
         "models": [
@@ -13422,18 +13482,6 @@
             },
             "capabilities": {
               "notes": "The number of channels, the ranges, the buffer sizes and the sample frequencies are read from the device (FDwfAnalogInChannelCount and the FDwfAnalogIn...Info functions); the reference manual gives no figure for a device."
-            },
-            "scpi_commands": {
-              "operation_complete_query": null,
-              "auto_setup": null,
-              "force_trigger": null,
-              "set_timebase_delay": null,
-              "set_channel_bandwidth_limit": null,
-              "set_acquisition_type": null,
-              "set_waveform_source": null,
-              "set_waveform_format": null,
-              "query_waveform_preamble": null,
-              "query_waveform_data": null
             },
             "experimental": true
           }
