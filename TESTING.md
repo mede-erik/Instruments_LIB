@@ -42,10 +42,15 @@ Run these after any change to the library or the schemas. They need no instrumen
 # in Instruments_LIB
 python3 Tests/check_conformance.py --strict   # library against schema/*.json, must print 0 errors, 0 todo
 python3 schema/generate_command_names.py --check   # COMMAND_NAMES.md is up to date
+python3 -m pytest Tests -q                    # structure: ids, steps, placeholders, transports, docs (needs pytest)
 
 # in Open-Lab-Automation
 python3 -m pytest -q tests                    # planner, parsers, tester, instrument handle
 ```
+
+The same checks run automatically on every push and pull request (`.github/workflows/ci.yml`),
+together with the application's test suite run against the changed library: a library change
+that makes a call of any model impossible to plan, or breaks an example project, fails there.
 
 `check_conformance.py` reports:
 
