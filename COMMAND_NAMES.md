@@ -31,17 +31,18 @@ Channel, range and value placeholders use the names `channel_number`, `channels`
 |---|---|---|
 | Power supplies | OWON ODP, Keysight E36300, TDK-Lambda GEN (IEEE + LAN manual), R&S HMP, HP E3631A | complete |
 | Electronic loads | Chroma 6330A, Keysight EL4900, Siglent SDL1000X | complete |
-| Oscilloscopes | Tektronix 5 Series MSO, Rigol DS1000Z, Siglent SDS800X HD | complete |
+| Oscilloscopes | Tektronix 5 Series MSO, Rigol DS1000Z, Siglent SDS800X HD; Digilent WaveForms SDK (Analog Discovery 2, a driver model, **experimental**) | complete |
 | Multimeters | Agilent 34401A, HP 3478A | **provisional**: the 3478A PDF is a scanned image without text, and there are only two manuals |
 | Dataloggers | Keysight 34970A/34972A, Keysight DAQ970A/DAQ973A | complete |
 | Switch units | Agilent 3499A | **provisional**: only one manual |
 | Vector network analyzers | Zenko LiteVNA 62/64/67, Siglent VNA Series Programming Guide (SNA5000A, SNA5000X-E, SNA6000A, SHN900A), R&S ZNB and ZNL/ZNLE, ZVA/ZVB/ZVT and ZVL manuals | **provisional, experimental**: no VNA has been tested on a real instrument. The Agilent E506x/E507x user guides contain no SCPI command reference (it is in the separate Programmer's Guide), the HP 8700 quick reference is a scanned image, the HP 8753C uses HP-IB mnemonics and the Agilent 871x a different SCPI dialect: none of them is used yet |
+| Function generators | Digilent WaveForms SDK (Analog Discovery 2), Rigol DG1000 programming guide (DG1022, DG1022A), Agilent 33120A user's guide; read but without a command reference: Rigol DG1000Z user guide, FeelTech FY3200S user manual | **provisional, experimental**: three models, none tested on an instrument (the Analog Discovery 2 and its amplitude convention are to be verified) |
 
 ## 3. Calls per category
 
 The tables of mandatory and optional calls are **generated from the machine-readable call schemas** in `schema/` (one file per category, see `schema/README.md`); the schema file is the source of truth. Regenerate this document with `python3 schema/generate_command_names.py` and verify the library against the schemas with `python3 Tests/check_conformance.py`.
 
-Calls shared by every category: `identification_query` and `reset` are mandatory everywhere; `clear_status`, `error_query` and `self_test` are optional where a manual does not document them (see section 5).
+Calls shared by every category: `identification_query` and `reset` are mandatory everywhere (except `reset` for function generators: the Rigol DG1000 guide documents no `*RST`); `clear_status`, `error_query` and `self_test` are optional where a manual does not document them (see section 5).
 
 <!-- BEGIN GENERATED power_supplies_series -->
 ### 3.1 Power supplies (`power_supplies_series`)
@@ -580,6 +581,40 @@ Logical types:
 | `set_if_bandwidth` | action | `value` (float, Hz, 0..) |  | IF (resolution) bandwidth |
 
 <!-- END GENERATED network_analyzers_series -->
+
+<!-- BEGIN GENERATED function_generators_series -->
+### 3.8 Function generators (`function_generators_series`)
+
+Generated from `schema/function_generator.json` — do not edit this section by hand. 5 mandatory and 5 optional calls.
+
+Logical calls of function / arbitrary waveform generators (one or more output channels). The amplitude is the peak-to-peak value the instrument is set to produce; what the circuit under test sees also depends on the output load setting of the instrument, which the application does not change.
+
+Logical types:
+
+* `bool`: true / false
+* `waveform_shape`: `SINE`, `SQUARE`, `TRIANGLE`, `RAMP`, `PULSE`, `NOISE`, `DC`, `ARBITRARY`
+
+**Mandatory**
+
+| Call | Kind | Arguments | Result | Description |
+|---|---|---|---|---|
+| `identification_query` | query |  | string | identification string (*IDN?) |
+| `set_frequency` | set | `channel_number` (int, 1.., default 1, optional)<br>`value` (float, Hz, 0..) |  | frequency of the waveform of an output |
+| `set_amplitude` | set | `channel_number` (int, 1.., default 1, optional)<br>`value` (float, Vpp, 0..) |  | peak-to-peak amplitude of an output |
+| `set_offset` | set | `channel_number` (int, 1.., default 1, optional)<br>`value` (float, V) |  | DC offset of an output |
+| `set_waveform_shape` | set | `channel_number` (int, 1.., default 1, optional)<br>`shape` (waveform_shape) |  | waveform of an output |
+
+**Optional**
+
+| Call | Kind | Arguments | Result | Description |
+|---|---|---|---|---|
+| `reset` | action |  |  | restore factory defaults (*RST); some generators (Rigol DG1000) document no reset |
+| `set_output_state` | set | `channel_number` (int, 1.., default 1, optional)<br>`state` (bool) |  | switch an output on or off; a measurement that needs it switches the outputs off before it starts and when it ends, also after an error. Some generators (Agilent 33120A) have no output switch in their command set |
+| `clear_status` | action |  |  | clear status registers (*CLS) |
+| `error_query` | query |  | string | read and clear the oldest error |
+| `set_remote` | action |  |  | enter remote mode (serial connections of some generators need it) |
+
+<!-- END GENERATED function_generators_series -->
 
 ## 4. Translation layer (arguments and answers)
 

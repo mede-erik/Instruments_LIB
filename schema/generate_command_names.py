@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+# Copyright (C) 2025-2026 Erik Medeossi
+# This file is part of Open Lab Automation.
+# Licensed under the GNU General Public License v3.0; see the LICENSE file.
+
 """Regenerate the per-category call tables of COMMAND_NAMES.md from schema/*.json.
 
 The sections between the markers
@@ -26,6 +30,7 @@ TITLES = {
     "oscilloscopes_series": "Oscilloscopes",
     "dataloggers_series": "Dataloggers",
     "network_analyzers_series": "Vector network analyzers",
+    "function_generators_series": "Function generators",
 }
 
 
@@ -35,6 +40,7 @@ NUMBERS = {
     "oscilloscopes_series": "3.3",
     "dataloggers_series": "3.5",
     "network_analyzers_series": "3.7",
+    "function_generators_series": "3.8",
 }
 
 

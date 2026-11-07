@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+# Copyright (C) 2025-2026 Erik Medeossi
+# This file is part of Open Lab Automation.
+# Licensed under the GNU General Public License v3.0; see the LICENSE file.
+
 """Check the instrument library against the call schemas in schema/.
 
 For every category that has a schema file, every series of that category is
@@ -86,6 +90,9 @@ def check_series(category, schema, series, report):
             report.error(sid, name, "schema kind 'action' but the call has no set half")
 
         res = spec.get("result") or {}
+        # a driver entry gives the logical value itself: no response_map or bool spec to check
+        if cmd.get("driver"):
+            res = {}
         if res.get("type") in types and types[res["type"]]["kind"] == "enum" and has_query:
             q = cmd["query"]
             logical = types[res["type"]]["values"]

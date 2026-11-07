@@ -22,6 +22,7 @@ body:
         - Multimeter
         - Oscilloscope
         - Electronic load
+        - Function / arbitrary waveform generator
         - Other (describe below)
     validations:
       required: true
