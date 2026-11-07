@@ -8637,7 +8637,7 @@
             }
           },
           "clear_scan_list": {
-            "description": "clear the scan list (spazio tra SCAN e CLEar: fa parte del comando)",
+            "description": "clear the scan list (the space between SCAN and CLEar is part of the command)",
             "set": {
               "syntax": "ROUTe:SCAN CLEar"
             },
@@ -8790,9 +8790,9 @@
             "query": null
           },
           "set_channel_delay": {
-            "description": "per-channel delay between close and next operation, or for ALL channels",
+            "description": "delay (0 to 99999.999 s, 1 ms resolution) between the close of each listed channel of the scan list and the next operation",
             "set": {
-              "syntax": "ROUTe:CHANnel:DELay {seconds},({channels})",
+              "syntax": "ROUTe:CHANnel:DELay {seconds},(@{channels})",
               "args": [
                 "seconds",
                 "channels"
@@ -8805,6 +8805,21 @@
               },
               "channels": {
                 "type": "string"
+              }
+            }
+          },
+          "set_channel_delay_all": {
+            "description": "one delay (0 to 99999.999 s) for all the channels of the scan list",
+            "set": {
+              "syntax": "ROUTe:CHANnel:DELay {seconds},ALL",
+              "args": [
+                "seconds"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "seconds": {
+                "type": "float"
               }
             }
           },
@@ -9470,7 +9485,7 @@
               "channels": "100:107",
               "number_of_slots": 5,
               "slot_numbers": "0 through 5 (slot 0 = built-in control board with 4-bit digital I/O)",
-              "channel_format": "@snn — slot digit + 2-digit channel, es. @101, @100:107, @101,201,205 (NON lo stile 1001:1020 del 34970A)",
+              "channel_format": "@snn — slot digit + 2-digit channel, e.g. @101, @100:107, @101,201,205 (NOT the 1001:1020 style of the 34970A)",
               "scan_list_max_entries": 200,
               "scan_max_sweeps": "99999 (MAX) / -1 (INFinity)",
               "builtin_digital_io": {
