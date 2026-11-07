@@ -112,7 +112,7 @@ A model may declare `"access"` at model level. There are exactly two values:
 | `scpi` (default) | the call is a **step plan** (`write` / `query` / `delay`) run by the generic executor; it is also used for non-SCPI **text** protocols (a serial shell) |
 | `driver` | the call is not a command string: it is delegated to a driver (for example Digilent WaveForms for the Analog Discovery, or the binary register protocol of the LiteVNA) as `{"driver": {"function": "<name>"}}`. The call names and the argument schema are the same, so the software does not change |
 
-A `driver` model has no `steps`; the conformance check accepts a driver entry as an implemented call. The model names its driver with `"driver_id"` (for example `litevna`); the application finds the driver by that id (`ola/drivers/`). The driver receives the logical arguments, already validated by the schema, and raises the `CALL-xxx` errors itself for the values its instrument cannot handle.
+A `driver` model has no `steps`; the conformance check accepts a driver entry as an implemented call. A mandatory call a driver has no equivalent for is still defined, with the function `unsupported_<call>`: the driver answers "not supported" (`CALL-001`) with the reason (the Analog Discovery oscilloscope does this for the SCPI waveform transfer and a few others).
 
 ## `transports` (how a connection is opened)
 
@@ -123,6 +123,7 @@ An entry of `interface.supported_connection_types` can list the transports the m
 | `vxi11` | - (VISA address `TCPIP0::<ip>::inst0::INSTR`) |
 | `raw_socket` | `port` (and `port_configurable: true` if the user can change it) |
 | `usbtmc` | - |
+| `dwf` | - (the Digilent WaveForms runtime, not VISA; address `DWF` for the first device or `DWF::<serial number>`; the model has `access: driver` and `driver_id: waveforms`) |
 | `serial` | `baud`, `data_bits`, `parity` (`N`/`E`/`O`), `stop_bits`, `flow_control` (`none`, `xon_xoff`, `rts_cts`, `dtr_dsr`), `write_termination`, `read_termination`; `factory_defaults: true` means the values are the manual's factory settings and the instrument's front-panel menu may differ (a project can override them per instrument) |
 
 Example (Siglent SDS HD, from its programming guide): `"transports": [{"kind": "vxi11"}, {"kind": "raw_socket", "port": 5025}]`. Models without `transports` are not specified yet: the software must not assume a transport for them.
