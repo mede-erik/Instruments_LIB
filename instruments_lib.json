@@ -13481,7 +13481,18 @@
               ]
             },
             "capabilities": {
-              "notes": "The number of channels, the ranges, the buffer sizes and the sample frequencies are read from the device (FDwfAnalogInChannelCount and the FDwfAnalogIn...Info functions); the reference manual gives no figure for a device."
+              "number_of_channels": 2,
+              "channels": [
+                {
+                  "channel_id": "CH1",
+                  "label": "Channel 1"
+                },
+                {
+                  "channel_id": "CH2",
+                  "label": "Channel 2"
+                }
+              ],
+              "notes": "Two analog inputs (the 1+/1- and 2+/2- pins). The ranges, the buffer sizes and the sample frequencies are read from the device (FDwfAnalogInChannelCount and the FDwfAnalogIn...Info functions); the reference manual gives no figure for a device."
             },
             "experimental": true
           }
@@ -20550,7 +20561,8 @@
               ]
             },
             "capabilities": {
-              "notes": "The number of channels and the ranges of frequency, amplitude and offset are read from the device (FDwfAnalogOutCount and the FDwfAnalogOutNode...Info functions); the reference manual gives no figure for a device."
+              "number_of_channels": 2,
+              "notes": "Two analog outputs (W1 and W2). The ranges of frequency, amplitude and offset are read from the device (FDwfAnalogOutCount and the FDwfAnalogOutNode...Info functions); the reference manual gives no figure for a device."
             },
             "experimental": true
           }
