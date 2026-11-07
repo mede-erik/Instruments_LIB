@@ -15,7 +15,7 @@ The Bode plot measurement of the application needs a generator that drives the c
 | `set_output_state` | mandatory | `channel_number` (int, optional), `state` (bool) |
 | `set_frequency` | mandatory | `channel_number` (int, optional), `value` (Hz) |
 | `set_amplitude` | mandatory | `channel_number` (int, optional), `value` (**Vpp**) |
-| `set_waveform_shape` | optional | `channel_number` (int, optional), `shape` (`SINE`, `SQUARE`, `RAMP`, `PULSE`, `NOISE`, `DC`, `ARBITRARY`) |
+| `set_waveform_shape` | optional | `channel_number` (int, optional), `shape` (`SINE`, `SQUARE`, `TRIANGLE`, `RAMP`, `PULSE`, `NOISE`, `DC`, `ARBITRARY`) |
 | `set_offset` | optional | `channel_number` (int, optional), `value` (V) |
 | `clear_status`, `error_query`, `set_remote` | optional | - |
 
@@ -29,3 +29,21 @@ The Bode plot measurement of the application needs a generator that drives the c
 
 1. The programming manuals of the generators to support, to write the entries (series, models, SCPI, transports, channels, frequency / amplitude limits in `capabilities`).
 2. In the application: the type `function_generator` in the instrument list (add / edit dialogs, translations) and the role category used by the Bode module (`generator`).
+
+## First manual received: FeelTech FY3200S series (`docs/fy32xxs_series_users_manual_v1.4.pdf`)
+
+Read in full (15 pages). **It documents the instrument, not its remote protocol**: the only mention is "each function can be adjusted by host computer" and a "square port USB wire" in the accessories; there is no command, no serial setting, no baud rate. A model cannot be added to `instruments_lib.json` from it, because a command goes into the library only if it is documented or verified (and a series without the mandatory calls fails `Tests/check_conformance.py`). **The communication protocol document of the FY series (from FeelTech) is needed**, or a verified session on the instrument.
+
+What the manual does give, to be used for the `capabilities` of the models when the protocol is there:
+
+| | FY3206S | FY3212S | FY3220S | FY3224S |
+|---|---|---|---|---|
+| Sine frequency | 0 - 6 MHz | 0 - 12 MHz | 0 - 20 MHz | 0 - 24 MHz |
+| Square, triangle, arbitrary frequency | 0 - 6 MHz | 0 - 6 MHz | 0 - 6 MHz | 0 - 6 MHz |
+
+* Two independent output channels (**CH1 = main "MF"**, **CH2 = subsidiary "SF"**), each can be switched off and on separately; frequency resolution 10 mHz (0.01 Hz), accuracy 5 ppm.
+* Amplitude "Vpp" up to 20 Vpp **with no load**, output impedance 50 ohm (+/-10 %): the same caveat as above about the load; DC offset +/-10 V; square duty 0.1 % to 99.9 %; phase of CH2 against CH1 0 to 359 degrees; sampling rate 250 MSa/s, 12 bit.
+* Waveforms on the display: `SINE`, `SQUR`, `TRGL`, 4 user arbitrary memories `ARB1`-`ARB4`, and ten built-in ones `PRE1`-`PRE10` (Lorentz pulse, multitone, random noise, ECG, trapezoid, sinc, narrow pulse, white Gaussian noise, AM, FM). The sawtooth is a triangle with a duty cycle other than 50 %. There is **no plain DC or pulse shape** in the list: a call with `DC` or `PULSE` would be "not handled by this model" (`CALL-002`), `TRIANGLE` and `SINE` are fine.
+* Counter / frequency meter (CH1 input), linear and logarithmic sweep (CH1), 20 memories: nothing in the logical calls yet.
+
+This is why `TRIANGLE` was added to `waveform_shape`.

@@ -12,6 +12,7 @@
       "values": [
         "SINE",
         "SQUARE",
+        "TRIANGLE",
         "RAMP",
         "PULSE",
         "NOISE",

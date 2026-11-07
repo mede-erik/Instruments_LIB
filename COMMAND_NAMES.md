@@ -591,7 +591,7 @@ Logical calls of function / arbitrary waveform generators (one or more output ch
 Logical types:
 
 * `bool`: true / false
-* `waveform_shape`: `SINE`, `SQUARE`, `RAMP`, `PULSE`, `NOISE`, `DC`, `ARBITRARY`
+* `waveform_shape`: `SINE`, `SQUARE`, `TRIANGLE`, `RAMP`, `PULSE`, `NOISE`, `DC`, `ARBITRARY`
 
 **Mandatory**
 
