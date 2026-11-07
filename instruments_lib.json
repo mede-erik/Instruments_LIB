@@ -20199,6 +20199,426 @@
             "experimental": true
           }
         ]
+      },
+      {
+        "series_id": "Rigol_DG1000_Series",
+        "series_name": "Rigol DG1000 series dual-channel function / arbitrary waveform generators (DG1022, DG1022A)",
+        "common_scpi_commands": {
+          "identification_query": {
+            "description": "identification query (RIGOL TECHNOLOGIES,DG1022,<serial>,<firmware>)",
+            "set": null,
+            "query": {
+              "syntax": "*IDN?",
+              "return_type": "string"
+            }
+          },
+          "set_frequency": {
+            "description": "FREQuency (CH1) / FREQuency:CH2, in Hz",
+            "set": {
+              "steps": [
+                {
+                  "op": "write",
+                  "text": "FREQuency{suffix} {value}"
+                }
+              ]
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "value": {
+                "type": "float"
+              },
+              "suffix": {
+                "from": "channel_number",
+                "map": {
+                  "1": "",
+                  "2": ":CH2"
+                }
+              }
+            }
+          },
+          "set_amplitude": {
+            "description": "the voltage unit is set to VPP first (it can be changed with VOLTage:UNIT), then VOLTage / VOLTage:CH2; the amplitude refers to the output load set with OUTPut:LOAD (50 ohm by default)",
+            "set": {
+              "steps": [
+                {
+                  "op": "write",
+                  "text": "VOLTage:UNIT{suffix} VPP"
+                },
+                {
+                  "op": "write",
+                  "text": "VOLTage{suffix} {value}"
+                }
+              ]
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "value": {
+                "type": "float"
+              },
+              "suffix": {
+                "from": "channel_number",
+                "map": {
+                  "1": "",
+                  "2": ":CH2"
+                }
+              }
+            }
+          },
+          "set_offset": {
+            "description": "VOLTage:OFFSet (CH1) / VOLTage:OFFSet:CH2, in V",
+            "set": {
+              "steps": [
+                {
+                  "op": "write",
+                  "text": "VOLTage:OFFSet{suffix} {value}"
+                }
+              ]
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "value": {
+                "type": "float"
+              },
+              "suffix": {
+                "from": "channel_number",
+                "map": {
+                  "1": "",
+                  "2": ":CH2"
+                }
+              }
+            }
+          },
+          "set_waveform_shape": {
+            "description": "FUNCtion / FUNCtion:CH2; TRIANGLE is a ramp with 50 % symmetry (FUNCtion:RAMP:SYMMetry); RAMP (a sawtooth) is not handled: the manual does not say which symmetry gives a rising ramp; USER is the arbitrary waveform selected with FUNCtion:USER",
+            "set": {
+              "steps": [
+                {
+                  "op": "write",
+                  "text": "FUNCtion{suffix} {shape_text}"
+                },
+                {
+                  "op": "write",
+                  "text": "FUNCtion:RAMP:SYMMetry{suffix} 50",
+                  "when": {
+                    "shape": "TRIANGLE"
+                  }
+                }
+              ]
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "shape": {
+                "type": "waveform_shape",
+                "values": [
+                  "SINE",
+                  "SQUARE",
+                  "TRIANGLE",
+                  "RAMP",
+                  "PULSE",
+                  "NOISE",
+                  "DC",
+                  "ARBITRARY"
+                ]
+              },
+              "suffix": {
+                "from": "channel_number",
+                "map": {
+                  "1": "",
+                  "2": ":CH2"
+                }
+              },
+              "shape_text": {
+                "from": "shape",
+                "map": {
+                  "SINE": "SINusoid",
+                  "SQUARE": "SQUare",
+                  "TRIANGLE": "RAMP",
+                  "PULSE": "PULSe",
+                  "NOISE": "NOISe",
+                  "DC": "DC",
+                  "ARBITRARY": "USER"
+                }
+              }
+            }
+          },
+          "set_output_state": {
+            "description": "OUTPut {ON|OFF} (CH1) / OUTPut:CH2 {ON|OFF}: the front-panel [Output] connector; the default is OFF",
+            "set": {
+              "steps": [
+                {
+                  "op": "write",
+                  "text": "OUTPut{suffix} {state}"
+                }
+              ]
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "state": {
+                "type": "bool"
+              },
+              "suffix": {
+                "from": "channel_number",
+                "map": {
+                  "1": "",
+                  "2": ":CH2"
+                }
+              }
+            }
+          },
+          "error_query": {
+            "description": "read the oldest error",
+            "set": null,
+            "query": {
+              "syntax": "SYSTem:ERRor?",
+              "return_type": "string"
+            }
+          }
+        },
+        "models": [
+          {
+            "id": "FGEN_Rigol_DG1022",
+            "name": "Rigol DG1022",
+            "manufacturer": "Rigol",
+            "model": "DG1022",
+            "documentation_path": "docs/Rigol/DG1000_Series/DG1000_ProgrammingGuide_EN.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "USB-TMC",
+                  "address_format_example": "USB0::{vendor_id}::{product_id}::{serial}::INSTR",
+                  "notes": "USB device port on the rear panel (the programming guide: commands over USB, ASCII strings)",
+                  "transports": [
+                    {
+                      "kind": "usbtmc"
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 2,
+              "frequency_min_hz": 1e-06,
+              "frequency_max_hz": 20000000.0,
+              "notes": "frequency limits are those of a sine wave (programming guide, FREQuency); sweep and modulation only on CH1"
+            },
+            "experimental": true
+          },
+          {
+            "id": "FGEN_Rigol_DG1022A",
+            "name": "Rigol DG1022A",
+            "manufacturer": "Rigol",
+            "model": "DG1022A",
+            "documentation_path": "docs/Rigol/DG1000_Series/DG1000_ProgrammingGuide_EN.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "USB-TMC",
+                  "address_format_example": "USB0::{vendor_id}::{product_id}::{serial}::INSTR",
+                  "notes": "USB device port on the rear panel (the programming guide: commands over USB, ASCII strings)",
+                  "transports": [
+                    {
+                      "kind": "usbtmc"
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 2,
+              "notes": "the DG1000 programming guide covers the DG1022 and the DG1022A and uses the DG1022 as its example: no figure of the DG1022A is given"
+            },
+            "experimental": true
+          }
+        ]
+      },
+      {
+        "series_id": "Agilent_33120A_Series",
+        "series_name": "Agilent (HP) 33120A 15 MHz function / arbitrary waveform generator",
+        "common_scpi_commands": {
+          "identification_query": {
+            "description": "identification query (HEWLETT-PACKARD,33120A,0,<firmware>)",
+            "set": null,
+            "query": {
+              "syntax": "*IDN?",
+              "return_type": "string"
+            }
+          },
+          "reset": {
+            "description": "reset to the power-on state",
+            "set": {
+              "syntax": "*RST"
+            },
+            "query": null
+          },
+          "clear_status": {
+            "description": "clear the status registers",
+            "set": {
+              "syntax": "*CLS"
+            },
+            "query": null
+          },
+          "error_query": {
+            "description": "read one error from the error queue",
+            "set": null,
+            "query": {
+              "syntax": "SYSTem:ERRor?",
+              "return_type": "string"
+            }
+          },
+          "set_remote": {
+            "description": "place the generator in the remote mode (RS-232)",
+            "set": {
+              "syntax": "SYSTem:REMote"
+            },
+            "query": null
+          },
+          "set_frequency": {
+            "description": "[SOURce:]FREQuency, in Hz (single channel: only channel 1)",
+            "set": {
+              "syntax": "FREQuency {value}"
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int",
+                "map": {
+                  "1": "1"
+                }
+              },
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "set_amplitude": {
+            "description": "the voltage unit is set to VPP first, then VOLTage (the amplitude refers to the output termination set with OUTPut:LOAD, 50 ohm by default)",
+            "set": {
+              "steps": [
+                {
+                  "op": "write",
+                  "text": "VOLTage:UNIT VPP"
+                },
+                {
+                  "op": "write",
+                  "text": "VOLTage {value}"
+                }
+              ]
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int",
+                "map": {
+                  "1": "1"
+                }
+              },
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "set_offset": {
+            "description": "[SOURce:]VOLTage:OFFSet, in V",
+            "set": {
+              "syntax": "VOLTage:OFFSet {value}"
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int",
+                "map": {
+                  "1": "1"
+                }
+              },
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "set_waveform_shape": {
+            "description": "[SOURce:]FUNCtion:SHAPe; USER is the arbitrary waveform selected with FUNCtion:USER; PULSE is not handled (the generator has no pulse waveform)",
+            "set": {
+              "syntax": "FUNCtion:SHAPe {shape}"
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int",
+                "map": {
+                  "1": "1"
+                }
+              },
+              "shape": {
+                "type": "waveform_shape",
+                "values": [
+                  "SINE",
+                  "SQUARE",
+                  "TRIANGLE",
+                  "RAMP",
+                  "PULSE",
+                  "NOISE",
+                  "DC",
+                  "ARBITRARY"
+                ],
+                "map": {
+                  "SINE": "SINusoid",
+                  "SQUARE": "SQUare",
+                  "TRIANGLE": "TRIangle",
+                  "RAMP": "RAMP",
+                  "NOISE": "NOISe",
+                  "DC": "DC",
+                  "ARBITRARY": "USER"
+                }
+              }
+            }
+          }
+        },
+        "models": [
+          {
+            "id": "FGEN_Agilent_33120A",
+            "name": "Agilent (HP) 33120A",
+            "manufacturer": "Agilent",
+            "model": "33120A",
+            "documentation_path": "docs/Agilent/33120A_Series/Agilent_33120A_Users_Guide.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "GPIB",
+                  "address_format_example": "GPIB0::{gpib_addr}::INSTR",
+                  "notes": "HP-IB (IEEE-488)"
+                },
+                {
+                  "type": "SERIAL",
+                  "address_format_example": "ASRL{COM_PORT}::INSTR",
+                  "notes": "RS-232, DB-9, a DTE device with DTR / DSR handshake. Baud rate 300 to 9600 and parity (none with 8 data bits, even or odd with 7) are set from the front panel; two stop bits (fixed). Send SYSTem:REMote (set_remote) first.",
+                  "transports": [
+                    {
+                      "kind": "serial",
+                      "baud": 9600,
+                      "data_bits": 8,
+                      "parity": "N",
+                      "stop_bits": 2,
+                      "flow_control": "dtr_dsr",
+                      "factory_defaults": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 1,
+              "frequency_max_hz": 15000000.0,
+              "notes": "15 MHz is the limit of a sine and a square wave; a triangle and a ramp stop at 100 kHz and the built-in arbitrary waveforms at 5 MHz. The output amplitude is 50 mVpp to 10 Vpp into 50 ohm. The command set has no output on / off."
+            },
+            "experimental": true
+          }
+        ]
       }
     ]
   }
