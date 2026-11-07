@@ -113,7 +113,7 @@ A model may declare `"access"` at model level. There are exactly two values:
 | `scpi` (default) | the call is a **step plan** (`write` / `query` / `delay`) run by the generic executor; it is also used for non-SCPI **text** protocols (a serial shell) |
 | `driver` | the call is not a command string: it is delegated to a driver (for example Digilent WaveForms for the Analog Discovery, or the binary register protocol of the LiteVNA) as `{"driver": {"function": "<name>"}}`. The call names and the argument schema are the same, so the software does not change |
 
-A `driver` model has no `steps`; the conformance check accepts a driver entry as an implemented call. The model names its driver with `"driver_id"` (for example `litevna`); the application finds the driver by that id (`ola/drivers/`). The driver receives the logical arguments, already validated by the schema, and raises the `CALL-xxx` errors itself for the values its instrument cannot handle.
+A `driver` model has no `steps`; the conformance check accepts a driver entry as an implemented call. A mandatory call a driver has no equivalent for is still defined, with the function `unsupported_<call>`: the driver answers "not supported" (`CALL-001`) with the reason (the Analog Discovery oscilloscope does this for the SCPI waveform transfer and a few others).
 
 ## `transports` (how a connection is opened)
 

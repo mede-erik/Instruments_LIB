@@ -90,6 +90,9 @@ def check_series(category, schema, series, report):
             report.error(sid, name, "schema kind 'action' but the call has no set half")
 
         res = spec.get("result") or {}
+        # a driver entry gives the logical value itself: no response_map or bool spec to check
+        if cmd.get("driver"):
+            res = {}
         if res.get("type") in types and types[res["type"]]["kind"] == "enum" and has_query:
             q = cmd["query"]
             logical = types[res["type"]]["values"]
