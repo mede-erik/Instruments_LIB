@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+# Copyright (C) 2025-2026 Erik Medeossi
+# This file is part of Open Lab Automation.
+# Licensed under the GNU General Public License v3.0; see the LICENSE file.
+
 """Tests the SCPI commands defined in instruments_lib.json against a real instrument.
 
 Uses PyVISA with the pyvisa-py backend, so no NI-VISA installation is required.
