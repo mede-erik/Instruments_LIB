@@ -32,7 +32,7 @@ Channel, range and value placeholders use the names `channel_number`, `channels`
 | Power supplies | OWON ODP, Keysight E36300, TDK-Lambda GEN (IEEE + LAN manual), R&S HMP, HP E3631A | complete |
 | Electronic loads | Chroma 6330A, Keysight EL4900, Siglent SDL1000X | complete |
 | Oscilloscopes | Tektronix 5 Series MSO, Rigol DS1000Z, Siglent SDS800X HD; Digilent WaveForms SDK (Analog Discovery 2, a driver model, **experimental**) | complete |
-| Multimeters | Agilent 34401A, HP 3478A | **provisional**: the 3478A PDF is a scanned image without text, and there are only two manuals |
+| Multimeters | Agilent 34401A, HP 3478A | the 3478A PDF is a scanned image without text: its coverage comes from the existing library entries |
 | Dataloggers | Keysight 34970A/34972A, Keysight DAQ970A/DAQ973A | complete |
 | Switch units | Agilent 3499A | **provisional**: only one manual |
 | Vector network analyzers | Zenko LiteVNA 62/64/67, Siglent VNA Series Programming Guide (SNA5000A, SNA5000X-E, SNA6000A, SHN900A), R&S ZNB and ZNL/ZNLE, ZVA/ZVB/ZVT and ZVL manuals | **provisional, experimental**: no VNA has been tested on a real instrument. The Agilent E506x/E507x user guides contain no SCPI command reference (it is in the separate Programmer's Guide), the HP 8700 quick reference is a scanned image, the HP 8753C uses HP-IB mnemonics and the Agilent 871x a different SCPI dialect: none of them is used yet |
@@ -322,13 +322,165 @@ Logical types:
 
 <!-- END GENERATED oscilloscopes_series -->
 
-### 3.4 Multimeters (`multimeters_series`) — provisional
+<!-- BEGIN GENERATED multimeters_series -->
+### 3.4 Multimeters (`multimeters_series`)
 
-Based on the two manuals available. The 3478A manual is scanned, so its coverage was taken from the existing library entries. **Needs more manuals before it is final.**
+Generated from `schema/multimeter.json` — do not edit this section by hand. 8 mandatory and 125 optional calls.
 
-**Mandatory (provisional)**: `reset`, `set_function`, `set_range`, `set_resolution`, `set_autozero`, `set_trigger_source`, `trigger_bus`, `read_measurement`.
+Logical calls of bench digital multimeters (one input). Mandatory calls are those documented by every multimeter manual of the library and doable with text commands.
 
-**Optional**: `identification_query` (not on the 3478A), `clear_status`, `error_query`, `query_status_byte`, `measure_*`, `configure_*`, `fetch_readings`, `set_auto_range`, `set_trigger_count`, `set_trigger_delay`, `set_sample_count`, `set_math_*`, `set_limit_*`, `set_nulls`, display commands.
+Logical types:
+
+* `bool`: true / false
+* `meter_function`: `DC_VOLTAGE`, `DC_VOLTAGE_RATIO`, `AC_VOLTAGE`, `DC_CURRENT`, `AC_CURRENT`, `RESISTANCE_2W`, `RESISTANCE_4W`, `FREQUENCY`, `PERIOD`, `CONTINUITY`, `DIODE`, `EXTENDED_RESISTANCE`
+* `autozero_mode`: `OFF`, `ON`, `ONCE`
+* `trigger_source`: `IMMEDIATE`, `BUS`, `EXTERNAL`
+* `float_list`: list of readings
+
+**Mandatory**
+
+| Call | Kind | Arguments | Result | Description |
+|---|---|---|---|---|
+| `set_function` | set | `function` (meter_function) |  | select the measurement function |
+| `set_range` | set | `function` (meter_function, optional)<br>`range` (float, 0..) |  | fixed measurement range: the smallest range of the instrument that contains this value (in the unit of the function) |
+| `set_auto_range` | set | `function` (meter_function, optional)<br>`state` (bool) |  | autoranging on/off |
+| `set_autozero` | set | `mode` (autozero_mode) |  | autozero mode |
+| `set_trigger_source` | set | `source` (trigger_source) |  | trigger source |
+| `read_measurement` | query |  | float | take (or read) one reading in the configured function |
+| `clear_status` | action |  |  | clear the status registers |
+| `error_query` | query |  | string | read one error (34401A error queue; HP 3478A error register, two octal digits) |
+
+**Optional**
+
+| Call | Kind | Arguments | Result | Description |
+|---|---|---|---|---|
+| `reset` | action |  |  | restore the power-on state (the HP 3478A needs the GPIB device clear, which is not a text command) |
+| `trigger_bus` | action |  |  | software trigger (34401A *TRG; the HP 3478A needs the GPIB Group Execute Trigger, not a text command) |
+| `identification_query` | query |  | string | identification string (*IDN?) |
+| `query_function` | query |  | meter_function | measurement function in use |
+| `query_trigger_source` | query |  | trigger_source | trigger source |
+| `query_front_rear_input` | query |  | bool | front/rear input switch (true = front) |
+| `fetch_readings` | query |  | float_list | readings stored by initiate_measurement |
+| `self_test` | query |  | int | complete self test, returns 0 = pass, 1 = fail |
+| `query_status_byte` | query |  | int | query status byte summary register |
+| `query_event_status_register` | query |  | int | query standard event register (clears it) |
+| `enable_event_status_register` | set | `enable_value` (int) |  | enable standard event register bits |
+| `query_event_status_enable` | query |  | int | query standard event enable register |
+| `enable_status_byte_register` | set | `enable_value` (int) |  | enable status byte register bits (SRQ) |
+| `query_status_byte_enable` | query |  | int | query status byte enable register |
+| `operation_complete` | action |  |  | set OPC bit (bit 0) in standard event register when done |
+| `operation_complete_query` | query |  | int | returns 1 when all prior commands complete |
+| `set_power_on_status_clear` | set | `state` (string) |  | power-on status clear: clear enable masks at power-on |
+| `query_power_on_status_clear` | query |  | int | query power-on status clear |
+| `measure_dc_voltage` | query | `range` (number_or_keyword, or MIN/MAX/DEF, default DEF)<br>`resolution` (number_or_keyword, or MIN/MAX/DEF, default DEF) | float | preset and measure DCV, single-shot to output buffer |
+| `measure_dc_voltage_ratio` | query | `range` (number_or_keyword, or MIN/MAX/DEF, default DEF)<br>`resolution` (number_or_keyword, or MIN/MAX/DEF, default DEF) | float | preset and measure DC:DC ratio (range applies to Input terminals) |
+| `measure_ac_voltage` | query | `range` (number_or_keyword, or MIN/MAX/DEF, default DEF)<br>`resolution` (number_or_keyword, or MIN/MAX/DEF, default DEF) | float | preset and measure ACV true RMS (resolution fixed at 6.5 digits) |
+| `measure_dc_current` | query | `range` (number_or_keyword, or MIN/MAX/DEF, default DEF)<br>`resolution` (number_or_keyword, or MIN/MAX/DEF, default DEF) | float | preset and measure DCI |
+| `measure_ac_current` | query | `range` (number_or_keyword, or MIN/MAX/DEF, default DEF)<br>`resolution` (number_or_keyword, or MIN/MAX/DEF, default DEF) | float | preset and measure ACI true RMS (ranges 1 A, 3 A only) |
+| `measure_resistance` | query | `range` (number_or_keyword, or MIN/MAX/DEF, default DEF)<br>`resolution` (number_or_keyword, or MIN/MAX/DEF, default DEF) | float | preset and measure 2-wire ohms |
+| `measure_resistance_4wire` | query | `range` (number_or_keyword, or MIN/MAX/DEF, default DEF)<br>`resolution` (number_or_keyword, or MIN/MAX/DEF, default DEF) | float | preset and measure 4-wire ohms |
+| `measure_frequency` | query | `range` (number_or_keyword, or MIN/MAX/DEF, default DEF)<br>`resolution` (number_or_keyword, or MIN/MAX/DEF, default DEF) | float | preset and measure frequency, 3 Hz-300 kHz, returns 0 with no signal |
+| `measure_period` | query | `range` (number_or_keyword, or MIN/MAX/DEF, default DEF)<br>`resolution` (number_or_keyword, or MIN/MAX/DEF, default DEF) | float | preset and measure period, 0.33 s-3.3 us, returns 0 with no signal |
+| `measure_continuity` | query |  | float | preset and measure continuity (fixed 1 kOhm range, 5.5 digits) |
+| `measure_diode` | query |  | float | preset and measure diode (fixed 1 Vdc range, 1 mA current source) |
+| `configure_dc_voltage` | set | `range` (number_or_keyword, or MIN/MAX/DEF, default DEF)<br>`resolution` (number_or_keyword, or MIN/MAX/DEF, default DEF) |  | preset and configure DCV (no measurement initiated) |
+| `configure_dc_voltage_ratio` | set | `range` (number_or_keyword, or MIN/MAX/DEF, default DEF)<br>`resolution` (number_or_keyword, or MIN/MAX/DEF, default DEF) |  | preset and configure DC:DC ratio |
+| `configure_ac_voltage` | set | `range` (number_or_keyword, or MIN/MAX/DEF, default DEF)<br>`resolution` (number_or_keyword, or MIN/MAX/DEF, default DEF) |  | preset and configure ACV |
+| `configure_dc_current` | set | `range` (number_or_keyword, or MIN/MAX/DEF, default DEF)<br>`resolution` (number_or_keyword, or MIN/MAX/DEF, default DEF) |  | preset and configure DCI |
+| `configure_ac_current` | set | `range` (number_or_keyword, or MIN/MAX/DEF, default DEF)<br>`resolution` (number_or_keyword, or MIN/MAX/DEF, default DEF) |  | preset and configure ACI |
+| `configure_resistance` | set | `range` (number_or_keyword, or MIN/MAX/DEF, default DEF)<br>`resolution` (number_or_keyword, or MIN/MAX/DEF, default DEF) |  | preset and configure 2-wire ohms |
+| `configure_resistance_4wire` | set | `range` (number_or_keyword, or MIN/MAX/DEF, default DEF)<br>`resolution` (number_or_keyword, or MIN/MAX/DEF, default DEF) |  | preset and configure 4-wire ohms |
+| `configure_frequency` | set | `range` (number_or_keyword, or MIN/MAX/DEF, default DEF)<br>`resolution` (number_or_keyword, or MIN/MAX/DEF, default DEF) |  | preset and configure frequency |
+| `configure_period` | set | `range` (number_or_keyword, or MIN/MAX/DEF, default DEF)<br>`resolution` (number_or_keyword, or MIN/MAX/DEF, default DEF) |  | preset and configure period |
+| `configure_continuity` | action |  |  | preset and configure continuity |
+| `configure_diode` | action |  |  | preset and configure diode |
+| `query_configuration` | query |  | string | query present configuration, returns quoted string |
+| `query_range` | query | `function` (meter_function) | float | query range for selected function |
+| `query_auto_range` | query | `function` (meter_function) | int | query autorange setting, returns 0 (OFF) or 1 (ON) |
+| `set_frequency_input_range` | set | `range` (float) |  | set input-voltage range for frequency |
+| `query_frequency_input_range` | query |  | float | query frequency input-voltage range |
+| `set_period_input_range` | set | `range` (float) |  | set input-voltage range for period |
+| `query_period_input_range` | query |  | float | query period input-voltage range |
+| `set_frequency_input_auto_range` | set | `state` (string) |  | enable/disable autorange of frequency input voltage |
+| `set_period_input_auto_range` | set | `state` (string) |  | enable/disable autorange of period input voltage |
+| `set_resolution` | set | `function` (meter_function)<br>`resolution` (float) |  | set resolution in measurement units (not valid for FREQ/PER/RATIO) |
+| `query_resolution` | query | `function` (meter_function) | float | query resolution |
+| `set_measurement_rate` | set | `function` (meter_function)<br>`nplc` (string) |  | set integration time in PLC (DCV, ratio, DCI, 2W, 4W only; default 10) |
+| `query_measurement_rate` | query | `function` (meter_function) | float | query NPLC integration time |
+| `set_frequency_aperture` | set | `aperture` (string) |  | set frequency gate/aperture time (10 ms=4.5 digits, 100 ms=5.5 digits default, 1 s=6.5 digits) |
+| `query_frequency_aperture` | query |  | float | query frequency aperture time |
+| `set_period_aperture` | set | `aperture` (string) |  | set period gate/aperture time |
+| `query_period_aperture` | query |  | float | query period aperture time |
+| `set_ac_filter_bandwidth` | set | `bandwidth` (string) |  | select lowest expected input frequency: slow 3 Hz, medium 20 Hz (default), fast 200 Hz |
+| `query_ac_filter_bandwidth` | query |  | int | query ac filter, returns 3, 20 or 200 |
+| `query_autozero` | query |  | int | query autozero, returns 0 (OFF/ONCE) or 1 (ON) |
+| `set_input_impedance_auto` | set | `state` (string) |  | input resistance auto: >10 GOhm on 100mV/1V/10V DCV ranges when ON, 10 MOhm fixed when OFF |
+| `query_input_impedance_auto` | query |  | int | query input resistance mode, returns 0 (OFF) or 1 (ON) |
+| `query_terminals` | query |  | string | query front/rear input terminals |
+| `set_trigger_count` | set | `count` (string) |  | number of triggers before returning to idle (1-50000, INFinite = continuous) |
+| `query_trigger_count` | query |  | string | query trigger count (INFinite returns 9.90000000E+37) |
+| `set_trigger_delay` | set | `seconds` (float) |  | trigger delay in seconds (0-3600); selecting a value turns auto delay OFF |
+| `query_trigger_delay` | query |  | float | query trigger delay |
+| `set_trigger_delay_auto` | set | `state` (string) |  | automatic trigger delay based on function/range/integration/filter |
+| `query_trigger_delay_auto` | query |  | int | query automatic trigger delay, returns 0 (OFF) or 1 (ON) |
+| `set_sample_count` | set | `count` (string) |  | samples (readings) per trigger (1-50000) |
+| `query_sample_count` | query |  | int | query sample count |
+| `initiate_measurement` | action |  |  | arm: idle -> wait-for-trigger; readings stored in internal memory (max 512) |
+| `query_reading_count` | query |  | int | number of readings stored in internal memory |
+| `set_reading_memory` | set | `destination` (string) |  | store INITiate readings in memory (CALCulate) or not (empty string) |
+| `query_reading_memory` | query |  | string | query reading memory state, returns CALC or empty string |
+| `set_math_function` | set | `function` (string) |  | select math function (only one at a time, default NULL) |
+| `query_math_function` | query |  | string | query math function, returns NULL, DB, DBM, AVER or LIM |
+| `set_math_state` | set | `state` (string) |  | enable/disable the selected math function |
+| `query_math_state` | query |  | int | query math state, returns 0 (OFF) or 1 (ON) |
+| `set_nulls` | set | `value` (float) |  | store null value (0 to +/-120% of highest range; math must be ON) |
+| `query_nulls` | query |  | float | query null value |
+| `query_min_max_minimum` | query |  | float | minimum value found during min-max operation |
+| `query_min_max_maximum` | query |  | float | maximum value found during min-max operation |
+| `query_min_max_average` | query |  | float | average of all readings since min-max enabled |
+| `query_min_max_count` | query |  | int | number of readings since min-max enabled |
+| `set_db_reference` | set | `value` (float) |  | dB relative reference (-200 to +200 dBm; math must be ON) |
+| `query_db_reference` | query |  | float | query dB relative value |
+| `set_dbm_reference` | set | `value` (float) |  | dBm reference resistance (50-8000 ohm, non-volatile) |
+| `query_dbm_reference` | query |  | float | query dBm reference resistance |
+| `set_limit_low` | set | `value` (float) |  | set lower limit for limit test (0 to +/-120% of highest range) |
+| `query_limit_low` | query |  | float | query lower limit |
+| `set_limit_high` | set | `value` (float) |  | set upper limit for limit test (0 to +/-120% of highest range) |
+| `query_limit_high` | query |  | float | query upper limit |
+| `set_display_state` | set | `state` (string) |  | front-panel display off/on |
+| `query_display_state` | query |  | int | query display state, returns 0 (OFF) or 1 (ON) |
+| `display_text` | set | `message` (string) |  | display a message on front panel (12 chars max) |
+| `query_display_text` | query |  | string | query the displayed message, returns quoted string |
+| `clear_display_text` | action |  |  | clear the displayed message |
+| `system_beep` | action |  |  | issue a single beep immediately |
+| `set_beeper_state` | set | `state` (string) |  | enable/disable front-panel beeper (non-volatile) |
+| `query_beeper_state` | query |  | int | query beeper state, returns 0 (OFF) or 1 (ON) |
+| `query_scpi_version` | query |  | string | query SCPI version |
+| `system_remote` | action |  |  | place instrument in remote state |
+| `system_local` | action |  |  | place instrument in local state |
+| `system_remote_lockout` | action |  |  | remote with local lockout |
+| `enable_questionable_register` | set | `enable_value` (int) |  | enable bits in Questionable Data enable register |
+| `query_questionable_enable` | query |  | int | query Questionable Data enable register |
+| `query_questionable_event` | query |  | int | query Questionable Data event register (clears it) |
+| `status_preset` | action |  |  | clear all bits in Questionable Data enable register |
+| `calibration_query` | query |  | int | perform calibration using the value set by set_calibration_value (requires unsecured) |
+| `query_calibration_count` | query |  | int | number of times instrument has been calibrated (non-volatile) |
+| `set_calibration_security` | set | `state` (string)<br>`code` (string) |  | unsecure (OFF,code) or secure (ON,code) for calibration |
+| `query_calibration_security` | query |  | int | query secured state, returns 0 (OFF) or 1 (ON) |
+| `set_calibration_code` | set | `code` (string) |  | set new security code (up to 12 chars; must unsecure first) |
+| `set_calibration_string` | set | `message` (string) |  | store calibration message (40 chars max) |
+| `query_calibration_string` | query |  | string | query calibration message, returns quoted string |
+| `set_calibration_value` | set | `value` (float) |  | specify value of the known calibration signal |
+| `query_calibration_value` | query |  | float | query calibration value |
+| `set_display_mode` | set | `display_mode` (int) |  | display mode (D mnemonic); D1 normal, D2 display text, D3 display text and stop display updating (faster) |
+| `display_message` | set | `display_mode` (int)<br>`text` (string) |  | write text to the display (D2/D3 with data); up to 12 chars ASCII 32-95 |
+| `execute_home_command` | set | `command` (int) |  | preset HOME commands (H mnemonic); H0 configures only and waits for trigger, H1-H7 take one reading each |
+| `calibrate` | action |  |  | enter calibration (C mnemonic); procedure documented in the Service Manual |
+| `query_binary_status` | query |  | string | output 5 binary bytes of programmed state (B mnemonic); also clears the error register |
+| `set_srq_mask` | set | `mask` (string) |  | set SRQ mask to octal value (M mnemonic); bits 0-5 mask data ready, syntax error, hardware error, front panel SRQ, cal failure |
+| `set_display_digits` | set | `digits` (int) |  | select number of digits displayed (N mnemonic); sets integration time (.1/1/10 PLC) |
+
+<!-- END GENERATED multimeters_series -->
 
 <!-- BEGIN GENERATED dataloggers_series -->
 ### 3.5 Dataloggers (`dataloggers_series`)
@@ -630,8 +782,8 @@ The same logical call has the same arguments and logical values for every brand;
 * **Siglent SDS HD** `set_trigger_slope`: `EITHER` is mapped to `ALTernate`, which the guide describes as alternating edges.
 * **Siglent SDS2000X HD** `set_acquisition_depth`: the table of memory depths is the union of the single-channel and dual-channel values of the guide.
 * **Chroma 6330A** `set_mode`: the low range (`CCL`, `CRL`, `CPL`) is selected; the high range has no logical call yet.
-* **Multimeters** (HP 3478A, Agilent 34401A): there is no schema yet and no instrument available for testing. The library entries come from the manuals only and have never been run on a real instrument.
-* **HP 3478A** `read_measurement`: the library entry `ENTER` is a GPIB read, not a command string. A read-only step is needed in the executor, and the manual is a scanned image (no text).
+* **Multimeters** (HP 3478A, Agilent 34401A): no instrument is available for testing. The library entries come from the manuals only and have never been run on a real instrument. Only calls that both manuals document and that are text commands are mandatory.
+* **HP 3478A** bus messages: `read_measurement` is a `read` step (the 3478A talks when addressed, no command is sent). Device clear (`reset`), Group Execute Trigger (`trigger_bus`) and serial poll (`query_status_byte`) are GPIB bus messages, not text commands: the library has no entry for them until the executor can send bus messages. `set_resolution` of the 3478A selects digits, not a resolution in measurement units, so it is `set_display_digits`.
 * **OWON ODP** `select_channel` uses `INST:NSEL` (numeric); by the convention of the other power supplies that should be `select_channel_numeric`. The by-name variant is `select_channel_named`.
 * Legacy duplicates kept for compatibility: Tektronix `set_acquisition_mode` (same command as `set_acquisition_type`), HP E3631A `set_local_mode`/`set_remote_mode` (same commands as `set_local`/`set_remote`), TDK-Lambda GEN `set_local_remote`.
 

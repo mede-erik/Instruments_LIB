@@ -8,8 +8,11 @@ One file per instrument category. A schema file is the **contract** of that cate
 | `power_supply.json` | `power_supplies_series` |
 | `electronic_load.json` | `electronic_loads_series` |
 | `function_generator.json` | `function_generators_series` (see `docs/proposals/function-generator-calls.md`) |
+| `multimeter.json` | `multimeters_series` |
+| `datalogger.json` | `dataloggers_series` |
+| `vna.json` | `network_analyzers_series` |
 
-More categories are added one at a time (power supplies, electronic loads, dataloggers, multimeters, switch units).
+More categories are added one at a time (switch units are next).
 
 ## Schema file format
 
@@ -82,6 +85,8 @@ When the answer is several raw answers combined into one logical value (a wavefo
 ```
 
 `map` goes from the logical value to the text the instrument expects. A logical value that is not in the map is **not handled by this model** (error `CALL-002`). Without a `map`, an argument of type `bool` is sent as `ON`/`OFF`.
+
+With `"map_select": "ceiling"` the keys are numbers and a number takes the entry of the **smallest key that is not below it**: a measurement range that contains the value (HP 3478A: `set_range` with 1 V selects the 3 V range, `R0`). A value above the largest key is not handled (`CALL-002`).
 
 ### Derived parameters: one logical argument, several instrument values
 

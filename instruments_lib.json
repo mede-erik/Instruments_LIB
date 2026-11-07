@@ -15010,70 +15010,62 @@
             "query": null,
             "parameters": {
               "function": {
-                "type": "int",
-                "values": [
-                  "1",
-                  "2",
-                  "3",
-                  "4",
-                  "5",
-                  "6",
-                  "7"
-                ]
+                "type": "string",
+                "map": {
+                  "DC_VOLTAGE": "1",
+                  "AC_VOLTAGE": "2",
+                  "RESISTANCE_2W": "3",
+                  "RESISTANCE_4W": "4",
+                  "DC_CURRENT": "5",
+                  "AC_CURRENT": "6",
+                  "EXTENDED_RESISTANCE": "7"
+                }
               }
             }
           },
           "set_range": {
-            "description": "select measurement range (R mnemonic); invalid range clamps to most/least sensitive",
+            "description": "select measurement range (R mnemonic): R-2 30 mV, R-1 0.3 V/0.3 A, R0 3 V/3 A, R1 30 V/30 ohm ... R7 30 Mohm; the smallest range that contains the value is selected",
             "set": {
-              "syntax": "R{range}",
-              "args": [
-                "range"
-              ]
+              "syntax": "R{range_code}"
             },
             "query": null,
             "parameters": {
-              "range": {
+              "function": {
                 "type": "string",
-                "values": [
-                  "-3",
-                  "-2",
-                  "-1",
-                  "0",
-                  "1",
-                  "2",
-                  "3",
-                  "4",
-                  "5",
-                  "6",
-                  "7",
-                  "A"
-                ]
-              }
-            }
-          },
-          "set_resolution": {
-            "description": "select number of digits displayed (N mnemonic); sets integration time (.1/1/10 PLC)",
-            "set": {
-              "syntax": "N{digits}",
-              "args": [
-                "digits"
-              ]
-            },
-            "query": null,
-            "parameters": {
-              "digits": {
-                "type": "int",
-                "values": [
-                  "3",
-                  "4",
-                  "5"
-                ]
+                "map": {
+                  "DC_VOLTAGE": "1",
+                  "AC_VOLTAGE": "2",
+                  "RESISTANCE_2W": "3",
+                  "RESISTANCE_4W": "4",
+                  "DC_CURRENT": "5",
+                  "AC_CURRENT": "6",
+                  "EXTENDED_RESISTANCE": "7"
+                },
+                "notes": "not sent: the range applies to the function in use"
+              },
+              "range": {
+                "type": "float"
+              },
+              "range_code": {
+                "from": "range",
+                "map_select": "ceiling",
+                "map": {
+                  "0.03": "-2",
+                  "0.3": "-1",
+                  "3": "0",
+                  "30": "1",
+                  "300": "2",
+                  "3000": "3",
+                  "30000": "4",
+                  "300000": "5",
+                  "3000000": "6",
+                  "30000000": "7"
+                }
               }
             }
           },
           "set_trigger_source": {
-            "description": "select trigger mode (T mnemonic)",
+            "description": "select trigger mode (T mnemonic): T1 internal, T2 external, T3 single, T4 hold (a Group Execute Trigger takes one reading), T5 fast",
             "set": {
               "syntax": "T{source}",
               "args": [
@@ -15083,40 +15075,31 @@
             "query": null,
             "parameters": {
               "source": {
-                "type": "int",
-                "values": [
-                  "1",
-                  "2",
-                  "3",
-                  "4",
-                  "5"
-                ]
+                "type": "string",
+                "map": {
+                  "IMMEDIATE": "1",
+                  "EXTERNAL": "2",
+                  "BUS": "4"
+                }
               }
             }
-          },
-          "trigger_bus": {
-            "description": "HP-IB Group Execute Trigger (GET, oct 010) — messaggio di bus, non un codice ASCII; triggera una nuova lettura quando il 3478A e indirizzato a listen",
-            "set": {
-              "syntax": "GET"
-            },
-            "query": null
           },
           "set_autozero": {
             "description": "autozero on/off (Z mnemonic)",
             "set": {
-              "syntax": "Z{autozero}",
+              "syntax": "Z{mode}",
               "args": [
-                "autozero"
+                "mode"
               ]
             },
             "query": null,
             "parameters": {
-              "autozero": {
-                "type": "int",
-                "values": [
-                  "0",
-                  "1"
-                ]
+              "mode": {
+                "type": "string",
+                "map": {
+                  "OFF": "0",
+                  "ON": "1"
+                }
               }
             }
           },
@@ -15189,7 +15172,7 @@
             }
           },
           "calibrate": {
-            "description": "enter calibration (C mnemonic); procedura documentata nel Service Manual",
+            "description": "enter calibration (C mnemonic); procedure documented in the Service Manual",
             "set": {
               "syntax": "C"
             },
@@ -15238,35 +15221,88 @@
             }
           },
           "query_front_rear_input": {
-            "description": "return front/rear input switch position (S mnemonic); outputs '1' (front) or '0' (rear)",
+            "description": "front/rear input switch position (S mnemonic): true = front ('1'), false = rear ('0')",
             "set": null,
             "query": {
               "syntax": "S",
-              "return_type": "int"
-            }
-          },
-          "query_status_byte": {
-            "description": "serial poll status byte (HP-IB SPOLL): bit 7=power-on reset, 6=SRQ, 5=cal failed, 4=front panel SRQ, 3=hardware error, 2=syntax error, 0=data ready; bit 6 cleared by the poll",
-            "set": null,
-            "query": {
-              "syntax": "SPOLL",
-              "return_type": "int"
+              "return_type": "string",
+              "bool": {
+                "true": [
+                  "1"
+                ],
+                "false": [
+                  "0"
+                ]
+              }
             }
           },
           "read_measurement": {
-            "description": "read the measurement result addressing the 3478A to talk (ENTER); 13-byte ASCII format +d.dddddE+d CR LF, overload +9.99999E+9",
+            "description": "read the measurement result addressing the 3478A to talk (no command is sent); 13-byte ASCII format +d.dddddE+d CR LF, overload +9.99999E+9",
             "set": null,
             "query": {
-              "syntax": "ENTER",
+              "steps": [
+                {
+                  "op": "read",
+                  "returns": "float"
+                }
+              ],
               "return_type": "float"
             }
           },
-          "reset": {
-            "description": "HP-IB CLEAR (DCL/SDC) bus message; runs self test and restores power-on state; clears status registers",
+          "set_auto_range": {
+            "description": "autorange (RA); turning it off is done by selecting a fixed range with set_range",
             "set": {
-              "syntax": "CLEAR"
+              "syntax": "R{auto_code}"
             },
-            "query": null
+            "query": null,
+            "parameters": {
+              "function": {
+                "type": "string",
+                "map": {
+                  "DC_VOLTAGE": "1",
+                  "AC_VOLTAGE": "2",
+                  "RESISTANCE_2W": "3",
+                  "RESISTANCE_4W": "4",
+                  "DC_CURRENT": "5",
+                  "AC_CURRENT": "6",
+                  "EXTENDED_RESISTANCE": "7"
+                },
+                "notes": "not sent: the range applies to the function in use"
+              },
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "ON"
+                ]
+              },
+              "auto_code": {
+                "from": "state",
+                "map": {
+                  "true": "A"
+                }
+              }
+            }
+          },
+          "set_display_digits": {
+            "description": "select number of digits displayed (N mnemonic); sets integration time (.1/1/10 PLC)",
+            "set": {
+              "syntax": "N{digits}",
+              "args": [
+                "digits"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "digits": {
+                "type": "int",
+                "values": [
+                  "3",
+                  "4",
+                  "5"
+                ]
+              }
+            }
           }
         },
         "models": [
@@ -15284,7 +15320,7 @@
                   "notes": "Factory preset address 23 (rear-panel switches)"
                 }
               ],
-              "notes": "Solo HP-IB (IEEE-488). Lo strumento e pre-IEEE-488.2: linguaggio remoto HP classico a qualificatori numerici (F1R1T3...), non SCPI."
+              "notes": "HP-IB (IEEE-488) only. The instrument predates IEEE-488.2: classic HP remote language with numeric qualifiers (F1R1T3...), not SCPI."
             },
             "capabilities": {
               "number_of_channels": 1,
@@ -15477,10 +15513,20 @@
             },
             "parameters": {
               "range": {
-                "type": "float"
+                "type": "float",
+                "values": [
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
               },
               "resolution": {
-                "type": "float"
+                "type": "float",
+                "values": [
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
               }
             }
           },
@@ -15497,10 +15543,20 @@
             },
             "parameters": {
               "range": {
-                "type": "float"
+                "type": "float",
+                "values": [
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
               },
               "resolution": {
-                "type": "float"
+                "type": "float",
+                "values": [
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
               }
             }
           },
@@ -15517,10 +15573,20 @@
             },
             "parameters": {
               "range": {
-                "type": "float"
+                "type": "float",
+                "values": [
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
               },
               "resolution": {
-                "type": "float"
+                "type": "float",
+                "values": [
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
               }
             }
           },
@@ -15537,10 +15603,20 @@
             },
             "parameters": {
               "range": {
-                "type": "float"
+                "type": "float",
+                "values": [
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
               },
               "resolution": {
-                "type": "float"
+                "type": "float",
+                "values": [
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
               }
             }
           },
@@ -15557,10 +15633,20 @@
             },
             "parameters": {
               "range": {
-                "type": "float"
+                "type": "float",
+                "values": [
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
               },
               "resolution": {
-                "type": "float"
+                "type": "float",
+                "values": [
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
               }
             }
           },
@@ -15577,10 +15663,20 @@
             },
             "parameters": {
               "range": {
-                "type": "float"
+                "type": "float",
+                "values": [
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
               },
               "resolution": {
-                "type": "float"
+                "type": "float",
+                "values": [
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
               }
             }
           },
@@ -15597,10 +15693,20 @@
             },
             "parameters": {
               "range": {
-                "type": "float"
+                "type": "float",
+                "values": [
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
               },
               "resolution": {
-                "type": "float"
+                "type": "float",
+                "values": [
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
               }
             }
           },
@@ -15617,10 +15723,20 @@
             },
             "parameters": {
               "range": {
-                "type": "float"
+                "type": "float",
+                "values": [
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
               },
               "resolution": {
-                "type": "float"
+                "type": "float",
+                "values": [
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
               }
             }
           },
@@ -15637,10 +15753,20 @@
             },
             "parameters": {
               "range": {
-                "type": "float"
+                "type": "float",
+                "values": [
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
               },
               "resolution": {
-                "type": "float"
+                "type": "float",
+                "values": [
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
               }
             }
           },
@@ -15672,10 +15798,20 @@
             "query": null,
             "parameters": {
               "range": {
-                "type": "float"
+                "type": "float",
+                "values": [
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
               },
               "resolution": {
-                "type": "float"
+                "type": "float",
+                "values": [
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
               }
             }
           },
@@ -15691,10 +15827,20 @@
             "query": null,
             "parameters": {
               "range": {
-                "type": "float"
+                "type": "float",
+                "values": [
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
               },
               "resolution": {
-                "type": "float"
+                "type": "float",
+                "values": [
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
               }
             }
           },
@@ -15710,10 +15856,20 @@
             "query": null,
             "parameters": {
               "range": {
-                "type": "float"
+                "type": "float",
+                "values": [
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
               },
               "resolution": {
-                "type": "float"
+                "type": "float",
+                "values": [
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
               }
             }
           },
@@ -15729,10 +15885,20 @@
             "query": null,
             "parameters": {
               "range": {
-                "type": "float"
+                "type": "float",
+                "values": [
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
               },
               "resolution": {
-                "type": "float"
+                "type": "float",
+                "values": [
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
               }
             }
           },
@@ -15748,10 +15914,20 @@
             "query": null,
             "parameters": {
               "range": {
-                "type": "float"
+                "type": "float",
+                "values": [
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
               },
               "resolution": {
-                "type": "float"
+                "type": "float",
+                "values": [
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
               }
             }
           },
@@ -15767,10 +15943,20 @@
             "query": null,
             "parameters": {
               "range": {
-                "type": "float"
+                "type": "float",
+                "values": [
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
               },
               "resolution": {
-                "type": "float"
+                "type": "float",
+                "values": [
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
               }
             }
           },
@@ -15786,10 +15972,20 @@
             "query": null,
             "parameters": {
               "range": {
-                "type": "float"
+                "type": "float",
+                "values": [
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
               },
               "resolution": {
-                "type": "float"
+                "type": "float",
+                "values": [
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
               }
             }
           },
@@ -15805,10 +16001,20 @@
             "query": null,
             "parameters": {
               "range": {
-                "type": "float"
+                "type": "float",
+                "values": [
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
               },
               "resolution": {
-                "type": "float"
+                "type": "float",
+                "values": [
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
               }
             }
           },
@@ -15824,10 +16030,20 @@
             "query": null,
             "parameters": {
               "range": {
-                "type": "float"
+                "type": "float",
+                "values": [
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
               },
               "resolution": {
-                "type": "float"
+                "type": "float",
+                "values": [
+                  "MIN",
+                  "MAX",
+                  "DEF"
+                ]
               }
             }
           },
@@ -15877,7 +16093,20 @@
                   "PERiod",
                   "CONTinuity",
                   "DIODe"
-                ]
+                ],
+                "map": {
+                  "DC_VOLTAGE": "VOLTage:DC",
+                  "DC_VOLTAGE_RATIO": "VOLTage:DC:RATio",
+                  "AC_VOLTAGE": "VOLTage:AC",
+                  "DC_CURRENT": "CURRent:DC",
+                  "AC_CURRENT": "CURRent:AC",
+                  "RESISTANCE_2W": "RESistance",
+                  "RESISTANCE_4W": "FRESistance",
+                  "FREQUENCY": "FREQuency",
+                  "PERIOD": "PERiod",
+                  "CONTINUITY": "CONTinuity",
+                  "DIODE": "DIODe"
+                }
               }
             }
           },
@@ -15886,7 +16115,37 @@
             "set": null,
             "query": {
               "syntax": "FUNCtion?",
-              "return_type": "string"
+              "return_type": "string",
+              "response_map": {
+                "\"VOLT\"": "DC_VOLTAGE",
+                "VOLT": "DC_VOLTAGE",
+                "\"VOLT:DC\"": "DC_VOLTAGE",
+                "VOLT:DC": "DC_VOLTAGE",
+                "\"VOLT:RAT\"": "DC_VOLTAGE_RATIO",
+                "VOLT:RAT": "DC_VOLTAGE_RATIO",
+                "\"VOLT:DC:RAT\"": "DC_VOLTAGE_RATIO",
+                "VOLT:DC:RAT": "DC_VOLTAGE_RATIO",
+                "\"VOLT:AC\"": "AC_VOLTAGE",
+                "VOLT:AC": "AC_VOLTAGE",
+                "\"CURR\"": "DC_CURRENT",
+                "CURR": "DC_CURRENT",
+                "\"CURR:DC\"": "DC_CURRENT",
+                "CURR:DC": "DC_CURRENT",
+                "\"CURR:AC\"": "AC_CURRENT",
+                "CURR:AC": "AC_CURRENT",
+                "\"RES\"": "RESISTANCE_2W",
+                "RES": "RESISTANCE_2W",
+                "\"FRES\"": "RESISTANCE_4W",
+                "FRES": "RESISTANCE_4W",
+                "\"FREQ\"": "FREQUENCY",
+                "FREQ": "FREQUENCY",
+                "\"PER\"": "PERIOD",
+                "PER": "PERIOD",
+                "\"CONT\"": "CONTINUITY",
+                "CONT": "CONTINUITY",
+                "\"DIOD\"": "DIODE",
+                "DIOD": "DIODE"
+              }
             }
           },
           "set_range": {
@@ -15909,7 +16168,15 @@
                   "CURRent:AC",
                   "RESistance",
                   "FRESistance"
-                ]
+                ],
+                "map": {
+                  "DC_VOLTAGE": "VOLTage:DC",
+                  "AC_VOLTAGE": "VOLTage:AC",
+                  "DC_CURRENT": "CURRent:DC",
+                  "AC_CURRENT": "CURRent:AC",
+                  "RESISTANCE_2W": "RESistance",
+                  "RESISTANCE_4W": "FRESistance"
+                }
               },
               "range": {
                 "type": "float"
@@ -15936,7 +16203,15 @@
                   "CURRent:AC",
                   "RESistance",
                   "FRESistance"
-                ]
+                ],
+                "map": {
+                  "DC_VOLTAGE": "VOLTage:DC",
+                  "AC_VOLTAGE": "VOLTage:AC",
+                  "DC_CURRENT": "CURRent:DC",
+                  "AC_CURRENT": "CURRent:AC",
+                  "RESISTANCE_2W": "RESistance",
+                  "RESISTANCE_4W": "FRESistance"
+                }
               }
             }
           },
@@ -15960,7 +16235,15 @@
                   "CURRent:AC",
                   "RESistance",
                   "FRESistance"
-                ]
+                ],
+                "map": {
+                  "DC_VOLTAGE": "VOLTage:DC",
+                  "AC_VOLTAGE": "VOLTage:AC",
+                  "DC_CURRENT": "CURRent:DC",
+                  "AC_CURRENT": "CURRent:AC",
+                  "RESISTANCE_2W": "RESistance",
+                  "RESISTANCE_4W": "FRESistance"
+                }
               },
               "state": {
                 "type": "string",
@@ -15991,7 +16274,15 @@
                   "CURRent:AC",
                   "RESistance",
                   "FRESistance"
-                ]
+                ],
+                "map": {
+                  "DC_VOLTAGE": "VOLTage:DC",
+                  "AC_VOLTAGE": "VOLTage:AC",
+                  "DC_CURRENT": "CURRent:DC",
+                  "AC_CURRENT": "CURRent:AC",
+                  "RESISTANCE_2W": "RESistance",
+                  "RESISTANCE_4W": "FRESistance"
+                }
               }
             }
           },
@@ -16099,7 +16390,15 @@
                   "CURRent:AC",
                   "RESistance",
                   "FRESistance"
-                ]
+                ],
+                "map": {
+                  "DC_VOLTAGE": "VOLTage:DC",
+                  "AC_VOLTAGE": "VOLTage:AC",
+                  "DC_CURRENT": "CURRent:DC",
+                  "AC_CURRENT": "CURRent:AC",
+                  "RESISTANCE_2W": "RESistance",
+                  "RESISTANCE_4W": "FRESistance"
+                }
               },
               "resolution": {
                 "type": "float"
@@ -16126,7 +16425,15 @@
                   "CURRent:AC",
                   "RESistance",
                   "FRESistance"
-                ]
+                ],
+                "map": {
+                  "DC_VOLTAGE": "VOLTage:DC",
+                  "AC_VOLTAGE": "VOLTage:AC",
+                  "DC_CURRENT": "CURRent:DC",
+                  "AC_CURRENT": "CURRent:AC",
+                  "RESISTANCE_2W": "RESistance",
+                  "RESISTANCE_4W": "FRESistance"
+                }
               }
             }
           },
@@ -16149,7 +16456,14 @@
                   "CURRent:DC",
                   "RESistance",
                   "FRESistance"
-                ]
+                ],
+                "map": {
+                  "DC_VOLTAGE": "VOLTage:DC",
+                  "DC_VOLTAGE_RATIO": "VOLTage:DC:RATio",
+                  "DC_CURRENT": "CURRent:DC",
+                  "RESISTANCE_2W": "RESistance",
+                  "RESISTANCE_4W": "FRESistance"
+                }
               },
               "nplc": {
                 "type": "string",
@@ -16182,7 +16496,14 @@
                   "CURRent:DC",
                   "RESistance",
                   "FRESistance"
-                ]
+                ],
+                "map": {
+                  "DC_VOLTAGE": "VOLTage:DC",
+                  "DC_VOLTAGE_RATIO": "VOLTage:DC:RATio",
+                  "DC_CURRENT": "CURRent:DC",
+                  "RESISTANCE_2W": "RESistance",
+                  "RESISTANCE_4W": "FRESistance"
+                }
               }
             }
           },
@@ -16349,7 +16670,12 @@
                   "BUS",
                   "IMMediate",
                   "EXTernal"
-                ]
+                ],
+                "map": {
+                  "IMMEDIATE": "IMMediate",
+                  "BUS": "BUS",
+                  "EXTERNAL": "EXTernal"
+                }
               }
             }
           },
@@ -16358,7 +16684,12 @@
             "set": null,
             "query": {
               "syntax": "TRIGger:SOURce?",
-              "return_type": "string"
+              "return_type": "string",
+              "response_map": {
+                "IMM": "IMMEDIATE",
+                "BUS": "BUS",
+                "EXT": "EXTERNAL"
+              }
             }
           },
           "set_trigger_count": {
@@ -16468,11 +16799,11 @@
             "query": null
           },
           "read_measurement": {
-            "description": "arm and take measurement, readings sent directly to output buffer (INITiate + FETCh? in one)",
+            "description": "arm and take measurement, readings sent directly to the output buffer (INITiate + FETCh? in one); one reading (sample and trigger count 1)",
             "set": null,
             "query": {
               "syntax": "READ?",
-              "return_type": "string"
+              "return_type": "float"
             }
           },
           "fetch_readings": {
@@ -16480,7 +16811,8 @@
             "set": null,
             "query": {
               "syntax": "FETCh?",
-              "return_type": "string"
+              "return_type": "float",
+              "as_list": true
             }
           },
           "query_reading_count": {
