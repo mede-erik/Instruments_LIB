@@ -1,3 +1,7 @@
+# Copyright (C) 2025-2026 Erik Medeossi
+# This file is part of Open Lab Automation.
+# Licensed under the GNU General Public License v3.0; see the LICENSE file.
+
 """Offline checks of the library data (instruments_lib.json and schema/*.json).
 
 They need only Python and pytest (no application, no instrument) and complement
@@ -26,9 +30,9 @@ TYPE_KINDS = {"enum", "bool", "list", "mapping"}
 CALL_KINDS = {"set", "query", "action"}
 REQUIREMENTS = {"mandatory", "optional"}
 STEP_OPS = {"write", "query", "read", "delay"}
-STEP_FIELDS = {"op", "text", "ms", "timeout_ms", "returns"}
+STEP_FIELDS = {"op", "text", "ms", "timeout_ms", "returns", "when", "foreach"}
+GROUP_FIELDS = {"steps", "foreach", "when"}  # a group of steps repeated with foreach
 RETURNS = {"string", "float", "int", "binary"}
-CONNECTION_TYPES = {"LXI", "USB-TMC", "SERIAL", "GPIB", "USB"}
 TRANSPORT_KINDS = {"vxi11", "raw_socket", "usbtmc", "serial", "hislip", "gpib"}
 FLOW_CONTROL = {"none", "xon_xoff", "rts_cts", "dtr_dsr"}
 PLACEHOLDER = re.compile(r"\{(\w+)\}")
@@ -206,7 +210,8 @@ def test_interface_and_transports(model_id):
     conns = model.get("interface", {}).get("supported_connection_types")
     assert conns, "no supported_connection_types"
     for conn in conns:
-        assert conn.get("type") in CONNECTION_TYPES, conn.get("type")
+        # "type" is a label shown to the user (LXI, USB-TMC, "LXI raw socket", ...)
+        assert isinstance(conn.get("type"), str) and conn["type"].strip(), conn
         for t in conn.get("transports") or []:
             kind = t.get("kind")
             assert kind in TRANSPORT_KINDS, kind
@@ -219,7 +224,8 @@ def test_interface_and_transports(model_id):
                 assert t.get("stop_bits", 1) in (1, 1.5, 2)
                 assert t.get("flow_control", "none") in FLOW_CONTROL
                 for key in ("write_termination", "read_termination"):
-                    assert isinstance(t.get(key, "\n"), str) and t.get(key, "\n")
+                    # empty for a binary protocol without terminator (LiteVNA)
+                    assert isinstance(t.get(key, "\n"), str)
 
 
 def test_documentation_files_exist():
@@ -286,6 +292,42 @@ def test_commands_have_an_implementation():
     assert bad == []
 
 
+def _flat(steps):
+    """The steps of a plan with the groups (``{"steps": [...], "foreach": ...}``) opened."""
+    for step in steps:
+        if "steps" in step and "op" not in step:
+            yield from _flat(step["steps"])
+        else:
+            yield step
+
+
+def _check_steps(steps, where, bad):
+    for i, s in enumerate(steps):
+        tag = f"{where}[{i}]"
+        if "steps" in s and "op" not in s:  # a group
+            if set(s) - GROUP_FIELDS:
+                bad.append(f"{tag}: unknown group fields {sorted(set(s) - GROUP_FIELDS)}")
+            if not s["steps"]:
+                bad.append(f"{tag}: empty group")
+            _check_steps(s["steps"], tag, bad)
+            continue
+        if set(s) - STEP_FIELDS:
+            bad.append(f"{tag}: unknown fields {sorted(set(s) - STEP_FIELDS)}")
+        op = s.get("op")
+        if op not in STEP_OPS:
+            bad.append(f"{tag}: op {op!r}")
+        if op in ("write", "query") and not s.get("text"):
+            bad.append(f"{tag}: '{op}' without text")
+        if op == "delay" and not (isinstance(s.get("ms"), (int, float)) and s["ms"] >= 0):
+            bad.append(f"{tag}: delay without ms >= 0")
+        if "returns" in s and (op not in ("query", "read") or s["returns"] not in RETURNS):
+            bad.append(f"{tag}: returns {s['returns']!r} on {op}")
+        if "when" in s and not (isinstance(s["when"], dict) and s["when"]):
+            bad.append(f"{tag}: 'when' must map an argument to its value(s)")
+        if "foreach" in s and not isinstance(s["foreach"], str):
+            bad.append(f"{tag}: 'foreach' must name a list argument")
+
+
 def test_steps_are_valid():
     bad = []
     for where, name, d in COMMANDS:
@@ -295,28 +337,20 @@ def test_steps_are_valid():
             if "steps" not in h and not h.get("syntax"):
                 bad.append(f"{where}.{name}.{half}: neither 'steps' nor 'syntax'")
             steps = h.get("steps", [])
-            for i, s in enumerate(steps):
-                tag = f"{where}.{name}.{half}[{i}]"
-                if set(s) - STEP_FIELDS:
-                    bad.append(f"{tag}: unknown fields {sorted(set(s) - STEP_FIELDS)}")
-                op = s.get("op")
-                if op not in STEP_OPS:
-                    bad.append(f"{tag}: op {op!r}")
-                if op in ("write", "query") and not s.get("text"):
-                    bad.append(f"{tag}: '{op}' without text")
-                if op == "delay" and not (isinstance(s.get("ms"), (int, float)) and s["ms"] >= 0):
-                    bad.append(f"{tag}: delay without ms >= 0")
-                if "returns" in s and (op not in ("query", "read") or s["returns"] not in RETURNS):
-                    bad.append(f"{tag}: returns {s['returns']!r} on {op}")
+            _check_steps(steps, f"{where}.{name}.{half}", bad)
             if (
                 half == "query"
                 and steps
-                and not any(s.get("op") in ("query", "read") for s in steps)
+                and not any(st.get("op") in ("query", "read") for st in _flat(steps))
             ):
                 bad.append(f"{where}.{name}.query: no query/read step")
             if "result_step" in h and not 0 <= h["result_step"] < max(len(steps), 1):
                 bad.append(f"{where}.{name}.{half}: result_step out of range")
-            if "parse" in h and any(i >= len(steps) for i in h["parse"].get("from_steps", [])):
+            source = h.get("parse", {}).get("from_steps", [])  # step indexes, or "queries"
+            if isinstance(source, str):
+                if source != "queries":
+                    bad.append(f"{where}.{name}.{half}: parse reads from {source!r}")
+            elif any(i >= len(steps) for i in source):
                 bad.append(f"{where}.{name}.{half}: parse reads a missing step")
             # a note in brackets is tolerated ("string (2 octal digits)"): the planner reads
             # the base type only
@@ -324,6 +358,19 @@ def test_steps_are_valid():
             if rt is not None and rt.split(" (")[0] not in RETURNS | {"bool", "raw", "list"}:
                 bad.append(f"{where}.{name}.{half}: return_type {rt!r}")
     assert bad == []
+
+
+FOREACH_VARS = {"item", "index", "n"}
+
+
+def _texts(steps, in_foreach):
+    """(text, inside a foreach) of every step, groups included."""
+    for step in steps:
+        inside = in_foreach or "foreach" in step
+        if "steps" in step and "op" not in step:
+            yield from _texts(step["steps"], inside)
+        else:
+            yield step.get("text") or "", inside
 
 
 @pytest.mark.parametrize("model_id", MODEL_IDS)
@@ -337,11 +384,13 @@ def test_placeholders_are_declared(model_id):
         if not isinstance(d, dict) or "driver" in d:
             continue
         declared = set(d.get("parameters") or {}) | set(calls.get(name, {}).get("args", {}))
+        # a list argument also gives {<name>_count}; inside foreach: {item}, {index}, {n}
+        declared |= {f"{a}_count" for a in declared}
         for half, h in _halves(d):
-            texts = [h.get("syntax") or ""] + [s.get("text") or "" for s in h.get("steps", [])]
-            for text in texts:
+            texts = [(h.get("syntax") or "", False)] + list(_texts(h.get("steps", []), False))
+            for text, in_foreach in texts:
                 for p in PLACEHOLDER.findall(text):
-                    if p not in declared:
+                    if p not in declared and not (in_foreach and p in FOREACH_VARS):
                         bad.append(f"{name}.{half}: '{{{p}}}' is not declared")
     assert bad == []
 

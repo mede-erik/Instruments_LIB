@@ -1,3 +1,7 @@
+# Copyright (C) 2025-2026 Erik Medeossi
+# This file is part of Open Lab Automation.
+# Licensed under the GNU General Public License v3.0; see the LICENSE file.
+
 """check_conformance.py must report what it promises: these tests feed it small libraries with
 one known defect each and check the exit code and the message."""
 
