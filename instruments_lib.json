@@ -20072,6 +20072,134 @@
         ]
       }
     ],
-    "function_generators_series": []
+    "function_generators_series": [
+      {
+        "series_id": "Digilent_AnalogDiscovery_Series",
+        "series_name": "Digilent Analog Discovery USB instruments: arbitrary waveform generator (WaveForms SDK)",
+        "common_scpi_commands": {
+          "identification_query": {
+            "description": "the manufacturer, device name and serial number from the WaveForms enumeration (FDwfEnumDeviceName, FDwfEnumSN); there is no firmware field",
+            "driver": {
+              "function": "identification_query"
+            }
+          },
+          "reset": {
+            "description": "FDwfAnalogOutReset on all channels: every AnalogOut parameter back to its default",
+            "driver": {
+              "function": "reset"
+            }
+          },
+          "set_output_state": {
+            "description": "on: the carrier node is enabled (FDwfAnalogOutNodeEnableSet) and the channel is started (FDwfAnalogOutConfigure true); off: the channel is stopped (FDwfAnalogOutConfigure false) and the carrier node is disabled. The channel number is 1-based, the SDK index is 0-based",
+            "driver": {
+              "function": "set_output_state"
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "state": {
+                "type": "bool"
+              }
+            }
+          },
+          "set_frequency": {
+            "description": "FDwfAnalogOutNodeFrequencySet on the carrier node, in Hz (the range reported by FDwfAnalogOutNodeFrequencyInfo is the DAC rate, not the limit of a waveform, so the device refuses what it cannot do)",
+            "driver": {
+              "function": "set_frequency"
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "set_amplitude": {
+            "description": "FDwfAnalogOutNodeAmplitudeSet on the carrier node. The reference manual gives the amplitude 'in Volts' and does not say peak or peak-to-peak: the driver sends half of the peak-to-peak value (the usual WaveForms meaning of amplitude is the peak) - TO BE VERIFIED on a device. A value outside FDwfAnalogOutNodeAmplitudeInfo is not handled",
+            "driver": {
+              "function": "set_amplitude"
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "set_waveform_shape": {
+            "description": "FDwfAnalogOutNodeFunctionSet on the carrier node: SINE funcSine, SQUARE funcSquare, TRIANGLE funcTriangle, RAMP funcRampUp, NOISE funcNoise, DC funcDC; PULSE and ARBITRARY are not handled (a custom waveform needs its data); a function the device does not list in FDwfAnalogOutNodeFunctionInfo is not handled",
+            "driver": {
+              "function": "set_waveform_shape"
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "shape": {
+                "type": "waveform_shape",
+                "values": [
+                  "SINE",
+                  "SQUARE",
+                  "TRIANGLE",
+                  "RAMP",
+                  "PULSE",
+                  "NOISE",
+                  "DC",
+                  "ARBITRARY"
+                ]
+              }
+            }
+          },
+          "set_offset": {
+            "description": "FDwfAnalogOutNodeOffsetSet on the carrier node, in Volts; a value outside FDwfAnalogOutNodeOffsetInfo is not handled",
+            "driver": {
+              "function": "set_offset"
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "value": {
+                "type": "float"
+              }
+            }
+          }
+        },
+        "models": [
+          {
+            "id": "FGEN_Digilent_AnalogDiscovery2",
+            "name": "Digilent Analog Discovery 2 (waveform generator)",
+            "manufacturer": "Digilent",
+            "model": "Analog Discovery 2",
+            "documentation_path": "docs/Digilent/Analog_Discovery_Series/waveforms_sdk_reference_manual.pdf",
+            "access": "driver",
+            "driver_id": "waveforms",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "WAVEFORMS",
+                  "address_format_example": "DWF::<serial number>",
+                  "notes": "USB, through the Digilent WaveForms runtime (the dwf library), not VISA. The address is DWF (the first device found) or DWF::<serial number> as FDwfEnumSN gives it, without the SN: prefix. The same device is also an oscilloscope and more: here only its AnalogOut (waveform generator) instrument.",
+                  "transports": [
+                    {
+                      "kind": "dwf"
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "notes": "The number of channels and the ranges of frequency, amplitude and offset are read from the device (FDwfAnalogOutCount and the FDwfAnalogOutNode...Info functions); the reference manual gives no figure for a device."
+            },
+            "experimental": true
+          }
+        ]
+      }
+    ]
   }
 }

@@ -47,3 +47,24 @@ What the manual does give, to be used for the `capabilities` of the models when 
 * Counter / frequency meter (CH1 input), linear and logarithmic sweep (CH1), 20 memories: nothing in the logical calls yet.
 
 This is why `TRIANGLE` was added to `waveform_shape`.
+
+## First model: Digilent Analog Discovery 2 (`FGEN_Digilent_AnalogDiscovery2`)
+
+The WaveForms SDK reference manual (`docs/Digilent/Analog_Discovery_Series/waveforms_sdk_reference_manual.pdf`, AnalogOut chapter) documents everything the mandatory calls need, so the AD2 is the first model. It is a **driver** model (`access: driver`, `driver_id: waveforms`) with its own connection kind `dwf` (the WaveForms runtime, address `DWF::<serial number>`), implemented by `ola/drivers/waveforms.py` of the application.
+
+| Call | WaveForms |
+|---|---|
+| `set_output_state` | `FDwfAnalogOutNodeEnableSet` (carrier) + `FDwfAnalogOutConfigure` (start / stop); channel number 1-based, SDK index 0-based |
+| `set_frequency` | `FDwfAnalogOutNodeFrequencySet` (Hz) |
+| `set_amplitude` | `FDwfAnalogOutNodeAmplitudeSet` |
+| `set_offset` | `FDwfAnalogOutNodeOffsetSet` |
+| `set_waveform_shape` | `FDwfAnalogOutNodeFunctionSet`: `SINE` funcSine, `SQUARE` funcSquare, `TRIANGLE` funcTriangle, `RAMP` funcRampUp, `NOISE` funcNoise, `DC` funcDC. `PULSE` and `ARBITRARY` are not handled (a custom waveform needs its data) |
+| `reset` | `FDwfAnalogOutReset` (all channels) |
+| `identification_query` | `FDwfEnumDeviceName` + `FDwfEnumSN` |
+
+**Experimental, to verify on the device (the owner has an AD2):**
+
+1. **Amplitude.** The manual says "Volts" and not whether it is peak or peak-to-peak. The driver sends half of the Vpp (the usual WaveForms meaning is the peak). Check with the scope of the same device: W1 to scope channel 1, 1 Vpp requested should read 1 Vpp. If it does not, the factor is one constant of the driver.
+2. **Numeric constants.** `enumfilterAll`, the node ids and the `FUNC` values are in `dwf.h` / `dwfconstants.py` of the SDK, **not in the reference manual**; the driver uses the values of those files (carrier 0, enumfilterAll 0, funcDC 0, funcSine 1, funcSquare 2, funcTriangle 3, funcRampUp 4, funcRampDown 5, funcNoise 6): compare them with `dwfconstants.py` of the installation.
+3. **Switching off.** `set_output_state(false)` stops the channel and disables the carrier node; check that the output goes to 0 V on the idle setting of the device.
+4. Number of channels and the ranges are read from the device; the manual has no figure for it.
