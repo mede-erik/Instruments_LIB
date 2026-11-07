@@ -1,0 +1,148 @@
+{
+  "schema_version": 1,
+  "category": "function_generators_series",
+  "description": "Logical calls of function / arbitrary waveform generators (one or more output channels). The amplitude is the peak-to-peak value the instrument is set to produce; what the circuit under test sees also depends on the output load setting of the instrument, which the application does not change.",
+  "types": {
+    "bool": {
+      "kind": "bool",
+      "description": "true/false; default text sent to the instrument is ON/OFF unless the library gives a map"
+    },
+    "waveform_shape": {
+      "kind": "enum",
+      "values": [
+        "SINE",
+        "SQUARE",
+        "TRIANGLE",
+        "RAMP",
+        "PULSE",
+        "NOISE",
+        "DC",
+        "ARBITRARY"
+      ],
+      "description": "waveform of an output; a model accepts the ones its manual lists (the others are not handled by this model, CALL-002)"
+    }
+  },
+  "calls": {
+    "identification_query": {
+      "requirement": "mandatory",
+      "kind": "query",
+      "description": "identification string (*IDN?)",
+      "result": {
+        "type": "string"
+      }
+    },
+    "set_frequency": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "frequency of the waveform of an output",
+      "args": {
+        "channel_number": {
+          "type": "int",
+          "min": 1,
+          "required": false,
+          "description": "output channel (1-based, 1 if omitted); ignored by single-output generators",
+          "default": 1
+        },
+        "value": {
+          "type": "float",
+          "unit": "Hz",
+          "min": 0
+        }
+      }
+    },
+    "set_amplitude": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "peak-to-peak amplitude of an output",
+      "args": {
+        "channel_number": {
+          "type": "int",
+          "min": 1,
+          "required": false,
+          "description": "output channel (1-based, 1 if omitted); ignored by single-output generators",
+          "default": 1
+        },
+        "value": {
+          "type": "float",
+          "unit": "Vpp",
+          "min": 0
+        }
+      }
+    },
+    "set_offset": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "DC offset of an output",
+      "args": {
+        "channel_number": {
+          "type": "int",
+          "min": 1,
+          "required": false,
+          "description": "output channel (1-based, 1 if omitted); ignored by single-output generators",
+          "default": 1
+        },
+        "value": {
+          "type": "float",
+          "unit": "V"
+        }
+      }
+    },
+    "set_waveform_shape": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "waveform of an output",
+      "args": {
+        "channel_number": {
+          "type": "int",
+          "min": 1,
+          "required": false,
+          "description": "output channel (1-based, 1 if omitted); ignored by single-output generators",
+          "default": 1
+        },
+        "shape": {
+          "type": "waveform_shape"
+        }
+      }
+    },
+    "reset": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "restore factory defaults (*RST); some generators (Rigol DG1000) document no reset"
+    },
+    "set_output_state": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "switch an output on or off; a measurement that needs it switches the outputs off before it starts and when it ends, also after an error. Some generators (Agilent 33120A) have no output switch in their command set",
+      "args": {
+        "channel_number": {
+          "type": "int",
+          "min": 1,
+          "required": false,
+          "description": "output channel (1-based, 1 if omitted); ignored by single-output generators",
+          "default": 1
+        },
+        "state": {
+          "type": "bool"
+        }
+      }
+    },
+    "clear_status": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "clear status registers (*CLS)"
+    },
+    "error_query": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "read and clear the oldest error",
+      "result": {
+        "type": "string"
+      }
+    },
+    "set_remote": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "enter remote mode (serial connections of some generators need it)"
+    }
+  }
+}

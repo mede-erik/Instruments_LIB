@@ -7,6 +7,7 @@ One file per instrument category. A schema file is the **contract** of that cate
 | `oscilloscope.json` | `oscilloscopes_series` |
 | `power_supply.json` | `power_supplies_series` |
 | `electronic_load.json` | `electronic_loads_series` |
+| `function_generator.json` | `function_generators_series` (see `docs/proposals/function-generator-calls.md`) |
 
 More categories are added one at a time (power supplies, electronic loads, dataloggers, multimeters, switch units).
 
@@ -123,6 +124,7 @@ An entry of `interface.supported_connection_types` can list the transports the m
 | `vxi11` | - (VISA address `TCPIP0::<ip>::inst0::INSTR`) |
 | `raw_socket` | `port` (and `port_configurable: true` if the user can change it) |
 | `usbtmc` | - |
+| `dwf` | - (the Digilent WaveForms runtime, not VISA; address `DWF` for the first device or `DWF::<serial number>`; the model has `access: driver` and `driver_id: waveforms`) |
 | `serial` | `baud`, `data_bits`, `parity` (`N`/`E`/`O`), `stop_bits`, `flow_control` (`none`, `xon_xoff`, `rts_cts`, `dtr_dsr`), `write_termination`, `read_termination`; `factory_defaults: true` means the values are the manual's factory settings and the instrument's front-panel menu may differ (a project can override them per instrument) |
 
 Example (Siglent SDS HD, from its programming guide): `"transports": [{"kind": "vxi11"}, {"kind": "raw_socket", "port": 5025}]`. Models without `transports` are not specified yet: the software must not assume a transport for them.
