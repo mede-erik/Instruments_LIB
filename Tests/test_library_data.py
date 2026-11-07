@@ -39,8 +39,8 @@ PLACEHOLDER = re.compile(r"\{(\w+)\}")
 
 # Known gaps of the library. The tests fail when a new gap appears and also when a listed gap
 # is fixed, so remove the entry together with the fix.
-KNOWN_MISSING_DOCUMENTATION = {"MTR_HP_3478A"}
-KNOWN_UNKNOWN_MODULES = {("DL_Agilent_34970A", "34907A")}
+KNOWN_MISSING_DOCUMENTATION = set()
+KNOWN_UNKNOWN_MODULES = set()
 
 
 def _load(path):
