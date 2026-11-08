@@ -9584,6 +9584,32 @@
         "documentation_path": "docs/Keysight/3497X_Series/Agilent 34970A⁄72A Command Reference.pdf"
       },
       {
+        "id": "34907A",
+        "name": "Keysight 34907A Multifunction Module",
+        "not_enabled": true,
+        "capabilities": {
+          "number_of_channels": 5,
+          "digital_io": {
+            "channels": [1, 2],
+            "bits": 8,
+            "notes": "Two non-isolated 8-bit input/output ports, internal +5 V pull-up"
+          },
+          "totalizer": {
+            "channels": [3],
+            "bits": 26,
+            "max_rate_hz": 100000
+          },
+          "dac": {
+            "channels": [4, 5],
+            "min_voltage": -12.0,
+            "max_voltage": 12.0,
+            "resolution_bits": 16,
+            "max_current": 0.01
+          }
+        },
+        "documentation_path": "docs/Keysight/3497X_Series/Keysight 34970A⁄34972A Data Acquisition Switch Unit.pdf"
+      },
+      {
         "id": "34908A",
         "name": "Keysight 34908A 40 Channel Single-Ended Multiplexer Module",
         "capabilities": {
@@ -15174,7 +15200,7 @@
             "set": null,
             "query": {
               "syntax": "B",
-              "return_type": "string (5 binary bytes)"
+              "return_type": "string"
             }
           },
           "clear_status": {
@@ -15189,7 +15215,7 @@
             "set": null,
             "query": {
               "syntax": "E",
-              "return_type": "string (2 octal digits)"
+              "return_type": "string"
             }
           },
           "set_srq_mask": {
@@ -15216,7 +15242,7 @@
             "set": null,
             "query": {
               "syntax": "S",
-              "return_type": "string ('1' or '0')"
+              "return_type": "int"
             }
           },
           "query_status_byte": {
@@ -15232,7 +15258,7 @@
             "set": null,
             "query": {
               "syntax": "ENTER",
-              "return_type": "string (13-byte ASCII float)"
+              "return_type": "float"
             }
           },
           "reset": {
@@ -15249,7 +15275,7 @@
             "name": "HP 3478A Multimeter",
             "manufacturer": "HP",
             "model": "3478A",
-            "documentation_path": "docs/HP/3478A_Series/3478A Multimeter Operator Manual.pdf",
+            "documentation_path": "docs/HP/3478A_Series/HP3478_Service_Manual.pdf",
             "interface": {
               "supported_connection_types": [
                 {
