@@ -1,73 +1,73 @@
 # Tests
 
-Script per testare i comandi SCPI definiti in `instruments_lib.json` contro strumenti reali, via PyVISA con il backend `pyvisa-py` (non serve NI-VISA installato).
+Script to test the SCPI commands defined in `instruments_lib.json` against real instruments, through PyVISA with the `pyvisa-py` backend (NI-VISA does not need to be installed).
 
-## Installazione
+## Installation
 
 ```bash
 pip install -r Tests/requirements.txt
 ```
 
-## Uso rapido
+## Quick start
 
 ```bash
-# Elenca i modelli disponibili nel database
+# List the models available in the database
 python3 Tests/test_instrument.py --list-models
 
-# Test con modello forzato (consigliato)
+# Test with a forced model (recommended)
 python3 Tests/test_instrument.py --model PSU_OWON_ODP3033 --visa "USB0::2363::4416::SERIAL::INSTR"
 
-# Auto-identificazione del modello da *IDN?
+# Auto-identification of the model from *IDN?
 python3 Tests/test_instrument.py --visa "TCPIP0::192.168.1.50::inst0::INSTR"
 
-# Solo verifica connessione
+# Connection check only
 python3 Tests/test_instrument.py --visa "TCPIP0::192.168.1.50::inst0::INSTR" --idn-only
 
-# Anteprima dei comandi senza connettersi
+# Preview of the commands without connecting
 python3 Tests/test_instrument.py --model PSU_OWON_ODP3033 --dry-run
 ```
 
-## Opzioni principali
+## Main options
 
-| Opzione | Descrizione |
+| Option | Description |
 |---|---|
-| `--model ID` | id del modello nel JSON (es. `PSU_OWON_ODP3033`) |
-| `--visa ADDR` | indirizzo VISA: `USB0::VID::PID::SN::INSTR`, `TCPIP0::IP::inst0::INSTR`, `GPIB0::5::INSTR`, `ASRL/dev/ttyUSB0::INSTR` |
-| `--dangerous` | esegue anche i comandi di **scrittura** (`set_*`, `output_on`, `load_on`, `*RST`...) |
-| `--channel N` | sostituisce il canale di default (`1`/`CH1`/`C1`/`OUT1`...) nei comandi parametrizzati |
-| `--only KEY` | esegue solo i comandi indicati (ripetibile) |
-| `--exclude KEY` | salta i comandi indicati (ripetibile) |
-| `--timeout MS` | timeout query (default 3000) |
-| `--delay S` | pausa tra i comandi (default 0.2) |
-| `--baud N` | baud rate per seriale (default 9600) |
-| `--no-error-queue` | non interroga la coda errori dopo ogni comando |
-| `--report FILE.json` | salva i risultati in JSON |
-| `-v` | mostra anche i comandi PASS |
+| `--model ID` | model id in the JSON (e.g. `PSU_OWON_ODP3033`) |
+| `--visa ADDR` | VISA address: `USB0::VID::PID::SN::INSTR`, `TCPIP0::IP::inst0::INSTR`, `GPIB0::5::INSTR`, `ASRL/dev/ttyUSB0::INSTR` |
+| `--dangerous` | also runs the **write** commands (`set_*`, `output_on`, `load_on`, `*RST`...) |
+| `--channel N` | replaces the default channel (`1`/`CH1`/`C1`/`OUT1`...) in parametrized commands |
+| `--only KEY` | runs only the given commands (repeatable) |
+| `--exclude KEY` | skips the given commands (repeatable) |
+| `--timeout MS` | query timeout (default 3000) |
+| `--delay S` | pause between commands (default 0.2) |
+| `--baud N` | baud rate for serial (default 9600) |
+| `--no-error-queue` | does not query the error queue after every command |
+| `--report FILE.json` | saves the results as JSON |
+| `-v` | also shows the PASS commands |
 
-## Comportamento
+## Behaviour
 
-1. **Carica** `instruments_lib.json` e risolve il modello (forzato con `--model` oppure dedotto da `*IDN?`).
-2. **Identifica** lo strumento con `*IDN?` e verifica la coerenza col modello.
-3. **Esegue** tutti i comandi della serie (`common_scpi_commands` + `scpi_commands` del modello):
-   - letture (`query_*`, `read_*`, `*STB?`, `*ESR?`, `error_query`...) sempre;
-   - scritture (`set_*`, `output_on/off`, `load_on/off`, reset...) **solo con `--dangerous`**.
-4. I parametri dei comandi vengono riempiti automaticamente: canale = primo canale del modello, enum = primo valore ammesso, float = `0.1`, int = `1`. Se un parametro non è gestibile il caso è marcato `SKIP`.
-5. **Valida** ogni risposta (tipo atteso da `return_type`) e interroga la **coda errori** dello strumento dopo ogni query per individuare sintassi errate.
-6. **Riepilogo** finale con conteggi e exit code: `0` = ok, `1` = almeno un FAIL/TIMEOUT.
+1. **Loads** `instruments_lib.json` and resolves the model (forced with `--model` or deduced from `*IDN?`).
+2. **Identifies** the instrument with `*IDN?` and checks that it matches the model.
+3. **Runs** all the commands of the series (`common_scpi_commands` + the model's `scpi_commands`):
+   - reads (`query_*`, `read_*`, `*STB?`, `*ESR?`, `error_query`...) always;
+   - writes (`set_*`, `output_on/off`, `load_on/off`, reset...) **only with `--dangerous`**.
+4. The command parameters are filled in automatically: channel = first channel of the model, enum = first allowed value, float = `0.1`, int = `1`. If a parameter cannot be handled the case is marked `SKIP`.
+5. **Validates** every response (type expected from `return_type`) and queries the instrument's **error queue** after every query to detect wrong syntax.
+6. Final **summary** with counts and exit code: `0` = ok, `1` = at least one FAIL/TIMEOUT.
 
-## Stati dei risultati
+## Result states
 
-| Stato | Significato |
+| State | Meaning |
 |---|---|
-| `PASS` | comando ok, risposta valida, coda errori pulita |
-| `FAIL` | risposta non valida o errore segnalato dallo strumento |
-| `WARN` | coda errori non interrogabile (strumento senza `SYST:ERR?`/`EVMsg?`) |
-| `SKIP` | parametro non gestito o comando di scrittura senza `--dangerous` |
-| `TIMEOUT` | nessuna risposta nel tempo indicato da `--timeout` (utile per capire sintassi non riconosciute) |
+| `PASS` | command ok, valid response, clean error queue |
+| `FAIL` | invalid response or error reported by the instrument |
+| `WARN` | error queue cannot be queried (instrument without `SYST:ERR?`/`EVMsg?`) |
+| `SKIP` | unhandled parameter or write command without `--dangerous` |
+| `TIMEOUT` | no response within the time given by `--timeout` (useful to find unrecognised syntax) |
 
-## Note di sicurezza
+## Safety notes
 
-- **Mai usare `--dangerous`** con strumenti connessi a carichi, DUT o circuiti alimentati: i comandi di scrittura cambiano lo stato reale dello strumento.
-- Prima di una sessione vera, fare sempre una prova con `--dry-run` per vedere cosa verrebbe inviato.
-- I valori scritti sono minimi e non dovrebbero causare danni, ma non sono una garanzia: `--channel` e `--only` permettono di limitare il raggio d'azione.
-- Alimentatori: non connettere mai l'uscita a nulla durante i test.
+- **Never use `--dangerous`** with instruments connected to loads, DUTs or powered circuits: the write commands change the real state of the instrument.
+- Before a real session, always do a trial with `--dry-run` to see what would be sent.
+- The values written are minimal and should not cause damage, but this is not a guarantee: `--channel` and `--only` let you limit the scope.
+- Power supplies: never connect the output to anything during the tests.
