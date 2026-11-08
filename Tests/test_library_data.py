@@ -239,6 +239,23 @@ def test_documentation_files_exist():
     assert KNOWN_MISSING_DOCUMENTATION - missing == set(), "fixed: update the known list"
 
 
+@pytest.mark.parametrize("category", ["oscilloscopes_series", "function_generators_series"])
+def test_oscilloscopes_and_generators_declare_their_channels(category):
+    """The configuration windows count the channels from number_of_channels / channels."""
+    bad = []
+    for cat, _, model in MODELS:
+        if cat != category:
+            continue
+        caps = model.get("capabilities", {})
+        count = caps.get("number_of_channels")
+        channels = caps.get("channels")
+        if not (isinstance(count, int) and count > 0) and not channels:
+            bad.append(model["id"])
+        elif channels and count is not None and len(channels) != count:
+            bad.append(f"{model['id']}: {len(channels)} channels, number_of_channels {count}")
+    assert bad == []
+
+
 def test_datalogger_modules():
     modules = LIBRARY.get("datalogger_modules", [])
     ids = [m.get("id") for m in modules]
