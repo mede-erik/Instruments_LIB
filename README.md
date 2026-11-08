@@ -1,22 +1,22 @@
 # Instruments_LIB
 
-Libreria JSON data-only che funge da **motore di regole** (Rule Engine) per un driver Python SCPI. Non contiene codice: il file `instruments_lib.json` descrive serie, modelli, comandi SCPI, interfacce fisiche e limiti hardware di ogni strumento, permettendo al driver di validare i dati, formattare le richieste, gestire le connessioni e interpretare le risposte in modo dinamico.
+Data-only JSON library that acts as a **rule engine** for a Python SCPI driver. It contains no code: the file `instruments_lib.json` describes the series, models, SCPI commands, physical interfaces and hardware limits of every instrument, so that the driver can validate data, format requests, manage connections and interpret responses dynamically.
 
-Per verificare la libreria con uno strumento reale vedi [TESTING.md](TESTING.md) (in inglese).
+To check the library against a real instrument see [TESTING.md](TESTING.md).
 
-## Struttura del file
+## File structure
 
-Il file `instruments_lib.json` è un unico oggetto con la chiave `instrument_library`, contenente 7 categorie:
+The file `instruments_lib.json` is a single object with the key `instrument_library`, containing 7 categories:
 
-| Chiave | Categoria | Esempi |
+| Key | Category | Examples |
 |---|---|---|
-| `power_supplies_series` | Alimentatori | OWON ODP, Keysight E36300, TDK-Lambda GEN, R&S HMP, HP E3631A |
-| `dataloggers_series` | Data logger (mainframe) | Keysight 34970A/34972A, Keysight DAQ970A |
-| `switch_units_series` | Unità di commutazione (senza motore di misura) | Agilent 3499A |
-| `datalogger_modules` | Datalogger card (moduli) | Keysight 34901A, 34902A, 34908A, DAQM900A, DAQM901A |
-| `multimeters_series` | Multimetri | HP 3478A, Agilent 34401A |
-| `oscilloscopes_series` | Oscilloscopi | Tektronix 5 Series MSO, Rigol DS1000Z, Siglent SDS HD |
-| `electronic_loads_series` | Carichi elettronici | Chroma 6330A, Keysight EL4900, Siglent SDL1000X-E |
+| `power_supplies_series` | Power supplies | OWON ODP, Keysight E36300, TDK-Lambda GEN, R&S HMP, HP E3631A |
+| `dataloggers_series` | Data loggers (mainframes) | Keysight 34970A/34972A, Keysight DAQ970A |
+| `switch_units_series` | Switch units (no measurement engine) | Agilent 3499A |
+| `datalogger_modules` | Datalogger cards (modules) | Keysight 34901A, 34902A, 34908A, DAQM900A, DAQM901A |
+| `multimeters_series` | Multimeters | HP 3478A, Agilent 34401A |
+| `oscilloscopes_series` | Oscilloscopes | Tektronix 5 Series MSO, Rigol DS1000Z, Siglent SDS HD |
+| `electronic_loads_series` | Electronic loads | Chroma 6330A, Keysight EL4900, Siglent SDL1000X-E |
 
 ```json
 {
@@ -32,11 +32,11 @@ Il file `instruments_lib.json` è un unico oggetto con la chiave `instrument_lib
 }
 ```
 
-## Struttura standard: Serie → Modelli
+## Standard structure: Series → Models
 
-Tutte le categorie (eccetto i datalogger, vedi sotto) seguono lo stesso schema a due livelli: una **serie** che raggruppa strumenti con lo stesso set di comandi SCPI, e una lista di **modelli** che specificano le varianti hardware.
+All categories (except the dataloggers, see below) follow the same two-level scheme: a **series** that groups instruments sharing the same set of SCPI commands, and a list of **models** that specify the hardware variants.
 
-### La serie
+### The series
 
 ```json
 {
@@ -47,14 +47,14 @@ Tutte le categorie (eccetto i datalogger, vedi sotto) seguono lo stesso schema a
 }
 ```
 
-| Campo | Tipo | Descrizione |
+| Field | Type | Description |
 |---|---|---|
-| `series_id` | string | Identificatore univoco della serie |
-| `series_name` | string | Nome leggibile della serie |
-| `common_scpi_commands` | object | Comandi SCPI condivisi da tutti i modelli della serie |
-| `models` | array | Lista dei modelli della serie |
+| `series_id` | string | Unique identifier of the series |
+| `series_name` | string | Readable name of the series |
+| `common_scpi_commands` | object | SCPI commands shared by all models of the series |
+| `models` | array | List of the models of the series |
 
-### Il modello
+### The model
 
 ```json
 {
@@ -70,27 +70,27 @@ Tutte le categorie (eccetto i datalogger, vedi sotto) seguono lo stesso schema a
 }
 ```
 
-| Campo | Tipo | Obbligatorio | Descrizione |
+| Field | Type | Required | Description |
 |---|---|---|---|
-| `id` | string | sì | Identificatore univoco, formato `{TYPE}_{MANUFACTURER}_{MODEL}` |
-| `name` | string | sì | Nome commerciale |
-| `manufacturer` | string | sì | Produttore |
-| `model` | string | sì | Codice modello |
-| `documentation_path` | string | sì | Percorso del manuale PDF |
-| `interface` | object | sì | Tipi di connessione supportati |
-| `capabilities` | object | sì | Limiti fisici e funzionalità |
-| `scpi_commands` | object | no | Comandi specifici del modello: sostituiscono, rimuovono (`null`) o modificano (`{"patch": {...}}`) quelli della serie, vedi `COMMAND_NAMES.md` sezione 7 |
-| `experimental` | bool | sì | `true` = non ancora validato su hardware reale |
+| `id` | string | yes | Unique identifier, format `{TYPE}_{MANUFACTURER}_{MODEL}` |
+| `name` | string | yes | Commercial name |
+| `manufacturer` | string | yes | Manufacturer |
+| `model` | string | yes | Model code |
+| `documentation_path` | string | yes | Path of the PDF manual |
+| `interface` | object | yes | Supported connection types |
+| `capabilities` | object | yes | Physical limits and features |
+| `scpi_commands` | object | no | Model-specific commands: they replace, remove (`null`) or modify (`{"patch": {...}}`) those of the series, see `COMMAND_NAMES.md` section 7 |
+| `experimental` | bool | yes | `true` = not yet validated on real hardware |
 
-## Il blocco `interface`
+## The `interface` block
 
-Definisce i protocolli di comunicazione supportati. Ogni tipo di connessione è un oggetto con:
+Defines the supported communication protocols. Each connection type is an object with:
 
-| Campo | Descrizione |
+| Field | Description |
 |---|---|
-| `type` | Protocollo: `LXI`, `USB-TMC`, `SERIAL`, `GPIB` |
-| `visa_resource_id_template` | Template di identificazione VISA |
-| `address_format_example` | Esempio della stringa di connessione pyvisa |
+| `type` | Protocol: `LXI`, `USB-TMC`, `SERIAL`, `GPIB` |
+| `visa_resource_id_template` | VISA identification template |
+| `address_format_example` | Example of the pyvisa connection string |
 
 ```json
 "interface": {
@@ -114,11 +114,11 @@ Definisce i protocolli di comunicazione supportati. Ogni tipo di connessione è 
 }
 ```
 
-## Il blocco `capabilities`
+## The `capabilities` block
 
-Contiene i limiti fisici dello strumento, usati dal driver per validare l'input dell'utente prima di inviare comandi. I campi variano per categoria:
+Contains the physical limits of the instrument, used by the driver to validate user input before sending commands. The fields vary by category:
 
-**Alimentatori** — canali con limiti per uscita:
+**Power supplies** — channels with limits per output:
 ```json
 "capabilities": {
   "number_of_channels": 3,
@@ -134,7 +134,7 @@ Contiene i limiti fisici dello strumento, usati dal driver per validare l'input 
 }
 ```
 
-**Oscilloscopi** — specifiche di acquisizione:
+**Oscilloscopes** — acquisition specifications:
 ```json
 "capabilities": {
   "number_of_channels": 4,
@@ -150,7 +150,7 @@ Contiene i limiti fisici dello strumento, usati dal driver per validare l'input 
 }
 ```
 
-**Carichi elettronici** — modalità operative e limiti di potenza:
+**Electronic loads** — operating modes and power limits:
 ```json
 "capabilities": {
   "number_of_channels": 1,
@@ -161,11 +161,11 @@ Contiene i limiti fisici dello strumento, usati dal driver per validare l'input 
 }
 ```
 
-## Il blocco `common_scpi_commands`
+## The `common_scpi_commands` block
 
-È il cuore del motore di regole. Ogni comando è un oggetto con tre fasi: **scrittura** (`set`), **lettura** (`query`) e **validazione** (`parameters`).
+This is the heart of the rule engine. Each command is an object with three phases: **write** (`set`), **read** (`query`) and **validation** (`parameters`).
 
-### Fase di scrittura (`set`)
+### Write phase (`set`)
 
 ```json
 "set_voltage": {
@@ -181,12 +181,12 @@ Contiene i limiti fisici dello strumento, usati dal driver per validare l'input 
 }
 ```
 
-| Campo | Descrizione |
+| Field | Description |
 |---|---|
-| `syntax` | Stringa SCPI grezza con placeholder `{nome}` |
-| `args` | Elenco ordinato delle variabili da iniettare nella stringa |
+| `syntax` | Raw SCPI string with `{name}` placeholders |
+| `args` | Ordered list of the variables to inject into the string |
 
-### Fase di lettura (`query`)
+### Read phase (`query`)
 
 ```json
 "read_voltage": {
@@ -199,21 +199,21 @@ Contiene i limiti fisici dello strumento, usati dal driver per validare l'input 
 }
 ```
 
-Il campo `return_type` istruisce il driver su come convertire la risposta:
+The `return_type` field tells the driver how to convert the response:
 
-| `return_type` | Conversione |
+| `return_type` | Conversion |
 |---|---|
-| `string` | Nessuna conversione |
-| `int` | Cast a intero |
-| `float` | Cast a numero decimale |
-| `binary` | Lettura in blocchi (es. forme d'onda) |
+| `string` | No conversion |
+| `int` | Cast to integer |
+| `float` | Cast to decimal number |
+| `binary` | Block read (e.g. waveforms) |
 
-### Fase di validazione (`parameters`)
+### Validation phase (`parameters`)
 
-| Campo | Descrizione |
+| Field | Description |
 |---|---|
-| `type` | Tipo del dato: `int`, `float`, `string` |
-| `values` | Elenco fisso di valori ammessi (vincolo statico) |
+| `type` | Data type: `int`, `float`, `string` |
+| `values` | Fixed list of allowed values (static constraint) |
 
 ```json
 "parameters": {
@@ -224,15 +224,15 @@ Il campo `return_type` istruisce il driver su come convertire la risposta:
 }
 ```
 
-Un comando può essere solo `set` (`query: null`), solo `query` (`set: null`), o entrambi.
+A command can be `set` only (`query: null`), `query` only (`set: null`), or both.
 
-## Struttura speciale: i Data Logger
+## Special structure: the Data Loggers
 
-I datalogger sono divisi in **due categorie separate**: il mainframe (`dataloggers_series`) e le card intercambiabili (`datalogger_modules`).
+The dataloggers are split into **two separate categories**: the mainframe (`dataloggers_series`) and the interchangeable cards (`datalogger_modules`).
 
-### Il mainframe (`dataloggers_series`)
+### The mainframe (`dataloggers_series`)
 
-Segue la struttura standard serie → modelli. Il modello del mainframe dichiara gli slot e i moduli compatibili:
+It follows the standard series → models structure. The mainframe model declares the slots and the compatible modules:
 
 ```json
 "capabilities": {
@@ -241,7 +241,7 @@ Segue la struttura standard serie → modelli. Il modello del mainframe dichiara
 }
 ```
 
-I comandi SCPI che operano sui canali usano il formato a range Keysight a **3 cifre** (slot + canale, K. 3497X per 34970A e 34972A): `"101:120"` → `(@101:120)`:
+The SCPI commands that operate on channels use the Keysight **3-digit** range format (slot + channel, Keysight 3497X for the 34970A and 34972A): `"101:120"` → `(@101:120)`:
 ```json
 "select_channels": {
   "set": {
@@ -254,11 +254,11 @@ I comandi SCPI che operano sui canali usano il formato a range Keysight a **3 ci
 }
 ```
 
-> **Eccezione Agilent 3499A** (categoria `switch_units_series`, vedi sotto): usa il formato `@snn` (slot + canale a 2 cifre, es. `(@101)`, `(@100:107)`). Il valore di `capabilities.channels` è una stringa tipo `"100:107"` — la `@` fa parte della sintassi SCPI (`(@{channels})`), non dell'ID canale. Il 3499A è inoltre un mainframe di switching **senza motore di misura** (niente `MEAS?`/`FETCh?`/`READ?`).
+> **Agilent 3499A exception** (category `switch_units_series`, see below): it uses the `@snn` format (slot + 2-digit channel, e.g. `(@101)`, `(@100:107)`). The value of `capabilities.channels` is a string like `"100:107"` — the `@` is part of the SCPI syntax (`(@{channels})`), not of the channel ID. The 3499A is also a switching mainframe **without a measurement engine** (no `MEAS?`/`FETCh?`/`READ?`).
 
-### Le card (`datalogger_modules`)
+### The cards (`datalogger_modules`)
 
-Array piatto di moduli intercambiabili, **senza** comandi SCPI propri (operano tramite i comandi del mainframe). Tutti i limiti fisici stanno dentro `capabilities`:
+Flat array of interchangeable modules, **without** SCPI commands of their own (they work through the mainframe commands). All physical limits are inside `capabilities`:
 
 ```json
 {
@@ -274,18 +274,18 @@ Array piatto di moduli intercambiabili, **senza** comandi SCPI propri (operano t
 }
 ```
 
-| Campo | Descrizione |
+| Field | Description |
 |---|---|
-| `id` | Identificatore del modulo (es. `34901A`) |
-| `name` | Nome completo del modulo |
-| `capabilities.number_of_channels` | Numero di canali |
-| `capabilities.measurement_types` | Tipi di misura supportati (es. `VOLT:DC`, `TEMP`) |
-| `capabilities.max_voltage` | Tensione massima |
-| `capabilities.speed` | Velocità di scansione (canali/s) |
-| `not_enabled` | `true` = modulo non ancora definito/completamente descritto |
+| `id` | Module identifier (e.g. `34901A`) |
+| `name` | Full name of the module |
+| `capabilities.number_of_channels` | Number of channels |
+| `capabilities.measurement_types` | Supported measurement types (e.g. `VOLT:DC`, `TEMP`) |
+| `capabilities.max_voltage` | Maximum voltage |
+| `capabilities.speed` | Scan speed (channels/s) |
+| `not_enabled` | `true` = module not yet defined/fully described |
 | `documentation_path` | Percorso del manuale PDF |
 
-I moduli non ancora abilitati (es. switch e matrici RF) mantengono comunque la struttura minima:
+Modules that are not yet enabled (e.g. switches and RF matrices) still keep the minimal structure:
 
 ```json
 {
@@ -298,44 +298,44 @@ I moduli non ancora abilitati (es. switch e matrici RF) mantengono comunque la s
 }
 ```
 
-## Convenzioni di naming
+## Naming conventions
 
-### ID dei modelli
+### Model IDs
 
-Gli ID seguono `{TYPE}_{MANUFACTURER}_{MODEL}`:
+IDs follow `{TYPE}_{MANUFACTURER}_{MODEL}`:
 
-| Tipo | Prefisso | Esempio |
+| Type | Prefix | Example |
 |---|---|---|
-| Alimentatore | `PSU_` | `PSU_OWON_ODP3033` |
+| Power supply | `PSU_` | `PSU_OWON_ODP3033` |
 | Data logger | `DL_` | `DL_Keysight_34972A` |
-| Multimetro | `MTR_` | `MTR_Agilent_34401A` |
-| Oscilloscopio | `OSC_` | `OSC_Tek_MSO54` |
-| Carico elettronico | `EL_` | `EL_Chroma_6330A` |
+| Multimeter | `MTR_` | `MTR_Agilent_34401A` |
+| Oscilloscope | `OSC_` | `OSC_Tek_MSO54` |
+| Electronic load | `EL_` | `EL_Chroma_6330A` |
 
-### ID dei canali
+### Channel IDs
 
-**Non sono standardizzati** — dipendono dal produttore e vanno verificati nella serie:
+**They are not standardized** — they depend on the manufacturer and must be checked in the series:
 
-| Produttore | ID canale | Esempio |
+| Manufacturer | Channel ID | Example |
 |---|---|---|
-| OWON | Numerico | `1`, `2`, `3` |
-| Keysight (PSU) | `CH` + numero | `CH1`, `CH2`, `CH3` |
-| Keysight (datalogger) | Range stringa (slot + canale 3 cifre) | `"101:120"` → `(@101:120)` |
-| Agilent 3499A | Formato `@snn` (slot + canale a 2 cifre) | `"100:107"`, `"101"` — renderizzato `(@100:107)` |
-| HP/Agilent multimetri | Canale singolo (nessun parametro canale) | — |
-| R&S | `OUT` + numero | `OUT1`..`OUT4` |
-| Tektronix | `CH` + numero | `CH1`..`CH8` |
-| Siglent | `C` + numero | `C1`..`C4` |
-| TDK-Lambda | `CH1` (canale singolo) | `CH1` |
+| OWON | Numeric | `1`, `2`, `3` |
+| Keysight (PSU) | `CH` + number | `CH1`, `CH2`, `CH3` |
+| Keysight (datalogger) | String range (slot + 3-digit channel) | `"101:120"` → `(@101:120)` |
+| Agilent 3499A | `@snn` format (slot + 2-digit channel) | `"100:107"`, `"101"` — rendered `(@100:107)` |
+| HP/Agilent multimeters | Single channel (no channel parameter) | — |
+| R&S | `OUT` + number | `OUT1`..`OUT4` |
+| Tektronix | `CH` + number | `CH1`..`CH8` |
+| Siglent | `C` + number | `C1`..`C4` |
+| TDK-Lambda | `CH1` (single channel) | `CH1` |
 
-## Flag `experimental`
+## The `experimental` flag
 
-- La maggior parte dei modelli ha `"experimental": true` = **non ancora validati su hardware reale** — i comandi SCPI possono differire dal manuale.
-- Tutti i modelli hanno `"experimental": true` (non ancora validati su hardware reale), eccetto la famiglia **Siglent SDS800X HD** (`OSC_Siglent_SDS804X_HD`, `OSC_Siglent_SDS814X_HD`, `OSC_Siglent_SDS824X_HD`, testata parzialmente).
+- Most models have `"experimental": true` = **not yet validated on real hardware** — the SCPI commands may differ from the manual.
+- All models have `"experimental": true` (not yet validated on real hardware), except the **Siglent SDS800X HD** family (`OSC_Siglent_SDS804X_HD`, `OSC_Siglent_SDS814X_HD`, `OSC_Siglent_SDS824X_HD`, partially tested).
 
-### Modello testato per serie
+### Tested model per series
 
-| Serie | Modello testato |
+| Series | Tested model |
 |---|---|
 | OWON ODP | X |
 | Keysight E36300 | X |
@@ -344,7 +344,7 @@ Gli ID seguono `{TYPE}_{MANUFACTURER}_{MODEL}`:
 | HP E3631A | X |
 | Keysight 3497X (34970A, 34972A) | X |
 | Agilent 3499A | X |
-| Moduli datalogger (34901A..34908A) | X |
+| Datalogger modules (34901A..34908A) | X |
 | HP 3478A | X |
 | Agilent 34401A | X |
 | Tektronix 5 Series MSO | X |
@@ -355,11 +355,11 @@ Gli ID seguono `{TYPE}_{MANUFACTURER}_{MODEL}`:
 | Keysight EL4900 | X |
 | Siglent SDL1000X | X |
 
-`X` = nessun modello della serie validato su hardware reale (`experimental: true`).
+`X` = no model of the series validated on real hardware (`experimental: true`).
 
-## Documentazione
+## Documentation
 
-- **`docs/COMMANDS.md` — riferimento dei nomi di richiamo canonici** dei comandi SCPI (chiave, descrizione, sintassi per serie). Usare questi nomi per chiamare gli strumenti: stessa operazione = stesso nome.
-- I manuali PDF vivono in `docs/{Manufacturer}/{Series}/`. Attenzione: la cartella dei manuali Siglent usa l'ortografia **Sigilent** (coerente con i riferimenti nel JSON).
+- **`docs/COMMANDS.md` — reference of the canonical call names** of the SCPI commands (key, description, syntax per series). Use these names to call the instruments: same operation = same name.
+- The PDF manuals live in `docs/{Manufacturer}/{Series}/`. Note: the folder of the Siglent manuals uses the spelling **Sigilent** (consistent with the references in the JSON).
 
-Tutti i percorsi `documentation_path` referenziati dal JSON ora puntano a PDF realmente presenti nel repo. Il manuale `docs/Tektronix/4-5-6-Series-MSO_Programmer_077189804.pdf` è presente come riferimento secondario aggiuntivo.
+All `documentation_path` values referenced by the JSON now point to PDFs that really exist in the repository. The manual `docs/Tektronix/4-5-6-Series-MSO_Programmer_077189804.pdf` is present as an additional secondary reference.
