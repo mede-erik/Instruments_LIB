@@ -421,6 +421,13 @@ def test_maps_translate_to_text():
                     bad.append(f"{where}.{name}.{pname}: {key} -> {value!r}")
             if p.get("map_default") not in (None, "pass"):
                 bad.append(f"{where}.{name}.{pname}: map_default {p['map_default']!r}")
+            if p.get("map_select") not in (None, "ceiling"):
+                bad.append(f"{where}.{name}.{pname}: map_select {p['map_select']!r}")
+            if p.get("map_select") == "ceiling":  # numeric keys: the smallest one >= the value
+                try:
+                    [float(k) for k in p.get("map") or {}]
+                except ValueError:
+                    bad.append(f"{where}.{name}.{pname}: map_select ceiling needs numeric keys")
         for half, h in _halves(d):
             for key, value in (h.get("response_map") or {}).items():
                 if not isinstance(value, str):

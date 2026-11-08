@@ -1,0 +1,1537 @@
+{
+  "schema_version": 1,
+  "category": "multimeters_series",
+  "description": "Logical calls of bench digital multimeters (one input). Mandatory calls are those documented by every multimeter manual of the library and doable with text commands.",
+  "types": {
+    "bool": {
+      "kind": "bool",
+      "description": "true/false"
+    },
+    "meter_function": {
+      "kind": "enum",
+      "values": [
+        "DC_VOLTAGE",
+        "DC_VOLTAGE_RATIO",
+        "AC_VOLTAGE",
+        "DC_CURRENT",
+        "AC_CURRENT",
+        "RESISTANCE_2W",
+        "RESISTANCE_4W",
+        "FREQUENCY",
+        "PERIOD",
+        "CONTINUITY",
+        "DIODE",
+        "EXTENDED_RESISTANCE"
+      ],
+      "description": "measurement function; EXTENDED_RESISTANCE is the HP 3478A extended-ohms mode"
+    },
+    "autozero_mode": {
+      "kind": "enum",
+      "values": [
+        "OFF",
+        "ON",
+        "ONCE"
+      ]
+    },
+    "trigger_source": {
+      "kind": "enum",
+      "values": [
+        "IMMEDIATE",
+        "BUS",
+        "EXTERNAL"
+      ],
+      "description": "IMMEDIATE = internal/continuous, BUS = software or GPIB trigger, EXTERNAL = rear input"
+    },
+    "float_list": {
+      "kind": "list",
+      "item": "float",
+      "description": "list of readings"
+    }
+  },
+  "calls": {
+    "set_function": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "select the measurement function",
+      "args": {
+        "function": {
+          "type": "meter_function"
+        }
+      }
+    },
+    "set_range": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "fixed measurement range: the smallest range of the instrument that contains this value (in the unit of the function)",
+      "args": {
+        "function": {
+          "type": "meter_function",
+          "required": false,
+          "description": "function the setting applies to; needed by instruments whose command names it (34401A)"
+        },
+        "range": {
+          "type": "float",
+          "min": 0
+        }
+      }
+    },
+    "set_auto_range": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "autoranging on/off",
+      "args": {
+        "function": {
+          "type": "meter_function",
+          "required": false,
+          "description": "function the setting applies to; needed by instruments whose command names it (34401A)"
+        },
+        "state": {
+          "type": "bool"
+        }
+      }
+    },
+    "set_autozero": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "autozero mode",
+      "args": {
+        "mode": {
+          "type": "autozero_mode"
+        }
+      }
+    },
+    "set_trigger_source": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "trigger source",
+      "args": {
+        "source": {
+          "type": "trigger_source"
+        }
+      }
+    },
+    "read_measurement": {
+      "requirement": "mandatory",
+      "kind": "query",
+      "description": "take (or read) one reading in the configured function",
+      "result": {
+        "type": "float"
+      }
+    },
+    "clear_status": {
+      "requirement": "mandatory",
+      "kind": "action",
+      "description": "clear the status registers"
+    },
+    "error_query": {
+      "requirement": "mandatory",
+      "kind": "query",
+      "description": "read one error (34401A error queue; HP 3478A error register, two octal digits)",
+      "result": {
+        "type": "string"
+      }
+    },
+    "reset": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "restore the power-on state (the HP 3478A needs the GPIB device clear, which is not a text command)"
+    },
+    "trigger_bus": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "software trigger (34401A *TRG; the HP 3478A needs the GPIB Group Execute Trigger, not a text command)"
+    },
+    "identification_query": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "identification string (*IDN?)",
+      "result": {
+        "type": "string"
+      }
+    },
+    "query_function": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "measurement function in use",
+      "result": {
+        "type": "meter_function"
+      }
+    },
+    "query_trigger_source": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "trigger source",
+      "result": {
+        "type": "trigger_source"
+      }
+    },
+    "query_front_rear_input": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "front/rear input switch (true = front)",
+      "result": {
+        "type": "bool"
+      }
+    },
+    "fetch_readings": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "readings stored by initiate_measurement",
+      "result": {
+        "type": "float_list"
+      }
+    },
+    "self_test": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "complete self test, returns 0 = pass, 1 = fail",
+      "result": {
+        "type": "int"
+      }
+    },
+    "query_status_byte": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query status byte summary register",
+      "result": {
+        "type": "int"
+      }
+    },
+    "query_event_status_register": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query standard event register (clears it)",
+      "result": {
+        "type": "int"
+      }
+    },
+    "enable_event_status_register": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "enable standard event register bits",
+      "args": {
+        "enable_value": {
+          "type": "int"
+        }
+      }
+    },
+    "query_event_status_enable": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query standard event enable register",
+      "result": {
+        "type": "int"
+      }
+    },
+    "enable_status_byte_register": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "enable status byte register bits (SRQ)",
+      "args": {
+        "enable_value": {
+          "type": "int"
+        }
+      }
+    },
+    "query_status_byte_enable": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query status byte enable register",
+      "result": {
+        "type": "int"
+      }
+    },
+    "operation_complete": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "set OPC bit (bit 0) in standard event register when done"
+    },
+    "operation_complete_query": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "returns 1 when all prior commands complete",
+      "result": {
+        "type": "int"
+      }
+    },
+    "set_power_on_status_clear": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "power-on status clear: clear enable masks at power-on",
+      "args": {
+        "state": {
+          "type": "string"
+        }
+      }
+    },
+    "query_power_on_status_clear": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query power-on status clear",
+      "result": {
+        "type": "int"
+      }
+    },
+    "measure_dc_voltage": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "preset and measure DCV, single-shot to output buffer",
+      "args": {
+        "range": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "MIN",
+            "MAX",
+            "DEF"
+          ],
+          "default": "DEF"
+        },
+        "resolution": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "MIN",
+            "MAX",
+            "DEF"
+          ],
+          "default": "DEF"
+        }
+      },
+      "result": {
+        "type": "float"
+      }
+    },
+    "measure_dc_voltage_ratio": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "preset and measure DC:DC ratio (range applies to Input terminals)",
+      "args": {
+        "range": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "MIN",
+            "MAX",
+            "DEF"
+          ],
+          "default": "DEF"
+        },
+        "resolution": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "MIN",
+            "MAX",
+            "DEF"
+          ],
+          "default": "DEF"
+        }
+      },
+      "result": {
+        "type": "float"
+      }
+    },
+    "measure_ac_voltage": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "preset and measure ACV true RMS (resolution fixed at 6.5 digits)",
+      "args": {
+        "range": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "MIN",
+            "MAX",
+            "DEF"
+          ],
+          "default": "DEF"
+        },
+        "resolution": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "MIN",
+            "MAX",
+            "DEF"
+          ],
+          "default": "DEF"
+        }
+      },
+      "result": {
+        "type": "float"
+      }
+    },
+    "measure_dc_current": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "preset and measure DCI",
+      "args": {
+        "range": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "MIN",
+            "MAX",
+            "DEF"
+          ],
+          "default": "DEF"
+        },
+        "resolution": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "MIN",
+            "MAX",
+            "DEF"
+          ],
+          "default": "DEF"
+        }
+      },
+      "result": {
+        "type": "float"
+      }
+    },
+    "measure_ac_current": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "preset and measure ACI true RMS (ranges 1 A, 3 A only)",
+      "args": {
+        "range": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "MIN",
+            "MAX",
+            "DEF"
+          ],
+          "default": "DEF"
+        },
+        "resolution": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "MIN",
+            "MAX",
+            "DEF"
+          ],
+          "default": "DEF"
+        }
+      },
+      "result": {
+        "type": "float"
+      }
+    },
+    "measure_resistance": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "preset and measure 2-wire ohms",
+      "args": {
+        "range": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "MIN",
+            "MAX",
+            "DEF"
+          ],
+          "default": "DEF"
+        },
+        "resolution": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "MIN",
+            "MAX",
+            "DEF"
+          ],
+          "default": "DEF"
+        }
+      },
+      "result": {
+        "type": "float"
+      }
+    },
+    "measure_resistance_4wire": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "preset and measure 4-wire ohms",
+      "args": {
+        "range": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "MIN",
+            "MAX",
+            "DEF"
+          ],
+          "default": "DEF"
+        },
+        "resolution": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "MIN",
+            "MAX",
+            "DEF"
+          ],
+          "default": "DEF"
+        }
+      },
+      "result": {
+        "type": "float"
+      }
+    },
+    "measure_frequency": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "preset and measure frequency, 3 Hz-300 kHz, returns 0 with no signal",
+      "args": {
+        "range": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "MIN",
+            "MAX",
+            "DEF"
+          ],
+          "default": "DEF"
+        },
+        "resolution": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "MIN",
+            "MAX",
+            "DEF"
+          ],
+          "default": "DEF"
+        }
+      },
+      "result": {
+        "type": "float"
+      }
+    },
+    "measure_period": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "preset and measure period, 0.33 s-3.3 us, returns 0 with no signal",
+      "args": {
+        "range": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "MIN",
+            "MAX",
+            "DEF"
+          ],
+          "default": "DEF"
+        },
+        "resolution": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "MIN",
+            "MAX",
+            "DEF"
+          ],
+          "default": "DEF"
+        }
+      },
+      "result": {
+        "type": "float"
+      }
+    },
+    "measure_continuity": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "preset and measure continuity (fixed 1 kOhm range, 5.5 digits)",
+      "result": {
+        "type": "float"
+      }
+    },
+    "measure_diode": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "preset and measure diode (fixed 1 Vdc range, 1 mA current source)",
+      "result": {
+        "type": "float"
+      }
+    },
+    "configure_dc_voltage": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "preset and configure DCV (no measurement initiated)",
+      "args": {
+        "range": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "MIN",
+            "MAX",
+            "DEF"
+          ],
+          "default": "DEF"
+        },
+        "resolution": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "MIN",
+            "MAX",
+            "DEF"
+          ],
+          "default": "DEF"
+        }
+      }
+    },
+    "configure_dc_voltage_ratio": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "preset and configure DC:DC ratio",
+      "args": {
+        "range": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "MIN",
+            "MAX",
+            "DEF"
+          ],
+          "default": "DEF"
+        },
+        "resolution": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "MIN",
+            "MAX",
+            "DEF"
+          ],
+          "default": "DEF"
+        }
+      }
+    },
+    "configure_ac_voltage": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "preset and configure ACV",
+      "args": {
+        "range": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "MIN",
+            "MAX",
+            "DEF"
+          ],
+          "default": "DEF"
+        },
+        "resolution": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "MIN",
+            "MAX",
+            "DEF"
+          ],
+          "default": "DEF"
+        }
+      }
+    },
+    "configure_dc_current": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "preset and configure DCI",
+      "args": {
+        "range": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "MIN",
+            "MAX",
+            "DEF"
+          ],
+          "default": "DEF"
+        },
+        "resolution": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "MIN",
+            "MAX",
+            "DEF"
+          ],
+          "default": "DEF"
+        }
+      }
+    },
+    "configure_ac_current": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "preset and configure ACI",
+      "args": {
+        "range": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "MIN",
+            "MAX",
+            "DEF"
+          ],
+          "default": "DEF"
+        },
+        "resolution": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "MIN",
+            "MAX",
+            "DEF"
+          ],
+          "default": "DEF"
+        }
+      }
+    },
+    "configure_resistance": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "preset and configure 2-wire ohms",
+      "args": {
+        "range": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "MIN",
+            "MAX",
+            "DEF"
+          ],
+          "default": "DEF"
+        },
+        "resolution": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "MIN",
+            "MAX",
+            "DEF"
+          ],
+          "default": "DEF"
+        }
+      }
+    },
+    "configure_resistance_4wire": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "preset and configure 4-wire ohms",
+      "args": {
+        "range": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "MIN",
+            "MAX",
+            "DEF"
+          ],
+          "default": "DEF"
+        },
+        "resolution": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "MIN",
+            "MAX",
+            "DEF"
+          ],
+          "default": "DEF"
+        }
+      }
+    },
+    "configure_frequency": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "preset and configure frequency",
+      "args": {
+        "range": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "MIN",
+            "MAX",
+            "DEF"
+          ],
+          "default": "DEF"
+        },
+        "resolution": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "MIN",
+            "MAX",
+            "DEF"
+          ],
+          "default": "DEF"
+        }
+      }
+    },
+    "configure_period": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "preset and configure period",
+      "args": {
+        "range": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "MIN",
+            "MAX",
+            "DEF"
+          ],
+          "default": "DEF"
+        },
+        "resolution": {
+          "type": "number_or_keyword",
+          "keywords": [
+            "MIN",
+            "MAX",
+            "DEF"
+          ],
+          "default": "DEF"
+        }
+      }
+    },
+    "configure_continuity": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "preset and configure continuity"
+    },
+    "configure_diode": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "preset and configure diode"
+    },
+    "query_configuration": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query present configuration, returns quoted string",
+      "result": {
+        "type": "string"
+      }
+    },
+    "query_range": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query range for selected function",
+      "args": {
+        "function": {
+          "type": "meter_function"
+        }
+      },
+      "result": {
+        "type": "float"
+      }
+    },
+    "query_auto_range": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query autorange setting, returns 0 (OFF) or 1 (ON)",
+      "args": {
+        "function": {
+          "type": "meter_function"
+        }
+      },
+      "result": {
+        "type": "int"
+      }
+    },
+    "set_frequency_input_range": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "set input-voltage range for frequency",
+      "args": {
+        "range": {
+          "type": "float"
+        }
+      }
+    },
+    "query_frequency_input_range": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query frequency input-voltage range",
+      "result": {
+        "type": "float"
+      }
+    },
+    "set_period_input_range": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "set input-voltage range for period",
+      "args": {
+        "range": {
+          "type": "float"
+        }
+      }
+    },
+    "query_period_input_range": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query period input-voltage range",
+      "result": {
+        "type": "float"
+      }
+    },
+    "set_frequency_input_auto_range": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "enable/disable autorange of frequency input voltage",
+      "args": {
+        "state": {
+          "type": "string"
+        }
+      }
+    },
+    "set_period_input_auto_range": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "enable/disable autorange of period input voltage",
+      "args": {
+        "state": {
+          "type": "string"
+        }
+      }
+    },
+    "set_resolution": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "set resolution in measurement units (not valid for FREQ/PER/RATIO)",
+      "args": {
+        "function": {
+          "type": "meter_function"
+        },
+        "resolution": {
+          "type": "float"
+        }
+      }
+    },
+    "query_resolution": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query resolution",
+      "args": {
+        "function": {
+          "type": "meter_function"
+        }
+      },
+      "result": {
+        "type": "float"
+      }
+    },
+    "set_measurement_rate": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "set integration time in PLC (DCV, ratio, DCI, 2W, 4W only; default 10)",
+      "args": {
+        "function": {
+          "type": "meter_function"
+        },
+        "nplc": {
+          "type": "string"
+        }
+      }
+    },
+    "query_measurement_rate": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query NPLC integration time",
+      "args": {
+        "function": {
+          "type": "meter_function"
+        }
+      },
+      "result": {
+        "type": "float"
+      }
+    },
+    "set_frequency_aperture": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "set frequency gate/aperture time (10 ms=4.5 digits, 100 ms=5.5 digits default, 1 s=6.5 digits)",
+      "args": {
+        "aperture": {
+          "type": "string"
+        }
+      }
+    },
+    "query_frequency_aperture": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query frequency aperture time",
+      "result": {
+        "type": "float"
+      }
+    },
+    "set_period_aperture": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "set period gate/aperture time",
+      "args": {
+        "aperture": {
+          "type": "string"
+        }
+      }
+    },
+    "query_period_aperture": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query period aperture time",
+      "result": {
+        "type": "float"
+      }
+    },
+    "set_ac_filter_bandwidth": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "select lowest expected input frequency: slow 3 Hz, medium 20 Hz (default), fast 200 Hz",
+      "args": {
+        "bandwidth": {
+          "type": "string"
+        }
+      }
+    },
+    "query_ac_filter_bandwidth": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query ac filter, returns 3, 20 or 200",
+      "result": {
+        "type": "int"
+      }
+    },
+    "query_autozero": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query autozero, returns 0 (OFF/ONCE) or 1 (ON)",
+      "result": {
+        "type": "int"
+      }
+    },
+    "set_input_impedance_auto": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "input resistance auto: >10 GOhm on 100mV/1V/10V DCV ranges when ON, 10 MOhm fixed when OFF",
+      "args": {
+        "state": {
+          "type": "string"
+        }
+      }
+    },
+    "query_input_impedance_auto": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query input resistance mode, returns 0 (OFF) or 1 (ON)",
+      "result": {
+        "type": "int"
+      }
+    },
+    "query_terminals": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query front/rear input terminals",
+      "result": {
+        "type": "string"
+      }
+    },
+    "set_trigger_count": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "number of triggers before returning to idle (1-50000, INFinite = continuous)",
+      "args": {
+        "count": {
+          "type": "string"
+        }
+      }
+    },
+    "query_trigger_count": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query trigger count (INFinite returns 9.90000000E+37)",
+      "result": {
+        "type": "string"
+      }
+    },
+    "set_trigger_delay": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "trigger delay in seconds (0-3600); selecting a value turns auto delay OFF",
+      "args": {
+        "seconds": {
+          "type": "float"
+        }
+      }
+    },
+    "query_trigger_delay": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query trigger delay",
+      "result": {
+        "type": "float"
+      }
+    },
+    "set_trigger_delay_auto": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "automatic trigger delay based on function/range/integration/filter",
+      "args": {
+        "state": {
+          "type": "string"
+        }
+      }
+    },
+    "query_trigger_delay_auto": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query automatic trigger delay, returns 0 (OFF) or 1 (ON)",
+      "result": {
+        "type": "int"
+      }
+    },
+    "set_sample_count": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "samples (readings) per trigger (1-50000)",
+      "args": {
+        "count": {
+          "type": "string"
+        }
+      }
+    },
+    "query_sample_count": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query sample count",
+      "result": {
+        "type": "int"
+      }
+    },
+    "initiate_measurement": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "arm: idle -> wait-for-trigger; readings stored in internal memory (max 512)"
+    },
+    "query_reading_count": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "number of readings stored in internal memory",
+      "result": {
+        "type": "int"
+      }
+    },
+    "set_reading_memory": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "store INITiate readings in memory (CALCulate) or not (empty string)",
+      "args": {
+        "destination": {
+          "type": "string"
+        }
+      }
+    },
+    "query_reading_memory": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query reading memory state, returns CALC or empty string",
+      "result": {
+        "type": "string"
+      }
+    },
+    "set_math_function": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "select math function (only one at a time, default NULL)",
+      "args": {
+        "function": {
+          "type": "string"
+        }
+      }
+    },
+    "query_math_function": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query math function, returns NULL, DB, DBM, AVER or LIM",
+      "result": {
+        "type": "string"
+      }
+    },
+    "set_math_state": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "enable/disable the selected math function",
+      "args": {
+        "state": {
+          "type": "string"
+        }
+      }
+    },
+    "query_math_state": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query math state, returns 0 (OFF) or 1 (ON)",
+      "result": {
+        "type": "int"
+      }
+    },
+    "set_nulls": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "store null value (0 to +/-120% of highest range; math must be ON)",
+      "args": {
+        "value": {
+          "type": "float"
+        }
+      }
+    },
+    "query_nulls": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query null value",
+      "result": {
+        "type": "float"
+      }
+    },
+    "query_min_max_minimum": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "minimum value found during min-max operation",
+      "result": {
+        "type": "float"
+      }
+    },
+    "query_min_max_maximum": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "maximum value found during min-max operation",
+      "result": {
+        "type": "float"
+      }
+    },
+    "query_min_max_average": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "average of all readings since min-max enabled",
+      "result": {
+        "type": "float"
+      }
+    },
+    "query_min_max_count": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "number of readings since min-max enabled",
+      "result": {
+        "type": "int"
+      }
+    },
+    "set_db_reference": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "dB relative reference (-200 to +200 dBm; math must be ON)",
+      "args": {
+        "value": {
+          "type": "float"
+        }
+      }
+    },
+    "query_db_reference": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query dB relative value",
+      "result": {
+        "type": "float"
+      }
+    },
+    "set_dbm_reference": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "dBm reference resistance (50-8000 ohm, non-volatile)",
+      "args": {
+        "value": {
+          "type": "float"
+        }
+      }
+    },
+    "query_dbm_reference": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query dBm reference resistance",
+      "result": {
+        "type": "float"
+      }
+    },
+    "set_limit_low": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "set lower limit for limit test (0 to +/-120% of highest range)",
+      "args": {
+        "value": {
+          "type": "float"
+        }
+      }
+    },
+    "query_limit_low": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query lower limit",
+      "result": {
+        "type": "float"
+      }
+    },
+    "set_limit_high": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "set upper limit for limit test (0 to +/-120% of highest range)",
+      "args": {
+        "value": {
+          "type": "float"
+        }
+      }
+    },
+    "query_limit_high": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query upper limit",
+      "result": {
+        "type": "float"
+      }
+    },
+    "set_display_state": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "front-panel display off/on",
+      "args": {
+        "state": {
+          "type": "string"
+        }
+      }
+    },
+    "query_display_state": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query display state, returns 0 (OFF) or 1 (ON)",
+      "result": {
+        "type": "int"
+      }
+    },
+    "display_text": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "display a message on front panel (12 chars max)",
+      "args": {
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "query_display_text": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query the displayed message, returns quoted string",
+      "result": {
+        "type": "string"
+      }
+    },
+    "clear_display_text": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "clear the displayed message"
+    },
+    "system_beep": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "issue a single beep immediately"
+    },
+    "set_beeper_state": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "enable/disable front-panel beeper (non-volatile)",
+      "args": {
+        "state": {
+          "type": "string"
+        }
+      }
+    },
+    "query_beeper_state": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query beeper state, returns 0 (OFF) or 1 (ON)",
+      "result": {
+        "type": "int"
+      }
+    },
+    "query_scpi_version": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query SCPI version",
+      "result": {
+        "type": "string"
+      }
+    },
+    "system_remote": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "place instrument in remote state"
+    },
+    "system_local": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "place instrument in local state"
+    },
+    "system_remote_lockout": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "remote with local lockout"
+    },
+    "enable_questionable_register": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "enable bits in Questionable Data enable register",
+      "args": {
+        "enable_value": {
+          "type": "int"
+        }
+      }
+    },
+    "query_questionable_enable": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query Questionable Data enable register",
+      "result": {
+        "type": "int"
+      }
+    },
+    "query_questionable_event": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query Questionable Data event register (clears it)",
+      "result": {
+        "type": "int"
+      }
+    },
+    "status_preset": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "clear all bits in Questionable Data enable register"
+    },
+    "calibration_query": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "perform calibration using the value set by set_calibration_value (requires unsecured)",
+      "result": {
+        "type": "int"
+      }
+    },
+    "query_calibration_count": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "number of times instrument has been calibrated (non-volatile)",
+      "result": {
+        "type": "int"
+      }
+    },
+    "set_calibration_security": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "unsecure (OFF,code) or secure (ON,code) for calibration",
+      "args": {
+        "state": {
+          "type": "string"
+        },
+        "code": {
+          "type": "string"
+        }
+      }
+    },
+    "query_calibration_security": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query secured state, returns 0 (OFF) or 1 (ON)",
+      "result": {
+        "type": "int"
+      }
+    },
+    "set_calibration_code": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "set new security code (up to 12 chars; must unsecure first)",
+      "args": {
+        "code": {
+          "type": "string"
+        }
+      }
+    },
+    "set_calibration_string": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "store calibration message (40 chars max)",
+      "args": {
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "query_calibration_string": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query calibration message, returns quoted string",
+      "result": {
+        "type": "string"
+      }
+    },
+    "set_calibration_value": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "specify value of the known calibration signal",
+      "args": {
+        "value": {
+          "type": "float"
+        }
+      }
+    },
+    "query_calibration_value": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query calibration value",
+      "result": {
+        "type": "float"
+      }
+    },
+    "set_display_mode": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "display mode (D mnemonic); D1 normal, D2 display text, D3 display text and stop display updating (faster)",
+      "args": {
+        "display_mode": {
+          "type": "int"
+        }
+      }
+    },
+    "display_message": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "write text to the display (D2/D3 with data); up to 12 chars ASCII 32-95",
+      "args": {
+        "display_mode": {
+          "type": "int"
+        },
+        "text": {
+          "type": "string"
+        }
+      }
+    },
+    "execute_home_command": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "preset HOME commands (H mnemonic); H0 configures only and waits for trigger, H1-H7 take one reading each",
+      "args": {
+        "command": {
+          "type": "int"
+        }
+      }
+    },
+    "calibrate": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "enter calibration (C mnemonic); procedure documented in the Service Manual"
+    },
+    "query_binary_status": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "output 5 binary bytes of programmed state (B mnemonic); also clears the error register",
+      "result": {
+        "type": "string"
+      }
+    },
+    "set_srq_mask": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "set SRQ mask to octal value (M mnemonic); bits 0-5 mask data ready, syntax error, hardware error, front panel SRQ, cal failure",
+      "args": {
+        "mask": {
+          "type": "string"
+        }
+      }
+    },
+    "set_display_digits": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "select number of digits displayed (N mnemonic); sets integration time (.1/1/10 PLC)",
+      "args": {
+        "digits": {
+          "type": "int"
+        }
+      }
+    }
+  }
+}
