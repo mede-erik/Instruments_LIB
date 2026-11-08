@@ -30,6 +30,7 @@ TITLES = {
     "oscilloscopes_series": "Oscilloscopes",
     "multimeters_series": "Multimeters",
     "dataloggers_series": "Dataloggers",
+    "switch_units_series": "Switch units",
     "network_analyzers_series": "Vector network analyzers",
     "function_generators_series": "Function generators",
 }
@@ -41,6 +42,7 @@ NUMBERS = {
     "oscilloscopes_series": "3.3",
     "multimeters_series": "3.4",
     "dataloggers_series": "3.5",
+    "switch_units_series": "3.6",
     "network_analyzers_series": "3.7",
     "function_generators_series": "3.8",
 }

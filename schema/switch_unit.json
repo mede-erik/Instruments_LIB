@@ -1,0 +1,803 @@
+{
+  "schema_version": 1,
+  "category": "switch_units_series",
+  "description": "Logical calls of switch/control units (relay multiplexers and matrices, digital I/O cards). Channels use the form of the instrument (Agilent 3499A: slot digit + 2-digit channel, e.g. 101,105 or 100:107). Based on one manual (Agilent 3499A/B/C): the mandatory set is routing, scanning and the IEEE 488.2 basics.",
+  "types": {},
+  "calls": {
+    "identification_query": {
+      "requirement": "mandatory",
+      "kind": "query",
+      "description": "identification query",
+      "result": {
+        "type": "string"
+      }
+    },
+    "reset": {
+      "requirement": "mandatory",
+      "kind": "action",
+      "description": "reset (clears system memory, digital config and error queue)"
+    },
+    "clear_status": {
+      "requirement": "mandatory",
+      "kind": "action",
+      "description": "clear event registers, status byte and error queue"
+    },
+    "error_query": {
+      "requirement": "mandatory",
+      "kind": "query",
+      "description": "query error queue (FIFO, max 10 entries)",
+      "result": {
+        "type": "string"
+      }
+    },
+    "select_channels": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "set scan list (switch channels, digital bits or stored setups; up to 200 entries)",
+      "args": {
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "close_channel": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "close the specified channels (relays); channels in the instrument form, e.g. 101,105 or 100:107",
+      "args": {
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "open_channels": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "open the specified channels (relays)",
+      "args": {
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "query_channel_closed_state": {
+      "requirement": "mandatory",
+      "kind": "query",
+      "description": "closed state of the specified channels (1 = closed, 0 = open, comma separated in channel order)",
+      "args": {
+        "channels": {
+          "type": "string"
+        }
+      },
+      "result": {
+        "type": "string"
+      }
+    },
+    "monitor_channel": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "monitor a slot/channel/port, or -1 to disable (tree relays s98/s99 cannot be monitored)",
+      "args": {
+        "channel": {
+          "type": "string"
+        }
+      }
+    },
+    "initiate_scan": {
+      "requirement": "mandatory",
+      "kind": "action",
+      "description": "start a scanning cycle (always required to leave idle state)"
+    },
+    "abort_scan": {
+      "requirement": "mandatory",
+      "kind": "action",
+      "description": "abort a scan in progress (last channel stays closed; scan cannot resume)"
+    },
+    "query_scan_size": {
+      "requirement": "mandatory",
+      "kind": "query",
+      "description": "number of channels in the scan list",
+      "result": {
+        "type": "int"
+      }
+    },
+    "set_trigger_source": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "trigger layer trigger source (channel advance)",
+      "args": {
+        "source": {
+          "type": "string"
+        }
+      }
+    },
+    "trigger_bus": {
+      "requirement": "mandatory",
+      "kind": "action",
+      "description": "software trigger (BUS source in arm/trigger layer)"
+    },
+    "set_channel_delay": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "delay (0 to 99999.999 s, 1 ms resolution) between the close of each listed channel of the scan list and the next operation",
+      "args": {
+        "seconds": {
+          "type": "float"
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "set_local": {
+      "requirement": "mandatory",
+      "kind": "action",
+      "description": "RS-232 only: local mode, all front-panel keys functional"
+    },
+    "set_remote": {
+      "requirement": "mandatory",
+      "kind": "action",
+      "description": "RS-232 only: remote mode, most front-panel keys disabled"
+    },
+    "self_test": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "self test (takes seconds, hangs the bus)",
+      "result": {
+        "type": "int"
+      }
+    },
+    "query_status_byte": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query status byte register",
+      "result": {
+        "type": "int"
+      }
+    },
+    "query_event_status_register": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query standard event register",
+      "result": {
+        "type": "int"
+      }
+    },
+    "enable_event_status_register": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "set standard event enable mask",
+      "args": {
+        "value": {
+          "type": "int"
+        }
+      }
+    },
+    "query_event_status_enable": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query standard event enable mask",
+      "result": {
+        "type": "int"
+      }
+    },
+    "enable_service_request": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "set service request enable mask",
+      "args": {
+        "value": {
+          "type": "int"
+        }
+      }
+    },
+    "query_service_request_enable": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query service request enable mask",
+      "result": {
+        "type": "int"
+      }
+    },
+    "operation_complete": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "set Operation Complete bit in Standard Event Register when done"
+    },
+    "operation_complete_query": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "returns +1 when pending operations complete",
+      "result": {
+        "type": "int"
+      }
+    },
+    "wait_operation_complete": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "wait until all operations complete"
+    },
+    "save_state": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "save current setup to memory location",
+      "args": {
+        "mem": {
+          "type": "int"
+        }
+      }
+    },
+    "recall_state": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "recall a saved setup",
+      "args": {
+        "mem": {
+          "type": "int"
+        }
+      }
+    },
+    "delete_state": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "delete one or all stored states",
+      "args": {
+        "mem": {
+          "type": "string"
+        }
+      }
+    },
+    "query_closed_channels": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query all closed relays on all installed modules",
+      "result": {
+        "type": "string"
+      }
+    },
+    "query_channel_open_state": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "returns 1 for open, 0 for closed, comma-separated",
+      "args": {
+        "channels": {
+          "type": "string"
+        }
+      },
+      "result": {
+        "type": "string"
+      }
+    },
+    "query_scan_list": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query scan list as comma-separated channel list",
+      "result": {
+        "type": "string"
+      }
+    },
+    "clear_scan_list": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "clear the scan list (the space between SCAN and CLEar is part of the command)"
+    },
+    "set_arm_source": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "arm layer trigger source (sweep start)",
+      "args": {
+        "source": {
+          "type": "string"
+        }
+      }
+    },
+    "query_arm_source": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query arm layer trigger source",
+      "result": {
+        "type": "string"
+      }
+    },
+    "set_arm_count": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "number of sweeps of the scan list (MIN=1, MAX=99999, INFinity=-1)",
+      "args": {
+        "count": {
+          "type": "int"
+        }
+      }
+    },
+    "query_arm_count": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query number of sweeps",
+      "result": {
+        "type": "int"
+      }
+    },
+    "set_arm_timer": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "sweep-to-sweep interval, 0.000..99999.999 s, 1 ms resolution",
+      "args": {
+        "seconds": {
+          "type": "float"
+        }
+      }
+    },
+    "query_arm_timer": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query sweep-to-sweep interval in seconds",
+      "result": {
+        "type": "float"
+      }
+    },
+    "query_trigger_source": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query trigger layer trigger source",
+      "result": {
+        "type": "string"
+      }
+    },
+    "set_trigger_timer": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "channel-to-channel interval, 0.000..99999.999 s, 1 ms resolution",
+      "args": {
+        "seconds": {
+          "type": "float"
+        }
+      }
+    },
+    "query_trigger_timer": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query channel-to-channel interval in seconds",
+      "result": {
+        "type": "float"
+      }
+    },
+    "trigger_immediate": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "software trigger for HOLD source"
+    },
+    "set_channel_delay_all": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "one delay (0 to 99999.999 s) for all the channels of the scan list",
+      "args": {
+        "seconds": {
+          "type": "float"
+        }
+      }
+    },
+    "query_channel_delay": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "delay per channel as comma-separated values",
+      "args": {
+        "channels": {
+          "type": "string"
+        }
+      },
+      "result": {
+        "type": "string"
+      }
+    },
+    "set_external_trigger_source": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "select external trigger lines (slot 0 = rear-panel mini-DIN, or slot of 44474A)",
+      "args": {
+        "slot": {
+          "type": "int"
+        }
+      }
+    },
+    "query_external_trigger_source": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query external trigger source slot",
+      "result": {
+        "type": "int"
+      }
+    },
+    "enable_external_trigger_output": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "enable/disable trigger-out pulse after each channel close during scan",
+      "args": {
+        "state": {
+          "type": "string"
+        }
+      }
+    },
+    "query_external_trigger_output": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query trigger-out state (0 disabled, 1 enabled)",
+      "result": {
+        "type": "int"
+      }
+    },
+    "pair_cards": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "pair two identical modules (slot1,slot2) or cancel with -1",
+      "args": {
+        "slot1": {
+          "type": "int"
+        },
+        "slot2": {
+          "type": "int"
+        }
+      }
+    },
+    "query_card_pair": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "returns 4 comma-separated slot numbers (0,0,0,0 if none paired)",
+      "result": {
+        "type": "string"
+      }
+    },
+    "set_function": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "set function mode of N2260A/N2266A 40-channel MUX",
+      "args": {
+        "slot": {
+          "type": "int"
+        },
+        "mode": {
+          "type": "string"
+        }
+      }
+    },
+    "query_function": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query function mode of N2260A/N2266A",
+      "args": {
+        "slot": {
+          "type": "int"
+        }
+      },
+      "result": {
+        "type": "string"
+      }
+    },
+    "query_module_type": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query card type and serial number in slot",
+      "args": {
+        "slot": {
+          "type": "int"
+        }
+      },
+      "result": {
+        "type": "string"
+      }
+    },
+    "reset_module": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "reset module(s) to power-on state without resetting the mainframe",
+      "args": {
+        "slot": {
+          "type": "string"
+        }
+      }
+    },
+    "query_scpi_version": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query SCPI version string",
+      "result": {
+        "type": "string"
+      }
+    },
+    "set_system_mode": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "select SCPI or HP3488A mode (mode change resets the instrument; wait 5 s)",
+      "args": {
+        "mode": {
+          "type": "string"
+        }
+      }
+    },
+    "query_system_mode": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query system mode",
+      "result": {
+        "type": "string"
+      }
+    },
+    "set_remote_lock": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "RS-232 only: remote mode with all front-panel keys locked"
+    },
+    "display_message": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "write message to front-panel display (max 13 chars)",
+      "args": {
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "enable_display": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "turn front-panel display on/off (annunciators remain active)",
+      "args": {
+        "state": {
+          "type": "string"
+        }
+      }
+    },
+    "query_display_state": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query display state",
+      "result": {
+        "type": "int"
+      }
+    },
+    "query_monitor": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query monitored slot/channel/port (-1 if inactive)",
+      "result": {
+        "type": "string"
+      }
+    },
+    "query_relay_cycles": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query relay cycle counts of channels (comma-separated; -1 if unsupported)",
+      "args": {
+        "channels": {
+          "type": "string"
+        }
+      },
+      "result": {
+        "type": "string"
+      }
+    },
+    "query_relay_cycles_max": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query maximum relay cycle count on module in slot",
+      "args": {
+        "slot": {
+          "type": "int"
+        }
+      },
+      "result": {
+        "type": "int"
+      }
+    },
+    "clear_relay_cycles": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "reset relay cycle counter(s) to zero",
+      "args": {
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "read_register": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "read 8-bit register on 44475A breadboard module (register 4)",
+      "args": {
+        "slot": {
+          "type": "int"
+        },
+        "register": {
+          "type": "int"
+        }
+      },
+      "result": {
+        "type": "int"
+      }
+    },
+    "write_register": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "write 8-bit data to register on 44475A breadboard module (register 0)",
+      "args": {
+        "slot": {
+          "type": "int"
+        },
+        "register": {
+          "type": "int"
+        },
+        "data": {
+          "type": "int"
+        }
+      }
+    },
+    "set_digital_mode": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "set handshake mode 1..5 of a DIO port (not for built-in port 090)",
+      "args": {
+        "port": {
+          "type": "string"
+        },
+        "mode": {
+          "type": "int"
+        }
+      }
+    },
+    "query_digital_mode": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query handshake mode of a DIO port",
+      "args": {
+        "port": {
+          "type": "string"
+        }
+      },
+      "result": {
+        "type": "int"
+      }
+    },
+    "set_digital_control_polarity": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "set PCTL control line polarity",
+      "args": {
+        "slot": {
+          "type": "int"
+        },
+        "polarity": {
+          "type": "string"
+        }
+      }
+    },
+    "set_digital_flag_polarity": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "set PFLG flag line polarity",
+      "args": {
+        "slot": {
+          "type": "int"
+        },
+        "polarity": {
+          "type": "string"
+        }
+      }
+    },
+    "set_digital_io_polarity": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "set I/O direction line polarity",
+      "args": {
+        "slot": {
+          "type": "int"
+        },
+        "polarity": {
+          "type": "string"
+        }
+      }
+    },
+    "set_digital_port_polarity": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "set data line polarity of a port (BYTE/WORD/LWORD optional)",
+      "args": {
+        "port": {
+          "type": "string"
+        },
+        "polarity": {
+          "type": "string"
+        }
+      }
+    },
+    "write_digital_bit": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "write 0/1 to a digital I/O bit",
+      "args": {
+        "bit_port": {
+          "type": "string"
+        },
+        "state": {
+          "type": "int"
+        }
+      }
+    },
+    "read_digital_bit": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "read a digital I/O bit",
+      "args": {
+        "bit_port": {
+          "type": "string"
+        }
+      },
+      "result": {
+        "type": "int"
+      }
+    },
+    "write_digital_port": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "write value to a port (built-in port 090 accepts 0..15)",
+      "args": {
+        "port": {
+          "type": "string"
+        },
+        "data": {
+          "type": "int"
+        }
+      }
+    },
+    "read_digital_port": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "read a port as integer",
+      "args": {
+        "port": {
+          "type": "string"
+        }
+      },
+      "result": {
+        "type": "int"
+      }
+    },
+    "query_operation_condition": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query Operation Condition register (bit0 waiting in trigger layer, bit1 arm layer, bit4 scan started)",
+      "result": {
+        "type": "int"
+      }
+    },
+    "query_operation_event": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query Operation Event register (clears bits)",
+      "result": {
+        "type": "int"
+      }
+    },
+    "set_operation_enable": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "set Operation Enable register mask (applicable values 1, 2, 16)",
+      "args": {
+        "unmask": {
+          "type": "int"
+        }
+      }
+    },
+    "query_operation_enable": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "query Operation Enable register",
+      "result": {
+        "type": "int"
+      }
+    },
+    "status_preset": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "clear Operation Status enable register bits"
+    }
+  }
+}

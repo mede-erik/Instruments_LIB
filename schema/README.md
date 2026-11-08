@@ -11,8 +11,9 @@ One file per instrument category. A schema file is the **contract** of that cate
 | `multimeter.json` | `multimeters_series` |
 | `datalogger.json` | `dataloggers_series` |
 | `vna.json` | `network_analyzers_series` |
+| `switch_unit.json` | `switch_units_series` |
 
-More categories are added one at a time (switch units are next).
+More categories are added one at a time.
 
 ## Schema file format
 

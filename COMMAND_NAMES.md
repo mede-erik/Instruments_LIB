@@ -34,7 +34,7 @@ Channel, range and value placeholders use the names `channel_number`, `channels`
 | Oscilloscopes | Tektronix 5 Series MSO, Rigol DS1000Z, Siglent SDS800X HD; Digilent WaveForms SDK (Analog Discovery 2, a driver model, **experimental**) | complete |
 | Multimeters | Agilent 34401A, HP 3478A | the 3478A PDF is a scanned image without text: its coverage comes from the existing library entries |
 | Dataloggers | Keysight 34970A/34972A, Keysight DAQ970A/DAQ973A | complete |
-| Switch units | Agilent 3499A | **provisional**: only one manual |
+| Switch units | Agilent 3499A | only one manual: the schema may change when more instruments are added |
 | Vector network analyzers | Zenko LiteVNA 62/64/67, Siglent VNA Series Programming Guide (SNA5000A, SNA5000X-E, SNA6000A, SHN900A), R&S ZNB and ZNL/ZNLE, ZVA/ZVB/ZVT and ZVL manuals | **provisional, experimental**: no VNA has been tested on a real instrument. The Agilent E506x/E507x user guides contain no SCPI command reference (it is in the separate Programmer's Guide), the HP 8700 quick reference is a scanned image, the HP 8753C uses HP-IB mnemonics and the Agilent 871x a different SCPI dialect: none of them is used yet |
 | Function generators | Digilent WaveForms SDK (Analog Discovery 2), Rigol DG1000 programming guide (DG1022, DG1022A), Agilent 33120A user's guide; read but without a command reference: Rigol DG1000Z user guide, FeelTech FY3200S user manual | **provisional, experimental**: three models, none tested on an instrument (the Analog Discovery 2 and its amplitude convention are to be verified) |
 
@@ -681,13 +681,110 @@ Logical types:
 
 <!-- END GENERATED dataloggers_series -->
 
-### 3.6 Switch units (`switch_units_series`) — provisional
+<!-- BEGIN GENERATED switch_units_series -->
+### 3.6 Switch units (`switch_units_series`)
 
-New category for mainframes that only route signals (no measurement engine). Reference manual: Agilent 3499A. The 3499A keeps its model id `DL_Agilent_3499A` so saved projects stay valid.
+Generated from `schema/switch_unit.json` — do not edit this section by hand. 17 mandatory and 67 optional calls.
 
-**Mandatory (provisional)**: `identification_query`, `reset`, `clear_status`, `select_channels`, `open_channels`, `close_channel`, `monitor_channel`, `initiate_scan`, `abort_scan`, `query_scan_size`, `set_trigger_source`, `trigger_bus`, `set_channel_delay`, `set_local`, `set_remote`.
+Logical calls of switch/control units (relay multiplexers and matrices, digital I/O cards). Channels use the form of the instrument (Agilent 3499A: slot digit + 2-digit channel, e.g. 101,105 or 100:107). Based on one manual (Agilent 3499A/B/C): the mandatory set is routing, scanning and the IEEE 488.2 basics.
 
-**Optional**: relay-cycle, digital I/O, card pairing and state save/recall calls.
+**Mandatory**
+
+| Call | Kind | Arguments | Result | Description |
+|---|---|---|---|---|
+| `identification_query` | query |  | string | identification query |
+| `reset` | action |  |  | reset (clears system memory, digital config and error queue) |
+| `clear_status` | action |  |  | clear event registers, status byte and error queue |
+| `error_query` | query |  | string | query error queue (FIFO, max 10 entries) |
+| `select_channels` | set | `channels` (string) |  | set scan list (switch channels, digital bits or stored setups; up to 200 entries) |
+| `close_channel` | set | `channels` (string) |  | close the specified channels (relays); channels in the instrument form, e.g. 101,105 or 100:107 |
+| `open_channels` | set | `channels` (string) |  | open the specified channels (relays) |
+| `query_channel_closed_state` | query | `channels` (string) | string | closed state of the specified channels (1 = closed, 0 = open, comma separated in channel order) |
+| `monitor_channel` | set | `channel` (string) |  | monitor a slot/channel/port, or -1 to disable (tree relays s98/s99 cannot be monitored) |
+| `initiate_scan` | action |  |  | start a scanning cycle (always required to leave idle state) |
+| `abort_scan` | action |  |  | abort a scan in progress (last channel stays closed; scan cannot resume) |
+| `query_scan_size` | query |  | int | number of channels in the scan list |
+| `set_trigger_source` | set | `source` (string) |  | trigger layer trigger source (channel advance) |
+| `trigger_bus` | action |  |  | software trigger (BUS source in arm/trigger layer) |
+| `set_channel_delay` | set | `seconds` (float)<br>`channels` (string) |  | delay (0 to 99999.999 s, 1 ms resolution) between the close of each listed channel of the scan list and the next operation |
+| `set_local` | action |  |  | RS-232 only: local mode, all front-panel keys functional |
+| `set_remote` | action |  |  | RS-232 only: remote mode, most front-panel keys disabled |
+
+**Optional**
+
+| Call | Kind | Arguments | Result | Description |
+|---|---|---|---|---|
+| `self_test` | query |  | int | self test (takes seconds, hangs the bus) |
+| `query_status_byte` | query |  | int | query status byte register |
+| `query_event_status_register` | query |  | int | query standard event register |
+| `enable_event_status_register` | set | `value` (int) |  | set standard event enable mask |
+| `query_event_status_enable` | query |  | int | query standard event enable mask |
+| `enable_service_request` | set | `value` (int) |  | set service request enable mask |
+| `query_service_request_enable` | query |  | int | query service request enable mask |
+| `operation_complete` | action |  |  | set Operation Complete bit in Standard Event Register when done |
+| `operation_complete_query` | query |  | int | returns +1 when pending operations complete |
+| `wait_operation_complete` | action |  |  | wait until all operations complete |
+| `save_state` | set | `mem` (int) |  | save current setup to memory location |
+| `recall_state` | set | `mem` (int) |  | recall a saved setup |
+| `delete_state` | set | `mem` (string) |  | delete one or all stored states |
+| `query_closed_channels` | query |  | string | query all closed relays on all installed modules |
+| `query_channel_open_state` | query | `channels` (string) | string | returns 1 for open, 0 for closed, comma-separated |
+| `query_scan_list` | query |  | string | query scan list as comma-separated channel list |
+| `clear_scan_list` | action |  |  | clear the scan list (the space between SCAN and CLEar is part of the command) |
+| `set_arm_source` | set | `source` (string) |  | arm layer trigger source (sweep start) |
+| `query_arm_source` | query |  | string | query arm layer trigger source |
+| `set_arm_count` | set | `count` (int) |  | number of sweeps of the scan list (MIN=1, MAX=99999, INFinity=-1) |
+| `query_arm_count` | query |  | int | query number of sweeps |
+| `set_arm_timer` | set | `seconds` (float) |  | sweep-to-sweep interval, 0.000..99999.999 s, 1 ms resolution |
+| `query_arm_timer` | query |  | float | query sweep-to-sweep interval in seconds |
+| `query_trigger_source` | query |  | string | query trigger layer trigger source |
+| `set_trigger_timer` | set | `seconds` (float) |  | channel-to-channel interval, 0.000..99999.999 s, 1 ms resolution |
+| `query_trigger_timer` | query |  | float | query channel-to-channel interval in seconds |
+| `trigger_immediate` | action |  |  | software trigger for HOLD source |
+| `set_channel_delay_all` | set | `seconds` (float) |  | one delay (0 to 99999.999 s) for all the channels of the scan list |
+| `query_channel_delay` | query | `channels` (string) | string | delay per channel as comma-separated values |
+| `set_external_trigger_source` | set | `slot` (int) |  | select external trigger lines (slot 0 = rear-panel mini-DIN, or slot of 44474A) |
+| `query_external_trigger_source` | query |  | int | query external trigger source slot |
+| `enable_external_trigger_output` | set | `state` (string) |  | enable/disable trigger-out pulse after each channel close during scan |
+| `query_external_trigger_output` | query |  | int | query trigger-out state (0 disabled, 1 enabled) |
+| `pair_cards` | set | `slot1` (int)<br>`slot2` (int) |  | pair two identical modules (slot1,slot2) or cancel with -1 |
+| `query_card_pair` | query |  | string | returns 4 comma-separated slot numbers (0,0,0,0 if none paired) |
+| `set_function` | set | `slot` (int)<br>`mode` (string) |  | set function mode of N2260A/N2266A 40-channel MUX |
+| `query_function` | query | `slot` (int) | string | query function mode of N2260A/N2266A |
+| `query_module_type` | query | `slot` (int) | string | query card type and serial number in slot |
+| `reset_module` | set | `slot` (string) |  | reset module(s) to power-on state without resetting the mainframe |
+| `query_scpi_version` | query |  | string | query SCPI version string |
+| `set_system_mode` | set | `mode` (string) |  | select SCPI or HP3488A mode (mode change resets the instrument; wait 5 s) |
+| `query_system_mode` | query |  | string | query system mode |
+| `set_remote_lock` | action |  |  | RS-232 only: remote mode with all front-panel keys locked |
+| `display_message` | set | `message` (string) |  | write message to front-panel display (max 13 chars) |
+| `enable_display` | set | `state` (string) |  | turn front-panel display on/off (annunciators remain active) |
+| `query_display_state` | query |  | int | query display state |
+| `query_monitor` | query |  | string | query monitored slot/channel/port (-1 if inactive) |
+| `query_relay_cycles` | query | `channels` (string) | string | query relay cycle counts of channels (comma-separated; -1 if unsupported) |
+| `query_relay_cycles_max` | query | `slot` (int) | int | query maximum relay cycle count on module in slot |
+| `clear_relay_cycles` | set | `channels` (string) |  | reset relay cycle counter(s) to zero |
+| `read_register` | query | `slot` (int)<br>`register` (int) | int | read 8-bit register on 44475A breadboard module (register 4) |
+| `write_register` | set | `slot` (int)<br>`register` (int)<br>`data` (int) |  | write 8-bit data to register on 44475A breadboard module (register 0) |
+| `set_digital_mode` | set | `port` (string)<br>`mode` (int) |  | set handshake mode 1..5 of a DIO port (not for built-in port 090) |
+| `query_digital_mode` | query | `port` (string) | int | query handshake mode of a DIO port |
+| `set_digital_control_polarity` | set | `slot` (int)<br>`polarity` (string) |  | set PCTL control line polarity |
+| `set_digital_flag_polarity` | set | `slot` (int)<br>`polarity` (string) |  | set PFLG flag line polarity |
+| `set_digital_io_polarity` | set | `slot` (int)<br>`polarity` (string) |  | set I/O direction line polarity |
+| `set_digital_port_polarity` | set | `port` (string)<br>`polarity` (string) |  | set data line polarity of a port (BYTE/WORD/LWORD optional) |
+| `write_digital_bit` | set | `bit_port` (string)<br>`state` (int) |  | write 0/1 to a digital I/O bit |
+| `read_digital_bit` | query | `bit_port` (string) | int | read a digital I/O bit |
+| `write_digital_port` | set | `port` (string)<br>`data` (int) |  | write value to a port (built-in port 090 accepts 0..15) |
+| `read_digital_port` | query | `port` (string) | int | read a port as integer |
+| `query_operation_condition` | query |  | int | query Operation Condition register (bit0 waiting in trigger layer, bit1 arm layer, bit4 scan started) |
+| `query_operation_event` | query |  | int | query Operation Event register (clears bits) |
+| `set_operation_enable` | set | `unmask` (int) |  | set Operation Enable register mask (applicable values 1, 2, 16) |
+| `query_operation_enable` | query |  | int | query Operation Enable register |
+| `status_preset` | action |  |  | clear Operation Status enable register bits |
+
+<!-- END GENERATED switch_units_series -->
+
+The 3499A keeps its model id `DL_Agilent_3499A` so saved projects stay valid.
 
 <!-- BEGIN GENERATED network_analyzers_series -->
 ### 3.7 Vector network analyzers (`network_analyzers_series`)
