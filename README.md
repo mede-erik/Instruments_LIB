@@ -84,7 +84,7 @@ All categories (except the dataloggers, see below) follow the same two-level sch
 | `interface` | object | yes | Supported connection types |
 | `capabilities` | object | yes | Physical limits and features |
 | `scpi_commands` | object | no | Model-specific commands: they replace, remove (`null`) or modify (`{"patch": {...}}`) those of the series, see `COMMAND_NAMES.md` section 7 |
-| `experimental` | bool | yes | `true` = not yet validated on real hardware |
+| `experimental` | bool | yes | `true` = not yet validated on real hardware; `false` = supported (see the notes below) |
 
 ## The `interface` block
 
@@ -340,12 +340,13 @@ IDs follow `{TYPE}_{MANUFACTURER}_{MODEL}`:
 ## The `experimental` flag
 
 - Most models have `"experimental": true` = **not yet validated on real hardware** — the SCPI commands may differ from the manual.
-- Every model except the ones listed below has `"experimental": true` (not yet validated on real hardware): `DL_Agilent_34970A` (tested over RS-232), `OSC_Siglent_SDS804X_HD`, `OSC_Siglent_SDS814X_HD` and `OSC_Siglent_SDS824X_HD` (flag `false`; only the SDS824X HD was tested, see the table below).
-- The flag is not yet updated for the Analog Discovery 2 (`OSC_Digilent_AnalogDiscovery2` and `FGEN_Digilent_AnalogDiscovery2`): both were tested on real hardware (see below) but still have `"experimental": true`.
+- Models with `"experimental": false` are considered supported. `DL_Agilent_34970A` was tested over RS-232. `OSC_Siglent_SDS804X_HD`, `OSC_Siglent_SDS814X_HD` and `OSC_Siglent_SDS824X_HD` use the same SCPI command set; the SDS824X HD was tested on hardware, the other two were not tested individually.
+- The Analog Discovery 2 models (`OSC_Digilent_AnalogDiscovery2` and `FGEN_Digilent_AnalogDiscovery2`) are not experimental: the oscilloscope and the generator were tested on real hardware. **Only the oscilloscope and the function generator are supported**: the logic analyzer is not supported yet. When a logic analyzer library is written and tested, the flag goes back to `true` until that test is done.
+- Every other model has `"experimental": true` (not yet validated on real hardware).
 
 ### Tested models per series
 
-"Tested" means that the commands were run on a real instrument. Every model not listed as tested is `experimental` and has never been run on hardware.
+"Tested" means that the commands were run on a real instrument. Models that are not listed as tested are either `experimental` or supported by the same command set as a tested model (see the `experimental` notes above).
 
 | Series | Model tested | How it was tested |
 |---|---|---|
@@ -367,8 +368,8 @@ IDs follow `{TYPE}_{MANUFACTURER}_{MODEL}`:
 | Chroma 6330A | — | none |
 | Keysight EL4900 | — | none |
 | Siglent SDL1000X | — | none |
-| Digilent Analog Discovery 2, scope | Analog Discovery 2 (USB) | real device through the WaveForms runtime, with the driver `ola/drivers/waveforms.py` called directly; the path from the library entry (`Instrument` → `driver_for`) is not yet tested |
-| Digilent Analog Discovery 2, generator | Analog Discovery 2 (USB) | real device: sine, square and triangle from 1 kHz to 1 MHz, amplitude, offset, W1 and W2 independent, out-of-range values refused |
+| Digilent Analog Discovery 2, scope (supported; no logic analyzer) | Analog Discovery 2 (USB) | real device through the WaveForms runtime, with the driver `ola/drivers/waveforms.py` called directly; the path from the library entry (`Instrument` → `driver_for`) is not yet tested |
+| Digilent Analog Discovery 2, generator (supported) | Analog Discovery 2 (USB) | real device: sine, square and triangle from 1 kHz to 1 MHz, amplitude, offset, W1 and W2 independent, out-of-range values refused |
 | Rigol DG1022 / DG1022A | — | none |
 | Agilent 33120A | — | none |
 | Zenko LiteVNA 62/64/67 | — | none |

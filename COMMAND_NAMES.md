@@ -31,12 +31,12 @@ Channel, range and value placeholders use the names `channel_number`, `channels`
 |---|---|---|
 | Power supplies | OWON ODP, Keysight E36300, TDK-Lambda GEN (IEEE + LAN manual), R&S HMP, HP E3631A | complete |
 | Electronic loads | Chroma 6330A, Keysight EL4900, Siglent SDL1000X | complete |
-| Oscilloscopes | Tektronix 5 Series MSO, Rigol DS1000Z, Siglent SDS800X HD; Digilent WaveForms SDK (Analog Discovery 2, a driver model, **experimental**) | complete |
+| Oscilloscopes | Tektronix 5 Series MSO, Rigol DS1000Z, Siglent SDS800X HD; Digilent WaveForms SDK (Analog Discovery 2: oscilloscope, tested on hardware; no logic analyzer) | complete |
 | Multimeters | Agilent 34401A, HP 3478A | the 3478A PDF is a scanned image without text: its coverage comes from the existing library entries |
 | Dataloggers | Keysight 34970A/34972A, Keysight DAQ970A/DAQ973A | complete |
 | Switch units | Agilent 3499A | only one manual: the schema may change when more instruments are added |
 | Vector network analyzers | Zenko LiteVNA 62/64/67, Siglent VNA Series Programming Guide (SNA5000A, SNA5000X-E, SNA6000A, SHN900A), R&S ZNB and ZNL/ZNLE, ZVA/ZVB/ZVT and ZVL manuals | **provisional, experimental**: no VNA has been tested on a real instrument. The Agilent E506x/E507x user guides contain no SCPI command reference (it is in the separate Programmer's Guide), the HP 8700 quick reference is a scanned image, the HP 8753C uses HP-IB mnemonics and the Agilent 871x a different SCPI dialect: none of them is used yet |
-| Function generators | Digilent WaveForms SDK (Analog Discovery 2), Rigol DG1000 programming guide (DG1022, DG1022A), Agilent 33120A user's guide; read but without a command reference: Rigol DG1000Z user guide, FeelTech FY3200S user manual | **provisional, experimental**: three models, none tested on an instrument (the Analog Discovery 2 and its amplitude convention are to be verified) |
+| Function generators | Digilent WaveForms SDK (Analog Discovery 2), Rigol DG1000 programming guide (DG1022, DG1022A), Agilent 33120A user's guide; read but without a command reference: Rigol DG1000Z user guide, FeelTech FY3200S user manual | Analog Discovery 2: supported, tested on hardware (sine, square, triangle, amplitude, offset, W1 and W2; the amplitude is peak-to-peak, the driver sends half of it). Rigol DG1022/DG1022A and Agilent 33120A: **experimental**, not tested |
 
 ## 3. Calls per category
 
