@@ -6,7 +6,7 @@ To check the library against a real instrument see [TESTING.md](TESTING.md).
 
 ## File structure
 
-The file `instruments_lib.json` is a single object with the key `instrument_library`, containing 7 categories:
+The file `instruments_lib.json` is a single object with the key `instrument_library`, containing 9 categories:
 
 | Key | Category | Examples |
 |---|---|---|
@@ -17,6 +17,8 @@ The file `instruments_lib.json` is a single object with the key `instrument_libr
 | `multimeters_series` | Multimeters | HP 3478A, Agilent 34401A |
 | `oscilloscopes_series` | Oscilloscopes | Tektronix 5 Series MSO, Rigol DS1000Z, Siglent SDS HD |
 | `electronic_loads_series` | Electronic loads | Chroma 6330A, Keysight EL4900, Siglent SDL1000X-E |
+| `network_analyzers_series` | Vector network analyzers | Zenko LiteVNA 62/64/67, Siglent SNA/SHN, R&S ZNB/ZNL/ZVA/ZVB/ZVL |
+| `function_generators_series` | Function generators | Digilent Analog Discovery 2 (generator), Rigol DG1022/DG1022A, Agilent 33120A |
 
 ```json
 {
@@ -27,7 +29,9 @@ The file `instruments_lib.json` is a single object with the key `instrument_libr
     "datalogger_modules": [],
     "multimeters_series": [],
     "oscilloscopes_series": [],
-    "electronic_loads_series": []
+    "electronic_loads_series": [],
+    "network_analyzers_series": [],
+    "function_generators_series": []
   }
 }
 ```
@@ -309,8 +313,10 @@ IDs follow `{TYPE}_{MANUFACTURER}_{MODEL}`:
 | Power supply | `PSU_` | `PSU_OWON_ODP3033` |
 | Data logger | `DL_` | `DL_Keysight_34972A` |
 | Multimeter | `MTR_` | `MTR_Agilent_34401A` |
-| Oscilloscope | `OSC_` | `OSC_Tek_MSO54` |
+| Oscilloscope | `OSC_` | `OSC_Tek_MSO54`, `OSC_Digilent_AnalogDiscovery2` |
 | Electronic load | `EL_` | `EL_Chroma_6330A` |
+| Network analyzer (VNA) | `VNA_` | `VNA_Zenko_LiteVNA62` |
+| Function generator | `FGEN_` | `FGEN_Digilent_AnalogDiscovery2`, `FGEN_Rigol_DG1022` |
 
 ### Channel IDs
 
@@ -327,39 +333,56 @@ IDs follow `{TYPE}_{MANUFACTURER}_{MODEL}`:
 | Tektronix | `CH` + number | `CH1`..`CH8` |
 | Siglent | `C` + number | `C1`..`C4` |
 | TDK-Lambda | `CH1` (single channel) | `CH1` |
+| Digilent Analog Discovery 2 (scope and generator) | `CH1`, `CH2` (the two inputs and the two outputs of the device) | `CH1` |
+| Rigol DG1000 (generator) | `CH` + number | `CH1`, `CH2` |
+| Agilent 33120A (generator) | single channel | `CH1` |
 
 ## The `experimental` flag
 
 - Most models have `"experimental": true` = **not yet validated on real hardware** — the SCPI commands may differ from the manual.
-- All models have `"experimental": true` (not yet validated on real hardware), except the **Siglent SDS800X HD** family (`OSC_Siglent_SDS804X_HD`, `OSC_Siglent_SDS814X_HD`, `OSC_Siglent_SDS824X_HD`, partially tested).
+- Every model except the ones listed below has `"experimental": true` (not yet validated on real hardware): `DL_Agilent_34970A` (tested over RS-232), `OSC_Siglent_SDS804X_HD`, `OSC_Siglent_SDS814X_HD` and `OSC_Siglent_SDS824X_HD` (flag `false`; only the SDS824X HD was tested, see the table below).
+- The flag is not yet updated for the Analog Discovery 2 (`OSC_Digilent_AnalogDiscovery2` and `FGEN_Digilent_AnalogDiscovery2`): both were tested on real hardware (see below) but still have `"experimental": true`.
 
-### Tested model per series
+### Tested models per series
 
-| Series | Tested model |
-|---|---|
-| OWON ODP | X |
-| Keysight E36300 | X |
-| TDK-Lambda GEN | X |
-| R&S HMP | X |
-| HP E3631A | X |
-| Keysight 3497X (34970A, 34972A) | X |
-| Agilent 3499A | X |
-| Datalogger modules (34901A..34908A) | X |
-| HP 3478A | X |
-| Agilent 34401A | X |
-| Tektronix 5 Series MSO | X |
-| Rigol DS1000Z | X |
-| **Siglent SDS800X HD** | **SDS824X HD** |
-| Siglent SDS1000X/SDS2000X HD | X |
-| Chroma 6330A | X |
-| Keysight EL4900 | X |
-| Siglent SDL1000X | X |
+"Tested" means that the commands were run on a real instrument. Every model not listed as tested is `experimental` and has never been run on hardware.
 
-`X` = no model of the series validated on real hardware (`experimental: true`).
+| Series | Model tested | How it was tested |
+|---|---|---|
+| OWON ODP | — | none |
+| Keysight E36300 | — | none |
+| TDK-Lambda GEN | — | none |
+| R&S HMP | — | none |
+| HP E3631A | — | none |
+| Keysight 3497X | 34970A | RS-232 (57600 baud, XON/XOFF): 38 of 39 calls accepted; the 34972A is not tested |
+| Keysight DAQ97x | — | none (DAQ970A, DAQ973A) |
+| Agilent 3499A | — | none (no instrument available; the schema is built from the manual) |
+| Datalogger modules (34901A..34908A) | — | none tested on their own |
+| HP 3478A | — | none (no instrument available; the service manual is a scanned image) |
+| Agilent 34401A | — | none |
+| Tektronix 5 Series MSO | — | none |
+| Rigol DS1000Z | — | none |
+| Siglent SDS800X HD | SDS824X HD | real instrument (firmware 4.8.12.1.1.6.5); the SDS804X and SDS814X are not tested |
+| Siglent SDS1000X/SDS2000X HD | — | none |
+| Chroma 6330A | — | none |
+| Keysight EL4900 | — | none |
+| Siglent SDL1000X | — | none |
+| Digilent Analog Discovery 2, scope | Analog Discovery 2 (USB) | real device through the WaveForms runtime, with the driver `ola/drivers/waveforms.py` called directly; the path from the library entry (`Instrument` → `driver_for`) is not yet tested |
+| Digilent Analog Discovery 2, generator | Analog Discovery 2 (USB) | real device: sine, square and triangle from 1 kHz to 1 MHz, amplitude, offset, W1 and W2 independent, out-of-range values refused |
+| Rigol DG1022 / DG1022A | — | none |
+| Agilent 33120A | — | none |
+| Zenko LiteVNA 62/64/67 | — | none |
+| Siglent SNA / SHN | — | none |
+| Rohde & Schwarz ZNB/ZNL/ZVA/ZVB/ZVT/ZVL | — | none |
+
+The results of the 34970A and of the SDS824X HD are described in [COMMAND_NAMES.md](COMMAND_NAMES.md), section 5. The results of the Analog Discovery 2 are described in the notes of [docs/COMMANDS.md](docs/COMMANDS.md) (section *Function generators* and *Oscilloscopes*).
 
 ## Documentation
 
-- **`docs/COMMANDS.md` — reference of the canonical call names** of the SCPI commands (key, description, syntax per series). Use these names to call the instruments: same operation = same name.
+- **`docs/COMMANDS.md`** — reference of the canonical call names of the SCPI commands (key, description, syntax per series). Use these names to call the instruments: same operation = same name.
+- **`COMMAND_NAMES.md`** — the complete list of the logical calls per category, generated from the call schemas in `schema/` (the sections between the `GENERATED` markers are rebuilt with `python3 schema/generate_command_names.py`; do not edit them by hand).
+- **`schema/`** — one JSON schema per category: the logical calls, their arguments and their result types. `schema/README.md` describes the format.
+- **`TESTING.md`** — how to check the library against a real instrument; **`Tests/README.md`** — the test script for the SCPI commands.
 - The PDF manuals live in `docs/{Manufacturer}/{Series}/`. Note: the folder of the Siglent manuals uses the spelling **Sigilent** (consistent with the references in the JSON).
 
 All `documentation_path` values referenced by the JSON now point to PDFs that really exist in the repository. The manual `docs/Tektronix/4-5-6-Series-MSO_Programmer_077189804.pdf` is present as an additional secondary reference.

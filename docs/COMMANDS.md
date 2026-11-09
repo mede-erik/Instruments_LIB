@@ -21,6 +21,7 @@ The software that uses this library must call the instruments through these name
 | R&S HMP | Rohde_Schwarz_HMP_Series | Power supplies |
 | HP E3631A | HP_E3631A_Series | Power supplies |
 | K. 3497X | Keysight_3497X_Series | Dataloggers |
+| K. DAQ97x | Keysight_DAQ97x_Series | Dataloggers |
 | A. 3499A | Agilent_3499A_Series | Switch units (`switch_units_series`) |
 | HP 3478A | HP_3478A_Series | Multimeters |
 | A. 34401A | Agilent_34401A_Series | Multimeters |
@@ -30,6 +31,13 @@ The software that uses this library must call the instruments through these name
 | Chroma 6330A | Chroma_6330A_Series | Loads |
 | K. EL4900 | Keysight_EL4900_Series | Loads |
 | Sig. SDL1000X | Siglent_SDL1000X_E_Series | Loads |
+| AD2 scope | Digilent_AnalogDiscovery_Scope_Series | Oscilloscopes |
+| AD2 generator | Digilent_AnalogDiscovery_Series | Function generators (`function_generators_series`) |
+| Rigol DG1000 | Rigol_DG1000_Series | Function generators |
+| A. 33120A | Agilent_33120A_Series | Function generators |
+| LiteVNA | Zenko_LiteVNA_Series | Network analyzers (`network_analyzers_series`) |
+| Sig. SNA | Siglent_SNA_Series | Network analyzers |
+| R&S ZN / ZV | Rohde_Schwarz_ZNx_Series, Rohde_Schwarz_ZVx_Series | Network analyzers |
 
 ## Common commands (IEEE-488.2 and status)
 
@@ -180,18 +188,19 @@ The software that uses this library must call the instruments through these name
 
 | Key | Description | SCPI syntax per series | Return type |
 |---|---|---|---|
-| `set_function` | Selects the measurement function | `F{function}` (HP 3478A: F1=FDCV, F2=ACV, F3=DCA, F4=ACA, F5=Ω2, F6=Ω4, F7=FREQ); `FUNCtion "{function}"` (A. 34401A: DCV, ACV, DCI, ACI, RES, FRES, FREQ, PER, CONT, DIOD) | — |
+| `set_function` | Selects the measurement function | `F{function}` (HP 3478A: F1=DC volts, F2=AC volts, F3=2-wire Ω, F4=4-wire Ω, F5=DC current, F6=AC current, F7=extended Ω); `FUNCtion "{function}"` (A. 34401A: DCV, ACV, DCI, ACI, RES, FRES, FREQ, PER, CONT, DIOD) | — |
 | `query_function` | Current function | `FUNCtion?` (A. 34401A) | string |
-| `set_range` | Measurement range | `R{range}` (HP 3478A: R-2..R7, RA; e.g. R3 = 30V); `{function}:RANGe {range}` (A. 34401A, active function) | — |
-| `set_auto_range` | Auto range | `{function}:RANGe:AUTO {state}` (A. 34401A) | — |
-| `set_resolution` | Resolution | `N{digits}` (HP 3478A: N3..N5 = 3½..5½ digits); `{function}:RESolution {resolution}` (A. 34401A) | — |
+| `set_range` | Measurement range (the smallest range that holds the value) | `R{range_code}` (HP 3478A: R-2 = 30 mV, R-1 = 0.3 V, R0 = 3 V, R1 = 30 V … R7 = 30 MΩ); `{function}:RANGe {range}` (A. 34401A, active function) | — |
+| `set_auto_range` | Auto range | `RA` (HP 3478A; turning it off is done with `set_range`); `{function}:RANGe:AUTO {state}` (A. 34401A) | — |
+| `set_resolution` | Resolution (A. 34401A) | `{function}:RESolution {resolution}` (A. 34401A) | — |
+| `set_display_digits` | Digits displayed (HP 3478A only: it selects digits, not a resolution in measurement units) | `N{digits}` (HP 3478A: N3..N5 = 3½..5½ digits) | — |
 | `set_measurement_rate` | Measurement rate | `{function}:NPLCycles {nplc}` (A. 34401A: 0.02..100) | — |
 
 ### Measurement
 
 | Key | Description | SCPI syntax per series | Return type |
 |---|---|---|---|
-| `read_measurement` | Reads the measurement | `ENTER` (HP 3478A — 13-byte ASCII read via HP-IB); `READ?` (A. 34401A) | float |
+| `read_measurement` | Reads the measurement | no command on the HP 3478A: it talks when addressed (a `read` step, 13-byte ASCII); `READ?` (A. 34401A) | float |
 | `measure_dc_voltage` | Immediate DCV measurement | `MEASure:VOLTage:DC? {range},{resolution}` (A. 34401A) | float |
 | `measure_ac_voltage` | Immediate ACV measurement | `MEASure:VOLTage:AC? {range},{resolution}` (A. 34401A) | float |
 | `measure_dc_current` | Immediate DCI measurement | `MEASure:CURRent:DC? {range},{resolution}` (A. 34401A) | float |
@@ -209,19 +218,21 @@ The software that uses this library must call the instruments through these name
 
 | Key | Description | SCPI syntax per series | Return type |
 |---|---|---|---|
-| `set_trigger_source` | Trigger source | `T{source}` (HP 3478A: T1=BUS, T2=EXT, T3=INT); `TRIGger:SOURce {source}` (A. 34401A: BUS, IMMediate, EXTernal) | — |
-| `trigger_bus` | Bus trigger | `GET` (HP 3478A — HP-IB command); `*TRG` (A. 34401A) | — |
+| `set_trigger_source` | Trigger source | `T{source}` (HP 3478A: T1 = internal, T2 = external, T4 = Group Execute Trigger, i.e. `BUS`); `TRIGger:SOURce {source}` (A. 34401A: BUS, IMMediate, EXTernal) | — |
+| `trigger_bus` | Bus trigger | `*TRG` (A. 34401A). The HP 3478A's Group Execute Trigger is an HP-IB bus message, not a text command: not available yet | — |
 | `set_autozero` | Autozero | `Z{autozero}` (HP 3478A: Z0=off, Z1=on); `SENSe:ZERO:AUTO {mode}` (A. 34401A) | — |
 | `clear_status` | Clear status registers | `K` (HP 3478A); `*CLS` (A. 34401A) | — |
 | `error_query` | Last error | `E` (HP 3478A — 2 octal digits); `SYSTem:ERRor?` (A. 34401A) | string |
-| `query_status_byte` | Status byte | `SPOLL` (HP 3478A — serial poll); `*STB?` (A. 34401A) | int |
-| `reset` | Instrument reset | `CLEAR` (HP 3478A — device clear); `*RST` (A. 34401A) | — |
+| `query_status_byte` | Status byte | `*STB?` (A. 34401A). The HP 3478A's serial poll is an HP-IB bus message, not a text command: not available yet | int |
+| `reset` | Instrument reset | `*RST` (A. 34401A). The HP 3478A's device clear is an HP-IB bus message, not a text command: not available yet | — |
 | `set_math_function` | Math function | `CALCulate:FUNCtion {function}` (A. 34401A: NULL, DB, DBM, AVERage, LIMit — one at a time) | — |
 | `set_sample_count` | Readings per trigger | `SAMPle:COUNt {count}` (A. 34401A) | — |
 | `initiate_measurement` | Starts the triggered measurement | `INITiate` (A. 34401A) | — |
 | `query_scpi_version` | SCPI version | `SYSTem:VERSion?` (A. 34401A) | string |
 
-> **Note on the 3478A**: pre-IEEE-488.2 — classic HP command language, no `*IDN?`/`*RST`/SCPI. Identification via the response to `E` + s/n, or serial poll.
+> **Note on the 3478A**: pre-IEEE-488.2 — classic HP command language, no `*IDN?`/`*RST`/SCPI. It is reached over HP-IB only. Its reset, Group Execute Trigger and serial poll are bus messages, which the library does not send yet. The 3478A manual in the repository is the service manual (scanned, no text).
+>
+> **Note on the 34401A**: the `measure_*` and `configure_*` calls take a number or `MIN`/`MAX`/`DEF` for range and resolution (default `DEF`), as in the manual.
 
 ## Oscilloscopes (OSC)
 
@@ -300,9 +311,27 @@ Channels do not have uniform IDs: always check the series before using them.
 | Tektronix | `CH` + number | `CH1`..`CH8` |
 | Siglent | `C` + number | `C1`..`C4` |
 | TDK-Lambda | `CH1` (single channel) | `CH1` |
+| Digilent Analog Discovery 2 (scope and generator) | `CH1`, `CH2` (two inputs; two outputs W1 and W2 on the board) | `CH1` |
+| Rigol DG1000 (generator) | `CH` + number | `CH1`, `CH2` |
+| Agilent 33120A (generator) | single channel | `CH1` |
+
+## Function generators (FGEN)
+
+The logical calls and their SCPI syntax per series are in [COMMAND_NAMES.md](../COMMAND_NAMES.md), section 3.8 (generated from `schema/function_generator.json`). Points that are specific to the Analog Discovery 2:
+
+- `set_amplitude` takes the **peak-to-peak** voltage. The driver sends half of it to the SDK (`PEAK_PER_VPP` = 0.5). Measured on an oscilloscope: 1 Vpp set gives 1.02 Vpp, 5 Vpp set gives 5.05 Vpp.
+- The range of the amplitude (0.02 to 10 Vpp) and of the offset (±5 V) come from the device, not from the library: a value outside them is refused as `CALL-002`.
+- `PULSE` and `ARBITRARY` waveforms are not handled; `set_waveform_shape` refuses them.
+- `set_output_state` **without** `channel_number` starts all the channels that were given a setting through the driver with one start of the whole generator, so W1 and W2 start in phase (under 1° of spread over 10 starts; with one start per channel the spread was about 300°). With a `channel_number` only that channel changes. Without a channel and nothing configured, the first channel is used.
+
+## Network analyzers (VNA)
+
+The logical calls are in [COMMAND_NAMES.md](../COMMAND_NAMES.md), section 3.7, generated from `schema/vna.json`. No network analyzer has been tested on a real instrument yet.
 
 ## Notes
 
-- All models have `"experimental": true` (commands not yet validated on real hardware), except the **Siglent SDS800X HD** family (`OSC_Siglent_SDS804X_HD`, `OSC_Siglent_SDS814X_HD`, `OSC_Siglent_SDS824X_HD`, partially tested).
+- Every model except those listed here has `"experimental": true` (commands not yet validated on real hardware): `DL_Agilent_34970A` (tested over RS-232), `OSC_Siglent_SDS804X_HD`, `OSC_Siglent_SDS814X_HD` and `OSC_Siglent_SDS824X_HD` (flag `false`; only the SDS824X HD was tested). The Analog Discovery 2 models (`OSC_Digilent_AnalogDiscovery2`, `FGEN_Digilent_AnalogDiscovery2`) were tested on real hardware but still carry `"experimental": true`.
+- The Analog Discovery 2 **scope**: the library reports the range of the device input. With a probe attenuation set (`set_probe_attenuation`) the scale limits are multiplied by it, and the upper limit is the range the device really gives (measured: 5.49 and 60.36 V at x1, 54.91 and 603.62 V at x10; a request is served by the first real range that is not smaller). A scale the device cannot give is refused, not rounded. The offset limit with a probe is not measured yet.
+- The Siglent SDS HD **ignores the settings of a channel that is off**: enable the channel first (`set_channel_state`), then the probe and the scale.
 - `query_waveform_data` with BYTE/WORD format returns binary data with a `#<n><len>` (TMC) header, not text.
 - On Tektronix `error_query` uses `EVMsg?` because the `SYSTem` group does not exist.
