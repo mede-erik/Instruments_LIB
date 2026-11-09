@@ -1,6 +1,9 @@
 # Draft: logical calls for vector network analyzers (VNA)
 
-Status: **draft for discussion**. Nothing here is in `schema/` or `instruments_lib.json` yet. A command goes into the library only when the manual of the instrument documents it.
+Status: **superseded (historical record)**. The calls of the network analyzer category are now defined in `schema/vna.json`
+(category `network_analyzers_series`), and the guide for the measurements that use them is `docs/vna-calls.md` in the
+Open-Lab-Automation repository. This draft is kept for the discussion that led to them. A command goes into the library
+only when the manual of the instrument documents it.
 
 ## 1. What the LiteVNA manual says (LiteVNA User Guide, appendix "USB data interface", pages 25-30)
 

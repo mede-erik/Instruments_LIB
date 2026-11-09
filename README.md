@@ -331,7 +331,7 @@ IDs follow `{TYPE}_{MANUFACTURER}_{MODEL}`:
 ## The `experimental` flag
 
 - Most models have `"experimental": true` = **not yet validated on real hardware** — the SCPI commands may differ from the manual.
-- All models have `"experimental": true` (not yet validated on real hardware), except the **Siglent SDS800X HD** family (`OSC_Siglent_SDS804X_HD`, `OSC_Siglent_SDS814X_HD`, `OSC_Siglent_SDS824X_HD`, partially tested).
+- 87 of the 91 models have `"experimental": true`. The four without it are the three **Siglent SDS800X HD** models (`OSC_Siglent_SDS804X_HD`, `OSC_Siglent_SDS814X_HD`, `OSC_Siglent_SDS824X_HD`, partially tested) and the **Agilent 34970A** (`DL_Agilent_34970A`, tested on a real instrument).
 
 ### Tested model per series
 
