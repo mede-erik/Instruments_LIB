@@ -13533,9 +13533,9 @@
                   "label": "Channel 2"
                 }
               ],
-              "notes": "Two analog inputs (the 1+/1- and 2+/2- pins). The ranges, the buffer sizes and the sample frequencies are read from the device (FDwfAnalogInChannelCount and the FDwfAnalogIn...Info functions); the reference manual gives no figure for a device."
+              "notes": "Two analog inputs (the 1+/1- and 2+/2- pins). The ranges, the buffer sizes and the sample frequencies are read from the device (FDwfAnalogInChannelCount and the FDwfAnalogIn...Info functions); the reference manual gives no figure for a device. Supported: oscilloscope and function generator only. The logic analyzer (digital inputs) is not supported yet; the models will be marked experimental again when a logic analyzer is added and tested."
             },
-            "experimental": true
+            "experimental": false
           }
         ]
       }
@@ -20935,9 +20935,9 @@
             },
             "capabilities": {
               "number_of_channels": 2,
-              "notes": "Two analog outputs (W1 and W2). The ranges of frequency, amplitude and offset are read from the device (FDwfAnalogOutCount and the FDwfAnalogOutNode...Info functions); the reference manual gives no figure for a device."
+              "notes": "Two analog outputs (W1 and W2). The ranges of frequency, amplitude and offset are read from the device (FDwfAnalogOutCount and the FDwfAnalogOutNode...Info functions); the reference manual gives no figure for a device. Supported: oscilloscope and function generator only. The logic analyzer (digital inputs) is not supported yet; the models will be marked experimental again when a logic analyzer is added and tested."
             },
-            "experimental": true
+            "experimental": false
           }
         ]
       },
