@@ -6,7 +6,7 @@ To check the library against a real instrument see [TESTING.md](TESTING.md).
 
 ## File structure
 
-The file `instruments_lib.json` is a single object with the key `instrument_library`, containing 9 categories:
+The file `instruments_lib.json` is a single object with the key `instrument_library`, containing 10 categories:
 
 | Key | Category | Examples |
 |---|---|---|
@@ -19,6 +19,7 @@ The file `instruments_lib.json` is a single object with the key `instrument_libr
 | `electronic_loads_series` | Electronic loads | Chroma 6330A, Keysight EL4900, Siglent SDL1000X-E |
 | `network_analyzers_series` | Vector network analyzers | Zenko LiteVNA 62/64/67, Siglent SNA/SHN, R&S ZNB/ZNL/ZVA/ZVB/ZVL |
 | `function_generators_series` | Function generators | Digilent Analog Discovery 2 (generator), Rigol DG1022/DG1022A, Agilent 33120A |
+| `rf_signal_generators_series` | RF signal generators | Keysight EXG N5171B/N5172B, Keysight MXG N5181B/N5182B |
 
 ```json
 {
@@ -31,7 +32,8 @@ The file `instruments_lib.json` is a single object with the key `instrument_libr
     "oscilloscopes_series": [],
     "electronic_loads_series": [],
     "network_analyzers_series": [],
-    "function_generators_series": []
+    "function_generators_series": [],
+    "rf_signal_generators_series": []
   }
 }
 ```
@@ -317,6 +319,7 @@ IDs follow `{TYPE}_{MANUFACTURER}_{MODEL}`:
 | Electronic load | `EL_` | `EL_Chroma_6330A` |
 | Network analyzer (VNA) | `VNA_` | `VNA_Zenko_LiteVNA62` |
 | Function generator | `FGEN_` | `FGEN_Digilent_AnalogDiscovery2`, `FGEN_Rigol_DG1022` |
+| RF signal generator | `RFGEN_` | `RFGEN_Keysight_N5172B` |
 
 ### Channel IDs
 
@@ -336,6 +339,7 @@ IDs follow `{TYPE}_{MANUFACTURER}_{MODEL}`:
 | Digilent Analog Discovery 2 (scope and generator) | `CH1`, `CH2` (the two inputs and the two outputs of the device) | `CH1` |
 | Rigol DG1000 (generator) | `CH` + number | `CH1`, `CH2` |
 | Agilent 33120A (generator) | single channel | `CH1` |
+| Keysight EXG / MXG (RF signal generator) | single RF output (no channel parameter) | — |
 
 ## The `experimental` flag
 
@@ -372,6 +376,7 @@ IDs follow `{TYPE}_{MANUFACTURER}_{MODEL}`:
 | Digilent Analog Discovery 2, generator (supported) | Analog Discovery 2 (USB) | real device: sine, square and triangle from 1 kHz to 1 MHz, amplitude, offset, W1 and W2 independent, out-of-range values refused |
 | Rigol DG1022 / DG1022A | — | none |
 | Agilent 33120A | — | none |
+| Keysight EXG N5171B/N5172B, MXG N5181B/N5182B | — | none (no instrument available) |
 | Zenko LiteVNA 62/64/67 | — | none |
 | Siglent SNA / SHN | — | none |
 | Rohde & Schwarz ZNB/ZNL/ZVA/ZVB/ZVT/ZVL | — | none |

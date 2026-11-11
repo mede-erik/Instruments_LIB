@@ -33,6 +33,7 @@ TITLES = {
     "switch_units_series": "Switch units",
     "network_analyzers_series": "Vector network analyzers",
     "function_generators_series": "Function generators",
+    "rf_signal_generators_series": "RF signal generators",
 }
 
 
@@ -45,6 +46,7 @@ NUMBERS = {
     "switch_units_series": "3.6",
     "network_analyzers_series": "3.7",
     "function_generators_series": "3.8",
+    "rf_signal_generators_series": "3.9",
 }
 
 

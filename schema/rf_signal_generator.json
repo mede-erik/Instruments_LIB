@@ -1,0 +1,130 @@
+{
+  "schema_version": 1,
+  "category": "rf_signal_generators_series",
+  "description": "Logical calls of RF signal generators (a carrier with a frequency in Hz and a power in dBm, with or without modulation). The application sets the carrier and the output; the modulation formats are added later. Based on the Keysight X-Series (EXG and MXG) manuals.",
+  "types": {
+    "bool": {
+      "kind": "bool",
+      "description": "true/false; default text sent to the instrument is ON/OFF unless the library gives a map"
+    }
+  },
+  "calls": {
+    "identification_query": {
+      "requirement": "mandatory",
+      "kind": "query",
+      "description": "identification string (*IDN?)",
+      "result": {
+        "type": "string"
+      }
+    },
+    "reset": {
+      "requirement": "mandatory",
+      "kind": "action",
+      "description": "restore the factory defaults (*RST): the RF output goes off"
+    },
+    "clear_status": {
+      "requirement": "mandatory",
+      "kind": "action",
+      "description": "clear the status registers and the event queue (*CLS)"
+    },
+    "error_query": {
+      "requirement": "mandatory",
+      "kind": "query",
+      "description": "read and clear the oldest error of the error queue",
+      "result": {
+        "type": "string"
+      }
+    },
+    "set_frequency": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "carrier (CW) frequency; the range depends on the model and on its options",
+      "args": {
+        "value": {
+          "type": "float",
+          "unit": "Hz",
+          "min": 0
+        }
+      }
+    },
+    "query_frequency": {
+      "requirement": "mandatory",
+      "kind": "query",
+      "description": "carrier (CW) frequency",
+      "result": {
+        "type": "float"
+      }
+    },
+    "set_power_level": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "RF output power level (the level of the RF connector, with the attenuator included); the range depends on the model and on its options",
+      "args": {
+        "value": {
+          "type": "float",
+          "unit": "dBm"
+        }
+      }
+    },
+    "query_power_level": {
+      "requirement": "mandatory",
+      "kind": "query",
+      "description": "RF output power level",
+      "result": {
+        "type": "float"
+      }
+    },
+    "set_output_state": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "switch the RF output on or off (the factory state is off)",
+      "args": {
+        "state": {
+          "type": "bool"
+        }
+      }
+    },
+    "query_output_state": {
+      "requirement": "mandatory",
+      "kind": "query",
+      "description": "state of the RF output (true = on)",
+      "result": {
+        "type": "bool"
+      }
+    },
+    "set_modulation_output_state": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "switch on or off the modulation of the RF output as a whole (the modulation formats keep their own on/off setting)",
+      "args": {
+        "state": {
+          "type": "bool"
+        }
+      }
+    },
+    "query_modulation_output_state": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "state of the modulation of the RF output (true = on)",
+      "result": {
+        "type": "bool"
+      }
+    },
+    "operation_complete_query": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "operation complete: returns 1 when the pending operations are finished (*OPC?)",
+      "result": {
+        "type": "int"
+      }
+    },
+    "self_test": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "run the instrument self test (*TST?); 0 = pass",
+      "result": {
+        "type": "int"
+      }
+    }
+  }
+}

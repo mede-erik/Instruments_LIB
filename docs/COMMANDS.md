@@ -35,6 +35,8 @@ The software that uses this library must call the instruments through these name
 | AD2 generator | Digilent_AnalogDiscovery_Series | Function generators (`function_generators_series`) |
 | Rigol DG1000 | Rigol_DG1000_Series | Function generators |
 | A. 33120A | Agilent_33120A_Series | Function generators |
+| Keysight EXG | Keysight_EXG_Series | RF signal generators (`rf_signal_generators_series`) |
+| Keysight MXG | Keysight_MXG_Series | RF signal generators |
 | LiteVNA | Zenko_LiteVNA_Series | Network analyzers (`network_analyzers_series`) |
 | Sig. SNA | Siglent_SNA_Series | Network analyzers |
 | R&S ZN / ZV | Rohde_Schwarz_ZNx_Series, Rohde_Schwarz_ZVx_Series | Network analyzers |
@@ -323,6 +325,22 @@ The logical calls and their SCPI syntax per series are in [COMMAND_NAMES.md](../
 - The range of the amplitude (0.02 to 10 Vpp) and of the offset (±5 V) come from the device, not from the library: a value outside them is refused as `CALL-002`.
 - `PULSE` and `ARBITRARY` waveforms are not handled; `set_waveform_shape` refuses them.
 - `set_output_state` **without** `channel_number` starts all the channels that were given a setting through the driver with one start of the whole generator, so W1 and W2 start in phase (under 1° of spread over 10 starts; with one start per channel the spread was about 300°). With a `channel_number` only that channel changes. Without a channel and nothing configured, the first channel is used.
+
+## RF signal generators (RFGEN)
+
+The logical calls are in [COMMAND_NAMES.md](../COMMAND_NAMES.md), section 3.9, generated from `schema/rf_signal_generator.json`. The Keysight EXG (N5171B analog, N5172B vector) and MXG (N5181B analog, N5182B vector) share one SCPI command set. Their commands come from the *X-Series Signal Generators Programming Compatibility Guide* and the *Programming Guide*; the complete SCPI command reference is a separate document that is not in the repository, so only the carrier and the output are covered: modulation formats are not yet.
+
+| Key | Description | SCPI syntax | Return type |
+|---|---|---|---|
+| `set_frequency` | Carrier (CW) frequency, in Hz | `FREQuency:CW {value} Hz` | — |
+| `query_frequency` | CW frequency | `FREQuency:CW?` | float |
+| `set_power_level` | RF output level, in dBm | `POWer:AMPLitude {value} dBm` | — |
+| `query_power_level` | RF output level | `POWer:AMPLitude?` | float |
+| `set_output_state` | RF output on/off (off after `*RST`) | `OUTPut:STATe ON\|OFF` | — |
+| `query_output_state` | RF output state | `OUTPut:STATe?` | int (0/1) → bool |
+| `set_modulation_output_state` | Modulation of the output as a whole | `OUTPut:MODulation:STATe ON\|OFF` | — |
+
+Frequency range (data sheets): 9 kHz to 3 GHz (option 503) or 6 GHz (option 506), 7.2 GHz with option 506 + FRQ; the N5171B also has option 501 (1 GHz). Power: +19 to −144 dBm, +30 to −144 dBm with option 1EA. The library entries use the standard top values (6 GHz, +19 dBm); the instrument refuses a value its options do not allow. Transport: VXI-11 or sockets on port 5025 (LAN), USB-TMC, GPIB. No instrument has been tested.
 
 ## Network analyzers (VNA)
 

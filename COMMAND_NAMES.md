@@ -865,6 +865,43 @@ Logical types:
 
 <!-- END GENERATED function_generators_series -->
 
+<!-- BEGIN GENERATED rf_signal_generators_series -->
+### 3.9 RF signal generators (`rf_signal_generators_series`)
+
+Generated from `schema/rf_signal_generator.json` — do not edit this section by hand. 10 mandatory and 4 optional calls.
+
+Logical calls of RF signal generators (a carrier with a frequency in Hz and a power in dBm, with or without modulation). The application sets the carrier and the output; the modulation formats are added later. Based on the Keysight X-Series (EXG and MXG) manuals.
+
+Logical types:
+
+* `bool`: true / false
+
+**Mandatory**
+
+| Call | Kind | Arguments | Result | Description |
+|---|---|---|---|---|
+| `identification_query` | query |  | string | identification string (*IDN?) |
+| `reset` | action |  |  | restore the factory defaults (*RST): the RF output goes off |
+| `clear_status` | action |  |  | clear the status registers and the event queue (*CLS) |
+| `error_query` | query |  | string | read and clear the oldest error of the error queue |
+| `set_frequency` | set | `value` (float, Hz, 0..) |  | carrier (CW) frequency; the range depends on the model and on its options |
+| `query_frequency` | query |  | float | carrier (CW) frequency |
+| `set_power_level` | set | `value` (float, dBm) |  | RF output power level (the level of the RF connector, with the attenuator included); the range depends on the model and on its options |
+| `query_power_level` | query |  | float | RF output power level |
+| `set_output_state` | set | `state` (bool) |  | switch the RF output on or off (the factory state is off) |
+| `query_output_state` | query |  | bool | state of the RF output (true = on) |
+
+**Optional**
+
+| Call | Kind | Arguments | Result | Description |
+|---|---|---|---|---|
+| `set_modulation_output_state` | set | `state` (bool) |  | switch on or off the modulation of the RF output as a whole (the modulation formats keep their own on/off setting) |
+| `query_modulation_output_state` | query |  | bool | state of the modulation of the RF output (true = on) |
+| `operation_complete_query` | query |  | int | operation complete: returns 1 when the pending operations are finished (*OPC?) |
+| `self_test` | query |  | int | run the instrument self test (*TST?); 0 = pass |
+
+<!-- END GENERATED rf_signal_generators_series -->
+
 ## 4. Translation layer (arguments and answers)
 
 The same logical call has the same arguments and logical values for every brand; the library translates them for each instrument: `map` (argument values), `response_map` / `bool` / `split` / `as_list` (answers), `steps` (several commands), derived parameters (`from`, `expr`) and defaults. The format is described in `schema/README.md`.
