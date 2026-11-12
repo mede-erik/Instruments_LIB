@@ -18,7 +18,7 @@ The file `instruments_lib.json` is a single object with the key `instrument_libr
 | `oscilloscopes_series` | Oscilloscopes | Tektronix 5 Series MSO, Rigol DS1000Z, Siglent SDS HD |
 | `electronic_loads_series` | Electronic loads | Chroma 6330A, Keysight EL4900, Siglent SDL1000X-E |
 | `network_analyzers_series` | Vector network analyzers | Zenko LiteVNA 62/64/67, Siglent SNA/SHN, R&S ZNB/ZNL/ZVA/ZVB/ZVL |
-| `function_generators_series` | Function generators | Digilent Analog Discovery 2 (generator), Rigol DG1022/DG1022A, Agilent 33120A |
+| `function_generators_series` | Function generators | Digilent Analog Discovery 2 (generator), Rigol DG1022/DG1022A, Rigol DG1022Z/DG1032Z/DG1062Z, Agilent 33120A |
 | `rf_signal_generators_series` | RF signal generators | Keysight EXG N5171B/N5172B, Keysight MXG N5181B/N5182B |
 
 ```json
@@ -337,7 +337,7 @@ IDs follow `{TYPE}_{MANUFACTURER}_{MODEL}`:
 | Siglent | `C` + number | `C1`..`C4` |
 | TDK-Lambda | `CH1` (single channel) | `CH1` |
 | Digilent Analog Discovery 2 (scope and generator) | `CH1`, `CH2` (the two inputs and the two outputs of the device) | `CH1` |
-| Rigol DG1000 (generator) | `CH` + number | `CH1`, `CH2` |
+| Rigol DG1000 and DG1000Z (generator) | channel number 1 or 2 (a command suffix, no `CH` prefix in the library) | `1`, `2` |
 | Agilent 33120A (generator) | single channel | `CH1` |
 | Keysight EXG / MXG (RF signal generator) | single RF output (no channel parameter) | — |
 
@@ -374,7 +374,7 @@ IDs follow `{TYPE}_{MANUFACTURER}_{MODEL}`:
 | Siglent SDL1000X | — | none |
 | Digilent Analog Discovery 2, scope (supported; no logic analyzer) | Analog Discovery 2 (USB) | real device through the WaveForms runtime, with the driver `ola/drivers/waveforms.py` called directly; the path from the library entry (`Instrument` → `driver_for`) is not yet tested |
 | Digilent Analog Discovery 2, generator (supported) | Analog Discovery 2 (USB) | real device: sine, square and triangle from 1 kHz to 1 MHz, amplitude, offset, W1 and W2 independent, out-of-range values refused |
-| Rigol DG1022 / DG1022A | — | none |
+| Rigol DG1022 / DG1022A / DG1022Z / DG1032Z / DG1062Z | — | none |
 | Agilent 33120A | — | none |
 | Keysight EXG N5171B/N5172B, MXG N5181B/N5182B | — | none (no instrument available); carrier, output and AM/FM/PM/pulse on-off only |
 | Zenko LiteVNA 62/64/67 | — | none |
