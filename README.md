@@ -376,7 +376,7 @@ IDs follow `{TYPE}_{MANUFACTURER}_{MODEL}`:
 | Digilent Analog Discovery 2, generator (supported) | Analog Discovery 2 (USB) | real device: sine, square and triangle from 1 kHz to 1 MHz, amplitude, offset, W1 and W2 independent, out-of-range values refused |
 | Rigol DG1022 / DG1022A | — | none |
 | Agilent 33120A | — | none |
-| Keysight EXG N5171B/N5172B, MXG N5181B/N5182B | — | none (no instrument available) |
+| Keysight EXG N5171B/N5172B, MXG N5181B/N5182B | — | none (no instrument available); carrier, output and AM/FM/PM/pulse on-off only |
 | Zenko LiteVNA 62/64/67 | — | none |
 | Siglent SNA / SHN | — | none |
 | Rohde & Schwarz ZNB/ZNL/ZVA/ZVB/ZVT/ZVL | — | none |

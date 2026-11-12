@@ -21517,6 +21517,313 @@
               }
             }
           },
+          "set_modulation_state": {
+            "description": "[:SOURce]:AM|FM|PM|PULM:STATe ON|OFF: one modulation format",
+            "set": {
+              "syntax": "{prefix}:STATe {state}",
+              "args": [
+                "kind",
+                "state"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "kind": {
+                "type": "string"
+              },
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "ON"
+                ]
+              },
+              "prefix": {
+                "from": "kind",
+                "map": {
+                  "AM": "AM",
+                  "FM": "FM",
+                  "PM": "PM",
+                  "PULSE": "PULM"
+                }
+              }
+            }
+          },
+          "query_modulation_state": {
+            "description": "[:SOURce]:AM|FM|PM|PULM:STATe?: 1 = on, 0 = off",
+            "set": null,
+            "query": {
+              "syntax": "{prefix}:STATe?",
+              "return_type": "string",
+              "bool": {
+                "true": [
+                  "1",
+                  "ON"
+                ],
+                "false": [
+                  "0",
+                  "OFF"
+                ]
+              },
+              "args": [
+                "kind"
+              ]
+            },
+            "parameters": {
+              "kind": {
+                "type": "string"
+              },
+              "prefix": {
+                "from": "kind",
+                "map": {
+                  "AM": "AM",
+                  "FM": "FM",
+                  "PM": "PM",
+                  "PULSE": "PULM"
+                }
+              }
+            }
+          },
+          "set_modulation_source": {
+            "description": "[:SOURce]:AM|FM|PM:SOURce INTernal|INTernal2|EXTernal: a single source at a time (the Programming Guide also uses EXT2 for FM, which is not mapped yet)",
+            "set": {
+              "syntax": "{prefix}:SOURce {source_text}",
+              "args": [
+                "kind",
+                "source"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "kind": {
+                "type": "string"
+              },
+              "source": {
+                "type": "string"
+              },
+              "prefix": {
+                "from": "kind",
+                "map": {
+                  "AM": "AM",
+                  "FM": "FM",
+                  "PM": "PM"
+                }
+              },
+              "source_text": {
+                "from": "source",
+                "map": {
+                  "INTERNAL": "INTernal",
+                  "INTERNAL_2": "INTernal2",
+                  "EXTERNAL": "EXTernal"
+                }
+              }
+            }
+          },
+          "set_modulation_rate": {
+            "description": "[:SOURce]:AM|FM|PM:INTernal[1]|2:FREQuency <value><unit>: the modulating frequency of an internal generator",
+            "set": {
+              "syntax": "{prefix}:{path}:FREQuency {value} Hz",
+              "args": [
+                "kind",
+                "value",
+                "source"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "kind": {
+                "type": "string"
+              },
+              "value": {
+                "type": "float"
+              },
+              "source": {
+                "type": "string"
+              },
+              "prefix": {
+                "from": "kind",
+                "map": {
+                  "AM": "AM",
+                  "FM": "FM",
+                  "PM": "PM"
+                }
+              },
+              "path": {
+                "from": "source",
+                "map": {
+                  "INTERNAL": "INTernal",
+                  "INTERNAL_2": "INTernal2"
+                }
+              }
+            }
+          },
+          "query_modulation_rate": {
+            "description": "[:SOURce]:AM|FM|PM:INTernal[1]|2:FREQuency?",
+            "set": null,
+            "query": {
+              "syntax": "{prefix}:{path}:FREQuency?",
+              "return_type": "float",
+              "args": [
+                "kind",
+                "source"
+              ]
+            },
+            "parameters": {
+              "kind": {
+                "type": "string"
+              },
+              "source": {
+                "type": "string"
+              },
+              "prefix": {
+                "from": "kind",
+                "map": {
+                  "AM": "AM",
+                  "FM": "FM",
+                  "PM": "PM"
+                }
+              },
+              "path": {
+                "from": "source",
+                "map": {
+                  "INTERNAL": "INTernal",
+                  "INTERNAL_2": "INTernal2"
+                }
+              }
+            }
+          },
+          "set_modulation_waveform": {
+            "description": "[:SOURce]:AM|FM|PM:INTernal2:FUNCtion:SHAPe SINe|TRIangle|SQUare: documented for the second internal generator only (the sawtooth of the 8648 is not available)",
+            "set": {
+              "syntax": "{prefix}:INTernal2:FUNCtion:SHAPe {shape}",
+              "args": [
+                "kind",
+                "shape"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "kind": {
+                "type": "string"
+              },
+              "shape": {
+                "type": "string",
+                "map": {
+                  "SINE": "SINe",
+                  "TRIANGLE": "TRIangle",
+                  "SQUARE": "SQUare"
+                }
+              },
+              "prefix": {
+                "from": "kind",
+                "map": {
+                  "AM": "AM",
+                  "FM": "FM",
+                  "PM": "PM"
+                }
+              }
+            }
+          },
+          "set_modulation_external_coupling": {
+            "description": "[:SOURce]:AM|FM|PM:EXTernal:COUPling AC|DC",
+            "set": {
+              "syntax": "{prefix}:EXTernal:COUPling {coupling}",
+              "args": [
+                "kind",
+                "coupling"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "kind": {
+                "type": "string"
+              },
+              "coupling": {
+                "type": "string",
+                "map": {
+                  "AC": "AC",
+                  "DC": "DC"
+                }
+              },
+              "prefix": {
+                "from": "kind",
+                "map": {
+                  "AM": "AM",
+                  "FM": "FM",
+                  "PM": "PM"
+                }
+              }
+            }
+          },
+          "set_am_depth": {
+            "description": "[:SOURce]:AM:DEPTh <value>PCT: the range is in the data sheet",
+            "set": {
+              "syntax": "AM:DEPTh {value} PCT",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_am_depth": {
+            "description": "[:SOURce]:AM:DEPTh?",
+            "set": null,
+            "query": {
+              "syntax": "AM:DEPTh?",
+              "return_type": "float"
+            }
+          },
+          "set_fm_deviation": {
+            "description": "[:SOURce]:FM:DEViation <value><unit>: the range is in the data sheet",
+            "set": {
+              "syntax": "FM:DEViation {value} Hz",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_fm_deviation": {
+            "description": "[:SOURce]:FM:DEViation?",
+            "set": null,
+            "query": {
+              "syntax": "FM:DEViation?",
+              "return_type": "float"
+            }
+          },
+          "set_pm_deviation": {
+            "description": "[:SOURce]:PM:DEViation <value>RAD: the range is in the data sheet",
+            "set": {
+              "syntax": "PM:DEViation {value} RAD",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_pm_deviation": {
+            "description": "[:SOURce]:PM:DEViation?",
+            "set": null,
+            "query": {
+              "syntax": "PM:DEViation?",
+              "return_type": "float"
+            }
+          },
           "operation_complete_query": {
             "description": "*OPC?: 1 when the pending operations are finished",
             "set": null,
@@ -21781,6 +22088,313 @@
                   "OFF"
                 ]
               }
+            }
+          },
+          "set_modulation_state": {
+            "description": "[:SOURce]:AM|FM|PM|PULM:STATe ON|OFF: one modulation format",
+            "set": {
+              "syntax": "{prefix}:STATe {state}",
+              "args": [
+                "kind",
+                "state"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "kind": {
+                "type": "string"
+              },
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "ON"
+                ]
+              },
+              "prefix": {
+                "from": "kind",
+                "map": {
+                  "AM": "AM",
+                  "FM": "FM",
+                  "PM": "PM",
+                  "PULSE": "PULM"
+                }
+              }
+            }
+          },
+          "query_modulation_state": {
+            "description": "[:SOURce]:AM|FM|PM|PULM:STATe?: 1 = on, 0 = off",
+            "set": null,
+            "query": {
+              "syntax": "{prefix}:STATe?",
+              "return_type": "string",
+              "bool": {
+                "true": [
+                  "1",
+                  "ON"
+                ],
+                "false": [
+                  "0",
+                  "OFF"
+                ]
+              },
+              "args": [
+                "kind"
+              ]
+            },
+            "parameters": {
+              "kind": {
+                "type": "string"
+              },
+              "prefix": {
+                "from": "kind",
+                "map": {
+                  "AM": "AM",
+                  "FM": "FM",
+                  "PM": "PM",
+                  "PULSE": "PULM"
+                }
+              }
+            }
+          },
+          "set_modulation_source": {
+            "description": "[:SOURce]:AM|FM|PM:SOURce INTernal|INTernal2|EXTernal: a single source at a time (the Programming Guide also uses EXT2 for FM, which is not mapped yet)",
+            "set": {
+              "syntax": "{prefix}:SOURce {source_text}",
+              "args": [
+                "kind",
+                "source"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "kind": {
+                "type": "string"
+              },
+              "source": {
+                "type": "string"
+              },
+              "prefix": {
+                "from": "kind",
+                "map": {
+                  "AM": "AM",
+                  "FM": "FM",
+                  "PM": "PM"
+                }
+              },
+              "source_text": {
+                "from": "source",
+                "map": {
+                  "INTERNAL": "INTernal",
+                  "INTERNAL_2": "INTernal2",
+                  "EXTERNAL": "EXTernal"
+                }
+              }
+            }
+          },
+          "set_modulation_rate": {
+            "description": "[:SOURce]:AM|FM|PM:INTernal[1]|2:FREQuency <value><unit>: the modulating frequency of an internal generator",
+            "set": {
+              "syntax": "{prefix}:{path}:FREQuency {value} Hz",
+              "args": [
+                "kind",
+                "value",
+                "source"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "kind": {
+                "type": "string"
+              },
+              "value": {
+                "type": "float"
+              },
+              "source": {
+                "type": "string"
+              },
+              "prefix": {
+                "from": "kind",
+                "map": {
+                  "AM": "AM",
+                  "FM": "FM",
+                  "PM": "PM"
+                }
+              },
+              "path": {
+                "from": "source",
+                "map": {
+                  "INTERNAL": "INTernal",
+                  "INTERNAL_2": "INTernal2"
+                }
+              }
+            }
+          },
+          "query_modulation_rate": {
+            "description": "[:SOURce]:AM|FM|PM:INTernal[1]|2:FREQuency?",
+            "set": null,
+            "query": {
+              "syntax": "{prefix}:{path}:FREQuency?",
+              "return_type": "float",
+              "args": [
+                "kind",
+                "source"
+              ]
+            },
+            "parameters": {
+              "kind": {
+                "type": "string"
+              },
+              "source": {
+                "type": "string"
+              },
+              "prefix": {
+                "from": "kind",
+                "map": {
+                  "AM": "AM",
+                  "FM": "FM",
+                  "PM": "PM"
+                }
+              },
+              "path": {
+                "from": "source",
+                "map": {
+                  "INTERNAL": "INTernal",
+                  "INTERNAL_2": "INTernal2"
+                }
+              }
+            }
+          },
+          "set_modulation_waveform": {
+            "description": "[:SOURce]:AM|FM|PM:INTernal2:FUNCtion:SHAPe SINe|TRIangle|SQUare: documented for the second internal generator only (the sawtooth of the 8648 is not available)",
+            "set": {
+              "syntax": "{prefix}:INTernal2:FUNCtion:SHAPe {shape}",
+              "args": [
+                "kind",
+                "shape"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "kind": {
+                "type": "string"
+              },
+              "shape": {
+                "type": "string",
+                "map": {
+                  "SINE": "SINe",
+                  "TRIANGLE": "TRIangle",
+                  "SQUARE": "SQUare"
+                }
+              },
+              "prefix": {
+                "from": "kind",
+                "map": {
+                  "AM": "AM",
+                  "FM": "FM",
+                  "PM": "PM"
+                }
+              }
+            }
+          },
+          "set_modulation_external_coupling": {
+            "description": "[:SOURce]:AM|FM|PM:EXTernal:COUPling AC|DC",
+            "set": {
+              "syntax": "{prefix}:EXTernal:COUPling {coupling}",
+              "args": [
+                "kind",
+                "coupling"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "kind": {
+                "type": "string"
+              },
+              "coupling": {
+                "type": "string",
+                "map": {
+                  "AC": "AC",
+                  "DC": "DC"
+                }
+              },
+              "prefix": {
+                "from": "kind",
+                "map": {
+                  "AM": "AM",
+                  "FM": "FM",
+                  "PM": "PM"
+                }
+              }
+            }
+          },
+          "set_am_depth": {
+            "description": "[:SOURce]:AM:DEPTh <value>PCT: the range is in the data sheet",
+            "set": {
+              "syntax": "AM:DEPTh {value} PCT",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_am_depth": {
+            "description": "[:SOURce]:AM:DEPTh?",
+            "set": null,
+            "query": {
+              "syntax": "AM:DEPTh?",
+              "return_type": "float"
+            }
+          },
+          "set_fm_deviation": {
+            "description": "[:SOURce]:FM:DEViation <value><unit>: the range is in the data sheet",
+            "set": {
+              "syntax": "FM:DEViation {value} Hz",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_fm_deviation": {
+            "description": "[:SOURce]:FM:DEViation?",
+            "set": null,
+            "query": {
+              "syntax": "FM:DEViation?",
+              "return_type": "float"
+            }
+          },
+          "set_pm_deviation": {
+            "description": "[:SOURce]:PM:DEViation <value>RAD: the range is in the data sheet",
+            "set": {
+              "syntax": "PM:DEViation {value} RAD",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_pm_deviation": {
+            "description": "[:SOURce]:PM:DEViation?",
+            "set": null,
+            "query": {
+              "syntax": "PM:DEViation?",
+              "return_type": "float"
             }
           },
           "operation_complete_query": {

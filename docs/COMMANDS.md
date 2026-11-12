@@ -328,7 +328,7 @@ The logical calls and their SCPI syntax per series are in [COMMAND_NAMES.md](../
 
 ## RF signal generators (RFGEN)
 
-The logical calls are in [COMMAND_NAMES.md](../COMMAND_NAMES.md), section 3.9, generated from `schema/rf_signal_generator.json`. The Keysight EXG (N5171B analog, N5172B vector) and MXG (N5181B analog, N5182B vector) share one SCPI command set. Their commands come from the *X-Series Signal Generators Programming Compatibility Guide* and the *Programming Guide*; the complete SCPI command reference is a separate document that is not in the repository, so only the carrier and the output are covered: modulation formats are not yet.
+The logical calls are in [COMMAND_NAMES.md](../COMMAND_NAMES.md), section 3.9, generated from `schema/rf_signal_generator.json`. The Keysight EXG (N5171B analog, N5172B vector) and MXG (N5181B analog, N5182B vector) share one SCPI command set. Their commands come from the *X-Series Signal Generators Programming Compatibility Guide* and the *Programming Guide*; the complete SCPI command reference is a separate document that is not in the repository, so only what those two document is covered: the carrier, the output, and the analog modulation (AM, FM, PM, pulse on/off). I/Q and digital modulation (N5172B, N5182B), sweeps, the pulse parameters and the low-frequency output are not covered yet.
 
 | Key | Description | SCPI syntax | Return type |
 |---|---|---|---|
@@ -339,6 +339,14 @@ The logical calls are in [COMMAND_NAMES.md](../COMMAND_NAMES.md), section 3.9, g
 | `set_output_state` | RF output on/off (off after `*RST`) | `OUTPut:STATe ON\|OFF` | — |
 | `query_output_state` | RF output state | `OUTPut:STATe?` | int (0/1) → bool |
 | `set_modulation_output_state` | Modulation of the output as a whole | `OUTPut:MODulation:STATe ON\|OFF` | — |
+| `set_modulation_state` / `query_modulation_state` | One modulation on/off (`kind` AM, FM, PM, PULSE) | `AM\|FM\|PM\|PULM:STATe ON\|OFF` | int (0/1) → bool |
+| `set_modulation_source` | Source of the modulating signal (`INTERNAL`, `INTERNAL_2`, `EXTERNAL`) | `AM\|FM\|PM:SOURce INTernal\|INTernal2\|EXTernal` (one source at a time) | — |
+| `set_modulation_rate` / `query_modulation_rate` | Frequency of an internal modulating generator, in Hz (`source` `INTERNAL` by default, or `INTERNAL_2`) | `AM\|FM\|PM:INTernal[2]:FREQuency {value} Hz` | float |
+| `set_modulation_waveform` | Waveform of the second internal generator (`SINE`, `TRIANGLE`, `SQUARE`) | `AM\|FM\|PM:INTernal2:FUNCtion:SHAPe` | — |
+| `set_modulation_external_coupling` | Coupling of the external input (`AC`, `DC`) | `AM\|FM\|PM:EXTernal:COUPling` | — |
+| `set_am_depth` / `query_am_depth` | AM depth, in percent | `AM:DEPTh {value} PCT` | float |
+| `set_fm_deviation` / `query_fm_deviation` | FM peak deviation, in Hz | `FM:DEViation {value} Hz` | float |
+| `set_pm_deviation` / `query_pm_deviation` | PM peak deviation, in radians | `PM:DEViation {value} RAD` | float |
 
 Frequency range (data sheets): 9 kHz to 3 GHz (option 503) or 6 GHz (option 506), 7.2 GHz with option 506 + FRQ; the N5171B also has option 501 (1 GHz). Power: +19 to −144 dBm, +30 to −144 dBm with option 1EA. The library entries use the standard top values (6 GHz, +19 dBm); the instrument refuses a value its options do not allow. Transport: VXI-11 or sockets on port 5025 (LAN), USB-TMC, GPIB. No instrument has been tested.
 

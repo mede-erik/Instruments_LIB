@@ -6,6 +6,42 @@
     "bool": {
       "kind": "bool",
       "description": "true/false; default text sent to the instrument is ON/OFF unless the library gives a map"
+    },
+    "modulation_kind": {
+      "kind": "enum",
+      "values": [
+        "AM",
+        "FM",
+        "PM",
+        "PULSE"
+      ],
+      "description": "modulation format; a model accepts the ones its manual lists (the others are not handled by this model, CALL-002)"
+    },
+    "modulation_source": {
+      "kind": "enum",
+      "values": [
+        "INTERNAL",
+        "INTERNAL_2",
+        "EXTERNAL"
+      ],
+      "description": "source of the modulating signal: the first or the second internal generator, or the external input"
+    },
+    "modulation_shape": {
+      "kind": "enum",
+      "values": [
+        "SINE",
+        "TRIANGLE",
+        "SQUARE"
+      ],
+      "description": "waveform of an internal modulating generator"
+    },
+    "coupling": {
+      "kind": "enum",
+      "values": [
+        "AC",
+        "DC"
+      ],
+      "description": "coupling of the external modulation input"
     }
   },
   "calls": {
@@ -108,6 +144,178 @@
       "description": "state of the modulation of the RF output (true = on)",
       "result": {
         "type": "bool"
+      }
+    },
+    "set_modulation_state": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "switch one modulation format on or off (the RF output carries it only if the modulation of the output as a whole, set_modulation_output_state, is on)",
+      "args": {
+        "kind": {
+          "type": "modulation_kind",
+          "description": "AM, FM, PM or PULSE (the pulse modulation has only the on/off state)"
+        },
+        "state": {
+          "type": "bool"
+        }
+      }
+    },
+    "query_modulation_state": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "state of one modulation format (true = on)",
+      "args": {
+        "kind": {
+          "type": "modulation_kind",
+          "description": "AM, FM, PM or PULSE (the pulse modulation has only the on/off state)"
+        }
+      },
+      "result": {
+        "type": "bool"
+      }
+    },
+    "set_modulation_source": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "source of the modulating signal of an AM, FM or PM modulation (a single source at a time)",
+      "args": {
+        "kind": {
+          "type": "modulation_kind",
+          "description": "AM, FM, PM or PULSE (the pulse modulation has only the on/off state)"
+        },
+        "source": {
+          "type": "modulation_source"
+        }
+      }
+    },
+    "set_modulation_rate": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "frequency of an internal modulating generator of an AM, FM or PM modulation",
+      "args": {
+        "kind": {
+          "type": "modulation_kind",
+          "description": "AM, FM, PM or PULSE (the pulse modulation has only the on/off state)"
+        },
+        "value": {
+          "type": "float",
+          "unit": "Hz",
+          "min": 0
+        },
+        "source": {
+          "type": "modulation_source",
+          "required": false,
+          "default": "INTERNAL",
+          "description": "internal modulating generator (INTERNAL or INTERNAL_2)"
+        }
+      }
+    },
+    "query_modulation_rate": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "frequency of an internal modulating generator",
+      "args": {
+        "kind": {
+          "type": "modulation_kind",
+          "description": "AM, FM, PM or PULSE (the pulse modulation has only the on/off state)"
+        },
+        "source": {
+          "type": "modulation_source",
+          "required": false,
+          "default": "INTERNAL",
+          "description": "internal modulating generator (INTERNAL or INTERNAL_2)"
+        }
+      },
+      "result": {
+        "type": "float"
+      }
+    },
+    "set_modulation_waveform": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "waveform of the second internal modulating generator of an AM, FM or PM modulation (the manuals document it for that generator)",
+      "args": {
+        "kind": {
+          "type": "modulation_kind",
+          "description": "AM, FM, PM or PULSE (the pulse modulation has only the on/off state)"
+        },
+        "shape": {
+          "type": "modulation_shape"
+        }
+      }
+    },
+    "set_modulation_external_coupling": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "coupling of the external input of an AM, FM or PM modulation",
+      "args": {
+        "kind": {
+          "type": "modulation_kind",
+          "description": "AM, FM, PM or PULSE (the pulse modulation has only the on/off state)"
+        },
+        "coupling": {
+          "type": "coupling"
+        }
+      }
+    },
+    "set_am_depth": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "depth of the amplitude modulation, in percent",
+      "args": {
+        "value": {
+          "type": "float",
+          "unit": "%",
+          "min": 0
+        }
+      }
+    },
+    "query_am_depth": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "depth of the amplitude modulation, in percent",
+      "result": {
+        "type": "float"
+      }
+    },
+    "set_fm_deviation": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "peak deviation of the frequency modulation",
+      "args": {
+        "value": {
+          "type": "float",
+          "unit": "Hz",
+          "min": 0
+        }
+      }
+    },
+    "query_fm_deviation": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "peak deviation of the frequency modulation",
+      "result": {
+        "type": "float"
+      }
+    },
+    "set_pm_deviation": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "peak deviation of the phase modulation",
+      "args": {
+        "value": {
+          "type": "float",
+          "unit": "rad",
+          "min": 0
+        }
+      }
+    },
+    "query_pm_deviation": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "peak deviation of the phase modulation",
+      "result": {
+        "type": "float"
       }
     },
     "operation_complete_query": {
