@@ -21361,6 +21361,1154 @@
           }
         ]
       }
+    ],
+    "rf_signal_generators_series": [
+      {
+        "series_id": "Keysight_EXG_Series",
+        "series_name": "Keysight EXG X-Series signal generators (N5171B analog, N5172B vector)",
+        "common_scpi_commands": {
+          "identification_query": {
+            "description": "identification query (Keysight Technologies,<model>,<serial>,<firmware>)",
+            "set": null,
+            "query": {
+              "syntax": "*IDN?",
+              "return_type": "string"
+            }
+          },
+          "reset": {
+            "description": "*RST: places the signal generator in a pre-defined state (the RF output is off)",
+            "set": {
+              "syntax": "*RST"
+            },
+            "query": null
+          },
+          "clear_status": {
+            "description": "*CLS: clears the status registers and the error queue",
+            "set": {
+              "syntax": "*CLS"
+            },
+            "query": null
+          },
+          "error_query": {
+            "description": "reads and removes the oldest error of the error queue",
+            "set": null,
+            "query": {
+              "syntax": "SYSTem:ERRor?",
+              "return_type": "string"
+            }
+          },
+          "set_frequency": {
+            "description": "[:SOURce]:FREQuency:CW <value><units>: the CW frequency; the range depends on the model and on its options",
+            "set": {
+              "syntax": "FREQuency:CW {value} Hz",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_frequency": {
+            "description": "[:SOURce]:FREQuency:CW?",
+            "set": null,
+            "query": {
+              "syntax": "FREQuency:CW?",
+              "return_type": "float"
+            }
+          },
+          "set_power_level": {
+            "description": "[:SOURce]:POWer:AMPLitude <value><units>: the RF output level in dBm (the level at the RF connector, the step attenuator included)",
+            "set": {
+              "syntax": "POWer:AMPLitude {value} dBm",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_power_level": {
+            "description": "[:SOURce]:POWer:AMPLitude?",
+            "set": null,
+            "query": {
+              "syntax": "POWer:AMPLitude?",
+              "return_type": "float"
+            }
+          },
+          "set_output_state": {
+            "description": "OUTPut:STATe ON|OFF: the RF output; it is off after *RST",
+            "set": {
+              "syntax": "OUTPut:STATe {state}",
+              "args": [
+                "state"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "ON"
+                ]
+              }
+            }
+          },
+          "query_output_state": {
+            "description": "OUTPut:STATe?: 1 = on, 0 = off",
+            "set": null,
+            "query": {
+              "syntax": "OUTPut:STATe?",
+              "return_type": "string",
+              "bool": {
+                "true": [
+                  "1",
+                  "ON"
+                ],
+                "false": [
+                  "0",
+                  "OFF"
+                ]
+              }
+            }
+          },
+          "set_modulation_output_state": {
+            "description": "OUTPut:MODulation:STATe ON|OFF: all the modulation of the RF output",
+            "set": {
+              "syntax": "OUTPut:MODulation:STATe {state}",
+              "args": [
+                "state"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "ON"
+                ]
+              }
+            }
+          },
+          "query_modulation_output_state": {
+            "description": "OUTPut:MODulation:STATe?: 1 = on, 0 = off",
+            "set": null,
+            "query": {
+              "syntax": "OUTPut:MODulation:STATe?",
+              "return_type": "string",
+              "bool": {
+                "true": [
+                  "1",
+                  "ON"
+                ],
+                "false": [
+                  "0",
+                  "OFF"
+                ]
+              }
+            }
+          },
+          "set_modulation_state": {
+            "description": "[:SOURce]:AM|FM|PM|PULM:STATe ON|OFF: one modulation format",
+            "set": {
+              "syntax": "{prefix}:STATe {state}",
+              "args": [
+                "kind",
+                "state"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "kind": {
+                "type": "string"
+              },
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "ON"
+                ]
+              },
+              "prefix": {
+                "from": "kind",
+                "map": {
+                  "AM": "AM",
+                  "FM": "FM",
+                  "PM": "PM",
+                  "PULSE": "PULM"
+                }
+              }
+            }
+          },
+          "query_modulation_state": {
+            "description": "[:SOURce]:AM|FM|PM|PULM:STATe?: 1 = on, 0 = off",
+            "set": null,
+            "query": {
+              "syntax": "{prefix}:STATe?",
+              "return_type": "string",
+              "bool": {
+                "true": [
+                  "1",
+                  "ON"
+                ],
+                "false": [
+                  "0",
+                  "OFF"
+                ]
+              },
+              "args": [
+                "kind"
+              ]
+            },
+            "parameters": {
+              "kind": {
+                "type": "string"
+              },
+              "prefix": {
+                "from": "kind",
+                "map": {
+                  "AM": "AM",
+                  "FM": "FM",
+                  "PM": "PM",
+                  "PULSE": "PULM"
+                }
+              }
+            }
+          },
+          "set_modulation_source": {
+            "description": "[:SOURce]:AM|FM|PM:SOURce INTernal|INTernal2|EXTernal: a single source at a time (the Programming Guide also uses EXT2 for FM, which is not mapped yet)",
+            "set": {
+              "syntax": "{prefix}:SOURce {source_text}",
+              "args": [
+                "kind",
+                "source"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "kind": {
+                "type": "string"
+              },
+              "source": {
+                "type": "string"
+              },
+              "prefix": {
+                "from": "kind",
+                "map": {
+                  "AM": "AM",
+                  "FM": "FM",
+                  "PM": "PM"
+                }
+              },
+              "source_text": {
+                "from": "source",
+                "map": {
+                  "INTERNAL": "INTernal",
+                  "INTERNAL_2": "INTernal2",
+                  "EXTERNAL": "EXTernal"
+                }
+              }
+            }
+          },
+          "set_modulation_rate": {
+            "description": "[:SOURce]:AM|FM|PM:INTernal[1]|2:FREQuency <value><unit>: the modulating frequency of an internal generator",
+            "set": {
+              "syntax": "{prefix}:{path}:FREQuency {value} Hz",
+              "args": [
+                "kind",
+                "value",
+                "source"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "kind": {
+                "type": "string"
+              },
+              "value": {
+                "type": "float"
+              },
+              "source": {
+                "type": "string"
+              },
+              "prefix": {
+                "from": "kind",
+                "map": {
+                  "AM": "AM",
+                  "FM": "FM",
+                  "PM": "PM"
+                }
+              },
+              "path": {
+                "from": "source",
+                "map": {
+                  "INTERNAL": "INTernal",
+                  "INTERNAL_2": "INTernal2"
+                }
+              }
+            }
+          },
+          "query_modulation_rate": {
+            "description": "[:SOURce]:AM|FM|PM:INTernal[1]|2:FREQuency?",
+            "set": null,
+            "query": {
+              "syntax": "{prefix}:{path}:FREQuency?",
+              "return_type": "float",
+              "args": [
+                "kind",
+                "source"
+              ]
+            },
+            "parameters": {
+              "kind": {
+                "type": "string"
+              },
+              "source": {
+                "type": "string"
+              },
+              "prefix": {
+                "from": "kind",
+                "map": {
+                  "AM": "AM",
+                  "FM": "FM",
+                  "PM": "PM"
+                }
+              },
+              "path": {
+                "from": "source",
+                "map": {
+                  "INTERNAL": "INTernal",
+                  "INTERNAL_2": "INTernal2"
+                }
+              }
+            }
+          },
+          "set_modulation_waveform": {
+            "description": "[:SOURce]:AM|FM|PM:INTernal2:FUNCtion:SHAPe SINe|TRIangle|SQUare: documented for the second internal generator only (the sawtooth of the 8648 is not available)",
+            "set": {
+              "syntax": "{prefix}:INTernal2:FUNCtion:SHAPe {shape}",
+              "args": [
+                "kind",
+                "shape"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "kind": {
+                "type": "string"
+              },
+              "shape": {
+                "type": "string",
+                "map": {
+                  "SINE": "SINe",
+                  "TRIANGLE": "TRIangle",
+                  "SQUARE": "SQUare"
+                }
+              },
+              "prefix": {
+                "from": "kind",
+                "map": {
+                  "AM": "AM",
+                  "FM": "FM",
+                  "PM": "PM"
+                }
+              }
+            }
+          },
+          "set_modulation_external_coupling": {
+            "description": "[:SOURce]:AM|FM|PM:EXTernal:COUPling AC|DC",
+            "set": {
+              "syntax": "{prefix}:EXTernal:COUPling {coupling}",
+              "args": [
+                "kind",
+                "coupling"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "kind": {
+                "type": "string"
+              },
+              "coupling": {
+                "type": "string",
+                "map": {
+                  "AC": "AC",
+                  "DC": "DC"
+                }
+              },
+              "prefix": {
+                "from": "kind",
+                "map": {
+                  "AM": "AM",
+                  "FM": "FM",
+                  "PM": "PM"
+                }
+              }
+            }
+          },
+          "set_am_depth": {
+            "description": "[:SOURce]:AM:DEPTh <value>PCT: the range is in the data sheet",
+            "set": {
+              "syntax": "AM:DEPTh {value} PCT",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_am_depth": {
+            "description": "[:SOURce]:AM:DEPTh?",
+            "set": null,
+            "query": {
+              "syntax": "AM:DEPTh?",
+              "return_type": "float"
+            }
+          },
+          "set_fm_deviation": {
+            "description": "[:SOURce]:FM:DEViation <value><unit>: the range is in the data sheet",
+            "set": {
+              "syntax": "FM:DEViation {value} Hz",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_fm_deviation": {
+            "description": "[:SOURce]:FM:DEViation?",
+            "set": null,
+            "query": {
+              "syntax": "FM:DEViation?",
+              "return_type": "float"
+            }
+          },
+          "set_pm_deviation": {
+            "description": "[:SOURce]:PM:DEViation <value>RAD: the range is in the data sheet",
+            "set": {
+              "syntax": "PM:DEViation {value} RAD",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_pm_deviation": {
+            "description": "[:SOURce]:PM:DEViation?",
+            "set": null,
+            "query": {
+              "syntax": "PM:DEViation?",
+              "return_type": "float"
+            }
+          },
+          "operation_complete_query": {
+            "description": "*OPC?: 1 when the pending operations are finished",
+            "set": null,
+            "query": {
+              "syntax": "*OPC?",
+              "return_type": "int"
+            }
+          },
+          "self_test": {
+            "description": "*TST?: runs the self test, 0 = pass",
+            "set": null,
+            "query": {
+              "syntax": "*TST?",
+              "return_type": "int"
+            }
+          }
+        },
+        "models": [
+          {
+            "id": "RFGEN_Keysight_N5171B",
+            "name": "Keysight N5171B EXG analog",
+            "manufacturer": "Keysight",
+            "model": "N5171B",
+            "documentation_path": "docs/Keysight/N51XX_Series/EXG X-Series Signal Generators N5171B Analog & N5172B Vector.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_RFGEN_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "notes": "VXI-11 (recommended by the manual) or sockets on port 5025 (standard mode); the telnet SCPI service is on port 5024",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    },
+                    {
+                      "kind": "raw_socket",
+                      "port": 5025
+                    }
+                  ]
+                },
+                {
+                  "type": "USB-TMC",
+                  "visa_resource_id_template": "USB_RFGEN_{serial_number}",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR",
+                  "notes": "rear-panel USB device connector"
+                },
+                {
+                  "type": "GPIB",
+                  "address_format_example": "GPIB0::{GPIB_ADDRESS}::INSTR",
+                  "notes": "IEEE-488.2"
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 1,
+              "frequency_min_hz": 9000.0,
+              "frequency_max_hz": 6000000000.0,
+              "power_min_dbm": -144.0,
+              "power_max_dbm": 19.0,
+              "notes": "Analog signal generator. Frequency: 9 kHz to 1 GHz (option 501), 3 GHz (503) or 6 GHz (506), 7.2 GHz with option 506 + FRQ. The frequency range depends on the installed option; the power range is +19 to -144 dBm, +30 to -144 dBm with option 1EA (data sheet). The frequency and power limits of this entry are the ones of the standard top option; the SCPI commands are those of the X-Series Programming Compatibility Guide and Programming Guide."
+            },
+            "experimental": true
+          },
+          {
+            "id": "RFGEN_Keysight_N5172B",
+            "name": "Keysight N5172B EXG vector",
+            "manufacturer": "Keysight",
+            "model": "N5172B",
+            "documentation_path": "docs/Keysight/N51XX_Series/EXG X-Series Signal Generators N5171B Analog & N5172B Vector.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_RFGEN_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "notes": "VXI-11 (recommended by the manual) or sockets on port 5025 (standard mode); the telnet SCPI service is on port 5024",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    },
+                    {
+                      "kind": "raw_socket",
+                      "port": 5025
+                    }
+                  ]
+                },
+                {
+                  "type": "USB-TMC",
+                  "visa_resource_id_template": "USB_RFGEN_{serial_number}",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR",
+                  "notes": "rear-panel USB device connector"
+                },
+                {
+                  "type": "GPIB",
+                  "address_format_example": "GPIB0::{GPIB_ADDRESS}::INSTR",
+                  "notes": "IEEE-488.2"
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 1,
+              "frequency_min_hz": 9000.0,
+              "frequency_max_hz": 6000000000.0,
+              "power_min_dbm": -144.0,
+              "power_max_dbm": 19.0,
+              "notes": "Vector signal generator (the I/Q and digital modulation are not covered yet). Frequency: 9 kHz (5 MHz in I/Q mode) to 3 GHz (option 503) or 6 GHz (506), 7.2 GHz with option 506 + FRQ. The frequency range depends on the installed option; the power range is +19 to -144 dBm, +30 to -144 dBm with option 1EA (data sheet). The frequency and power limits of this entry are the ones of the standard top option; the SCPI commands are those of the X-Series Programming Compatibility Guide and Programming Guide."
+            },
+            "experimental": true
+          }
+        ]
+      },
+      {
+        "series_id": "Keysight_MXG_Series",
+        "series_name": "Keysight MXG X-Series signal generators (N5181B analog, N5182B vector)",
+        "common_scpi_commands": {
+          "identification_query": {
+            "description": "identification query (Keysight Technologies,<model>,<serial>,<firmware>)",
+            "set": null,
+            "query": {
+              "syntax": "*IDN?",
+              "return_type": "string"
+            }
+          },
+          "reset": {
+            "description": "*RST: places the signal generator in a pre-defined state (the RF output is off)",
+            "set": {
+              "syntax": "*RST"
+            },
+            "query": null
+          },
+          "clear_status": {
+            "description": "*CLS: clears the status registers and the error queue",
+            "set": {
+              "syntax": "*CLS"
+            },
+            "query": null
+          },
+          "error_query": {
+            "description": "reads and removes the oldest error of the error queue",
+            "set": null,
+            "query": {
+              "syntax": "SYSTem:ERRor?",
+              "return_type": "string"
+            }
+          },
+          "set_frequency": {
+            "description": "[:SOURce]:FREQuency:CW <value><units>: the CW frequency; the range depends on the model and on its options",
+            "set": {
+              "syntax": "FREQuency:CW {value} Hz",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_frequency": {
+            "description": "[:SOURce]:FREQuency:CW?",
+            "set": null,
+            "query": {
+              "syntax": "FREQuency:CW?",
+              "return_type": "float"
+            }
+          },
+          "set_power_level": {
+            "description": "[:SOURce]:POWer:AMPLitude <value><units>: the RF output level in dBm (the level at the RF connector, the step attenuator included)",
+            "set": {
+              "syntax": "POWer:AMPLitude {value} dBm",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_power_level": {
+            "description": "[:SOURce]:POWer:AMPLitude?",
+            "set": null,
+            "query": {
+              "syntax": "POWer:AMPLitude?",
+              "return_type": "float"
+            }
+          },
+          "set_output_state": {
+            "description": "OUTPut:STATe ON|OFF: the RF output; it is off after *RST",
+            "set": {
+              "syntax": "OUTPut:STATe {state}",
+              "args": [
+                "state"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "ON"
+                ]
+              }
+            }
+          },
+          "query_output_state": {
+            "description": "OUTPut:STATe?: 1 = on, 0 = off",
+            "set": null,
+            "query": {
+              "syntax": "OUTPut:STATe?",
+              "return_type": "string",
+              "bool": {
+                "true": [
+                  "1",
+                  "ON"
+                ],
+                "false": [
+                  "0",
+                  "OFF"
+                ]
+              }
+            }
+          },
+          "set_modulation_output_state": {
+            "description": "OUTPut:MODulation:STATe ON|OFF: all the modulation of the RF output",
+            "set": {
+              "syntax": "OUTPut:MODulation:STATe {state}",
+              "args": [
+                "state"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "ON"
+                ]
+              }
+            }
+          },
+          "query_modulation_output_state": {
+            "description": "OUTPut:MODulation:STATe?: 1 = on, 0 = off",
+            "set": null,
+            "query": {
+              "syntax": "OUTPut:MODulation:STATe?",
+              "return_type": "string",
+              "bool": {
+                "true": [
+                  "1",
+                  "ON"
+                ],
+                "false": [
+                  "0",
+                  "OFF"
+                ]
+              }
+            }
+          },
+          "set_modulation_state": {
+            "description": "[:SOURce]:AM|FM|PM|PULM:STATe ON|OFF: one modulation format",
+            "set": {
+              "syntax": "{prefix}:STATe {state}",
+              "args": [
+                "kind",
+                "state"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "kind": {
+                "type": "string"
+              },
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "ON"
+                ]
+              },
+              "prefix": {
+                "from": "kind",
+                "map": {
+                  "AM": "AM",
+                  "FM": "FM",
+                  "PM": "PM",
+                  "PULSE": "PULM"
+                }
+              }
+            }
+          },
+          "query_modulation_state": {
+            "description": "[:SOURce]:AM|FM|PM|PULM:STATe?: 1 = on, 0 = off",
+            "set": null,
+            "query": {
+              "syntax": "{prefix}:STATe?",
+              "return_type": "string",
+              "bool": {
+                "true": [
+                  "1",
+                  "ON"
+                ],
+                "false": [
+                  "0",
+                  "OFF"
+                ]
+              },
+              "args": [
+                "kind"
+              ]
+            },
+            "parameters": {
+              "kind": {
+                "type": "string"
+              },
+              "prefix": {
+                "from": "kind",
+                "map": {
+                  "AM": "AM",
+                  "FM": "FM",
+                  "PM": "PM",
+                  "PULSE": "PULM"
+                }
+              }
+            }
+          },
+          "set_modulation_source": {
+            "description": "[:SOURce]:AM|FM|PM:SOURce INTernal|INTernal2|EXTernal: a single source at a time (the Programming Guide also uses EXT2 for FM, which is not mapped yet)",
+            "set": {
+              "syntax": "{prefix}:SOURce {source_text}",
+              "args": [
+                "kind",
+                "source"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "kind": {
+                "type": "string"
+              },
+              "source": {
+                "type": "string"
+              },
+              "prefix": {
+                "from": "kind",
+                "map": {
+                  "AM": "AM",
+                  "FM": "FM",
+                  "PM": "PM"
+                }
+              },
+              "source_text": {
+                "from": "source",
+                "map": {
+                  "INTERNAL": "INTernal",
+                  "INTERNAL_2": "INTernal2",
+                  "EXTERNAL": "EXTernal"
+                }
+              }
+            }
+          },
+          "set_modulation_rate": {
+            "description": "[:SOURce]:AM|FM|PM:INTernal[1]|2:FREQuency <value><unit>: the modulating frequency of an internal generator",
+            "set": {
+              "syntax": "{prefix}:{path}:FREQuency {value} Hz",
+              "args": [
+                "kind",
+                "value",
+                "source"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "kind": {
+                "type": "string"
+              },
+              "value": {
+                "type": "float"
+              },
+              "source": {
+                "type": "string"
+              },
+              "prefix": {
+                "from": "kind",
+                "map": {
+                  "AM": "AM",
+                  "FM": "FM",
+                  "PM": "PM"
+                }
+              },
+              "path": {
+                "from": "source",
+                "map": {
+                  "INTERNAL": "INTernal",
+                  "INTERNAL_2": "INTernal2"
+                }
+              }
+            }
+          },
+          "query_modulation_rate": {
+            "description": "[:SOURce]:AM|FM|PM:INTernal[1]|2:FREQuency?",
+            "set": null,
+            "query": {
+              "syntax": "{prefix}:{path}:FREQuency?",
+              "return_type": "float",
+              "args": [
+                "kind",
+                "source"
+              ]
+            },
+            "parameters": {
+              "kind": {
+                "type": "string"
+              },
+              "source": {
+                "type": "string"
+              },
+              "prefix": {
+                "from": "kind",
+                "map": {
+                  "AM": "AM",
+                  "FM": "FM",
+                  "PM": "PM"
+                }
+              },
+              "path": {
+                "from": "source",
+                "map": {
+                  "INTERNAL": "INTernal",
+                  "INTERNAL_2": "INTernal2"
+                }
+              }
+            }
+          },
+          "set_modulation_waveform": {
+            "description": "[:SOURce]:AM|FM|PM:INTernal2:FUNCtion:SHAPe SINe|TRIangle|SQUare: documented for the second internal generator only (the sawtooth of the 8648 is not available)",
+            "set": {
+              "syntax": "{prefix}:INTernal2:FUNCtion:SHAPe {shape}",
+              "args": [
+                "kind",
+                "shape"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "kind": {
+                "type": "string"
+              },
+              "shape": {
+                "type": "string",
+                "map": {
+                  "SINE": "SINe",
+                  "TRIANGLE": "TRIangle",
+                  "SQUARE": "SQUare"
+                }
+              },
+              "prefix": {
+                "from": "kind",
+                "map": {
+                  "AM": "AM",
+                  "FM": "FM",
+                  "PM": "PM"
+                }
+              }
+            }
+          },
+          "set_modulation_external_coupling": {
+            "description": "[:SOURce]:AM|FM|PM:EXTernal:COUPling AC|DC",
+            "set": {
+              "syntax": "{prefix}:EXTernal:COUPling {coupling}",
+              "args": [
+                "kind",
+                "coupling"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "kind": {
+                "type": "string"
+              },
+              "coupling": {
+                "type": "string",
+                "map": {
+                  "AC": "AC",
+                  "DC": "DC"
+                }
+              },
+              "prefix": {
+                "from": "kind",
+                "map": {
+                  "AM": "AM",
+                  "FM": "FM",
+                  "PM": "PM"
+                }
+              }
+            }
+          },
+          "set_am_depth": {
+            "description": "[:SOURce]:AM:DEPTh <value>PCT: the range is in the data sheet",
+            "set": {
+              "syntax": "AM:DEPTh {value} PCT",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_am_depth": {
+            "description": "[:SOURce]:AM:DEPTh?",
+            "set": null,
+            "query": {
+              "syntax": "AM:DEPTh?",
+              "return_type": "float"
+            }
+          },
+          "set_fm_deviation": {
+            "description": "[:SOURce]:FM:DEViation <value><unit>: the range is in the data sheet",
+            "set": {
+              "syntax": "FM:DEViation {value} Hz",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_fm_deviation": {
+            "description": "[:SOURce]:FM:DEViation?",
+            "set": null,
+            "query": {
+              "syntax": "FM:DEViation?",
+              "return_type": "float"
+            }
+          },
+          "set_pm_deviation": {
+            "description": "[:SOURce]:PM:DEViation <value>RAD: the range is in the data sheet",
+            "set": {
+              "syntax": "PM:DEViation {value} RAD",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_pm_deviation": {
+            "description": "[:SOURce]:PM:DEViation?",
+            "set": null,
+            "query": {
+              "syntax": "PM:DEViation?",
+              "return_type": "float"
+            }
+          },
+          "operation_complete_query": {
+            "description": "*OPC?: 1 when the pending operations are finished",
+            "set": null,
+            "query": {
+              "syntax": "*OPC?",
+              "return_type": "int"
+            }
+          },
+          "self_test": {
+            "description": "*TST?: runs the self test, 0 = pass",
+            "set": null,
+            "query": {
+              "syntax": "*TST?",
+              "return_type": "int"
+            }
+          }
+        },
+        "models": [
+          {
+            "id": "RFGEN_Keysight_N5181B",
+            "name": "Keysight N5181B MXG analog",
+            "manufacturer": "Keysight",
+            "model": "N5181B",
+            "documentation_path": "docs/Keysight/N51XX_Series/MXG X-Series Signal Generator N5181B Analog & N5182B Vector.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_RFGEN_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "notes": "VXI-11 (recommended by the manual) or sockets on port 5025 (standard mode); the telnet SCPI service is on port 5024",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    },
+                    {
+                      "kind": "raw_socket",
+                      "port": 5025
+                    }
+                  ]
+                },
+                {
+                  "type": "USB-TMC",
+                  "visa_resource_id_template": "USB_RFGEN_{serial_number}",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR",
+                  "notes": "rear-panel USB device connector"
+                },
+                {
+                  "type": "GPIB",
+                  "address_format_example": "GPIB0::{GPIB_ADDRESS}::INSTR",
+                  "notes": "IEEE-488.2"
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 1,
+              "frequency_min_hz": 9000.0,
+              "frequency_max_hz": 6000000000.0,
+              "power_min_dbm": -144.0,
+              "power_max_dbm": 19.0,
+              "notes": "Analog signal generator. Frequency: 9 kHz to 3 GHz (option 503) or 6 GHz (506), 7.2 GHz with option 506 + FRQ. The frequency range depends on the installed option; the power range is +19 to -144 dBm, +30 to -144 dBm with option 1EA (data sheet). The frequency and power limits of this entry are the ones of the standard top option; the SCPI commands are those of the X-Series Programming Compatibility Guide and Programming Guide."
+            },
+            "experimental": true
+          },
+          {
+            "id": "RFGEN_Keysight_N5182B",
+            "name": "Keysight N5182B MXG vector",
+            "manufacturer": "Keysight",
+            "model": "N5182B",
+            "documentation_path": "docs/Keysight/N51XX_Series/MXG X-Series Signal Generator N5181B Analog & N5182B Vector.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_RFGEN_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "notes": "VXI-11 (recommended by the manual) or sockets on port 5025 (standard mode); the telnet SCPI service is on port 5024",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    },
+                    {
+                      "kind": "raw_socket",
+                      "port": 5025
+                    }
+                  ]
+                },
+                {
+                  "type": "USB-TMC",
+                  "visa_resource_id_template": "USB_RFGEN_{serial_number}",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR",
+                  "notes": "rear-panel USB device connector"
+                },
+                {
+                  "type": "GPIB",
+                  "address_format_example": "GPIB0::{GPIB_ADDRESS}::INSTR",
+                  "notes": "IEEE-488.2"
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 1,
+              "frequency_min_hz": 9000.0,
+              "frequency_max_hz": 6000000000.0,
+              "power_min_dbm": -144.0,
+              "power_max_dbm": 19.0,
+              "notes": "Vector signal generator (the I/Q and digital modulation are not covered yet). Frequency: 9 kHz (5 MHz in I/Q mode) to 3 GHz (option 503) or 6 GHz (506), 7.2 GHz with option 506 + FRQ. The frequency range depends on the installed option; the power range is +19 to -144 dBm, +30 to -144 dBm with option 1EA (data sheet). The frequency and power limits of this entry are the ones of the standard top option; the SCPI commands are those of the X-Series Programming Compatibility Guide and Programming Guide."
+            },
+            "experimental": true
+          }
+        ]
+      }
     ]
   }
 }

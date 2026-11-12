@@ -865,6 +865,60 @@ Logical types:
 
 <!-- END GENERATED function_generators_series -->
 
+<!-- BEGIN GENERATED rf_signal_generators_series -->
+### 3.9 RF signal generators (`rf_signal_generators_series`)
+
+Generated from `schema/rf_signal_generator.json` — do not edit this section by hand. 10 mandatory and 17 optional calls.
+
+Logical calls of RF signal generators (a carrier with a frequency in Hz and a power in dBm, with or without modulation). The application sets the carrier and the output; the modulation formats are added later. Based on the Keysight X-Series (EXG and MXG) manuals.
+
+Logical types:
+
+* `bool`: true / false
+* `modulation_kind`: `AM`, `FM`, `PM`, `PULSE`
+* `modulation_source`: `INTERNAL`, `INTERNAL_2`, `EXTERNAL`
+* `modulation_shape`: `SINE`, `TRIANGLE`, `SQUARE`
+* `coupling`: `AC`, `DC`
+
+**Mandatory**
+
+| Call | Kind | Arguments | Result | Description |
+|---|---|---|---|---|
+| `identification_query` | query |  | string | identification string (*IDN?) |
+| `reset` | action |  |  | restore the factory defaults (*RST): the RF output goes off |
+| `clear_status` | action |  |  | clear the status registers and the event queue (*CLS) |
+| `error_query` | query |  | string | read and clear the oldest error of the error queue |
+| `set_frequency` | set | `value` (float, Hz, 0..) |  | carrier (CW) frequency; the range depends on the model and on its options |
+| `query_frequency` | query |  | float | carrier (CW) frequency |
+| `set_power_level` | set | `value` (float, dBm) |  | RF output power level (the level of the RF connector, with the attenuator included); the range depends on the model and on its options |
+| `query_power_level` | query |  | float | RF output power level |
+| `set_output_state` | set | `state` (bool) |  | switch the RF output on or off (the factory state is off) |
+| `query_output_state` | query |  | bool | state of the RF output (true = on) |
+
+**Optional**
+
+| Call | Kind | Arguments | Result | Description |
+|---|---|---|---|---|
+| `set_modulation_output_state` | set | `state` (bool) |  | switch on or off the modulation of the RF output as a whole (the modulation formats keep their own on/off setting) |
+| `query_modulation_output_state` | query |  | bool | state of the modulation of the RF output (true = on) |
+| `set_modulation_state` | set | `kind` (modulation_kind)<br>`state` (bool) |  | switch one modulation format on or off (the RF output carries it only if the modulation of the output as a whole, set_modulation_output_state, is on) |
+| `query_modulation_state` | query | `kind` (modulation_kind) | bool | state of one modulation format (true = on) |
+| `set_modulation_source` | set | `kind` (modulation_kind)<br>`source` (modulation_source) |  | source of the modulating signal of an AM, FM or PM modulation (a single source at a time) |
+| `set_modulation_rate` | set | `kind` (modulation_kind)<br>`value` (float, Hz, 0..)<br>`source` (modulation_source, default INTERNAL, optional) |  | frequency of an internal modulating generator of an AM, FM or PM modulation |
+| `query_modulation_rate` | query | `kind` (modulation_kind)<br>`source` (modulation_source, default INTERNAL, optional) | float | frequency of an internal modulating generator |
+| `set_modulation_waveform` | set | `kind` (modulation_kind)<br>`shape` (modulation_shape) |  | waveform of the second internal modulating generator of an AM, FM or PM modulation (the manuals document it for that generator) |
+| `set_modulation_external_coupling` | set | `kind` (modulation_kind)<br>`coupling` (coupling) |  | coupling of the external input of an AM, FM or PM modulation |
+| `set_am_depth` | set | `value` (float, %, 0..) |  | depth of the amplitude modulation, in percent |
+| `query_am_depth` | query |  | float | depth of the amplitude modulation, in percent |
+| `set_fm_deviation` | set | `value` (float, Hz, 0..) |  | peak deviation of the frequency modulation |
+| `query_fm_deviation` | query |  | float | peak deviation of the frequency modulation |
+| `set_pm_deviation` | set | `value` (float, rad, 0..) |  | peak deviation of the phase modulation |
+| `query_pm_deviation` | query |  | float | peak deviation of the phase modulation |
+| `operation_complete_query` | query |  | int | operation complete: returns 1 when the pending operations are finished (*OPC?) |
+| `self_test` | query |  | int | run the instrument self test (*TST?); 0 = pass |
+
+<!-- END GENERATED rf_signal_generators_series -->
+
 ## 4. Translation layer (arguments and answers)
 
 The same logical call has the same arguments and logical values for every brand; the library translates them for each instrument: `map` (argument values), `response_map` / `bool` / `split` / `as_list` (answers), `steps` (several commands), derived parameters (`from`, `expr`) and defaults. The format is described in `schema/README.md`.
