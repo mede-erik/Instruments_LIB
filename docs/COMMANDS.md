@@ -34,6 +34,7 @@ The software that uses this library must call the instruments through these name
 | AD2 scope | Digilent_AnalogDiscovery_Scope_Series | Oscilloscopes |
 | AD2 generator | Digilent_AnalogDiscovery_Series | Function generators (`function_generators_series`) |
 | Rigol DG1000 | Rigol_DG1000_Series | Function generators |
+| Rigol DG1000Z | Rigol_DG1000Z_Series | Function generators |
 | A. 33120A | Agilent_33120A_Series | Function generators |
 | Keysight EXG | Keysight_EXG_Series | RF signal generators (`rf_signal_generators_series`) |
 | Keysight MXG | Keysight_MXG_Series | RF signal generators |
@@ -314,12 +315,12 @@ Channels do not have uniform IDs: always check the series before using them.
 | Siglent | `C` + number | `C1`..`C4` |
 | TDK-Lambda | `CH1` (single channel) | `CH1` |
 | Digilent Analog Discovery 2 (scope and generator) | `CH1`, `CH2` (two inputs; two outputs W1 and W2 on the board) | `CH1` |
-| Rigol DG1000 (generator) | `CH` + number | `CH1`, `CH2` |
+| Rigol DG1000 and DG1000Z (generator) | channel number 1 or 2 (a command suffix, no `CH` prefix in the library) | `1`, `2` |
 | Agilent 33120A (generator) | single channel | `CH1` |
 
 ## Function generators (FGEN)
 
-The logical calls and their SCPI syntax per series are in [COMMAND_NAMES.md](../COMMAND_NAMES.md), section 3.8 (generated from `schema/function_generator.json`). Points that are specific to the Analog Discovery 2:
+The logical calls and their SCPI syntax per series are in [COMMAND_NAMES.md](../COMMAND_NAMES.md), section 3.8 (generated from `schema/function_generator.json`). The Rigol DG1000Z (DG1022Z, DG1032Z, DG1062Z) uses `:SOURce[<n>]` and `:OUTPut[<n>]` (no suffix for channel 1, `2` for channel 2). `set_amplitude` sends `:SOURce[<n>]:VOLTage:UNIT VPP` first, then the amplitude; `TRIANGLE` is the ramp with a 50 % symmetry and `RAMP` the ramp with a 100 % symmetry (the percentage of the period the ramp rises); `ARBITRARY` is `USER`. The frequency limits depend on the waveform (a square wave is limited to 25 MHz); the instrument sets the nearest limit when a value is out of range. Points that are specific to the Analog Discovery 2:
 
 - `set_amplitude` takes the **peak-to-peak** voltage. The driver sends half of it to the SDK (`PEAK_PER_VPP` = 0.5). Measured on an oscilloscope: 1 Vpp set gives 1.02 Vpp, 5 Vpp set gives 5.05 Vpp.
 - The range of the amplitude (0.02 to 10 Vpp) and of the offset (±5 V) come from the device, not from the library: a value outside them is refused as `CALL-002`.

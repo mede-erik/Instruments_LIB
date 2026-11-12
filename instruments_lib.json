@@ -21360,6 +21360,349 @@
             "experimental": true
           }
         ]
+      },
+      {
+        "series_id": "Rigol_DG1000Z_Series",
+        "series_name": "Rigol DG1000Z series dual-channel function / arbitrary waveform generators (DG1022Z, DG1032Z, DG1062Z)",
+        "common_scpi_commands": {
+          "identification_query": {
+            "description": "*IDN?: Rigol Technologies,<model>,<serial>,<firmware>",
+            "set": null,
+            "query": {
+              "syntax": "*IDN?",
+              "return_type": "string"
+            }
+          },
+          "reset": {
+            "description": "*RST: restores the factory state (both outputs off)",
+            "set": {
+              "syntax": "*RST"
+            },
+            "query": null
+          },
+          "clear_status": {
+            "description": "*CLS: clears the status registers and the error queue",
+            "set": {
+              "syntax": "*CLS"
+            },
+            "query": null
+          },
+          "error_query": {
+            "description": ":SYSTem:ERRor?: reads and clears one error of the queue (a number and a quoted message)",
+            "set": null,
+            "query": {
+              "syntax": ":SYSTem:ERRor?",
+              "return_type": "string"
+            }
+          },
+          "set_frequency": {
+            "description": ":SOURce[<n>]:FREQuency[:FIXed] <frequency> (Hz): a frequency out of the range of the waveform is set to the nearest limit by the instrument",
+            "set": {
+              "syntax": ":SOURce{n}:FREQuency {value}",
+              "args": [
+                "channel_number",
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "value": {
+                "type": "float"
+              },
+              "n": {
+                "from": "channel_number",
+                "map": {
+                  "1": "",
+                  "2": "2"
+                }
+              }
+            }
+          },
+          "set_amplitude": {
+            "description": "the unit is set to VPP first (:SOURce[<n>]:VOLTage:UNIT, which the user can change), then :SOURce[<n>]:VOLTage[:LEVEL][:IMMediate][:AMPLitude]; the amplitude refers to the output load (:OUTPut[<n>]:LOAD, 50 ohm by default) and is limited by the frequency and the load: the instrument sets the nearest limit",
+            "set": {
+              "steps": [
+                {
+                  "op": "write",
+                  "text": ":SOURce{n}:VOLTage:UNIT VPP"
+                },
+                {
+                  "op": "write",
+                  "text": ":SOURce{n}:VOLTage {value}"
+                }
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "value": {
+                "type": "float"
+              },
+              "n": {
+                "from": "channel_number",
+                "map": {
+                  "1": "",
+                  "2": "2"
+                }
+              }
+            }
+          },
+          "set_offset": {
+            "description": ":SOURce[<n>]:VOLTage[:LEVel][:IMMediate]:OFFSet <voltage> (V); limited by the load, the frequency and the amplitude",
+            "set": {
+              "syntax": ":SOURce{n}:VOLTage:OFFSet {value}",
+              "args": [
+                "channel_number",
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "value": {
+                "type": "float"
+              },
+              "n": {
+                "from": "channel_number",
+                "map": {
+                  "1": "",
+                  "2": "2"
+                }
+              }
+            }
+          },
+          "set_waveform_shape": {
+            "description": ":SOURce[<n>]:FUNCtion[:SHAPe]; TRIANGLE and RAMP are the ramp with a rising time of 50 % and of 100 % of the period (:FUNCtion:RAMP:SYMMetry: the percentage of the period the ramp rises); ARBITRARY is USER (the arbitrary waveform selected on the instrument)",
+            "set": {
+              "steps": [
+                {
+                  "op": "write",
+                  "text": ":SOURce{n}:FUNCtion {shape_text}"
+                },
+                {
+                  "op": "write",
+                  "text": ":SOURce{n}:FUNCtion:RAMP:SYMMetry 50",
+                  "when": {
+                    "shape": "TRIANGLE"
+                  }
+                },
+                {
+                  "op": "write",
+                  "text": ":SOURce{n}:FUNCtion:RAMP:SYMMetry 100",
+                  "when": {
+                    "shape": "RAMP"
+                  }
+                }
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "shape": {
+                "type": "waveform_shape",
+                "values": [
+                  "SINE",
+                  "SQUARE",
+                  "TRIANGLE",
+                  "RAMP",
+                  "PULSE",
+                  "NOISE",
+                  "DC",
+                  "ARBITRARY"
+                ]
+              },
+              "n": {
+                "from": "channel_number",
+                "map": {
+                  "1": "",
+                  "2": "2"
+                }
+              },
+              "shape_text": {
+                "from": "shape",
+                "map": {
+                  "SINE": "SINusoid",
+                  "SQUARE": "SQUare",
+                  "TRIANGLE": "RAMP",
+                  "RAMP": "RAMP",
+                  "PULSE": "PULSe",
+                  "NOISE": "NOISe",
+                  "DC": "DC",
+                  "ARBITRARY": "USER"
+                }
+              }
+            }
+          },
+          "set_output_state": {
+            "description": ":OUTPut[<n>][:STATe] ON|OFF: the front-panel output connector of the channel; off by default",
+            "set": {
+              "syntax": ":OUTPut{n} {state}",
+              "args": [
+                "channel_number",
+                "state"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "state": {
+                "type": "bool"
+              },
+              "n": {
+                "from": "channel_number",
+                "map": {
+                  "1": "",
+                  "2": "2"
+                }
+              }
+            }
+          }
+        },
+        "models": [
+          {
+            "id": "FGEN_Rigol_DG1022Z",
+            "name": "Rigol DG1022Z",
+            "manufacturer": "Rigol",
+            "model": "DG1022Z",
+            "documentation_path": "docs/Rigol/DG1000Z_Series/DG1000Z_ProgrammingGuide_EN.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "USB-TMC",
+                  "address_format_example": "USB0::{vendor_id}::{product_id}::{serial}::INSTR",
+                  "notes": "USB device connector on the rear panel (\"USB Test and Measurement Device\")",
+                  "transports": [
+                    {
+                      "kind": "usbtmc"
+                    }
+                  ]
+                },
+                {
+                  "type": "LXI",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::INSTR",
+                  "notes": "LAN, VISA descriptor TCPIP0::<ip>::INSTR (the programming guide); the interface is configured from Utility > I/O Config > LAN",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    }
+                  ]
+                },
+                {
+                  "type": "GPIB",
+                  "address_format_example": "GPIB0::{GPIB_ADDRESS}::INSTR",
+                  "notes": "optional: a USB-GPIB converter on the front-panel USB host connector; the address is set from Utility > I/O Config > GPIB"
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 2,
+              "frequency_min_hz": 1e-06,
+              "frequency_max_hz": 25000000.0,
+              "amplitude_min_vpp": 0.002,
+              "notes": "Frequency limits are those of a sine wave; the other waveforms have lower limits (programming guide, Table 2-1: square 25 MHz, ramp 500 kHz, pulse 15 MHz, arbitrary 10 MHz). Amplitude from 2 mVpp, the maximum depends on the output load (50 ohm by default) and on the frequency. Sample rate 200 MSa/s."
+            },
+            "experimental": true
+          },
+          {
+            "id": "FGEN_Rigol_DG1032Z",
+            "name": "Rigol DG1032Z",
+            "manufacturer": "Rigol",
+            "model": "DG1032Z",
+            "documentation_path": "docs/Rigol/DG1000Z_Series/DG1000Z_ProgrammingGuide_EN.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "USB-TMC",
+                  "address_format_example": "USB0::{vendor_id}::{product_id}::{serial}::INSTR",
+                  "notes": "USB device connector on the rear panel (\"USB Test and Measurement Device\")",
+                  "transports": [
+                    {
+                      "kind": "usbtmc"
+                    }
+                  ]
+                },
+                {
+                  "type": "LXI",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::INSTR",
+                  "notes": "LAN, VISA descriptor TCPIP0::<ip>::INSTR (the programming guide); the interface is configured from Utility > I/O Config > LAN",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    }
+                  ]
+                },
+                {
+                  "type": "GPIB",
+                  "address_format_example": "GPIB0::{GPIB_ADDRESS}::INSTR",
+                  "notes": "optional: a USB-GPIB converter on the front-panel USB host connector; the address is set from Utility > I/O Config > GPIB"
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 2,
+              "frequency_min_hz": 1e-06,
+              "frequency_max_hz": 30000000.0,
+              "amplitude_min_vpp": 0.002,
+              "notes": "Frequency limits are those of a sine wave; the other waveforms have lower limits (programming guide, Table 2-1: square 25 MHz, ramp 500 kHz, pulse 15 MHz, arbitrary 10 MHz). Amplitude from 2 mVpp, the maximum depends on the output load (50 ohm by default) and on the frequency. Sample rate 200 MSa/s."
+            },
+            "experimental": true
+          },
+          {
+            "id": "FGEN_Rigol_DG1062Z",
+            "name": "Rigol DG1062Z",
+            "manufacturer": "Rigol",
+            "model": "DG1062Z",
+            "documentation_path": "docs/Rigol/DG1000Z_Series/DG1000Z_ProgrammingGuide_EN.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "USB-TMC",
+                  "address_format_example": "USB0::{vendor_id}::{product_id}::{serial}::INSTR",
+                  "notes": "USB device connector on the rear panel (\"USB Test and Measurement Device\")",
+                  "transports": [
+                    {
+                      "kind": "usbtmc"
+                    }
+                  ]
+                },
+                {
+                  "type": "LXI",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::INSTR",
+                  "notes": "LAN, VISA descriptor TCPIP0::<ip>::INSTR (the programming guide); the interface is configured from Utility > I/O Config > LAN",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    }
+                  ]
+                },
+                {
+                  "type": "GPIB",
+                  "address_format_example": "GPIB0::{GPIB_ADDRESS}::INSTR",
+                  "notes": "optional: a USB-GPIB converter on the front-panel USB host connector; the address is set from Utility > I/O Config > GPIB"
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 2,
+              "frequency_min_hz": 1e-06,
+              "frequency_max_hz": 60000000.0,
+              "amplitude_min_vpp": 0.002,
+              "notes": "Frequency limits are those of a sine wave; the other waveforms have lower limits (programming guide, Table 2-1: square 25 MHz, ramp 1 MHz, pulse 25 MHz, arbitrary 20 MHz). Amplitude from 2 mVpp, the maximum depends on the output load (50 ohm by default) and on the frequency. Sample rate 200 MSa/s."
+            },
+            "experimental": true
+          }
+        ]
       }
     ],
     "rf_signal_generators_series": [
