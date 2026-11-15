@@ -10,7 +10,7 @@ The file `instruments_lib.json` is a single object with the key `instrument_libr
 
 | Key | Category | Examples |
 |---|---|---|
-| `power_supplies_series` | Power supplies | OWON ODP, Keysight E36300, TDK-Lambda GEN, R&S HMP, HP E3631A |
+| `power_supplies_series` | Power supplies | OWON ODP, Keysight E36300, TDK-Lambda GEN, R&S HMP, HP E3631A, HP 6034A |
 | `dataloggers_series` | Data loggers (mainframes) | Keysight 34970A/34972A, Keysight DAQ970A |
 | `switch_units_series` | Switch units (no measurement engine) | Agilent 3499A |
 | `datalogger_modules` | Datalogger cards (modules) | Keysight 34901A, 34902A, 34908A, DAQM900A, DAQM901A |
@@ -359,6 +359,7 @@ IDs follow `{TYPE}_{MANUFACTURER}_{MODEL}`:
 | TDK-Lambda GEN | — | none |
 | R&S HMP | — | none |
 | HP E3631A | — | none |
+| HP 6030 series (6034A) | — | none (a test on the instrument is planned) |
 | Keysight 3497X | 34970A | RS-232 (57600 baud, XON/XOFF): 38 of 39 calls accepted; the 34972A is not tested |
 | Keysight DAQ97x | — | none (DAQ970A, DAQ973A) |
 | Agilent 3499A | — | none (no instrument available; the schema is built from the manual) |

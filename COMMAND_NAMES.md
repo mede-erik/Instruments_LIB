@@ -47,7 +47,7 @@ Calls shared by every category: `identification_query` and `reset` are mandatory
 <!-- BEGIN GENERATED power_supplies_series -->
 ### 3.1 Power supplies (`power_supplies_series`)
 
-Generated from `schema/power_supply.json` — do not edit this section by hand. 11 mandatory and 71 optional calls.
+Generated from `schema/power_supply.json` — do not edit this section by hand. 6 mandatory and 76 optional calls.
 
 Logical calls of programmable DC power supplies. channel_number is 1-based; the library selects the output (steps) or maps it to the instrument's own identifier.
 
@@ -59,22 +59,22 @@ Logical types:
 
 | Call | Kind | Arguments | Result | Description |
 |---|---|---|---|---|
-| `identification_query` | query |  | string | identification string (*IDN?) |
-| `reset` | action |  |  | restore factory defaults |
 | `set_voltage` | set | `channel_number` (int, 1.., optional)<br>`value` (float, V, 0..) |  | voltage setpoint of an output |
 | `set_current` | set | `channel_number` (int, 1.., optional)<br>`value` (float, A, 0..) |  | current limit/setpoint of an output |
 | `read_voltage` | query | `channel_number` (int, 1.., optional) | float, V | measured output voltage |
 | `read_current` | query | `channel_number` (int, 1.., optional) | float, A | measured output current |
 | `output_on` | action |  |  | enable the output(s) (all outputs of the instrument) |
 | `output_off` | action |  |  | disable the output(s) (all outputs of the instrument) |
-| `output_state_query` | query |  | bool | output state (true = on) |
-| `set_remote` | action |  |  | enter remote mode |
-| `set_local` | action |  |  | return to local mode |
 
 **Optional**
 
 | Call | Kind | Arguments | Result | Description |
 |---|---|---|---|---|
+| `identification_query` | query |  | string | identification string (*IDN?) (optional: the pre-IEEE-488.2 supplies, such as the HP 6034A, have no identification command) |
+| `reset` | action |  |  | restore factory defaults (optional: the HP 6034A resets with the HP-IB device clear, which is a bus message, not a text command) |
+| `output_state_query` | query |  | bool | output state (true = on) (optional: the HP 6034A reports it only in the status byte of a serial poll) |
+| `set_remote` | action |  |  | enter remote mode (optional: on the HP 6034A the remote state is set by the HP-IB bus, not by a text command) |
+| `set_local` | action |  |  | return to local mode (optional: on the HP 6034A the local state is set by the HP-IB bus, not by a text command) |
 | `clear_status` | action |  |  | clear status registers |
 | `error_query` | query |  | string | read and clear the oldest error |
 | `self_test` | query |  | int | run self test, 0 = pass |
