@@ -2812,6 +2812,152 @@
             "experimental": true
           }
         ]
+      },
+      {
+        "series_id": "HP_6030_Series",
+        "series_name": "HP 6030 series System DC power supplies (6034A, HP-IB, pre-IEEE-488.2 command language)",
+        "common_scpi_commands": {
+          "set_voltage": {
+            "description": "P<value>V (potential, 0 to 60 V; five digits are used) followed by G: the values are stored by the supply and implemented only at G, R or a device trigger; a value above the soft voltage limit is an invalid request (the output stays as it is)",
+            "set": {
+              "steps": [
+                {
+                  "op": "write",
+                  "text": "P{value}V"
+                },
+                {
+                  "op": "write",
+                  "text": "G"
+                }
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "set_current": {
+            "description": "C<value>A (current, 0 to 10 A) followed by G, as for the voltage",
+            "set": {
+              "steps": [
+                {
+                  "op": "write",
+                  "text": "C{value}A"
+                },
+                {
+                  "op": "write",
+                  "text": "G"
+                }
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "read_voltage": {
+            "description": "T (trigger) then the supply talks: <status><V|A><number>, e.g. NV12.345. The supply reads only the quantity it does not regulate: this is the voltage while it is in constant current (M2); in voltage mode the answer is the current and the call is refused",
+            "set": null,
+            "query": {
+              "steps": [
+                {
+                  "op": "write",
+                  "text": "T"
+                },
+                {
+                  "op": "read",
+                  "returns": "string"
+                }
+              ],
+              "parse": {
+                "name": "hp6030_readback_voltage",
+                "from_steps": "queries"
+              }
+            }
+          },
+          "read_current": {
+            "description": "T (trigger) then the supply talks: <status><V|A><number>, e.g. NA01.234. The supply reads only the quantity it does not regulate: this is the current while it is in constant voltage (M1, the default); in constant current mode the answer is the voltage and the call is refused",
+            "set": null,
+            "query": {
+              "steps": [
+                {
+                  "op": "write",
+                  "text": "T"
+                },
+                {
+                  "op": "read",
+                  "returns": "string"
+                }
+              ],
+              "parse": {
+                "name": "hp6030_readback_current",
+                "from_steps": "queries"
+              }
+            }
+          },
+          "output_on": {
+            "description": "R (reset): re-enables the output after an S, resets the OVP circuit if it tripped, starts the delay time, and implements the values received while the output was disabled",
+            "set": {
+              "syntax": "R"
+            },
+            "query": null
+          },
+          "output_off": {
+            "description": "S (set): disables the output and programs it to 0 V (the DISABLED indicator turns on); the supply keeps receiving and storing commands",
+            "set": {
+              "syntax": "S"
+            },
+            "query": null
+          }
+        },
+        "models": [
+          {
+            "id": "PSU_HP_6034A",
+            "name": "HP 6034A",
+            "manufacturer": "HP",
+            "model": "6034A",
+            "documentation_path": "docs/HP/HP_6304_Series/HP_6034A_OPERATING_AND_SERVICE_MANUAL.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "GPIB",
+                  "address_format_example": "GPIB0::{GPIB_ADDRESS}::INSTR",
+                  "notes": "HP-IB (IEEE-488) only. The address (0 to 30) is set with the switches on the rear panel; factory address 5. Talker and listener, serial poll, parallel poll, device clear, device trigger and remote/local with local lockout. No *IDN?: the supply is pre-IEEE-488.2"
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 1,
+              "channels": [
+                {
+                  "channel_id": "CH1",
+                  "label": "Main Output",
+                  "voltage_output": {
+                    "min": 0.0,
+                    "max": 60.0,
+                    "resolution": 3,
+                    "units": "V"
+                  },
+                  "current_output": {
+                    "min": 0.0,
+                    "max": 10.0,
+                    "resolution": 3,
+                    "units": "A"
+                  }
+                }
+              ],
+              "read_voltage": true,
+              "read_current": true,
+              "notes": "Autoranging system power supply, 0 to 60 V, 0 to 10 A, at least 200 W (the manual is a scan; the commands were read from it with OCR). The readback measures only the quantity the supply does not regulate. The soft voltage limit (U<value>V) also sets the OVP trip level (2 V + 1.04 x the limit) and the soft current limit (U<value>A) caps the output: they are not mapped to a logical call yet. Initial state: 0 V, 0 A, voltage mode (M1), delay 500 ms, soft limits 60 V and 10 A."
+            },
+            "scpi_commands": {},
+            "experimental": true
+          }
+        ]
       }
     ],
     "dataloggers_series": [

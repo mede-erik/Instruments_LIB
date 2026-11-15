@@ -20,6 +20,7 @@ The software that uses this library must call the instruments through these name
 | TDK GEN | TDK_Lambda_GEN_Series | Power supplies |
 | R&S HMP | Rohde_Schwarz_HMP_Series | Power supplies |
 | HP E3631A | HP_E3631A_Series | Power supplies |
+| HP 6034A | HP_6030_Series | Power supplies |
 | K. 3497X | Keysight_3497X_Series | Dataloggers |
 | K. DAQ97x | Keysight_DAQ97x_Series | Dataloggers |
 | A. 3499A | Agilent_3499A_Series | Switch units (`switch_units_series`) |
@@ -97,6 +98,8 @@ The software that uses this library must call the instruments through these name
 | `set_local_remote` | Switches between local and remote | `SYSTem:SET {mode}` (TDK GEN, query `SYSTem:SET?`) | int |
 | `set_ovp_level` | OVP threshold | `VOLT:PROTection:LEVel {value}` (TDK GEN, query `VOLT:PROTection:LEVel?`) | float |
 | `query_ovp_tripped` | OVP trip state | `VOLT:PROTection:TRIPped?` (TDK GEN) | int |
+
+> **Note on the HP 6034A** (pre-IEEE-488.2, HP-IB only): its language is single letters, sent as one write each. `set_voltage` is `P<value>V` then `G`, `set_current` is `C<value>A` then `G` (the supply stores the values and implements them at `G`), `output_on` is `R` and `output_off` is `S` (disable, 0 V). `read_voltage` and `read_current` send `T` and read the answer `<status><V|A><number>` (`N` normal, `L` limit mode, `F` fault): the supply reads only the quantity it does not regulate, so `read_current` works in voltage mode (the default) and `read_voltage` in current mode; the other one is refused. There is no `*IDN?`, no reset by text command (device clear is a bus message), no output state query and no remote/local commands: those calls are optional in the schema. The soft voltage and current limits (`U<value>V`, `U<value>A`) are not mapped yet.
 
 ## Electronic loads (EL)
 

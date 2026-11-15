@@ -10,17 +10,17 @@
   },
   "calls": {
     "identification_query": {
-      "requirement": "mandatory",
+      "requirement": "optional",
       "kind": "query",
-      "description": "identification string (*IDN?)",
+      "description": "identification string (*IDN?) (optional: the pre-IEEE-488.2 supplies, such as the HP 6034A, have no identification command)",
       "result": {
         "type": "string"
       }
     },
     "reset": {
-      "requirement": "mandatory",
+      "requirement": "optional",
       "kind": "action",
-      "description": "restore factory defaults"
+      "description": "restore factory defaults (optional: the HP 6034A resets with the HP-IB device clear, which is a bus message, not a text command)"
     },
     "set_voltage": {
       "requirement": "mandatory",
@@ -103,22 +103,22 @@
       "description": "disable the output(s) (all outputs of the instrument)"
     },
     "output_state_query": {
-      "requirement": "mandatory",
+      "requirement": "optional",
       "kind": "query",
-      "description": "output state (true = on)",
+      "description": "output state (true = on) (optional: the HP 6034A reports it only in the status byte of a serial poll)",
       "result": {
         "type": "bool"
       }
     },
     "set_remote": {
-      "requirement": "mandatory",
+      "requirement": "optional",
       "kind": "action",
-      "description": "enter remote mode"
+      "description": "enter remote mode (optional: on the HP 6034A the remote state is set by the HP-IB bus, not by a text command)"
     },
     "set_local": {
-      "requirement": "mandatory",
+      "requirement": "optional",
       "kind": "action",
-      "description": "return to local mode"
+      "description": "return to local mode (optional: on the HP 6034A the local state is set by the HP-IB bus, not by a text command)"
     },
     "clear_status": {
       "requirement": "optional",
