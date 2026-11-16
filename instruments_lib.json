@@ -3879,7 +3879,7 @@
             }
           },
           "configure_dc_current": {
-            "description": "Configure the specified channels (34901A/34902A ch 21/22 only) for DC current measurements",
+            "description": "Configure the specified channels (34901A ch 21/22 only) for DC current measurements",
             "set": {
               "syntax": "CONF:CURR:DC {range},{resolution},(@{channels})",
               "args": [
@@ -3909,16 +3909,12 @@
                 ]
               },
               "channels": {
-                "type": "string",
-                "values": [
-                  "121",
-                  "122"
-                ]
+                "type": "string"
               }
             }
           },
           "configure_ac_current": {
-            "description": "Configure the specified channels (34901A/34902A ch 21/22 only) for AC current measurements",
+            "description": "Configure the specified channels (34901A ch 21/22 only) for AC current measurements",
             "set": {
               "syntax": "CONF:CURR:AC {range},{resolution},(@{channels})",
               "args": [
@@ -3948,11 +3944,7 @@
                 ]
               },
               "channels": {
-                "type": "string",
-                "values": [
-                  "121",
-                  "122"
-                ]
+                "type": "string"
               }
             }
           },
@@ -4281,7 +4273,7 @@
             }
           },
           "measure_dc_current": {
-            "description": "Configure and measure DC current (34901A/34902A ch 21/22 only)",
+            "description": "Configure and measure DC current (34901A ch 21/22 only)",
             "set": null,
             "query": {
               "syntax": "MEAS:CURR:DC? {range},{resolution},(@{channels})",
@@ -4312,16 +4304,12 @@
                 ]
               },
               "channels": {
-                "type": "string",
-                "values": [
-                  "121",
-                  "122"
-                ]
+                "type": "string"
               }
             }
           },
           "measure_ac_current": {
-            "description": "Configure and measure AC current (34901A/34902A ch 21/22 only)",
+            "description": "Configure and measure AC current (34901A ch 21/22 only)",
             "set": null,
             "query": {
               "syntax": "MEAS:CURR:AC? {range},{resolution},(@{channels})",
@@ -4352,11 +4340,7 @@
                 ]
               },
               "channels": {
-                "type": "string",
-                "values": [
-                  "121",
-                  "122"
-                ]
+                "type": "string"
               }
             }
           },
@@ -5234,7 +5218,7 @@
             }
           },
           "set_dc_current_range": {
-            "description": "Set the DC current measurement range (10 mA to 1 A, ch 21/22 of 34901A/34902A)",
+            "description": "Set the DC current measurement range (10 mA to 1 A, ch 21/22 of 34901A)",
             "set": {
               "syntax": "SENS:CURR:DC:RANG {range},(@{channels})",
               "args": [
@@ -5261,11 +5245,7 @@
                 ]
               },
               "channels": {
-                "type": "string",
-                "values": [
-                  "121",
-                  "122"
-                ]
+                "type": "string"
               }
             }
           },
@@ -5296,11 +5276,7 @@
                 ]
               },
               "channels": {
-                "type": "string",
-                "values": [
-                  "121",
-                  "122"
-                ]
+                "type": "string"
               }
             }
           },
@@ -5337,11 +5313,7 @@
                 ]
               },
               "channels": {
-                "type": "string",
-                "values": [
-                  "121",
-                  "122"
-                ]
+                "type": "string"
               }
             }
           },
@@ -5373,11 +5345,7 @@
                 ]
               },
               "channels": {
-                "type": "string",
-                "values": [
-                  "121",
-                  "122"
-                ]
+                "type": "string"
               }
             }
           },
@@ -5408,11 +5376,7 @@
                 ]
               },
               "channels": {
-                "type": "string",
-                "values": [
-                  "121",
-                  "122"
-                ]
+                "type": "string"
               }
             }
           },
@@ -5444,11 +5408,7 @@
                 ]
               },
               "channels": {
-                "type": "string",
-                "values": [
-                  "121",
-                  "122"
-                ]
+                "type": "string"
               }
             }
           },
