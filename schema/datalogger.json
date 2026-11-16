@@ -2334,6 +2334,40 @@
           "type": "string"
         }
       }
+    },
+    "set_rtd_resistance": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "nominal resistance (Ro) of the 2-wire RTD on the specified channels; shared with the 4-wire RTD",
+      "args": {
+        "ohms": {
+          "type": "float",
+          "unit": "ohm",
+          "min": 0,
+          "default": 100,
+          "description": "nominal resistance (Ro) of the RTD at 0 degrees C, 100 ohm for a PT100 and 1000 ohm for a PT1000"
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
+    },
+    "set_frtd_resistance": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "nominal resistance (Ro) of the 4-wire RTD on the specified channels; shared with the 2-wire RTD",
+      "args": {
+        "ohms": {
+          "type": "float",
+          "unit": "ohm",
+          "min": 0,
+          "default": 100,
+          "description": "nominal resistance (Ro) of the RTD at 0 degrees C, 100 ohm for a PT100 and 1000 ohm for a PT1000"
+        },
+        "channels": {
+          "type": "string"
+        }
+      }
     }
   }
 }
