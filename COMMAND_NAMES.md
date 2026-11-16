@@ -485,7 +485,7 @@ Logical types:
 <!-- BEGIN GENERATED dataloggers_series -->
 ### 3.5 Dataloggers (`dataloggers_series`)
 
-Generated from `schema/datalogger.json` — do not edit this section by hand. 57 mandatory and 119 optional calls.
+Generated from `schema/datalogger.json` — do not edit this section by hand. 57 mandatory and 121 optional calls.
 
 Logical calls of data acquisition / datalogger mainframes (Keysight 34970A/34972A and DAQ970A/DAQ973A). Channels use the 3-digit form of the instrument, e.g. "101:120". Optional calls are generated from the library.
 
@@ -678,6 +678,8 @@ Logical types:
 | `operation_complete` | action |  |  | set the OPC bit when all pending operations complete |
 | `set_trigger_delay` | set | `seconds` (number_or_keyword, or MIN/MAX/DEF) |  | delay between the trigger and the first channel of the scan, in seconds |
 | `set_internal_dmm` | set | `state` (string) |  | enable/disable the internal DMM (the instrument issues a factory reset when the state changes) |
+| `set_rtd_resistance` | set | `ohms` (float, ohm, 0.., default 100)<br>`channels` (string) |  | nominal resistance (Ro) of the 2-wire RTD on the specified channels; shared with the 4-wire RTD |
+| `set_frtd_resistance` | set | `ohms` (float, ohm, 0.., default 100)<br>`channels` (string) |  | nominal resistance (Ro) of the 4-wire RTD on the specified channels; shared with the 2-wire RTD |
 
 <!-- END GENERATED dataloggers_series -->
 

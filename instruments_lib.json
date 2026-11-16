@@ -2965,6 +2965,56 @@
         "series_id": "Keysight_3497X_Series",
         "series_name": "Keysight 3497XA/B Series",
         "common_scpi_commands": {
+          "set_rtd_resistance": {
+            "description": "[SENSe:]TEMPerature:TRANsducer:RTD:RESistance[:REFerence] <reference>: the nominal resistance (Ro) of the 2-wire RTD at 0 degrees C, 49 to 2100 ohm, default 100 (1000 for a PT1000); shared with the 4-wire RTD. The RTD type (85 or 91, set_rtd_type) is the alpha of the platinum, not the resistance",
+            "set": {
+              "syntax": "SENS:TEMP:TRAN:RTD:RES:REF {ohms},(@{channels})",
+              "args": [
+                "ohms",
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "SENS:TEMP:TRAN:RTD:RES:REF? (@{channels})",
+              "return_type": "float",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "ohms": {
+                "type": "float"
+              },
+              "channels": {
+                "type": "string"
+              }
+            }
+          },
+          "set_frtd_resistance": {
+            "description": "[SENSe:]TEMPerature:TRANsducer:FRTD:RESistance[:REFerence] <reference>: the nominal resistance (Ro) of the 4-wire RTD at 0 degrees C, 49 to 2100 ohm, default 100 (1000 for a PT1000); shared with the 2-wire RTD",
+            "set": {
+              "syntax": "SENS:TEMP:TRAN:FRTD:RES:REF {ohms},(@{channels})",
+              "args": [
+                "ohms",
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "SENS:TEMP:TRAN:FRTD:RES:REF? (@{channels})",
+              "return_type": "float",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "ohms": {
+                "type": "float"
+              },
+              "channels": {
+                "type": "string"
+              }
+            }
+          },
           "reset": {
             "description": "Factory reset: abort scan, clear scan list, restore all measurement parameters to factory settings",
             "set": {
@@ -7036,6 +7086,105 @@
         "series_id": "Keysight_DAQ97x_Series",
         "series_name": "Keysight DAQ970A/DAQ973A Data Acquisition System",
         "common_scpi_commands": {
+          "set_temperature_nplc": {
+            "description": "[SENSe:]TEMPerature:NPLCycles: the integration time in power line cycles for temperature measurements (DAQM900A, DAQM901A, DAQM902A and DAQM908A); the DAQ970A/973A also has 0.001, 0.002, 0.006 and 0.06",
+            "set": {
+              "syntax": "SENS:TEMP:NPLC {plcs},(@{channels})",
+              "args": [
+                "plcs",
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "SENS:TEMP:NPLC? (@{channels})",
+              "return_type": "float",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "plcs": {
+                "type": "float",
+                "values": [
+                  "0.001",
+                  "0.002",
+                  "0.006",
+                  "0.02",
+                  "0.06",
+                  "0.2",
+                  "1",
+                  "2",
+                  "10",
+                  "20",
+                  "100",
+                  "200",
+                  "MIN",
+                  "MAX"
+                ]
+              },
+              "channels": {
+                "type": "string"
+              }
+            }
+          },
+          "set_rtd_resistance": {
+            "description": "[SENSe:]TEMPerature:TRANsducer:{RTD|FRTD}:RESistance[:REFerence]: the nominal resistance (Ro) of the RTD at 0 degrees C, 100 ohm or 1000 ohm (+-1 %), default 100; shared between the 2-wire and the 4-wire RTD (DAQM901A, DAQM902A and DAQM908A only)",
+            "set": {
+              "syntax": "SENS:TEMP:TRAN:RTD:RES:REF {ohms},(@{channels})",
+              "args": [
+                "ohms",
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "SENS:TEMP:TRAN:RTD:RES:REF? (@{channels})",
+              "return_type": "float",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "ohms": {
+                "type": "float",
+                "values": [
+                  "100",
+                  "1000"
+                ]
+              },
+              "channels": {
+                "type": "string"
+              }
+            }
+          },
+          "set_frtd_resistance": {
+            "description": "[SENSe:]TEMPerature:TRANsducer:{RTD|FRTD}:RESistance[:REFerence]: the nominal resistance (Ro) of the 4-wire RTD at 0 degrees C, 100 ohm or 1000 ohm (+-1 %), default 100; shared between the 2-wire and the 4-wire RTD (DAQM901A and DAQM902A only)",
+            "set": {
+              "syntax": "SENS:TEMP:TRAN:FRTD:RES:REF {ohms},(@{channels})",
+              "args": [
+                "ohms",
+                "channels"
+              ]
+            },
+            "query": {
+              "syntax": "SENS:TEMP:TRAN:FRTD:RES:REF? (@{channels})",
+              "return_type": "float",
+              "args": [
+                "channels"
+              ]
+            },
+            "parameters": {
+              "ohms": {
+                "type": "float",
+                "values": [
+                  "100",
+                  "1000"
+                ]
+              },
+              "channels": {
+                "type": "string"
+              }
+            }
+          },
           "set_voltage_nplc": {
             "description": "Set the integration time in power line cycles (PLCs) for DC voltage measurements; the DAQ970A/973A also has 0.001, 0.002, 0.006 and 0.06, default 10 (only 1, 2, 10, 20, 100 and 200 reject the line frequency noise)",
             "set": {
@@ -8692,7 +8841,22 @@
                 ]
               },
               "type": {
-                "type": "string"
+                "type": "string",
+                "values": [
+                  "B",
+                  "E",
+                  "J",
+                  "K",
+                  "N",
+                  "R",
+                  "S",
+                  "T",
+                  "85",
+                  "2252",
+                  "5000",
+                  "10000",
+                  "DEF"
+                ]
               },
               "resolution": {
                 "type": "float",
@@ -8733,7 +8897,22 @@
                 ]
               },
               "type": {
-                "type": "string"
+                "type": "string",
+                "values": [
+                  "B",
+                  "E",
+                  "J",
+                  "K",
+                  "N",
+                  "R",
+                  "S",
+                  "T",
+                  "85",
+                  "2252",
+                  "5000",
+                  "10000",
+                  "DEF"
+                ]
               },
               "resolution": {
                 "type": "float",
