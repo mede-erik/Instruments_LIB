@@ -22723,9 +22723,9 @@
               "frequency_max_hz": 6000000000.0,
               "power_min_dbm": -144.0,
               "power_max_dbm": 19.0,
-              "notes": "Analog signal generator. Frequency: 9 kHz to 1 GHz (option 501), 3 GHz (503) or 6 GHz (506), 7.2 GHz with option 506 + FRQ. The frequency range depends on the installed option; the power range is +19 to -144 dBm, +30 to -144 dBm with option 1EA (data sheet). The frequency and power limits of this entry are the ones of the standard top option; the SCPI commands are those of the X-Series Programming Compatibility Guide and Programming Guide."
+              "notes": "Analog signal generator. Frequency: 9 kHz to 1 GHz (option 501), 3 GHz (503) or 6 GHz (506), 7.2 GHz with option 506 + FRQ. The frequency range depends on the installed option; the power range is +19 to -144 dBm, +30 to -144 dBm with option 1EA (data sheet). The frequency and power limits of this entry are the ones of the standard top option; the SCPI commands are those of the X-Series Programming Compatibility Guide and Programming Guide. Tested on the real instrument from the remote control panel of the application: the signal (carrier, power, RF output) and the modulation worked as expected. The N5172B, N5181B and N5182B use the same command set and were not tried individually."
             },
-            "experimental": true
+            "experimental": false
           },
           {
             "id": "RFGEN_Keysight_N5172B",
@@ -22769,9 +22769,9 @@
               "frequency_max_hz": 6000000000.0,
               "power_min_dbm": -144.0,
               "power_max_dbm": 19.0,
-              "notes": "Vector signal generator (the I/Q and digital modulation are not covered yet). Frequency: 9 kHz (5 MHz in I/Q mode) to 3 GHz (option 503) or 6 GHz (506), 7.2 GHz with option 506 + FRQ. The frequency range depends on the installed option; the power range is +19 to -144 dBm, +30 to -144 dBm with option 1EA (data sheet). The frequency and power limits of this entry are the ones of the standard top option; the SCPI commands are those of the X-Series Programming Compatibility Guide and Programming Guide."
+              "notes": "Vector signal generator (the I/Q and digital modulation are not covered yet). Frequency: 9 kHz (5 MHz in I/Q mode) to 3 GHz (option 503) or 6 GHz (506), 7.2 GHz with option 506 + FRQ. The frequency range depends on the installed option; the power range is +19 to -144 dBm, +30 to -144 dBm with option 1EA (data sheet). The frequency and power limits of this entry are the ones of the standard top option; the SCPI commands are those of the X-Series Programming Compatibility Guide and Programming Guide. Supported with the same SCPI command set as the N5171B, which was tested on the real instrument; this model was not tried individually."
             },
-            "experimental": true
+            "experimental": false
           }
         ]
       },
@@ -23296,9 +23296,9 @@
               "frequency_max_hz": 6000000000.0,
               "power_min_dbm": -144.0,
               "power_max_dbm": 19.0,
-              "notes": "Analog signal generator. Frequency: 9 kHz to 3 GHz (option 503) or 6 GHz (506), 7.2 GHz with option 506 + FRQ. The frequency range depends on the installed option; the power range is +19 to -144 dBm, +30 to -144 dBm with option 1EA (data sheet). The frequency and power limits of this entry are the ones of the standard top option; the SCPI commands are those of the X-Series Programming Compatibility Guide and Programming Guide."
+              "notes": "Analog signal generator. Frequency: 9 kHz to 3 GHz (option 503) or 6 GHz (506), 7.2 GHz with option 506 + FRQ. The frequency range depends on the installed option; the power range is +19 to -144 dBm, +30 to -144 dBm with option 1EA (data sheet). The frequency and power limits of this entry are the ones of the standard top option; the SCPI commands are those of the X-Series Programming Compatibility Guide and Programming Guide. Supported with the same SCPI command set as the N5171B, which was tested on the real instrument; this model was not tried individually."
             },
-            "experimental": true
+            "experimental": false
           },
           {
             "id": "RFGEN_Keysight_N5182B",
@@ -23342,9 +23342,9 @@
               "frequency_max_hz": 6000000000.0,
               "power_min_dbm": -144.0,
               "power_max_dbm": 19.0,
-              "notes": "Vector signal generator (the I/Q and digital modulation are not covered yet). Frequency: 9 kHz (5 MHz in I/Q mode) to 3 GHz (option 503) or 6 GHz (506), 7.2 GHz with option 506 + FRQ. The frequency range depends on the installed option; the power range is +19 to -144 dBm, +30 to -144 dBm with option 1EA (data sheet). The frequency and power limits of this entry are the ones of the standard top option; the SCPI commands are those of the X-Series Programming Compatibility Guide and Programming Guide."
+              "notes": "Vector signal generator (the I/Q and digital modulation are not covered yet). Frequency: 9 kHz (5 MHz in I/Q mode) to 3 GHz (option 503) or 6 GHz (506), 7.2 GHz with option 506 + FRQ. The frequency range depends on the installed option; the power range is +19 to -144 dBm, +30 to -144 dBm with option 1EA (data sheet). The frequency and power limits of this entry are the ones of the standard top option; the SCPI commands are those of the X-Series Programming Compatibility Guide and Programming Guide. Supported with the same SCPI command set as the N5171B, which was tested on the real instrument; this model was not tried individually."
             },
-            "experimental": true
+            "experimental": false
           }
         ]
       }

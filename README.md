@@ -346,6 +346,7 @@ IDs follow `{TYPE}_{MANUFACTURER}_{MODEL}`:
 - Most models have `"experimental": true` = **not yet validated on real hardware** — the SCPI commands may differ from the manual.
 - Models with `"experimental": false` are considered supported. `DL_Agilent_34970A` was tested over RS-232. `OSC_Siglent_SDS804X_HD`, `OSC_Siglent_SDS814X_HD` and `OSC_Siglent_SDS824X_HD` use the same SCPI command set; the SDS824X HD was tested on hardware, the other two were not tested individually.
 - The Analog Discovery 2 models (`OSC_Digilent_AnalogDiscovery2` and `FGEN_Digilent_AnalogDiscovery2`) are not experimental: the oscilloscope and the generator were tested on real hardware. **Only the oscilloscope and the function generator are supported**: the logic analyzer is not supported yet. When a logic analyzer library is written and tested, the flag goes back to `true` until that test is done.
+- The Keysight EXG and MXG models (`RFGEN_Keysight_N5171B`, `N5172B`, `N5181B`, `N5182B`) are not experimental: they share one SCPI command set and the N5171B was tested on the real instrument (signal and modulation); the other three were not tried individually.
 - Every other model has `"experimental": true` (not yet validated on real hardware).
 
 ### Tested models per series
@@ -377,7 +378,8 @@ IDs follow `{TYPE}_{MANUFACTURER}_{MODEL}`:
 | Digilent Analog Discovery 2, generator (supported) | Analog Discovery 2 (USB) | real device: sine, square and triangle from 1 kHz to 1 MHz, amplitude, offset, W1 and W2 independent, out-of-range values refused |
 | Rigol DG1022 / DG1022A / DG1022Z / DG1032Z / DG1062Z | — | none |
 | Agilent 33120A | — | none |
-| Keysight EXG N5171B/N5172B, MXG N5181B/N5182B | — | none (no instrument available); carrier, output and AM/FM/PM/pulse on-off only |
+| Keysight EXG N5171B | N5171B | real instrument, from the remote control panel of the application: the signal (carrier, power, RF output) and the modulation worked as expected |
+| Keysight EXG N5172B, MXG N5181B/N5182B | — | not tried individually: they share the command set of the N5171B (supported); carrier, output and AM/FM/PM/pulse on-off only |
 | Zenko LiteVNA 62/64/67 | — | none |
 | Siglent SNA / SHN | — | none |
 | Rohde & Schwarz ZNB/ZNL/ZVA/ZVB/ZVT/ZVL | — | none |
