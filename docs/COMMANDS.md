@@ -352,7 +352,7 @@ The logical calls are in [COMMAND_NAMES.md](../COMMAND_NAMES.md), section 3.9, g
 | `set_fm_deviation` / `query_fm_deviation` | FM peak deviation, in Hz | `FM:DEViation {value} Hz` | float |
 | `set_pm_deviation` / `query_pm_deviation` | PM peak deviation, in radians | `PM:DEViation {value} RAD` | float |
 
-Frequency range (data sheets): 9 kHz to 3 GHz (option 503) or 6 GHz (option 506), 7.2 GHz with option 506 + FRQ; the N5171B also has option 501 (1 GHz). Power: +19 to −144 dBm, +30 to −144 dBm with option 1EA. The library entries use the standard top values (6 GHz, +19 dBm); the instrument refuses a value its options do not allow. Transport: VXI-11 or sockets on port 5025 (LAN), USB-TMC, GPIB. The N5171B was tested on the real instrument from the remote control panel of the application (the signal and the modulation worked as expected) and is no longer experimental; the N5172B, N5181B and N5182B use the same commands and are still experimental.
+Frequency range (data sheets): 9 kHz to 3 GHz (option 503) or 6 GHz (option 506), 7.2 GHz with option 506 + FRQ; the N5171B also has option 501 (1 GHz). Power: +19 to −144 dBm, +30 to −144 dBm with option 1EA. The library entries use the standard top values (6 GHz, +19 dBm); the instrument refuses a value its options do not allow. Transport: VXI-11 or sockets on port 5025 (LAN), USB-TMC, GPIB. The N5171B was tested on the real instrument from the remote control panel of the application (the signal and the modulation worked as expected); the N5172B, N5181B and N5182B share its command set and are supported without being tried individually: none of the four is experimental.
 
 ## Network analyzers (VNA)
 
