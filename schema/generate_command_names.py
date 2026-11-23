@@ -34,6 +34,7 @@ TITLES = {
     "network_analyzers_series": "Vector network analyzers",
     "function_generators_series": "Function generators",
     "rf_signal_generators_series": "RF signal generators",
+    "spectrum_analyzers_series": "Spectrum analyzers",
 }
 
 
@@ -47,6 +48,7 @@ NUMBERS = {
     "network_analyzers_series": "3.7",
     "function_generators_series": "3.8",
     "rf_signal_generators_series": "3.9",
+    "spectrum_analyzers_series": "3.10",
 }
 
 

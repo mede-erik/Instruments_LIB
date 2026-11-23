@@ -13,6 +13,7 @@ One file per instrument category. A schema file is the **contract** of that cate
 | `vna.json` | `network_analyzers_series` |
 | `switch_unit.json` | `switch_units_series` |
 | `rf_signal_generator.json` | `rf_signal_generators_series` |
+| `spectrum_analyzer.json` | `spectrum_analyzers_series` |
 
 More categories are added one at a time.
 

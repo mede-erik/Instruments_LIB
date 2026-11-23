@@ -38,6 +38,9 @@ The software that uses this library must call the instruments through these name
 | Rigol DG1000Z | Rigol_DG1000Z_Series | Function generators |
 | A. 33120A | Agilent_33120A_Series | Function generators |
 | Keysight EXG | Keysight_EXG_Series | RF signal generators (`rf_signal_generators_series`) |
+| Rigol DSA800 | Rigol_DSA800_Series | Spectrum analyzers (`spectrum_analyzers_series`) |
+| Rigol RSA3000 | Rigol_RSA3000_Series | Spectrum analyzers |
+| Siglent SSA3000X Plus | Siglent_SSA3000X_Plus_Series | Spectrum analyzers |
 | Keysight MXG | Keysight_MXG_Series | RF signal generators |
 | LiteVNA | Zenko_LiteVNA_Series | Network analyzers (`network_analyzers_series`) |
 | Sig. SNA | Siglent_SNA_Series | Network analyzers |
@@ -364,6 +367,22 @@ The logical calls are in [COMMAND_NAMES.md](../COMMAND_NAMES.md), section 3.9, g
 | `set_pm_deviation` / `query_pm_deviation` | PM peak deviation, in radians | `PM:DEViation {value} RAD` | float |
 
 Frequency range (data sheets): 9 kHz to 3 GHz (option 503) or 6 GHz (option 506), 7.2 GHz with option 506 + FRQ; the N5171B also has option 501 (1 GHz). Power: +19 to −144 dBm, +30 to −144 dBm with option 1EA. The library entries use the standard top values (6 GHz, +19 dBm); the instrument refuses a value its options do not allow. Transport: VXI-11 or sockets on port 5025 (LAN), USB-TMC, GPIB. The N5171B was tested on the real instrument from the remote control panel of the application (the signal and the modulation worked as expected); the N5172B, N5181B and N5182B share its command set and are supported without being tried individually: none of the four is experimental.
+
+## Spectrum analyzers (SA)
+
+The logical calls are in [COMMAND_NAMES.md](../COMMAND_NAMES.md), section 3.10, generated from `schema/spectrum_analyzer.json`: the frequency axis (`set_center_frequency`, `set_span`, `set_start_frequency`, `set_stop_frequency`, with the queries), the bandwidths (`set_resolution_bandwidth`, `set_video_bandwidth` and their auto switches), the amplitude (`set_reference_level`, `set_input_attenuation`, `set_power_unit`), the sweep (`set_sweep_time`, `set_sweep_continuous`, `initiate_sweep`), the traces (`set_detector`, `set_trace_mode`, `read_trace`) and the markers (`set_marker_state`, `set_marker_frequency`, `query_marker_frequency`, `query_marker_amplitude`, `marker_peak_search`). They were checked in the programming guides of the Rigol DSA800 and RSA3000 and of the Siglent SSA3000X Plus.
+
+| Key | Rigol DSA800 | Rigol RSA3000 | Siglent SSA3000X Plus |
+|---|---|---|---|
+| `set_resolution_bandwidth` | `:SENSe:BANDwidth:RESolution` (10 Hz to 1 MHz) | `:SENSe:BANDwidth:RESolution` (10 Hz to 3 MHz; settable in the general purpose mode only) | `:SENSe:BWIDth:RESolution` (1 Hz to 1 MHz) |
+| `set_input_attenuation` | `:SENSe:POWer:RF:ATTenuation` (0 to 30 dB) | the same (0 to 50 dB) | the same (0 to 51 dB) |
+| `set_detector` | `:SENSe:DETector:FUNCtion` (one detector for all traces) | `:SENSe:DETector:TRACe<n>` | `:SENSe:DETector:TRACe<n>:FUNCtion` |
+| `set_trace_mode` | `:TRACe<n>:MODE` (traces 1 to 3; `AVERAGE` is `VIDeoavg`) | `:TRACe<n>:MODE` (traces 1 to 6; no `VIEW` and `BLANK`) | `:TRACe<n>:MODE` (traces 1 to 4) |
+| `read_trace` | `:FORMat:TRACe:DATA ASCii`, `:TRACe:DATA? TRACE<n>` | the same (traces 1 to 6) | `:FORMat:TRACe:DATA ASCii`, `:TRACe:DATA? <n>` |
+| `marker_peak_search` | `:CALCulate:MARKer<n>:MAXimum:MAX` (markers 1 to 4) | the same (markers 1 to 8) | `:CALCulate:MARKer<n>:MAXimum` (markers 1 to 8) |
+| `error_query` | `:SYSTem:ERRor?` | the same | not documented: not available |
+
+`read_trace` returns the points as a list of numbers: the Rigol analyzers put a definite length block header in front of them, which the application's parser `spectrum_trace_ascii` drops. The reference level, the marker amplitude and the trace are in the current amplitude unit (dBm by default, `set_power_unit`). The tracking generator, the measurement functions (channel power, occupied bandwidth, ...), the demodulation and the real-time mode of the RSA3000 and of the SSA3000X-R are not covered. All the models are experimental.
 
 ## Network analyzers (VNA)
 

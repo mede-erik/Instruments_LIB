@@ -1,0 +1,488 @@
+{
+  "schema_version": 1,
+  "category": "spectrum_analyzers_series",
+  "description": "Logical calls of spectrum analyzers (swept and real-time): the frequency axis, the bandwidths, the amplitude, the sweep, the traces and the markers. Frequencies are in Hz, the amplitude in the unit of the instrument (dBm by default). Based on the Rigol DSA800 and RSA3000 and the Siglent SSA3000X Plus programming guides.",
+  "types": {
+    "bool": {
+      "kind": "bool",
+      "description": "true/false; default text sent to the instrument is ON/OFF unless the library gives a map"
+    },
+    "detector": {
+      "kind": "enum",
+      "values": [
+        "POSITIVE",
+        "NEGATIVE",
+        "SAMPLE",
+        "NORMAL",
+        "AVERAGE",
+        "RMS",
+        "QUASI_PEAK"
+      ],
+      "description": "detector of the trace: AVERAGE is the voltage average, RMS the power (RMS) average; a model accepts the ones its manual lists (the others are not handled, CALL-002)"
+    },
+    "trace_mode": {
+      "kind": "enum",
+      "values": [
+        "WRITE",
+        "MAX_HOLD",
+        "MIN_HOLD",
+        "AVERAGE",
+        "VIEW",
+        "BLANK"
+      ],
+      "description": "what a trace does with the new sweeps; VIEW freezes it and BLANK hides it"
+    },
+    "power_unit": {
+      "kind": "enum",
+      "values": [
+        "DBM",
+        "DBMV",
+        "DBUV",
+        "V",
+        "W"
+      ],
+      "description": "unit of the amplitude axis"
+    },
+    "float_list": {
+      "kind": "list",
+      "item": "float",
+      "description": "list of numbers (the points of a trace, from the start to the stop frequency)"
+    }
+  },
+  "calls": {
+    "identification_query": {
+      "requirement": "mandatory",
+      "kind": "query",
+      "description": "identification string (*IDN?)",
+      "result": {
+        "type": "string"
+      }
+    },
+    "reset": {
+      "requirement": "mandatory",
+      "kind": "action",
+      "description": "restore the factory state (*RST)"
+    },
+    "clear_status": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "clear the status registers (*CLS)"
+    },
+    "error_query": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "read and clear the oldest error",
+      "result": {
+        "type": "string"
+      }
+    },
+    "operation_complete_query": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "1 when the pending operations are finished (*OPC?)",
+      "result": {
+        "type": "int"
+      }
+    },
+    "set_center_frequency": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "set the center frequency",
+      "args": {
+        "value": {
+          "type": "float",
+          "unit": "Hz",
+          "min": 0,
+          "description": "center frequency"
+        }
+      }
+    },
+    "query_center_frequency": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "the center frequency",
+      "result": {
+        "type": "float",
+        "unit": "Hz"
+      }
+    },
+    "set_span": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "set the frequency span (0 = zero span, the x axis becomes time)",
+      "args": {
+        "value": {
+          "type": "float",
+          "unit": "Hz",
+          "min": 0,
+          "description": "frequency span (0 = zero span, the x axis becomes time)"
+        }
+      }
+    },
+    "query_span": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "the frequency span (0 = zero span, the x axis becomes time)",
+      "result": {
+        "type": "float",
+        "unit": "Hz"
+      }
+    },
+    "set_start_frequency": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "set the start frequency",
+      "args": {
+        "value": {
+          "type": "float",
+          "unit": "Hz",
+          "min": 0,
+          "description": "start frequency"
+        }
+      }
+    },
+    "query_start_frequency": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "the start frequency",
+      "result": {
+        "type": "float",
+        "unit": "Hz"
+      }
+    },
+    "set_stop_frequency": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "set the stop frequency",
+      "args": {
+        "value": {
+          "type": "float",
+          "unit": "Hz",
+          "min": 0,
+          "description": "stop frequency"
+        }
+      }
+    },
+    "query_stop_frequency": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "the stop frequency",
+      "result": {
+        "type": "float",
+        "unit": "Hz"
+      }
+    },
+    "set_full_span": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "set the span to the whole frequency range of the instrument"
+    },
+    "set_resolution_bandwidth": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "resolution bandwidth (RBW); the instrument takes the nearest value it has (1-3-10 steps)",
+      "args": {
+        "value": {
+          "type": "float",
+          "unit": "Hz",
+          "min": 0,
+          "description": "resolution bandwidth"
+        }
+      }
+    },
+    "query_resolution_bandwidth": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "resolution bandwidth",
+      "result": {
+        "type": "float",
+        "unit": "Hz"
+      }
+    },
+    "set_resolution_bandwidth_auto": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "automatic RBW (it follows the span)",
+      "args": {
+        "state": {
+          "type": "bool"
+        }
+      }
+    },
+    "set_video_bandwidth": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "video bandwidth (VBW); the instrument takes the nearest value it has",
+      "args": {
+        "value": {
+          "type": "float",
+          "unit": "Hz",
+          "min": 0,
+          "description": "video bandwidth"
+        }
+      }
+    },
+    "query_video_bandwidth": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "video bandwidth",
+      "result": {
+        "type": "float",
+        "unit": "Hz"
+      }
+    },
+    "set_video_bandwidth_auto": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "automatic VBW",
+      "args": {
+        "state": {
+          "type": "bool"
+        }
+      }
+    },
+    "set_reference_level": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "reference level (the top of the screen), in the current amplitude unit (dBm by default)",
+      "args": {
+        "value": {
+          "type": "float",
+          "description": "reference level in the current amplitude unit"
+        }
+      }
+    },
+    "query_reference_level": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "reference level",
+      "result": {
+        "type": "float"
+      }
+    },
+    "set_input_attenuation": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "input attenuator, in dB (an integer on the models that have 1 dB or 5 dB steps)",
+      "args": {
+        "value": {
+          "type": "float",
+          "unit": "dB",
+          "min": 0
+        }
+      }
+    },
+    "query_input_attenuation": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "input attenuator",
+      "result": {
+        "type": "float",
+        "unit": "dB"
+      }
+    },
+    "set_input_attenuation_auto": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "automatic input attenuation",
+      "args": {
+        "state": {
+          "type": "bool"
+        }
+      }
+    },
+    "set_sweep_time": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "sweep time",
+      "args": {
+        "value": {
+          "type": "float",
+          "unit": "s",
+          "min": 0
+        }
+      }
+    },
+    "query_sweep_time": {
+      "requirement": "optional",
+      "kind": "query",
+      "description": "sweep time",
+      "result": {
+        "type": "float",
+        "unit": "s"
+      }
+    },
+    "set_sweep_time_auto": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "automatic sweep time",
+      "args": {
+        "state": {
+          "type": "bool"
+        }
+      }
+    },
+    "set_sweep_continuous": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "continuous sweep (true) or single sweep (false)",
+      "args": {
+        "state": {
+          "type": "bool"
+        }
+      }
+    },
+    "initiate_sweep": {
+      "requirement": "mandatory",
+      "kind": "action",
+      "description": "start a sweep (in single sweep mode: one sweep); the readings are valid when it is done (operation_complete_query)"
+    },
+    "set_detector": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "detector of a trace; on the models with one detector for all the traces the trace number is ignored",
+      "args": {
+        "detector": {
+          "type": "detector"
+        },
+        "trace_number": {
+          "type": "int",
+          "min": 1,
+          "required": false,
+          "default": 1,
+          "description": "trace number (1-based, 1 if omitted)"
+        }
+      }
+    },
+    "set_trace_mode": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "what a trace does with the new sweeps",
+      "args": {
+        "trace_number": {
+          "type": "int",
+          "min": 1,
+          "required": false,
+          "default": 1,
+          "description": "trace number (1-based, 1 if omitted)"
+        },
+        "mode": {
+          "type": "trace_mode"
+        }
+      }
+    },
+    "set_power_unit": {
+      "requirement": "optional",
+      "kind": "set",
+      "description": "unit of the amplitude axis, readings and reference level",
+      "args": {
+        "unit": {
+          "type": "power_unit"
+        }
+      }
+    },
+    "read_trace": {
+      "requirement": "mandatory",
+      "kind": "query",
+      "description": "the points of a trace as numbers, in the amplitude unit, from the start to the stop frequency (the instrument is told to answer in ASCII first)",
+      "args": {
+        "trace_number": {
+          "type": "int",
+          "min": 1,
+          "required": false,
+          "default": 1,
+          "description": "trace number (1-based, 1 if omitted)"
+        }
+      },
+      "result": {
+        "type": "float_list"
+      }
+    },
+    "set_marker_state": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "marker on or off (a marker that is switched on is a normal marker)",
+      "args": {
+        "marker_number": {
+          "type": "int",
+          "min": 1,
+          "required": false,
+          "default": 1,
+          "description": "marker number (1-based, 1 if omitted)"
+        },
+        "state": {
+          "type": "bool"
+        }
+      }
+    },
+    "set_marker_frequency": {
+      "requirement": "mandatory",
+      "kind": "set",
+      "description": "place the marker at a frequency",
+      "args": {
+        "marker_number": {
+          "type": "int",
+          "min": 1,
+          "required": false,
+          "default": 1,
+          "description": "marker number (1-based, 1 if omitted)"
+        },
+        "value": {
+          "type": "float",
+          "unit": "Hz",
+          "min": 0,
+          "description": "marker frequency"
+        }
+      }
+    },
+    "query_marker_frequency": {
+      "requirement": "mandatory",
+      "kind": "query",
+      "description": "frequency of the marker",
+      "args": {
+        "marker_number": {
+          "type": "int",
+          "min": 1,
+          "required": false,
+          "default": 1,
+          "description": "marker number (1-based, 1 if omitted)"
+        }
+      },
+      "result": {
+        "type": "float",
+        "unit": "Hz"
+      }
+    },
+    "query_marker_amplitude": {
+      "requirement": "mandatory",
+      "kind": "query",
+      "description": "amplitude at the marker, in the current amplitude unit",
+      "args": {
+        "marker_number": {
+          "type": "int",
+          "min": 1,
+          "required": false,
+          "default": 1,
+          "description": "marker number (1-based, 1 if omitted)"
+        }
+      },
+      "result": {
+        "type": "float"
+      }
+    },
+    "marker_peak_search": {
+      "requirement": "mandatory",
+      "kind": "action",
+      "description": "put the marker on the highest peak of its trace",
+      "args": {
+        "marker_number": {
+          "type": "int",
+          "min": 1,
+          "required": false,
+          "default": 1,
+          "description": "marker number (1-based, 1 if omitted)"
+        }
+      }
+    }
+  }
+}

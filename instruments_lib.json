@@ -23527,6 +23527,2079 @@
           }
         ]
       }
+    ],
+    "spectrum_analyzers_series": [
+      {
+        "series_id": "Rigol_DSA800_Series",
+        "series_name": "Rigol DSA800 series spectrum analyzers (DSA815, DSA832, DSA875, with and without the tracking generator)",
+        "common_scpi_commands": {
+          "identification_query": {
+            "description": "identification query",
+            "set": null,
+            "query": {
+              "syntax": "*IDN?",
+              "return_type": "string"
+            }
+          },
+          "reset": {
+            "description": "*RST: factory state",
+            "set": {
+              "syntax": "*RST"
+            },
+            "query": null
+          },
+          "clear_status": {
+            "description": "*CLS",
+            "set": {
+              "syntax": "*CLS"
+            },
+            "query": null
+          },
+          "operation_complete_query": {
+            "description": "*OPC?",
+            "set": null,
+            "query": {
+              "syntax": "*OPC?",
+              "return_type": "int"
+            }
+          },
+          "error_query": {
+            "description": ":SYSTem:ERRor[:NEXT]?: reads and clears the oldest error",
+            "set": null,
+            "query": {
+              "syntax": ":SYSTem:ERRor?",
+              "return_type": "string"
+            }
+          },
+          "set_center_frequency": {
+            "description": ":SENSe:FREQuency:CENTer <freq>: the center frequency, in Hz",
+            "set": {
+              "syntax": ":SENSe:FREQuency:CENTer {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_center_frequency": {
+            "description": ":SENSe:FREQuency:CENTer?",
+            "set": null,
+            "query": {
+              "syntax": ":SENSe:FREQuency:CENTer?",
+              "return_type": "float"
+            }
+          },
+          "set_span": {
+            "description": ":SENSe:FREQuency:SPAN <freq>: the span, in Hz",
+            "set": {
+              "syntax": ":SENSe:FREQuency:SPAN {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_span": {
+            "description": ":SENSe:FREQuency:SPAN?",
+            "set": null,
+            "query": {
+              "syntax": ":SENSe:FREQuency:SPAN?",
+              "return_type": "float"
+            }
+          },
+          "set_start_frequency": {
+            "description": ":SENSe:FREQuency:STARt <freq>: the start frequency, in Hz",
+            "set": {
+              "syntax": ":SENSe:FREQuency:STARt {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_start_frequency": {
+            "description": ":SENSe:FREQuency:STARt?",
+            "set": null,
+            "query": {
+              "syntax": ":SENSe:FREQuency:STARt?",
+              "return_type": "float"
+            }
+          },
+          "set_stop_frequency": {
+            "description": ":SENSe:FREQuency:STOP <freq>: the stop frequency, in Hz",
+            "set": {
+              "syntax": ":SENSe:FREQuency:STOP {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_stop_frequency": {
+            "description": ":SENSe:FREQuency:STOP?",
+            "set": null,
+            "query": {
+              "syntax": ":SENSe:FREQuency:STOP?",
+              "return_type": "float"
+            }
+          },
+          "set_full_span": {
+            "description": ":SENSe:FREQuency:SPAN:FULL",
+            "set": {
+              "syntax": ":SENSe:FREQuency:SPAN:FULL"
+            },
+            "query": null
+          },
+          "set_resolution_bandwidth": {
+            "description": "BANDwidth:RESolution <freq>: the resolution bandwidth, 10 Hz to 1 MHz in 1-3-10 steps, in Hz",
+            "set": {
+              "syntax": ":SENSe:BANDwidth:RESolution {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_resolution_bandwidth": {
+            "description": "BANDwidth:RESolution?",
+            "set": null,
+            "query": {
+              "syntax": ":SENSe:BANDwidth:RESolution?",
+              "return_type": "float"
+            }
+          },
+          "set_resolution_bandwidth_auto": {
+            "description": "BANDwidth:RESolution:AUTO ON|OFF",
+            "set": {
+              "syntax": ":SENSe:BANDwidth:RESolution:AUTO {state}",
+              "args": [
+                "state"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "ON"
+                ]
+              }
+            }
+          },
+          "set_video_bandwidth": {
+            "description": "BANDwidth:VIDeo <freq>: the video bandwidth, in Hz",
+            "set": {
+              "syntax": ":SENSe:BANDwidth:VIDeo {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_video_bandwidth": {
+            "description": "BANDwidth:VIDeo?",
+            "set": null,
+            "query": {
+              "syntax": ":SENSe:BANDwidth:VIDeo?",
+              "return_type": "float"
+            }
+          },
+          "set_video_bandwidth_auto": {
+            "description": "BANDwidth:VIDeo:AUTO ON|OFF",
+            "set": {
+              "syntax": ":SENSe:BANDwidth:VIDeo:AUTO {state}",
+              "args": [
+                "state"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "ON"
+                ]
+              }
+            }
+          },
+          "set_reference_level": {
+            "description": ":DISPlay:WINDow:TRACe:Y[:SCALe]:RLEVel <ampl>: the reference level, -100 to 20 dBm (the unit of the amplitude axis)",
+            "set": {
+              "syntax": ":DISPlay:WINDow:TRACe:Y:SCALe:RLEVel {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_reference_level": {
+            "description": ":DISPlay:WINDow:TRACe:Y[:SCALe]:RLEVel?",
+            "set": null,
+            "query": {
+              "syntax": ":DISPlay:WINDow:TRACe:Y:SCALe:RLEVel?",
+              "return_type": "float"
+            }
+          },
+          "set_input_attenuation": {
+            "description": ":SENSe:POWer[:RF]:ATTenuation <dB>: the RF attenuator, 0 to 30 dB",
+            "set": {
+              "syntax": ":SENSe:POWer:RF:ATTenuation {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_input_attenuation": {
+            "description": ":SENSe:POWer[:RF]:ATTenuation?",
+            "set": null,
+            "query": {
+              "syntax": ":SENSe:POWer:RF:ATTenuation?",
+              "return_type": "float"
+            }
+          },
+          "set_input_attenuation_auto": {
+            "description": ":SENSe:POWer[:RF]:ATTenuation:AUTO ON|OFF",
+            "set": {
+              "syntax": ":SENSe:POWer:RF:ATTenuation:AUTO {state}",
+              "args": [
+                "state"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "ON"
+                ]
+              }
+            }
+          },
+          "set_sweep_time": {
+            "description": ":SENSe:SWEep:TIME <time>: the sweep time, 20 us to 7500 s",
+            "set": {
+              "syntax": ":SENSe:SWEep:TIME {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_sweep_time": {
+            "description": ":SENSe:SWEep:TIME?",
+            "set": null,
+            "query": {
+              "syntax": ":SENSe:SWEep:TIME?",
+              "return_type": "float"
+            }
+          },
+          "set_sweep_time_auto": {
+            "description": ":SENSe:SWEep:TIME:AUTO ON|OFF",
+            "set": {
+              "syntax": ":SENSe:SWEep:TIME:AUTO {state}",
+              "args": [
+                "state"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "ON"
+                ]
+              }
+            }
+          },
+          "set_sweep_continuous": {
+            "description": ":INITiate:CONTinuous ON|OFF: continuous (ON) or single (OFF) sweep",
+            "set": {
+              "syntax": ":INITiate:CONTinuous {state}",
+              "args": [
+                "state"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "ON"
+                ]
+              }
+            }
+          },
+          "initiate_sweep": {
+            "description": ":INITiate[:IMMediate]: in the single sweep mode (:INITiate:CONTinuous OFF) starts a sweep",
+            "set": {
+              "syntax": ":INITiate:IMMediate"
+            },
+            "query": null
+          },
+          "set_detector": {
+            "description": ":SENSe:DETector[:FUNCtion] NEGative|NORMal|POSitive|RMS|SAMPle|VAVerage|QPEak (one detector for all the traces): the detector",
+            "set": {
+              "syntax": ":SENSe:DETector:FUNCtion {detector}",
+              "args": [
+                "trace_number",
+                "detector"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "trace_number": {
+                "type": "int"
+              },
+              "detector": {
+                "type": "string",
+                "map": {
+                  "NEGATIVE": "NEGative",
+                  "NORMAL": "NORMal",
+                  "POSITIVE": "POSitive",
+                  "RMS": "RMS",
+                  "SAMPLE": "SAMPle",
+                  "AVERAGE": "VAVerage",
+                  "QUASI_PEAK": "QPEak"
+                }
+              }
+            }
+          },
+          "set_trace_mode": {
+            "description": ":TRACe<n>:MODE: WRITe, MAXHold, MINHold, VIEW, BLANk, VIDeoavg (the video average) and POWeravg (the power average, which has no logical value); traces 1 to 3",
+            "set": {
+              "syntax": ":TRACe{trace_number}:MODE {mode}",
+              "args": [
+                "trace_number",
+                "mode"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "trace_number": {
+                "type": "int"
+              },
+              "mode": {
+                "type": "string",
+                "map": {
+                  "WRITE": "WRITe",
+                  "MAX_HOLD": "MAXHold",
+                  "MIN_HOLD": "MINHold",
+                  "VIEW": "VIEW",
+                  "BLANK": "BLANk",
+                  "AVERAGE": "VIDeoavg"
+                }
+              }
+            }
+          },
+          "set_power_unit": {
+            "description": ":UNIT:POWer DBM|DBMV|DBUV|V|W",
+            "set": {
+              "syntax": ":UNIT:POWer {unit}",
+              "args": [
+                "unit"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "unit": {
+                "type": "string",
+                "map": {
+                  "DBM": "DBM",
+                  "DBMV": "DBMV",
+                  "DBUV": "DBUV",
+                  "V": "V",
+                  "W": "W"
+                }
+              }
+            }
+          },
+          "read_trace": {
+            "description": ":FORMat:TRACe:DATA ASCii, then :TRACe[:DATA]? TRACE<n>: a definite length block header followed by the points as ASCII numbers (601 points)",
+            "set": null,
+            "query": {
+              "steps": [
+                {
+                  "op": "write",
+                  "text": ":FORMat:TRACe:DATA ASCii"
+                },
+                {
+                  "op": "query",
+                  "text": ":TRACe:DATA? TRACE{trace_number}"
+                }
+              ],
+              "parse": {
+                "name": "spectrum_trace_ascii",
+                "from_steps": "queries"
+              }
+            },
+            "parameters": {
+              "trace_number": {
+                "type": "int"
+              }
+            }
+          },
+          "set_marker_state": {
+            "description": ":CALCulate:MARKer<n>:STATe ON|OFF (4 markers)",
+            "set": {
+              "syntax": ":CALCulate:MARKer{marker_number}:STATe {state}",
+              "args": [
+                "marker_number",
+                "state"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "marker_number": {
+                "type": "int"
+              },
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "ON"
+                ]
+              }
+            }
+          },
+          "set_marker_frequency": {
+            "description": ":CALCulate:MARKer<n>:X <freq>: the X value of a normal marker, in Hz in frequency readout",
+            "set": {
+              "syntax": ":CALCulate:MARKer{marker_number}:X {value}",
+              "args": [
+                "marker_number",
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "marker_number": {
+                "type": "int"
+              },
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_marker_frequency": {
+            "description": ":CALCulate:MARKer<n>:X?",
+            "set": null,
+            "query": {
+              "syntax": ":CALCulate:MARKer{marker_number}:X?",
+              "return_type": "float",
+              "args": [
+                "marker_number"
+              ]
+            },
+            "parameters": {
+              "marker_number": {
+                "type": "int"
+              }
+            }
+          },
+          "query_marker_amplitude": {
+            "description": ":CALCulate:MARKer<n>:Y?",
+            "set": null,
+            "query": {
+              "syntax": ":CALCulate:MARKer{marker_number}:Y?",
+              "return_type": "float",
+              "args": [
+                "marker_number"
+              ]
+            },
+            "parameters": {
+              "marker_number": {
+                "type": "int"
+              }
+            }
+          },
+          "marker_peak_search": {
+            "description": ":CALCulate:MARKer<n>:MAXimum:MAX: peak search with the search mode of the instrument",
+            "set": {
+              "syntax": ":CALCulate:MARKer{marker_number}:MAXimum:MAX",
+              "args": [
+                "marker_number"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "marker_number": {
+                "type": "int"
+              }
+            }
+          }
+        },
+        "models": [
+          {
+            "id": "SA_Rigol_DSA815",
+            "name": "Rigol DSA815",
+            "manufacturer": "Rigol Technologies",
+            "model": "DSA815",
+            "documentation_path": "docs/Rigol/DSA800_Series/DSA800_ProgrammingGuide_EN.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "USB-TMC",
+                  "visa_resource_id_template": "USB_SA_{serial_number}",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR"
+                },
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_SA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    },
+                    {
+                      "kind": "raw_socket",
+                      "port": 5555
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 1,
+              "frequency_min_hz": 9000.0,
+              "frequency_max_hz": 1500000000.0,
+              "notes": "Spectrum analyzer: the sweep, traces and markers. The tracking generator, the measurement functions (channel power, ACPR, ...) and the demodulation are not covered. The guide gives 601 points per trace. LAN socket port 5555."
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "SA_Rigol_DSA815_TG",
+            "name": "Rigol DSA815-TG",
+            "manufacturer": "Rigol Technologies",
+            "model": "DSA815-TG",
+            "documentation_path": "docs/Rigol/DSA800_Series/DSA800_ProgrammingGuide_EN.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "USB-TMC",
+                  "visa_resource_id_template": "USB_SA_{serial_number}",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR"
+                },
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_SA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    },
+                    {
+                      "kind": "raw_socket",
+                      "port": 5555
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 1,
+              "frequency_min_hz": 9000.0,
+              "frequency_max_hz": 1500000000.0,
+              "tracking_generator": 1500000000.0,
+              "notes": "Spectrum analyzer: the sweep, traces and markers. The tracking generator, the measurement functions (channel power, ACPR, ...) and the demodulation are not covered. The guide gives 601 points per trace. LAN socket port 5555."
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "SA_Rigol_DSA832",
+            "name": "Rigol DSA832",
+            "manufacturer": "Rigol Technologies",
+            "model": "DSA832",
+            "documentation_path": "docs/Rigol/DSA800_Series/DSA800_ProgrammingGuide_EN.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "USB-TMC",
+                  "visa_resource_id_template": "USB_SA_{serial_number}",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR"
+                },
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_SA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    },
+                    {
+                      "kind": "raw_socket",
+                      "port": 5555
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 1,
+              "frequency_min_hz": 9000.0,
+              "frequency_max_hz": 3200000000.0,
+              "notes": "Spectrum analyzer: the sweep, traces and markers. The tracking generator, the measurement functions (channel power, ACPR, ...) and the demodulation are not covered. The guide gives 601 points per trace. LAN socket port 5555."
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "SA_Rigol_DSA832_TG",
+            "name": "Rigol DSA832-TG",
+            "manufacturer": "Rigol Technologies",
+            "model": "DSA832-TG",
+            "documentation_path": "docs/Rigol/DSA800_Series/DSA800_ProgrammingGuide_EN.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "USB-TMC",
+                  "visa_resource_id_template": "USB_SA_{serial_number}",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR"
+                },
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_SA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    },
+                    {
+                      "kind": "raw_socket",
+                      "port": 5555
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 1,
+              "frequency_min_hz": 9000.0,
+              "frequency_max_hz": 3200000000.0,
+              "tracking_generator": 3200000000.0,
+              "notes": "Spectrum analyzer: the sweep, traces and markers. The tracking generator, the measurement functions (channel power, ACPR, ...) and the demodulation are not covered. The guide gives 601 points per trace. LAN socket port 5555."
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "SA_Rigol_DSA875",
+            "name": "Rigol DSA875",
+            "manufacturer": "Rigol Technologies",
+            "model": "DSA875",
+            "documentation_path": "docs/Rigol/DSA800_Series/DSA800_ProgrammingGuide_EN.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "USB-TMC",
+                  "visa_resource_id_template": "USB_SA_{serial_number}",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR"
+                },
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_SA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    },
+                    {
+                      "kind": "raw_socket",
+                      "port": 5555
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 1,
+              "frequency_min_hz": 9000.0,
+              "frequency_max_hz": 7500000000.0,
+              "notes": "Spectrum analyzer: the sweep, traces and markers. The tracking generator, the measurement functions (channel power, ACPR, ...) and the demodulation are not covered. The guide gives 601 points per trace. LAN socket port 5555."
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "SA_Rigol_DSA875_TG",
+            "name": "Rigol DSA875-TG",
+            "manufacturer": "Rigol Technologies",
+            "model": "DSA875-TG",
+            "documentation_path": "docs/Rigol/DSA800_Series/DSA800_ProgrammingGuide_EN.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "USB-TMC",
+                  "visa_resource_id_template": "USB_SA_{serial_number}",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR"
+                },
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_SA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    },
+                    {
+                      "kind": "raw_socket",
+                      "port": 5555
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 1,
+              "frequency_min_hz": 9000.0,
+              "frequency_max_hz": 7500000000.0,
+              "tracking_generator": 7500000000.0,
+              "notes": "Spectrum analyzer: the sweep, traces and markers. The tracking generator, the measurement functions (channel power, ACPR, ...) and the demodulation are not covered. The guide gives 601 points per trace. LAN socket port 5555."
+            },
+            "scpi_commands": {},
+            "experimental": true
+          }
+        ]
+      },
+      {
+        "series_id": "Rigol_RSA3000_Series",
+        "series_name": "Rigol RSA3000 series real-time spectrum analyzers (RSA3030, RSA3045, with and without the tracking generator)",
+        "common_scpi_commands": {
+          "identification_query": {
+            "description": "identification query",
+            "set": null,
+            "query": {
+              "syntax": "*IDN?",
+              "return_type": "string"
+            }
+          },
+          "reset": {
+            "description": "*RST: factory state",
+            "set": {
+              "syntax": "*RST"
+            },
+            "query": null
+          },
+          "clear_status": {
+            "description": "*CLS",
+            "set": {
+              "syntax": "*CLS"
+            },
+            "query": null
+          },
+          "operation_complete_query": {
+            "description": "*OPC?",
+            "set": null,
+            "query": {
+              "syntax": "*OPC?",
+              "return_type": "int"
+            }
+          },
+          "error_query": {
+            "description": ":SYSTem:ERRor[:NEXT]?: reads and clears the oldest error",
+            "set": null,
+            "query": {
+              "syntax": ":SYSTem:ERRor?",
+              "return_type": "string"
+            }
+          },
+          "set_center_frequency": {
+            "description": ":SENSe:FREQuency:CENTer <freq>: the center frequency, in Hz",
+            "set": {
+              "syntax": ":SENSe:FREQuency:CENTer {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_center_frequency": {
+            "description": ":SENSe:FREQuency:CENTer?",
+            "set": null,
+            "query": {
+              "syntax": ":SENSe:FREQuency:CENTer?",
+              "return_type": "float"
+            }
+          },
+          "set_span": {
+            "description": ":SENSe:FREQuency:SPAN <freq>: the span, in Hz",
+            "set": {
+              "syntax": ":SENSe:FREQuency:SPAN {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_span": {
+            "description": ":SENSe:FREQuency:SPAN?",
+            "set": null,
+            "query": {
+              "syntax": ":SENSe:FREQuency:SPAN?",
+              "return_type": "float"
+            }
+          },
+          "set_start_frequency": {
+            "description": ":SENSe:FREQuency:STARt <freq>: the start frequency, in Hz",
+            "set": {
+              "syntax": ":SENSe:FREQuency:STARt {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_start_frequency": {
+            "description": ":SENSe:FREQuency:STARt?",
+            "set": null,
+            "query": {
+              "syntax": ":SENSe:FREQuency:STARt?",
+              "return_type": "float"
+            }
+          },
+          "set_stop_frequency": {
+            "description": ":SENSe:FREQuency:STOP <freq>: the stop frequency, in Hz",
+            "set": {
+              "syntax": ":SENSe:FREQuency:STOP {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_stop_frequency": {
+            "description": ":SENSe:FREQuency:STOP?",
+            "set": null,
+            "query": {
+              "syntax": ":SENSe:FREQuency:STOP?",
+              "return_type": "float"
+            }
+          },
+          "set_full_span": {
+            "description": ":SENSe:FREQuency:SPAN:FULL",
+            "set": {
+              "syntax": ":SENSe:FREQuency:SPAN:FULL"
+            },
+            "query": null
+          },
+          "set_resolution_bandwidth": {
+            "description": "BANDwidth:RESolution <freq>: the resolution bandwidth, 10 Hz to 3 MHz in 1-3-10 steps (1 Hz to 10 MHz with the RSA3000-BW1 option); it can be set in the general purpose (GPSA) mode only",
+            "set": {
+              "syntax": ":SENSe:BANDwidth:RESolution {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_resolution_bandwidth": {
+            "description": "BANDwidth:RESolution?",
+            "set": null,
+            "query": {
+              "syntax": ":SENSe:BANDwidth:RESolution?",
+              "return_type": "float"
+            }
+          },
+          "set_resolution_bandwidth_auto": {
+            "description": "BANDwidth:RESolution:AUTO ON|OFF",
+            "set": {
+              "syntax": ":SENSe:BANDwidth:RESolution:AUTO {state}",
+              "args": [
+                "state"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "ON"
+                ]
+              }
+            }
+          },
+          "set_video_bandwidth": {
+            "description": "BANDwidth:VIDeo <freq>: the video bandwidth, in Hz",
+            "set": {
+              "syntax": ":SENSe:BANDwidth:VIDeo {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_video_bandwidth": {
+            "description": "BANDwidth:VIDeo?",
+            "set": null,
+            "query": {
+              "syntax": ":SENSe:BANDwidth:VIDeo?",
+              "return_type": "float"
+            }
+          },
+          "set_video_bandwidth_auto": {
+            "description": "BANDwidth:VIDeo:AUTO ON|OFF",
+            "set": {
+              "syntax": ":SENSe:BANDwidth:VIDeo:AUTO {state}",
+              "args": [
+                "state"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "ON"
+                ]
+              }
+            }
+          },
+          "set_reference_level": {
+            "description": ":DISPlay:WINDow:TRACe:Y[:SCALe]:RLEVel <ampl>: the reference level, -170 to 30 dBm (the unit of the amplitude axis)",
+            "set": {
+              "syntax": ":DISPlay:WINDow:TRACe:Y:SCALe:RLEVel {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_reference_level": {
+            "description": ":DISPlay:WINDow:TRACe:Y[:SCALe]:RLEVel?",
+            "set": null,
+            "query": {
+              "syntax": ":DISPlay:WINDow:TRACe:Y:SCALe:RLEVel?",
+              "return_type": "float"
+            }
+          },
+          "set_input_attenuation": {
+            "description": ":SENSe:POWer[:RF]:ATTenuation <dB>: the RF attenuator, 0 to 50 dB",
+            "set": {
+              "syntax": ":SENSe:POWer:RF:ATTenuation {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_input_attenuation": {
+            "description": ":SENSe:POWer[:RF]:ATTenuation?",
+            "set": null,
+            "query": {
+              "syntax": ":SENSe:POWer:RF:ATTenuation?",
+              "return_type": "float"
+            }
+          },
+          "set_input_attenuation_auto": {
+            "description": ":SENSe:POWer[:RF]:ATTenuation:AUTO ON|OFF",
+            "set": {
+              "syntax": ":SENSe:POWer:RF:ATTenuation:AUTO {state}",
+              "args": [
+                "state"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "ON"
+                ]
+              }
+            }
+          },
+          "set_sweep_time": {
+            "description": ":SENSe:SWEep:TIME <time>: the sweep time",
+            "set": {
+              "syntax": ":SENSe:SWEep:TIME {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_sweep_time": {
+            "description": ":SENSe:SWEep:TIME?",
+            "set": null,
+            "query": {
+              "syntax": ":SENSe:SWEep:TIME?",
+              "return_type": "float"
+            }
+          },
+          "set_sweep_time_auto": {
+            "description": ":SENSe:SWEep:TIME:AUTO ON|OFF",
+            "set": {
+              "syntax": ":SENSe:SWEep:TIME:AUTO {state}",
+              "args": [
+                "state"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "ON"
+                ]
+              }
+            }
+          },
+          "set_sweep_continuous": {
+            "description": ":INITiate:CONTinuous ON|OFF: continuous (ON) or single (OFF) sweep",
+            "set": {
+              "syntax": ":INITiate:CONTinuous {state}",
+              "args": [
+                "state"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "ON"
+                ]
+              }
+            }
+          },
+          "initiate_sweep": {
+            "description": ":INITiate[:IMMediate]: in the single sweep mode (:INITiate:CONTinuous OFF) starts a sweep",
+            "set": {
+              "syntax": ":INITiate:IMMediate"
+            },
+            "query": null
+          },
+          "set_detector": {
+            "description": ":SENSe:DETector:TRACe<n> AVERage|NEGative|NORMal|POSitive|SAMPle|QPEak|RAVerage (one detector per trace): the detector",
+            "set": {
+              "syntax": ":SENSe:DETector:TRACe{trace_number} {detector}",
+              "args": [
+                "trace_number",
+                "detector"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "trace_number": {
+                "type": "int"
+              },
+              "detector": {
+                "type": "string",
+                "map": {
+                  "NEGATIVE": "NEGative",
+                  "NORMAL": "NORMal",
+                  "POSITIVE": "POSitive",
+                  "RMS": "RAVerage",
+                  "SAMPLE": "SAMPle",
+                  "AVERAGE": "VAVerage",
+                  "QUASI_PEAK": "QPEak"
+                }
+              }
+            }
+          },
+          "set_trace_mode": {
+            "description": ":TRACe<n>:MODE: WRITe, AVERage, MAXHold and MINHold; traces 1 to 6 (VIEW and BLANK are not handled)",
+            "set": {
+              "syntax": ":TRACe{trace_number}:MODE {mode}",
+              "args": [
+                "trace_number",
+                "mode"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "trace_number": {
+                "type": "int"
+              },
+              "mode": {
+                "type": "string",
+                "map": {
+                  "WRITE": "WRITe",
+                  "MAX_HOLD": "MAXHold",
+                  "MIN_HOLD": "MINHold",
+                  "AVERAGE": "AVERage"
+                }
+              }
+            }
+          },
+          "set_power_unit": {
+            "description": ":UNIT:POWer DBM|DBMV|DBUV|V|W",
+            "set": {
+              "syntax": ":UNIT:POWer {unit}",
+              "args": [
+                "unit"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "unit": {
+                "type": "string",
+                "map": {
+                  "DBM": "DBM",
+                  "DBMV": "DBMV",
+                  "DBUV": "DBUV",
+                  "V": "V",
+                  "W": "W"
+                }
+              }
+            }
+          },
+          "read_trace": {
+            "description": ":FORMat:TRACe:DATA ASCii, then :TRACe[:DATA]? TRACE<n> (traces 1 to 6): the points as ASCII numbers",
+            "set": null,
+            "query": {
+              "steps": [
+                {
+                  "op": "write",
+                  "text": ":FORMat:TRACe:DATA ASCii"
+                },
+                {
+                  "op": "query",
+                  "text": ":TRACe:DATA? TRACE{trace_number}"
+                }
+              ],
+              "parse": {
+                "name": "spectrum_trace_ascii",
+                "from_steps": "queries"
+              }
+            },
+            "parameters": {
+              "trace_number": {
+                "type": "int"
+              }
+            }
+          },
+          "set_marker_state": {
+            "description": ":CALCulate:MARKer<n>:STATe ON|OFF (8 markers)",
+            "set": {
+              "syntax": ":CALCulate:MARKer{marker_number}:STATe {state}",
+              "args": [
+                "marker_number",
+                "state"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "marker_number": {
+                "type": "int"
+              },
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "ON"
+                ]
+              }
+            }
+          },
+          "set_marker_frequency": {
+            "description": ":CALCulate:MARKer<n>:X <freq>: the X value of a normal marker, in Hz in frequency readout",
+            "set": {
+              "syntax": ":CALCulate:MARKer{marker_number}:X {value}",
+              "args": [
+                "marker_number",
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "marker_number": {
+                "type": "int"
+              },
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_marker_frequency": {
+            "description": ":CALCulate:MARKer<n>:X?",
+            "set": null,
+            "query": {
+              "syntax": ":CALCulate:MARKer{marker_number}:X?",
+              "return_type": "float",
+              "args": [
+                "marker_number"
+              ]
+            },
+            "parameters": {
+              "marker_number": {
+                "type": "int"
+              }
+            }
+          },
+          "query_marker_amplitude": {
+            "description": ":CALCulate:MARKer<n>:Y?",
+            "set": null,
+            "query": {
+              "syntax": ":CALCulate:MARKer{marker_number}:Y?",
+              "return_type": "float",
+              "args": [
+                "marker_number"
+              ]
+            },
+            "parameters": {
+              "marker_number": {
+                "type": "int"
+              }
+            }
+          },
+          "marker_peak_search": {
+            "description": ":CALCulate:MARKer<n>:MAXimum[:MAX]: peak search",
+            "set": {
+              "syntax": ":CALCulate:MARKer{marker_number}:MAXimum:MAX",
+              "args": [
+                "marker_number"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "marker_number": {
+                "type": "int"
+              }
+            }
+          }
+        },
+        "models": [
+          {
+            "id": "SA_Rigol_RSA3030",
+            "name": "Rigol RSA3030",
+            "manufacturer": "Rigol Technologies",
+            "model": "RSA3030",
+            "documentation_path": "docs/Rigol/RSA3000_Series/RSA3000_ProgrammingGuide_EN.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "USB-TMC",
+                  "visa_resource_id_template": "USB_SA_{serial_number}",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR"
+                },
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_SA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    },
+                    {
+                      "kind": "raw_socket",
+                      "port": 5555
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 1,
+              "frequency_min_hz": 9000.0,
+              "frequency_max_hz": 3000000000.0,
+              "notes": "Real-time spectrum analyzer; the commands are those of the swept (general purpose, GPSA) mode, the real-time (RTSA) mode and its views are not covered. 6 traces and 8 markers. LAN socket port 5555."
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "SA_Rigol_RSA3030_TG",
+            "name": "Rigol RSA3030-TG",
+            "manufacturer": "Rigol Technologies",
+            "model": "RSA3030-TG",
+            "documentation_path": "docs/Rigol/RSA3000_Series/RSA3000_ProgrammingGuide_EN.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "USB-TMC",
+                  "visa_resource_id_template": "USB_SA_{serial_number}",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR"
+                },
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_SA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    },
+                    {
+                      "kind": "raw_socket",
+                      "port": 5555
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 1,
+              "frequency_min_hz": 9000.0,
+              "frequency_max_hz": 3000000000.0,
+              "tracking_generator": 3000000000.0,
+              "notes": "Real-time spectrum analyzer; the commands are those of the swept (general purpose, GPSA) mode, the real-time (RTSA) mode and its views are not covered. 6 traces and 8 markers. LAN socket port 5555."
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "SA_Rigol_RSA3045",
+            "name": "Rigol RSA3045",
+            "manufacturer": "Rigol Technologies",
+            "model": "RSA3045",
+            "documentation_path": "docs/Rigol/RSA3000_Series/RSA3000_ProgrammingGuide_EN.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "USB-TMC",
+                  "visa_resource_id_template": "USB_SA_{serial_number}",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR"
+                },
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_SA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    },
+                    {
+                      "kind": "raw_socket",
+                      "port": 5555
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 1,
+              "frequency_min_hz": 9000.0,
+              "frequency_max_hz": 4500000000.0,
+              "notes": "Real-time spectrum analyzer; the commands are those of the swept (general purpose, GPSA) mode, the real-time (RTSA) mode and its views are not covered. 6 traces and 8 markers. LAN socket port 5555."
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "SA_Rigol_RSA3045_TG",
+            "name": "Rigol RSA3045-TG",
+            "manufacturer": "Rigol Technologies",
+            "model": "RSA3045-TG",
+            "documentation_path": "docs/Rigol/RSA3000_Series/RSA3000_ProgrammingGuide_EN.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "USB-TMC",
+                  "visa_resource_id_template": "USB_SA_{serial_number}",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR"
+                },
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_SA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    },
+                    {
+                      "kind": "raw_socket",
+                      "port": 5555
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 1,
+              "frequency_min_hz": 9000.0,
+              "frequency_max_hz": 4500000000.0,
+              "tracking_generator": 4500000000.0,
+              "notes": "Real-time spectrum analyzer; the commands are those of the swept (general purpose, GPSA) mode, the real-time (RTSA) mode and its views are not covered. 6 traces and 8 markers. LAN socket port 5555."
+            },
+            "scpi_commands": {},
+            "experimental": true
+          }
+        ]
+      },
+      {
+        "series_id": "Siglent_SSA3000X_Plus_Series",
+        "series_name": "Siglent SSA3000X Plus series spectrum analyzers",
+        "common_scpi_commands": {
+          "identification_query": {
+            "description": "identification query",
+            "set": null,
+            "query": {
+              "syntax": "*IDN?",
+              "return_type": "string"
+            }
+          },
+          "reset": {
+            "description": "*RST: factory state",
+            "set": {
+              "syntax": "*RST"
+            },
+            "query": null
+          },
+          "clear_status": {
+            "description": "*CLS",
+            "set": {
+              "syntax": "*CLS"
+            },
+            "query": null
+          },
+          "operation_complete_query": {
+            "description": "*OPC?",
+            "set": null,
+            "query": {
+              "syntax": "*OPC?",
+              "return_type": "int"
+            }
+          },
+          "set_center_frequency": {
+            "description": ":SENSe:FREQuency:CENTer <freq>: the center frequency, in Hz",
+            "set": {
+              "syntax": ":SENSe:FREQuency:CENTer {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_center_frequency": {
+            "description": ":SENSe:FREQuency:CENTer?",
+            "set": null,
+            "query": {
+              "syntax": ":SENSe:FREQuency:CENTer?",
+              "return_type": "float"
+            }
+          },
+          "set_span": {
+            "description": ":SENSe:FREQuency:SPAN <freq>: the span, in Hz",
+            "set": {
+              "syntax": ":SENSe:FREQuency:SPAN {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_span": {
+            "description": ":SENSe:FREQuency:SPAN?",
+            "set": null,
+            "query": {
+              "syntax": ":SENSe:FREQuency:SPAN?",
+              "return_type": "float"
+            }
+          },
+          "set_start_frequency": {
+            "description": ":SENSe:FREQuency:STARt <freq>: the start frequency, in Hz",
+            "set": {
+              "syntax": ":SENSe:FREQuency:STARt {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_start_frequency": {
+            "description": ":SENSe:FREQuency:STARt?",
+            "set": null,
+            "query": {
+              "syntax": ":SENSe:FREQuency:STARt?",
+              "return_type": "float"
+            }
+          },
+          "set_stop_frequency": {
+            "description": ":SENSe:FREQuency:STOP <freq>: the stop frequency, in Hz",
+            "set": {
+              "syntax": ":SENSe:FREQuency:STOP {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_stop_frequency": {
+            "description": ":SENSe:FREQuency:STOP?",
+            "set": null,
+            "query": {
+              "syntax": ":SENSe:FREQuency:STOP?",
+              "return_type": "float"
+            }
+          },
+          "set_full_span": {
+            "description": ":SENSe:FREQuency:SPAN:FULL",
+            "set": {
+              "syntax": ":SENSe:FREQuency:SPAN:FULL"
+            },
+            "query": null
+          },
+          "set_resolution_bandwidth": {
+            "description": "BWIDth:RESolution <freq>: the resolution bandwidth, 1 Hz to 1 MHz in 1-3-10 steps, in Hz",
+            "set": {
+              "syntax": ":SENSe:BWIDth:RESolution {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_resolution_bandwidth": {
+            "description": "BWIDth:RESolution?",
+            "set": null,
+            "query": {
+              "syntax": ":SENSe:BWIDth:RESolution?",
+              "return_type": "float"
+            }
+          },
+          "set_resolution_bandwidth_auto": {
+            "description": "BWIDth:RESolution:AUTO ON|OFF",
+            "set": {
+              "syntax": ":SENSe:BWIDth:RESolution:AUTO {state}",
+              "args": [
+                "state"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "ON"
+                ]
+              }
+            }
+          },
+          "set_video_bandwidth": {
+            "description": "BWIDth:VIDeo <freq>: the video bandwidth, in Hz",
+            "set": {
+              "syntax": ":SENSe:BWIDth:VIDeo {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_video_bandwidth": {
+            "description": "BWIDth:VIDeo?",
+            "set": null,
+            "query": {
+              "syntax": ":SENSe:BWIDth:VIDeo?",
+              "return_type": "float"
+            }
+          },
+          "set_video_bandwidth_auto": {
+            "description": "BWIDth:VIDeo:AUTO ON|OFF",
+            "set": {
+              "syntax": ":SENSe:BWIDth:VIDeo:AUTO {state}",
+              "args": [
+                "state"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "ON"
+                ]
+              }
+            }
+          },
+          "set_reference_level": {
+            "description": ":DISPlay:WINDow:TRACe:Y[:SCALe]:RLEVel <ampl>: the reference level (the unit of the amplitude axis)",
+            "set": {
+              "syntax": ":DISPlay:WINDow:TRACe:Y:SCALe:RLEVel {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_reference_level": {
+            "description": ":DISPlay:WINDow:TRACe:Y[:SCALe]:RLEVel?",
+            "set": null,
+            "query": {
+              "syntax": ":DISPlay:WINDow:TRACe:Y:SCALe:RLEVel?",
+              "return_type": "float"
+            }
+          },
+          "set_input_attenuation": {
+            "description": ":SENSe:POWer[:RF]:ATTenuation <dB>: the input attenuator, 0 to 51 dB",
+            "set": {
+              "syntax": ":SENSe:POWer:RF:ATTenuation {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_input_attenuation": {
+            "description": ":SENSe:POWer[:RF]:ATTenuation?",
+            "set": null,
+            "query": {
+              "syntax": ":SENSe:POWer:RF:ATTenuation?",
+              "return_type": "float"
+            }
+          },
+          "set_input_attenuation_auto": {
+            "description": ":SENSe:POWer[:RF]:ATTenuation:AUTO ON|OFF",
+            "set": {
+              "syntax": ":SENSe:POWer:RF:ATTenuation:AUTO {state}",
+              "args": [
+                "state"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "ON"
+                ]
+              }
+            }
+          },
+          "set_sweep_time": {
+            "description": ":SENSe:SWEep:TIME <time>: the sweep time, 450 us to 1500 s",
+            "set": {
+              "syntax": ":SENSe:SWEep:TIME {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_sweep_time": {
+            "description": ":SENSe:SWEep:TIME?",
+            "set": null,
+            "query": {
+              "syntax": ":SENSe:SWEep:TIME?",
+              "return_type": "float"
+            }
+          },
+          "set_sweep_time_auto": {
+            "description": ":SENSe:SWEep:TIME:AUTO ON|OFF",
+            "set": {
+              "syntax": ":SENSe:SWEep:TIME:AUTO {state}",
+              "args": [
+                "state"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "ON"
+                ]
+              }
+            }
+          },
+          "set_sweep_continuous": {
+            "description": ":INITiate:CONTinuous ON|OFF: continuous (ON) or single (OFF) sweep",
+            "set": {
+              "syntax": ":INITiate:CONTinuous {state}",
+              "args": [
+                "state"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "ON"
+                ]
+              }
+            }
+          },
+          "initiate_sweep": {
+            "description": ":INITiate[:IMMediate]: restarts the current sweep",
+            "set": {
+              "syntax": ":INITiate:IMMediate"
+            },
+            "query": null
+          },
+          "set_detector": {
+            "description": ":SENSe:DETector:TRACe[1]|2|3|4[:FUNCtion] NEGative|POSitive|SAMPle|AVERage|NORMAL|QUASi (one detector per trace): the detector",
+            "set": {
+              "syntax": ":SENSe:DETector:TRACe{trace_number}:FUNCtion {detector}",
+              "args": [
+                "trace_number",
+                "detector"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "trace_number": {
+                "type": "int"
+              },
+              "detector": {
+                "type": "string",
+                "map": {
+                  "NEGATIVE": "NEGative",
+                  "NORMAL": "NORMAL",
+                  "POSITIVE": "POSitive",
+                  "SAMPLE": "SAMPle",
+                  "AVERAGE": "AVERage",
+                  "QUASI_PEAK": "QUASi"
+                }
+              }
+            }
+          },
+          "set_trace_mode": {
+            "description": ":TRACe<n>:MODE: WRITe, MAXHold, MINHold, VIEW, BLANk and AVERage; traces 1 to 4",
+            "set": {
+              "syntax": ":TRACe{trace_number}:MODE {mode}",
+              "args": [
+                "trace_number",
+                "mode"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "trace_number": {
+                "type": "int"
+              },
+              "mode": {
+                "type": "string",
+                "map": {
+                  "WRITE": "WRITe",
+                  "MAX_HOLD": "MAXHold",
+                  "MIN_HOLD": "MINHold",
+                  "VIEW": "VIEW",
+                  "BLANK": "BLANk",
+                  "AVERAGE": "AVERage"
+                }
+              }
+            }
+          },
+          "set_power_unit": {
+            "description": ":UNIT:POWer DBM|DBMV|DBUV|V|W",
+            "set": {
+              "syntax": ":UNIT:POWer {unit}",
+              "args": [
+                "unit"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "unit": {
+                "type": "string",
+                "map": {
+                  "DBM": "DBM",
+                  "DBMV": "DBMV",
+                  "DBUV": "DBUV",
+                  "V": "V",
+                  "W": "W"
+                }
+              }
+            }
+          },
+          "read_trace": {
+            "description": ":FORMat:TRACe:DATA ASCii, then :TRACe[:DATA]? <n> (traces 1 to 4): the points as ASCII numbers",
+            "set": null,
+            "query": {
+              "steps": [
+                {
+                  "op": "write",
+                  "text": ":FORMat:TRACe:DATA ASCii"
+                },
+                {
+                  "op": "query",
+                  "text": ":TRACe:DATA? {trace_number}"
+                }
+              ],
+              "parse": {
+                "name": "spectrum_trace_ascii",
+                "from_steps": "queries"
+              }
+            },
+            "parameters": {
+              "trace_number": {
+                "type": "int"
+              }
+            }
+          },
+          "set_marker_state": {
+            "description": ":CALCulate:MARKer<n>:STATe ON|OFF (8 markers)",
+            "set": {
+              "syntax": ":CALCulate:MARKer{marker_number}:STATe {state}",
+              "args": [
+                "marker_number",
+                "state"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "marker_number": {
+                "type": "int"
+              },
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "ON"
+                ]
+              }
+            }
+          },
+          "set_marker_frequency": {
+            "description": ":CALCulate:MARKer<n>:X <freq>: the X value of a normal marker, in Hz in frequency readout",
+            "set": {
+              "syntax": ":CALCulate:MARKer{marker_number}:X {value}",
+              "args": [
+                "marker_number",
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "marker_number": {
+                "type": "int"
+              },
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_marker_frequency": {
+            "description": ":CALCulate:MARKer<n>:X?",
+            "set": null,
+            "query": {
+              "syntax": ":CALCulate:MARKer{marker_number}:X?",
+              "return_type": "float",
+              "args": [
+                "marker_number"
+              ]
+            },
+            "parameters": {
+              "marker_number": {
+                "type": "int"
+              }
+            }
+          },
+          "query_marker_amplitude": {
+            "description": ":CALCulate:MARKer<n>:Y?",
+            "set": null,
+            "query": {
+              "syntax": ":CALCulate:MARKer{marker_number}:Y?",
+              "return_type": "float",
+              "args": [
+                "marker_number"
+              ]
+            },
+            "parameters": {
+              "marker_number": {
+                "type": "int"
+              }
+            }
+          },
+          "marker_peak_search": {
+            "description": ":CALCulate:MARKer<n>:MAXimum: peak search",
+            "set": {
+              "syntax": ":CALCulate:MARKer{marker_number}:MAXimum",
+              "args": [
+                "marker_number"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "marker_number": {
+                "type": "int"
+              }
+            }
+          }
+        },
+        "models": [
+          {
+            "id": "SA_Siglent_SSA3000X_Plus",
+            "name": "Siglent SSA3000X Plus",
+            "manufacturer": "Siglent Technologies",
+            "model": "SSA3000X Plus",
+            "documentation_path": "docs/Sigilent/SSA3000_Series/siglent-ssa3000x-plus-series-programming-guide.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "USB-TMC",
+                  "visa_resource_id_template": "USB_SA_{serial_number}",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR"
+                },
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_SA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    },
+                    {
+                      "kind": "raw_socket",
+                      "port": 5025
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 1,
+              "frequency_min_hz": 0.0,
+              "frequency_max_hz": 3200000000.0,
+              "notes": "The commands are those of the swept spectrum analysis mode: the tracking generator, the EMI, the other measurement modes and the real-time analysis (the SSA3000X-R) are not covered. 4 traces and 8 markers. LAN socket port 5025. The guide's examples are those of a 3.2 GHz model; the SSA3015X Plus and SSA3021X Plus (1.5 and 2.1 GHz) use the same commands."
+            },
+            "scpi_commands": {},
+            "experimental": true
+          }
+        ]
+      }
     ]
   }
 }
