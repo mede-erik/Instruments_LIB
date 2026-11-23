@@ -14213,6 +14213,2453 @@
             "experimental": false
           }
         ]
+      },
+      {
+        "series_id": "Rigol_DHO800_DHO900_Series",
+        "series_name": "Rigol DHO800 and DHO900 series digital oscilloscopes",
+        "common_scpi_commands": {
+          "reset": {
+            "description": "reset",
+            "set": {
+              "syntax": "*RST"
+            },
+            "query": null
+          },
+          "clear_status": {
+            "description": "clear status",
+            "set": {
+              "syntax": "*CLS"
+            },
+            "query": null
+          },
+          "identification_query": {
+            "description": "identification query",
+            "set": null,
+            "query": {
+              "syntax": "*IDN?",
+              "return_type": "string"
+            }
+          },
+          "error_query": {
+            "description": ":SYSTem:ERRor[:NEXT]?: reads and clears the oldest error",
+            "set": null,
+            "query": {
+              "syntax": ":SYSTem:ERRor?",
+              "return_type": "string"
+            }
+          },
+          "self_test": {
+            "description": "self test",
+            "set": null,
+            "query": {
+              "syntax": "*TST?",
+              "return_type": "int"
+            }
+          },
+          "query_status_byte": {
+            "description": "query status byte",
+            "set": null,
+            "query": {
+              "syntax": "*STB?",
+              "return_type": "int"
+            }
+          },
+          "query_event_status_register": {
+            "description": "query event status register",
+            "set": null,
+            "query": {
+              "syntax": "*ESR?",
+              "return_type": "int"
+            }
+          },
+          "enable_event_status_register": {
+            "description": "enable event status register",
+            "set": {
+              "syntax": "*ESE {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "int"
+              }
+            }
+          },
+          "query_event_status_enable": {
+            "description": "query event status enable",
+            "set": null,
+            "query": {
+              "syntax": "*ESE?",
+              "return_type": "int"
+            }
+          },
+          "auto_setup": {
+            "description": ":AUToset (the DHO800/DHO900 name; :AUToscale does not exist); invalid while the AUTO key is disabled (:SYSTem:AUToscale 0)",
+            "set": {
+              "syntax": ":AUToset"
+            },
+            "query": null
+          },
+          "set_channel_coupling": {
+            "description": "set channel coupling",
+            "set": {
+              "syntax": ":CHANnel{channel_number}:COUPling {coupling_type}",
+              "args": [
+                "channel_number",
+                "coupling_type"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "coupling_type": {
+                "type": "string",
+                "map": {
+                  "DC": "DC",
+                  "AC": "AC",
+                  "GND": "GND"
+                }
+              }
+            }
+          },
+          "set_channel_scale": {
+            "description": "set channel scale",
+            "set": {
+              "syntax": ":CHANnel{channel_number}:SCALe {value}",
+              "args": [
+                "channel_number",
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "set_channel_offset": {
+            "description": "set channel offset",
+            "set": {
+              "syntax": ":CHANnel{channel_number}:OFFSet {value}",
+              "args": [
+                "channel_number",
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_channel_scale": {
+            "description": "query channel scale",
+            "set": null,
+            "query": {
+              "syntax": ":CHANnel{channel_number}:SCALe?",
+              "args": [
+                "channel_number"
+              ],
+              "return_type": "float"
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              }
+            }
+          },
+          "query_channel_offset": {
+            "description": "query channel offset",
+            "set": null,
+            "query": {
+              "syntax": ":CHANnel{channel_number}:OFFSet?",
+              "args": [
+                "channel_number"
+              ],
+              "return_type": "float"
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              }
+            }
+          },
+          "set_timebase_scale": {
+            "description": "set timebase scale",
+            "set": {
+              "syntax": ":TIMebase:SCALe {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_timebase_scale": {
+            "description": "query timebase scale",
+            "set": null,
+            "query": {
+              "syntax": ":TIMebase:SCALe?",
+              "return_type": "float"
+            }
+          },
+          "set_trigger_mode": {
+            "description": "trigger sweep mode (AUTO, NORMal, SINGle)",
+            "set": {
+              "syntax": ":TRIGger:SWEep {mode}",
+              "args": [
+                "mode"
+              ]
+            },
+            "query": {
+              "syntax": ":TRIGger:SWEep?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "mode": {
+                "type": "string",
+                "values": [
+                  "AUTO",
+                  "NORMal",
+                  "SINGle",
+                  "NORM",
+                  "SING"
+                ],
+                "map": {
+                  "AUTO": "AUTO",
+                  "NORMAL": "NORMal",
+                  "SINGLE": "SINGle"
+                }
+              }
+            }
+          },
+          "set_trigger_source": {
+            "description": "set trigger source",
+            "set": {
+              "syntax": ":TRIGger:EDGE:SOURce CHAN{channel_number}",
+              "args": [
+                "channel_number"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              }
+            }
+          },
+          "set_trigger_slope": {
+            "description": "set trigger slope",
+            "set": {
+              "syntax": ":TRIGger:EDGe:SLOPe {slope}",
+              "args": [
+                "slope"
+              ]
+            },
+            "query": {
+              "syntax": ":TRIGger:EDGe:SLOPe?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "slope": {
+                "type": "string",
+                "values": [
+                  "POSitive",
+                  "NEGative",
+                  "RFALl"
+                ],
+                "map": {
+                  "RISE": "POSitive",
+                  "FALL": "NEGative",
+                  "EITHER": "RFALl"
+                }
+              }
+            }
+          },
+          "set_trigger_level": {
+            "description": "set trigger level",
+            "set": {
+              "syntax": ":TRIGger:EDGE:LEVel {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_trigger_level": {
+            "description": "query trigger level",
+            "set": null,
+            "query": {
+              "syntax": ":TRIGger:EDGE:LEVel?",
+              "return_type": "float"
+            }
+          },
+          "force_trigger": {
+            "description": "force trigger",
+            "set": {
+              "syntax": ":TFORce"
+            },
+            "query": null
+          },
+          "set_waveform_source": {
+            "description": "set waveform source",
+            "set": {
+              "syntax": ":WAVeform:SOURce CHAN{channel_number}",
+              "args": [
+                "channel_number"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              }
+            }
+          },
+          "set_waveform_format": {
+            "description": "set waveform format",
+            "set": {
+              "syntax": ":WAVeform:FORMat {format_type}",
+              "args": [
+                "format_type"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "format_type": {
+                "type": "string",
+                "map": {
+                  "BYTE": "BYTE",
+                  "WORD": "WORD",
+                  "ASCII": "ASCii"
+                }
+              }
+            }
+          },
+          "query_waveform_preamble": {
+            "description": "query waveform preamble",
+            "set": null,
+            "query": {
+              "syntax": ":WAVeform:PREamble?",
+              "return_type": "string"
+            }
+          },
+          "query_waveform_data": {
+            "description": "query waveform data",
+            "set": null,
+            "query": {
+              "syntax": ":WAVeform:DATA?",
+              "return_type": "binary"
+            }
+          },
+          "run_acquisition": {
+            "description": "run acquisition",
+            "set": {
+              "syntax": ":RUN"
+            },
+            "query": null
+          },
+          "stop_acquisition": {
+            "description": "stop acquisition",
+            "set": {
+              "syntax": ":STOP"
+            },
+            "query": null
+          },
+          "query_trigger_status": {
+            "description": "query trigger status",
+            "set": null,
+            "query": {
+              "syntax": ":TRIGger:STATus?",
+              "return_type": "string",
+              "response_map": {
+                "TD": "TRIGGERED",
+                "WAIT": "READY",
+                "RUN": "ARMED",
+                "AUTO": "AUTO",
+                "STOP": "STOPPED"
+              }
+            }
+          },
+          "set_acquisition_depth": {
+            "description": ":ACQuire:MDEPth: AUTO, 1k, 10k, 100k, 1M, 10M, 25M and, for the DHO900 only, 50M (fewer with more channels on)",
+            "set": {
+              "syntax": ":ACQuire:MDEPth {depth}",
+              "args": [
+                "depth"
+              ]
+            },
+            "query": {
+              "syntax": ":ACQuire:MDEPth?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "depth": {
+                "type": "int"
+              }
+            }
+          },
+          "acquire_single": {
+            "description": "single acquisition",
+            "set": {
+              "syntax": ":SINGle"
+            },
+            "query": null
+          },
+          "operation_complete_query": {
+            "description": "1 when the current operation is finished",
+            "set": null,
+            "query": {
+              "syntax": "*OPC?",
+              "return_type": "int"
+            }
+          },
+          "set_timebase_delay": {
+            "description": "main timebase offset in seconds",
+            "set": {
+              "syntax": ":TIMebase:MAIN:OFFSet {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": {
+              "syntax": ":TIMebase:MAIN:OFFSet?",
+              "return_type": "float"
+            },
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "set_channel_state": {
+            "description": "show/hide a channel",
+            "set": {
+              "syntax": ":CHANnel{channel_number}:DISPlay {state}",
+              "args": [
+                "channel_number",
+                "state"
+              ]
+            },
+            "query": {
+              "syntax": ":CHANnel{channel_number}:DISPlay?",
+              "return_type": "int",
+              "args": [
+                "channel_number"
+              ]
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "state": {
+                "type": "string",
+                "values": [
+                  "ON",
+                  "OFF"
+                ]
+              }
+            }
+          },
+          "set_channel_bandwidth_limit": {
+            "description": "channel bandwidth limit",
+            "set": {
+              "syntax": ":CHANnel{channel_number}:BWLimit {bandwidth}",
+              "args": [
+                "channel_number",
+                "bandwidth"
+              ]
+            },
+            "query": {
+              "syntax": ":CHANnel{channel_number}:BWLimit?",
+              "return_type": "string",
+              "args": [
+                "channel_number"
+              ]
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "bandwidth": {
+                "type": "float",
+                "values": [
+                  "20M",
+                  "OFF"
+                ],
+                "map": {
+                  "0": "OFF",
+                  "20000000": "20M"
+                }
+              }
+            }
+          },
+          "set_probe_attenuation": {
+            "description": "probe attenuation ratio of a channel",
+            "set": {
+              "syntax": ":CHANnel{channel_number}:PROBe {value}",
+              "args": [
+                "channel_number",
+                "value"
+              ]
+            },
+            "query": {
+              "syntax": ":CHANnel{channel_number}:PROBe?",
+              "return_type": "float",
+              "args": [
+                "channel_number"
+              ]
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "set_channel_invert": {
+            "description": "invert a channel",
+            "set": {
+              "syntax": ":CHANnel{channel_number}:INVert {state}",
+              "args": [
+                "channel_number",
+                "state"
+              ]
+            },
+            "query": {
+              "syntax": ":CHANnel{channel_number}:INVert?",
+              "return_type": "int",
+              "args": [
+                "channel_number"
+              ]
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "state": {
+                "type": "string",
+                "values": [
+                  "ON",
+                  "OFF"
+                ]
+              }
+            }
+          },
+          "set_channel_unit": {
+            "description": "channel unit",
+            "set": {
+              "syntax": ":CHANnel{channel_number}:UNITs {unit}",
+              "args": [
+                "channel_number",
+                "unit"
+              ]
+            },
+            "query": {
+              "syntax": ":CHANnel{channel_number}:UNITs?",
+              "return_type": "string",
+              "args": [
+                "channel_number"
+              ]
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "unit": {
+                "type": "string",
+                "values": [
+                  "VOLTage",
+                  "WATT",
+                  "AMPere",
+                  "UNKNown"
+                ]
+              }
+            }
+          },
+          "set_trigger_holdoff": {
+            "description": "trigger holdoff time in seconds (16 ns to 10 s)",
+            "set": {
+              "syntax": ":TRIGger:HOLDoff {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": {
+              "syntax": ":TRIGger:HOLDoff?",
+              "return_type": "float"
+            },
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "set_trigger_coupling": {
+            "description": "trigger coupling",
+            "set": {
+              "syntax": ":TRIGger:COUPling {coupling_type}",
+              "args": [
+                "coupling_type"
+              ]
+            },
+            "query": {
+              "syntax": ":TRIGger:COUPling?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "coupling_type": {
+                "type": "string",
+                "values": [
+                  "AC",
+                  "DC",
+                  "LFReject",
+                  "HFReject"
+                ]
+              }
+            }
+          },
+          "set_trigger_type": {
+            "description": "trigger type (EDGE, PULSe, SLOPe, VIDeo, PATTern, ... see the programming guide)",
+            "set": {
+              "syntax": ":TRIGger:MODE {trigger_type}",
+              "args": [
+                "trigger_type"
+              ]
+            },
+            "query": {
+              "syntax": ":TRIGger:MODE?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "trigger_type": {
+                "type": "string"
+              }
+            }
+          },
+          "query_trigger_mode": {
+            "description": "trigger sweep mode",
+            "set": null,
+            "query": {
+              "syntax": ":TRIGger:SWEep?",
+              "return_type": "string",
+              "response_map": {
+                "AUTO": "AUTO",
+                "NORMal": "NORMAL",
+                "NORM": "NORMAL",
+                "SINGle": "SINGLE",
+                "SING": "SINGLE"
+              }
+            }
+          },
+          "query_trigger_source": {
+            "description": "edge trigger source",
+            "set": null,
+            "query": {
+              "syntax": ":TRIGger:EDGe:SOURce?",
+              "return_type": "string"
+            }
+          },
+          "set_acquisition_type": {
+            "description": ":ACQuire:TYPE: NORMal, AVERages and PEAK; the DHO has no HRESolution (it has ULTRa, which no logical value names), so HIRES is not handled",
+            "set": {
+              "syntax": ":ACQuire:TYPE {acquisition_type}",
+              "args": [
+                "acquisition_type"
+              ]
+            },
+            "query": {
+              "syntax": ":ACQuire:TYPE?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "acquisition_type": {
+                "type": "string",
+                "values": [
+                  "NORMal",
+                  "AVERages",
+                  "PEAK"
+                ],
+                "map": {
+                  "NORMAL": "NORMal",
+                  "AVERAGE": "AVERages",
+                  "PEAK": "PEAK"
+                }
+              }
+            }
+          },
+          "query_sample_rate": {
+            "description": "current sample rate",
+            "set": null,
+            "query": {
+              "syntax": ":ACQuire:SRATe?",
+              "return_type": "float"
+            }
+          }
+        },
+        "models": [
+          {
+            "id": "OSC_Rigol_DHO802",
+            "name": "Rigol DHO802",
+            "manufacturer": "Rigol Technologies",
+            "model": "DHO802",
+            "documentation_path": "docs/Rigol/DHO800_DHO900_Series/DHO800-DHO900-Series_programmingguide_EN.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "USB-TMC",
+                  "visa_resource_id_template": "USB_OSC_{serial_number}",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR"
+                },
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_OSC_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR"
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 2,
+              "bandwidth_mhz": 70,
+              "memory_depth_mpts": 25,
+              "trigger_modes": [
+                "EDGE",
+                "PULSe",
+                "SLOPe",
+                "VIDeo",
+                "PATTern",
+                "DURation",
+                "TIMeout",
+                "RUNT",
+                "WINDow",
+                "DELay",
+                "SETup",
+                "NEDGe",
+                "RS232",
+                "IIC",
+                "SPI",
+                "CAN",
+                "LIN"
+              ],
+              "waveform_formats": [
+                "ASCii",
+                "BYTE",
+                "WORD"
+              ],
+              "channels": [
+                {
+                  "channel_id": "CHAN1",
+                  "label": "Channel 1"
+                },
+                {
+                  "channel_id": "CHAN2",
+                  "label": "Channel 2"
+                }
+              ],
+              "notes": "Memory depth up to 25 Mpts (1 channel; less with more channels on). The analog channels only; the DHO800 has an external trigger on the two-channel models."
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "OSC_Rigol_DHO804",
+            "name": "Rigol DHO804",
+            "manufacturer": "Rigol Technologies",
+            "model": "DHO804",
+            "documentation_path": "docs/Rigol/DHO800_DHO900_Series/DHO800-DHO900-Series_programmingguide_EN.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "USB-TMC",
+                  "visa_resource_id_template": "USB_OSC_{serial_number}",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR"
+                },
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_OSC_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR"
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 4,
+              "bandwidth_mhz": 70,
+              "memory_depth_mpts": 25,
+              "trigger_modes": [
+                "EDGE",
+                "PULSe",
+                "SLOPe",
+                "VIDeo",
+                "PATTern",
+                "DURation",
+                "TIMeout",
+                "RUNT",
+                "WINDow",
+                "DELay",
+                "SETup",
+                "NEDGe",
+                "RS232",
+                "IIC",
+                "SPI",
+                "CAN",
+                "LIN"
+              ],
+              "waveform_formats": [
+                "ASCii",
+                "BYTE",
+                "WORD"
+              ],
+              "channels": [
+                {
+                  "channel_id": "CHAN1",
+                  "label": "Channel 1"
+                },
+                {
+                  "channel_id": "CHAN2",
+                  "label": "Channel 2"
+                },
+                {
+                  "channel_id": "CHAN3",
+                  "label": "Channel 3"
+                },
+                {
+                  "channel_id": "CHAN4",
+                  "label": "Channel 4"
+                }
+              ],
+              "notes": "Memory depth up to 25 Mpts (1 channel; less with more channels on). The analog channels only; the DHO800 has an external trigger on the two-channel models."
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "OSC_Rigol_DHO812",
+            "name": "Rigol DHO812",
+            "manufacturer": "Rigol Technologies",
+            "model": "DHO812",
+            "documentation_path": "docs/Rigol/DHO800_DHO900_Series/DHO800-DHO900-Series_programmingguide_EN.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "USB-TMC",
+                  "visa_resource_id_template": "USB_OSC_{serial_number}",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR"
+                },
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_OSC_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR"
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 2,
+              "bandwidth_mhz": 100,
+              "memory_depth_mpts": 25,
+              "trigger_modes": [
+                "EDGE",
+                "PULSe",
+                "SLOPe",
+                "VIDeo",
+                "PATTern",
+                "DURation",
+                "TIMeout",
+                "RUNT",
+                "WINDow",
+                "DELay",
+                "SETup",
+                "NEDGe",
+                "RS232",
+                "IIC",
+                "SPI",
+                "CAN",
+                "LIN"
+              ],
+              "waveform_formats": [
+                "ASCii",
+                "BYTE",
+                "WORD"
+              ],
+              "channels": [
+                {
+                  "channel_id": "CHAN1",
+                  "label": "Channel 1"
+                },
+                {
+                  "channel_id": "CHAN2",
+                  "label": "Channel 2"
+                }
+              ],
+              "notes": "Memory depth up to 25 Mpts (1 channel; less with more channels on). The analog channels only; the DHO800 has an external trigger on the two-channel models."
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "OSC_Rigol_DHO814",
+            "name": "Rigol DHO814",
+            "manufacturer": "Rigol Technologies",
+            "model": "DHO814",
+            "documentation_path": "docs/Rigol/DHO800_DHO900_Series/DHO800-DHO900-Series_programmingguide_EN.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "USB-TMC",
+                  "visa_resource_id_template": "USB_OSC_{serial_number}",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR"
+                },
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_OSC_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR"
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 4,
+              "bandwidth_mhz": 100,
+              "memory_depth_mpts": 25,
+              "trigger_modes": [
+                "EDGE",
+                "PULSe",
+                "SLOPe",
+                "VIDeo",
+                "PATTern",
+                "DURation",
+                "TIMeout",
+                "RUNT",
+                "WINDow",
+                "DELay",
+                "SETup",
+                "NEDGe",
+                "RS232",
+                "IIC",
+                "SPI",
+                "CAN",
+                "LIN"
+              ],
+              "waveform_formats": [
+                "ASCii",
+                "BYTE",
+                "WORD"
+              ],
+              "channels": [
+                {
+                  "channel_id": "CHAN1",
+                  "label": "Channel 1"
+                },
+                {
+                  "channel_id": "CHAN2",
+                  "label": "Channel 2"
+                },
+                {
+                  "channel_id": "CHAN3",
+                  "label": "Channel 3"
+                },
+                {
+                  "channel_id": "CHAN4",
+                  "label": "Channel 4"
+                }
+              ],
+              "notes": "Memory depth up to 25 Mpts (1 channel; less with more channels on). The analog channels only; the DHO800 has an external trigger on the two-channel models."
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "OSC_Rigol_DHO914",
+            "name": "Rigol DHO914",
+            "manufacturer": "Rigol Technologies",
+            "model": "DHO914",
+            "documentation_path": "docs/Rigol/DHO800_DHO900_Series/DHO800-DHO900-Series_programmingguide_EN.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "USB-TMC",
+                  "visa_resource_id_template": "USB_OSC_{serial_number}",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR"
+                },
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_OSC_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR"
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 4,
+              "bandwidth_mhz": 125,
+              "memory_depth_mpts": 50,
+              "trigger_modes": [
+                "EDGE",
+                "PULSe",
+                "SLOPe",
+                "VIDeo",
+                "PATTern",
+                "DURation",
+                "TIMeout",
+                "RUNT",
+                "WINDow",
+                "DELay",
+                "SETup",
+                "NEDGe",
+                "RS232",
+                "IIC",
+                "SPI",
+                "CAN",
+                "LIN"
+              ],
+              "waveform_formats": [
+                "ASCii",
+                "BYTE",
+                "WORD"
+              ],
+              "channels": [
+                {
+                  "channel_id": "CHAN1",
+                  "label": "Channel 1"
+                },
+                {
+                  "channel_id": "CHAN2",
+                  "label": "Channel 2"
+                },
+                {
+                  "channel_id": "CHAN3",
+                  "label": "Channel 3"
+                },
+                {
+                  "channel_id": "CHAN4",
+                  "label": "Channel 4"
+                }
+              ],
+              "notes": "Memory depth up to 50 Mpts (1 channel; less with more channels on). The analog channels only: the 16 digital channels of the DHO900 are not covered."
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "OSC_Rigol_DHO914S",
+            "name": "Rigol DHO914S",
+            "manufacturer": "Rigol Technologies",
+            "model": "DHO914S",
+            "documentation_path": "docs/Rigol/DHO800_DHO900_Series/DHO800-DHO900-Series_programmingguide_EN.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "USB-TMC",
+                  "visa_resource_id_template": "USB_OSC_{serial_number}",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR"
+                },
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_OSC_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR"
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 4,
+              "bandwidth_mhz": 125,
+              "memory_depth_mpts": 50,
+              "trigger_modes": [
+                "EDGE",
+                "PULSe",
+                "SLOPe",
+                "VIDeo",
+                "PATTern",
+                "DURation",
+                "TIMeout",
+                "RUNT",
+                "WINDow",
+                "DELay",
+                "SETup",
+                "NEDGe",
+                "RS232",
+                "IIC",
+                "SPI",
+                "CAN",
+                "LIN"
+              ],
+              "waveform_formats": [
+                "ASCii",
+                "BYTE",
+                "WORD"
+              ],
+              "channels": [
+                {
+                  "channel_id": "CHAN1",
+                  "label": "Channel 1"
+                },
+                {
+                  "channel_id": "CHAN2",
+                  "label": "Channel 2"
+                },
+                {
+                  "channel_id": "CHAN3",
+                  "label": "Channel 3"
+                },
+                {
+                  "channel_id": "CHAN4",
+                  "label": "Channel 4"
+                }
+              ],
+              "notes": "Memory depth up to 50 Mpts (1 channel; less with more channels on). The analog channels only: the 16 digital channels of the DHO900 are not covered."
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "OSC_Rigol_DHO924",
+            "name": "Rigol DHO924",
+            "manufacturer": "Rigol Technologies",
+            "model": "DHO924",
+            "documentation_path": "docs/Rigol/DHO800_DHO900_Series/DHO800-DHO900-Series_programmingguide_EN.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "USB-TMC",
+                  "visa_resource_id_template": "USB_OSC_{serial_number}",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR"
+                },
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_OSC_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR"
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 4,
+              "bandwidth_mhz": 250,
+              "memory_depth_mpts": 50,
+              "trigger_modes": [
+                "EDGE",
+                "PULSe",
+                "SLOPe",
+                "VIDeo",
+                "PATTern",
+                "DURation",
+                "TIMeout",
+                "RUNT",
+                "WINDow",
+                "DELay",
+                "SETup",
+                "NEDGe",
+                "RS232",
+                "IIC",
+                "SPI",
+                "CAN",
+                "LIN"
+              ],
+              "waveform_formats": [
+                "ASCii",
+                "BYTE",
+                "WORD"
+              ],
+              "channels": [
+                {
+                  "channel_id": "CHAN1",
+                  "label": "Channel 1"
+                },
+                {
+                  "channel_id": "CHAN2",
+                  "label": "Channel 2"
+                },
+                {
+                  "channel_id": "CHAN3",
+                  "label": "Channel 3"
+                },
+                {
+                  "channel_id": "CHAN4",
+                  "label": "Channel 4"
+                }
+              ],
+              "notes": "Memory depth up to 50 Mpts (1 channel; less with more channels on). The analog channels only: the 16 digital channels of the DHO900 are not covered."
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "OSC_Rigol_DHO924S",
+            "name": "Rigol DHO924S",
+            "manufacturer": "Rigol Technologies",
+            "model": "DHO924S",
+            "documentation_path": "docs/Rigol/DHO800_DHO900_Series/DHO800-DHO900-Series_programmingguide_EN.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "USB-TMC",
+                  "visa_resource_id_template": "USB_OSC_{serial_number}",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR"
+                },
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_OSC_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR"
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 4,
+              "bandwidth_mhz": 250,
+              "memory_depth_mpts": 50,
+              "trigger_modes": [
+                "EDGE",
+                "PULSe",
+                "SLOPe",
+                "VIDeo",
+                "PATTern",
+                "DURation",
+                "TIMeout",
+                "RUNT",
+                "WINDow",
+                "DELay",
+                "SETup",
+                "NEDGe",
+                "RS232",
+                "IIC",
+                "SPI",
+                "CAN",
+                "LIN"
+              ],
+              "waveform_formats": [
+                "ASCii",
+                "BYTE",
+                "WORD"
+              ],
+              "channels": [
+                {
+                  "channel_id": "CHAN1",
+                  "label": "Channel 1"
+                },
+                {
+                  "channel_id": "CHAN2",
+                  "label": "Channel 2"
+                },
+                {
+                  "channel_id": "CHAN3",
+                  "label": "Channel 3"
+                },
+                {
+                  "channel_id": "CHAN4",
+                  "label": "Channel 4"
+                }
+              ],
+              "notes": "Memory depth up to 50 Mpts (1 channel; less with more channels on). The analog channels only: the 16 digital channels of the DHO900 are not covered."
+            },
+            "scpi_commands": {},
+            "experimental": true
+          }
+        ]
+      },
+      {
+        "series_id": "Rigol_MSO5000_Series",
+        "series_name": "Rigol MSO5000 series digital oscilloscopes",
+        "common_scpi_commands": {
+          "reset": {
+            "description": "reset",
+            "set": {
+              "syntax": "*RST"
+            },
+            "query": null
+          },
+          "clear_status": {
+            "description": "clear status",
+            "set": {
+              "syntax": "*CLS"
+            },
+            "query": null
+          },
+          "identification_query": {
+            "description": "identification query",
+            "set": null,
+            "query": {
+              "syntax": "*IDN?",
+              "return_type": "string"
+            }
+          },
+          "error_query": {
+            "description": ":SYSTem:ERRor[:NEXT]?: reads and clears the oldest error",
+            "set": null,
+            "query": {
+              "syntax": ":SYSTem:ERRor?",
+              "return_type": "string"
+            }
+          },
+          "self_test": {
+            "description": "self test",
+            "set": null,
+            "query": {
+              "syntax": "*TST?",
+              "return_type": "int"
+            }
+          },
+          "query_status_byte": {
+            "description": "query status byte",
+            "set": null,
+            "query": {
+              "syntax": "*STB?",
+              "return_type": "int"
+            }
+          },
+          "query_event_status_register": {
+            "description": "query event status register",
+            "set": null,
+            "query": {
+              "syntax": "*ESR?",
+              "return_type": "int"
+            }
+          },
+          "enable_event_status_register": {
+            "description": "enable event status register",
+            "set": {
+              "syntax": "*ESE {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "int"
+              }
+            }
+          },
+          "query_event_status_enable": {
+            "description": "query event status enable",
+            "set": null,
+            "query": {
+              "syntax": "*ESE?",
+              "return_type": "int"
+            }
+          },
+          "auto_setup": {
+            "description": "auto setup",
+            "set": {
+              "syntax": ":AUToscale"
+            },
+            "query": null
+          },
+          "set_channel_coupling": {
+            "description": "set channel coupling",
+            "set": {
+              "syntax": ":CHANnel{channel_number}:COUPling {coupling_type}",
+              "args": [
+                "channel_number",
+                "coupling_type"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "coupling_type": {
+                "type": "string",
+                "map": {
+                  "DC": "DC",
+                  "AC": "AC",
+                  "GND": "GND"
+                }
+              }
+            }
+          },
+          "set_channel_scale": {
+            "description": "set channel scale",
+            "set": {
+              "syntax": ":CHANnel{channel_number}:SCALe {value}",
+              "args": [
+                "channel_number",
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "set_channel_offset": {
+            "description": "set channel offset",
+            "set": {
+              "syntax": ":CHANnel{channel_number}:OFFSet {value}",
+              "args": [
+                "channel_number",
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_channel_scale": {
+            "description": "query channel scale",
+            "set": null,
+            "query": {
+              "syntax": ":CHANnel{channel_number}:SCALe?",
+              "args": [
+                "channel_number"
+              ],
+              "return_type": "float"
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              }
+            }
+          },
+          "query_channel_offset": {
+            "description": "query channel offset",
+            "set": null,
+            "query": {
+              "syntax": ":CHANnel{channel_number}:OFFSet?",
+              "args": [
+                "channel_number"
+              ],
+              "return_type": "float"
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              }
+            }
+          },
+          "set_timebase_scale": {
+            "description": "set timebase scale",
+            "set": {
+              "syntax": ":TIMebase:SCALe {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_timebase_scale": {
+            "description": "query timebase scale",
+            "set": null,
+            "query": {
+              "syntax": ":TIMebase:SCALe?",
+              "return_type": "float"
+            }
+          },
+          "set_trigger_mode": {
+            "description": "trigger sweep mode (AUTO, NORMal, SINGle)",
+            "set": {
+              "syntax": ":TRIGger:SWEep {mode}",
+              "args": [
+                "mode"
+              ]
+            },
+            "query": {
+              "syntax": ":TRIGger:SWEep?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "mode": {
+                "type": "string",
+                "values": [
+                  "AUTO",
+                  "NORMal",
+                  "SINGle",
+                  "NORM",
+                  "SING"
+                ],
+                "map": {
+                  "AUTO": "AUTO",
+                  "NORMAL": "NORMal",
+                  "SINGLE": "SINGle"
+                }
+              }
+            }
+          },
+          "set_trigger_source": {
+            "description": "set trigger source",
+            "set": {
+              "syntax": ":TRIGger:EDGE:SOURce CHAN{channel_number}",
+              "args": [
+                "channel_number"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              }
+            }
+          },
+          "set_trigger_slope": {
+            "description": "set trigger slope",
+            "set": {
+              "syntax": ":TRIGger:EDGe:SLOPe {slope}",
+              "args": [
+                "slope"
+              ]
+            },
+            "query": {
+              "syntax": ":TRIGger:EDGe:SLOPe?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "slope": {
+                "type": "string",
+                "values": [
+                  "POSitive",
+                  "NEGative",
+                  "RFALl"
+                ],
+                "map": {
+                  "RISE": "POSitive",
+                  "FALL": "NEGative",
+                  "EITHER": "RFALl"
+                }
+              }
+            }
+          },
+          "set_trigger_level": {
+            "description": "set trigger level",
+            "set": {
+              "syntax": ":TRIGger:EDGE:LEVel {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_trigger_level": {
+            "description": "query trigger level",
+            "set": null,
+            "query": {
+              "syntax": ":TRIGger:EDGE:LEVel?",
+              "return_type": "float"
+            }
+          },
+          "force_trigger": {
+            "description": "force trigger",
+            "set": {
+              "syntax": ":TFORce"
+            },
+            "query": null
+          },
+          "set_waveform_source": {
+            "description": "set waveform source",
+            "set": {
+              "syntax": ":WAVeform:SOURce CHAN{channel_number}",
+              "args": [
+                "channel_number"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              }
+            }
+          },
+          "set_waveform_format": {
+            "description": "set waveform format",
+            "set": {
+              "syntax": ":WAVeform:FORMat {format_type}",
+              "args": [
+                "format_type"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "format_type": {
+                "type": "string",
+                "map": {
+                  "BYTE": "BYTE",
+                  "WORD": "WORD",
+                  "ASCII": "ASCii"
+                }
+              }
+            }
+          },
+          "query_waveform_preamble": {
+            "description": "query waveform preamble",
+            "set": null,
+            "query": {
+              "syntax": ":WAVeform:PREamble?",
+              "return_type": "string"
+            }
+          },
+          "query_waveform_data": {
+            "description": "query waveform data",
+            "set": null,
+            "query": {
+              "syntax": ":WAVeform:DATA?",
+              "return_type": "binary"
+            }
+          },
+          "run_acquisition": {
+            "description": "run acquisition",
+            "set": {
+              "syntax": ":RUN"
+            },
+            "query": null
+          },
+          "stop_acquisition": {
+            "description": "stop acquisition",
+            "set": {
+              "syntax": ":STOP"
+            },
+            "query": null
+          },
+          "query_trigger_status": {
+            "description": "query trigger status",
+            "set": null,
+            "query": {
+              "syntax": ":TRIGger:STATus?",
+              "return_type": "string",
+              "response_map": {
+                "TD": "TRIGGERED",
+                "WAIT": "READY",
+                "RUN": "ARMED",
+                "AUTO": "AUTO",
+                "STOP": "STOPPED"
+              }
+            }
+          },
+          "set_acquisition_depth": {
+            "description": ":ACQuire:MDEPth: AUTO, 1k, 10k, 100k, 1M, 10M, 25M, 50M, 100M and 200M (single channel 200M, two channels 100M, all channels 50M)",
+            "set": {
+              "syntax": ":ACQuire:MDEPth {depth}",
+              "args": [
+                "depth"
+              ]
+            },
+            "query": {
+              "syntax": ":ACQuire:MDEPth?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "depth": {
+                "type": "int",
+                "map": {
+                  "1000": "1k",
+                  "10000": "10k",
+                  "100000": "100k",
+                  "1000000": "1M",
+                  "10000000": "10M",
+                  "25000000": "25M",
+                  "50000000": "50M",
+                  "100000000": "100M",
+                  "200000000": "200M"
+                }
+              }
+            }
+          },
+          "acquire_single": {
+            "description": "single acquisition",
+            "set": {
+              "syntax": ":SINGle"
+            },
+            "query": null
+          },
+          "operation_complete_query": {
+            "description": "1 when the current operation is finished",
+            "set": null,
+            "query": {
+              "syntax": "*OPC?",
+              "return_type": "int"
+            }
+          },
+          "set_timebase_delay": {
+            "description": "main timebase offset in seconds",
+            "set": {
+              "syntax": ":TIMebase:MAIN:OFFSet {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": {
+              "syntax": ":TIMebase:MAIN:OFFSet?",
+              "return_type": "float"
+            },
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "set_channel_state": {
+            "description": "show/hide a channel",
+            "set": {
+              "syntax": ":CHANnel{channel_number}:DISPlay {state}",
+              "args": [
+                "channel_number",
+                "state"
+              ]
+            },
+            "query": {
+              "syntax": ":CHANnel{channel_number}:DISPlay?",
+              "return_type": "int",
+              "args": [
+                "channel_number"
+              ]
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "state": {
+                "type": "string",
+                "values": [
+                  "ON",
+                  "OFF"
+                ]
+              }
+            }
+          },
+          "set_channel_bandwidth_limit": {
+            "description": ":CHANnel<n>:BWLimit: 20M, 100M or 200M, depending on the model (20M|OFF on the MSO5072/5074/5102/5104, 20M|100M|OFF on the MSO5204, 20M|100M|200M|OFF on the MSO5354)",
+            "set": {
+              "syntax": ":CHANnel{channel_number}:BWLimit {bandwidth}",
+              "args": [
+                "channel_number",
+                "bandwidth"
+              ]
+            },
+            "query": {
+              "syntax": ":CHANnel{channel_number}:BWLimit?",
+              "return_type": "string",
+              "args": [
+                "channel_number"
+              ]
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "bandwidth": {
+                "type": "float",
+                "values": [
+                  "20M",
+                  "OFF"
+                ],
+                "map": {
+                  "0": "OFF",
+                  "20000000": "20M"
+                }
+              }
+            }
+          },
+          "set_probe_attenuation": {
+            "description": "probe attenuation ratio of a channel",
+            "set": {
+              "syntax": ":CHANnel{channel_number}:PROBe {value}",
+              "args": [
+                "channel_number",
+                "value"
+              ]
+            },
+            "query": {
+              "syntax": ":CHANnel{channel_number}:PROBe?",
+              "return_type": "float",
+              "args": [
+                "channel_number"
+              ]
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "set_channel_invert": {
+            "description": "invert a channel",
+            "set": {
+              "syntax": ":CHANnel{channel_number}:INVert {state}",
+              "args": [
+                "channel_number",
+                "state"
+              ]
+            },
+            "query": {
+              "syntax": ":CHANnel{channel_number}:INVert?",
+              "return_type": "int",
+              "args": [
+                "channel_number"
+              ]
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "state": {
+                "type": "string",
+                "values": [
+                  "ON",
+                  "OFF"
+                ]
+              }
+            }
+          },
+          "set_channel_unit": {
+            "description": "channel unit",
+            "set": {
+              "syntax": ":CHANnel{channel_number}:UNITs {unit}",
+              "args": [
+                "channel_number",
+                "unit"
+              ]
+            },
+            "query": {
+              "syntax": ":CHANnel{channel_number}:UNITs?",
+              "return_type": "string",
+              "args": [
+                "channel_number"
+              ]
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "unit": {
+                "type": "string",
+                "values": [
+                  "VOLTage",
+                  "WATT",
+                  "AMPere",
+                  "UNKNown"
+                ]
+              }
+            }
+          },
+          "set_trigger_holdoff": {
+            "description": "trigger holdoff time in seconds (16 ns to 10 s)",
+            "set": {
+              "syntax": ":TRIGger:HOLDoff {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": {
+              "syntax": ":TRIGger:HOLDoff?",
+              "return_type": "float"
+            },
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "set_trigger_coupling": {
+            "description": "trigger coupling",
+            "set": {
+              "syntax": ":TRIGger:COUPling {coupling_type}",
+              "args": [
+                "coupling_type"
+              ]
+            },
+            "query": {
+              "syntax": ":TRIGger:COUPling?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "coupling_type": {
+                "type": "string",
+                "values": [
+                  "AC",
+                  "DC",
+                  "LFReject",
+                  "HFReject"
+                ]
+              }
+            }
+          },
+          "set_trigger_type": {
+            "description": "trigger type (EDGE, PULSe, SLOPe, VIDeo, PATTern, ... see the programming guide)",
+            "set": {
+              "syntax": ":TRIGger:MODE {trigger_type}",
+              "args": [
+                "trigger_type"
+              ]
+            },
+            "query": {
+              "syntax": ":TRIGger:MODE?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "trigger_type": {
+                "type": "string"
+              }
+            }
+          },
+          "query_trigger_mode": {
+            "description": "trigger sweep mode",
+            "set": null,
+            "query": {
+              "syntax": ":TRIGger:SWEep?",
+              "return_type": "string",
+              "response_map": {
+                "AUTO": "AUTO",
+                "NORMal": "NORMAL",
+                "NORM": "NORMAL",
+                "SINGle": "SINGLE",
+                "SING": "SINGLE"
+              }
+            }
+          },
+          "query_trigger_source": {
+            "description": "edge trigger source",
+            "set": null,
+            "query": {
+              "syntax": ":TRIGger:EDGe:SOURce?",
+              "return_type": "string"
+            }
+          },
+          "set_acquisition_type": {
+            "description": "acquisition type",
+            "set": {
+              "syntax": ":ACQuire:TYPE {acquisition_type}",
+              "args": [
+                "acquisition_type"
+              ]
+            },
+            "query": {
+              "syntax": ":ACQuire:TYPE?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "acquisition_type": {
+                "type": "string",
+                "values": [
+                  "NORMal",
+                  "AVERages",
+                  "PEAK",
+                  "HRESolution"
+                ],
+                "map": {
+                  "NORMAL": "NORMal",
+                  "AVERAGE": "AVERages",
+                  "PEAK": "PEAK",
+                  "HIRES": "HRESolution"
+                }
+              }
+            }
+          },
+          "query_sample_rate": {
+            "description": "current sample rate",
+            "set": null,
+            "query": {
+              "syntax": ":ACQuire:SRATe?",
+              "return_type": "float"
+            }
+          }
+        },
+        "models": [
+          {
+            "id": "OSC_Rigol_MSO5072",
+            "name": "Rigol MSO5072",
+            "manufacturer": "Rigol Technologies",
+            "model": "MSO5072",
+            "documentation_path": "docs/Rigol/MSO5000_Series/MSO5000_ProgrammingGuide_EN-V2.0.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "USB-TMC",
+                  "visa_resource_id_template": "USB_OSC_{serial_number}",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR"
+                },
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_OSC_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR"
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 2,
+              "bandwidth_mhz": 70,
+              "memory_depth_mpts": 200,
+              "trigger_modes": [
+                "EDGE",
+                "PULSe",
+                "SLOPe",
+                "VIDeo",
+                "PATTern",
+                "DURation",
+                "TIMeout",
+                "RUNT",
+                "WINDow",
+                "DELay",
+                "SETup",
+                "NEDGe",
+                "RS232",
+                "IIC",
+                "SPI",
+                "CAN",
+                "FLEXray",
+                "LIN",
+                "IIS",
+                "M1553"
+              ],
+              "waveform_formats": [
+                "ASCii",
+                "BYTE",
+                "WORD"
+              ],
+              "channels": [
+                {
+                  "channel_id": "CHAN1",
+                  "label": "Channel 1"
+                },
+                {
+                  "channel_id": "CHAN2",
+                  "label": "Channel 2"
+                }
+              ],
+              "notes": "Memory depth up to 200 Mpts (single channel, 100 Mpts half-channel, 50 Mpts all channels). The analog channels only: the 16 digital channels and the optional function/arbitrary waveform generator are not covered."
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "OSC_Rigol_MSO5074",
+            "name": "Rigol MSO5074",
+            "manufacturer": "Rigol Technologies",
+            "model": "MSO5074",
+            "documentation_path": "docs/Rigol/MSO5000_Series/MSO5000_ProgrammingGuide_EN-V2.0.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "USB-TMC",
+                  "visa_resource_id_template": "USB_OSC_{serial_number}",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR"
+                },
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_OSC_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR"
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 4,
+              "bandwidth_mhz": 70,
+              "memory_depth_mpts": 200,
+              "trigger_modes": [
+                "EDGE",
+                "PULSe",
+                "SLOPe",
+                "VIDeo",
+                "PATTern",
+                "DURation",
+                "TIMeout",
+                "RUNT",
+                "WINDow",
+                "DELay",
+                "SETup",
+                "NEDGe",
+                "RS232",
+                "IIC",
+                "SPI",
+                "CAN",
+                "FLEXray",
+                "LIN",
+                "IIS",
+                "M1553"
+              ],
+              "waveform_formats": [
+                "ASCii",
+                "BYTE",
+                "WORD"
+              ],
+              "channels": [
+                {
+                  "channel_id": "CHAN1",
+                  "label": "Channel 1"
+                },
+                {
+                  "channel_id": "CHAN2",
+                  "label": "Channel 2"
+                },
+                {
+                  "channel_id": "CHAN3",
+                  "label": "Channel 3"
+                },
+                {
+                  "channel_id": "CHAN4",
+                  "label": "Channel 4"
+                }
+              ],
+              "notes": "Memory depth up to 200 Mpts (single channel, 100 Mpts half-channel, 50 Mpts all channels). The analog channels only: the 16 digital channels and the optional function/arbitrary waveform generator are not covered."
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "OSC_Rigol_MSO5102",
+            "name": "Rigol MSO5102",
+            "manufacturer": "Rigol Technologies",
+            "model": "MSO5102",
+            "documentation_path": "docs/Rigol/MSO5000_Series/MSO5000_ProgrammingGuide_EN-V2.0.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "USB-TMC",
+                  "visa_resource_id_template": "USB_OSC_{serial_number}",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR"
+                },
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_OSC_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR"
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 2,
+              "bandwidth_mhz": 100,
+              "memory_depth_mpts": 200,
+              "trigger_modes": [
+                "EDGE",
+                "PULSe",
+                "SLOPe",
+                "VIDeo",
+                "PATTern",
+                "DURation",
+                "TIMeout",
+                "RUNT",
+                "WINDow",
+                "DELay",
+                "SETup",
+                "NEDGe",
+                "RS232",
+                "IIC",
+                "SPI",
+                "CAN",
+                "FLEXray",
+                "LIN",
+                "IIS",
+                "M1553"
+              ],
+              "waveform_formats": [
+                "ASCii",
+                "BYTE",
+                "WORD"
+              ],
+              "channels": [
+                {
+                  "channel_id": "CHAN1",
+                  "label": "Channel 1"
+                },
+                {
+                  "channel_id": "CHAN2",
+                  "label": "Channel 2"
+                }
+              ],
+              "notes": "Memory depth up to 200 Mpts (single channel, 100 Mpts half-channel, 50 Mpts all channels). The analog channels only: the 16 digital channels and the optional function/arbitrary waveform generator are not covered."
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "OSC_Rigol_MSO5104",
+            "name": "Rigol MSO5104",
+            "manufacturer": "Rigol Technologies",
+            "model": "MSO5104",
+            "documentation_path": "docs/Rigol/MSO5000_Series/MSO5000_ProgrammingGuide_EN-V2.0.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "USB-TMC",
+                  "visa_resource_id_template": "USB_OSC_{serial_number}",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR"
+                },
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_OSC_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR"
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 4,
+              "bandwidth_mhz": 100,
+              "memory_depth_mpts": 200,
+              "trigger_modes": [
+                "EDGE",
+                "PULSe",
+                "SLOPe",
+                "VIDeo",
+                "PATTern",
+                "DURation",
+                "TIMeout",
+                "RUNT",
+                "WINDow",
+                "DELay",
+                "SETup",
+                "NEDGe",
+                "RS232",
+                "IIC",
+                "SPI",
+                "CAN",
+                "FLEXray",
+                "LIN",
+                "IIS",
+                "M1553"
+              ],
+              "waveform_formats": [
+                "ASCii",
+                "BYTE",
+                "WORD"
+              ],
+              "channels": [
+                {
+                  "channel_id": "CHAN1",
+                  "label": "Channel 1"
+                },
+                {
+                  "channel_id": "CHAN2",
+                  "label": "Channel 2"
+                },
+                {
+                  "channel_id": "CHAN3",
+                  "label": "Channel 3"
+                },
+                {
+                  "channel_id": "CHAN4",
+                  "label": "Channel 4"
+                }
+              ],
+              "notes": "Memory depth up to 200 Mpts (single channel, 100 Mpts half-channel, 50 Mpts all channels). The analog channels only: the 16 digital channels and the optional function/arbitrary waveform generator are not covered."
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "OSC_Rigol_MSO5204",
+            "name": "Rigol MSO5204",
+            "manufacturer": "Rigol Technologies",
+            "model": "MSO5204",
+            "documentation_path": "docs/Rigol/MSO5000_Series/MSO5000_ProgrammingGuide_EN-V2.0.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "USB-TMC",
+                  "visa_resource_id_template": "USB_OSC_{serial_number}",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR"
+                },
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_OSC_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR"
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 4,
+              "bandwidth_mhz": 200,
+              "memory_depth_mpts": 200,
+              "trigger_modes": [
+                "EDGE",
+                "PULSe",
+                "SLOPe",
+                "VIDeo",
+                "PATTern",
+                "DURation",
+                "TIMeout",
+                "RUNT",
+                "WINDow",
+                "DELay",
+                "SETup",
+                "NEDGe",
+                "RS232",
+                "IIC",
+                "SPI",
+                "CAN",
+                "FLEXray",
+                "LIN",
+                "IIS",
+                "M1553"
+              ],
+              "waveform_formats": [
+                "ASCii",
+                "BYTE",
+                "WORD"
+              ],
+              "channels": [
+                {
+                  "channel_id": "CHAN1",
+                  "label": "Channel 1"
+                },
+                {
+                  "channel_id": "CHAN2",
+                  "label": "Channel 2"
+                },
+                {
+                  "channel_id": "CHAN3",
+                  "label": "Channel 3"
+                },
+                {
+                  "channel_id": "CHAN4",
+                  "label": "Channel 4"
+                }
+              ],
+              "notes": "Memory depth up to 200 Mpts (single channel, 100 Mpts half-channel, 50 Mpts all channels). The analog channels only: the 16 digital channels and the optional function/arbitrary waveform generator are not covered."
+            },
+            "scpi_commands": {
+              "set_channel_bandwidth_limit": {
+                "patch": {
+                  "parameters": {
+                    "bandwidth": {
+                      "values": [
+                        "20M",
+                        "100M",
+                        "OFF"
+                      ],
+                      "map": {
+                        "100000000": "100M"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "experimental": true
+          },
+          {
+            "id": "OSC_Rigol_MSO5354",
+            "name": "Rigol MSO5354",
+            "manufacturer": "Rigol Technologies",
+            "model": "MSO5354",
+            "documentation_path": "docs/Rigol/MSO5000_Series/MSO5000_ProgrammingGuide_EN-V2.0.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "USB-TMC",
+                  "visa_resource_id_template": "USB_OSC_{serial_number}",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR"
+                },
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_OSC_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR"
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 4,
+              "bandwidth_mhz": 350,
+              "memory_depth_mpts": 200,
+              "trigger_modes": [
+                "EDGE",
+                "PULSe",
+                "SLOPe",
+                "VIDeo",
+                "PATTern",
+                "DURation",
+                "TIMeout",
+                "RUNT",
+                "WINDow",
+                "DELay",
+                "SETup",
+                "NEDGe",
+                "RS232",
+                "IIC",
+                "SPI",
+                "CAN",
+                "FLEXray",
+                "LIN",
+                "IIS",
+                "M1553"
+              ],
+              "waveform_formats": [
+                "ASCii",
+                "BYTE",
+                "WORD"
+              ],
+              "channels": [
+                {
+                  "channel_id": "CHAN1",
+                  "label": "Channel 1"
+                },
+                {
+                  "channel_id": "CHAN2",
+                  "label": "Channel 2"
+                },
+                {
+                  "channel_id": "CHAN3",
+                  "label": "Channel 3"
+                },
+                {
+                  "channel_id": "CHAN4",
+                  "label": "Channel 4"
+                }
+              ],
+              "notes": "Memory depth up to 200 Mpts (single channel, 100 Mpts half-channel, 50 Mpts all channels). The analog channels only: the 16 digital channels and the optional function/arbitrary waveform generator are not covered."
+            },
+            "scpi_commands": {
+              "set_channel_bandwidth_limit": {
+                "patch": {
+                  "parameters": {
+                    "bandwidth": {
+                      "values": [
+                        "20M",
+                        "100M",
+                        "200M",
+                        "OFF"
+                      ],
+                      "map": {
+                        "100000000": "100M",
+                        "200000000": "200M"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "experimental": true
+          }
+        ]
       }
     ],
     "electronic_loads_series": [

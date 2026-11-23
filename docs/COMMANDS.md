@@ -28,6 +28,8 @@ The software that uses this library must call the instruments through these name
 | A. 34401A | Agilent_34401A_Series | Multimeters |
 | Tek MSO5 | Tektronix_5_Series_MSO | Oscilloscopes |
 | Rigol DS1000Z | Rigol_DS1000Z_Series | Oscilloscopes |
+| Rigol DHO | Rigol_DHO800_DHO900_Series | Oscilloscopes |
+| Rigol MSO5000 | Rigol_MSO5000_Series | Oscilloscopes |
 | Sig. SDS HD | Siglent_SDS_HD_Series | Oscilloscopes |
 | Chroma 6330A | Chroma_6330A_Series | Loads |
 | K. EL4900 | Keysight_EL4900_Series | Loads |
@@ -257,7 +259,7 @@ The software that uses this library must call the instruments through these name
 
 | Key | Description | SCPI syntax per series | Return type |
 |---|---|---|---|
-| `auto_setup` | Automatic setup | `AUTOSet EXECute` (Tek MSO5); `:AUToscale` (Rigol DS1000Z); `:AUToset` (Sig. SDS HD) | — |
+| `auto_setup` | Automatic setup | `AUTOSet EXECute` (Tek MSO5); `:AUToscale` (Rigol DS1000Z, MSO5000); `:AUToset` (Rigol DHO, Sig. SDS HD) | — |
 
 ### Channels
 
@@ -373,6 +375,7 @@ The logical calls are in [COMMAND_NAMES.md](../COMMAND_NAMES.md), section 3.7, g
 
 - Models with `"experimental": false` are supported. `DL_Agilent_34970A` was tested over RS-232. The Siglent `OSC_Siglent_SDS804X_HD`, `OSC_Siglent_SDS814X_HD` and `OSC_Siglent_SDS824X_HD` share one SCPI command set; the SDS824X HD was tested on hardware, the others were not tested individually. The Analog Discovery 2 models (`OSC_Digilent_AnalogDiscovery2`, `FGEN_Digilent_AnalogDiscovery2`) are supported for **the oscilloscope and the function generator only**: the logic analyzer is not supported yet, and the flag returns to `true` when a logic analyzer library is written and tested. Every other model has `"experimental": true`.
 - The Analog Discovery 2 **scope**: the library reports the range of the device input. With a probe attenuation set (`set_probe_attenuation`) the scale limits are multiplied by it, and the upper limit is the range the device really gives (measured: 5.49 and 60.36 V at x1, 54.91 and 603.62 V at x10; a request is served by the first real range that is not smaller). A scale the device cannot give is refused, not rounded. The offset limit with a probe is not measured yet.
+- The **Rigol DHO800/DHO900 and MSO5000** use the Rigol command family of the DS1000Z (`:CHANnel<n>`, `:TIMebase:MAIN`, `:TRIGger:EDGE`, `:WAVeform`), checked against their programming guides. Differences: the DHO's auto setup is `:AUToset`, its acquisition type has no `HRESolution` (`HIRES` is refused; it has `ULTRa`, which has no logical value), its memory depths go up to 25 Mpts (DHO800) and 50 Mpts (DHO900); on the MSO5000 the bandwidth limit is `20M` on the MSO5072/5074/5102/5104, `20M` and `100M` on the MSO5204 and `20M`, `100M` and `200M` on the MSO5354, and the memory depth is sent as `1k`…`200M`. Only the analog channels are covered (not the digital channels, the decoders or the waveform generator).
 - The Siglent SDS HD **ignores the settings of a channel that is off**: enable the channel first (`set_channel_state`), then the probe and the scale.
 - `query_waveform_data` with BYTE/WORD format returns binary data with a `#<n><len>` (TMC) header, not text.
 - On Tektronix `error_query` uses `EVMsg?` because the `SYSTem` group does not exist.
