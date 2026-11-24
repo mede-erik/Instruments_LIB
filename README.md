@@ -278,7 +278,7 @@ Flat array of interchangeable modules, **without** SCPI commands of their own (t
     "max_voltage": 300.0,
     "speed": 60
   },
-  "documentation_path": "docs/Keysight/3497X_Series/34901A_manual.pdf"
+  "documentation_path": "docs/HP_Agilent_Keysight/3497X_Series/34901A_manual.pdf"
 }
 ```
 
@@ -397,6 +397,6 @@ The results of the 34970A and of the SDS824X HD are described in [COMMAND_NAMES.
 - **`COMMAND_NAMES.md`** — the complete list of the logical calls per category, generated from the call schemas in `schema/` (the sections between the `GENERATED` markers are rebuilt with `python3 schema/generate_command_names.py`; do not edit them by hand).
 - **`schema/`** — one JSON schema per category: the logical calls, their arguments and their result types. `schema/README.md` describes the format.
 - **`TESTING.md`** — how to check the library against a real instrument; **`Tests/README.md`** — the test script for the SCPI commands.
-- The PDF manuals live in `docs/{Manufacturer}/{Series}/`. Note: the folder of the Siglent manuals uses the spelling **Sigilent** (consistent with the references in the JSON).
+- The PDF manuals live in `docs/{Manufacturer}/{Series}/`. HP, Agilent and Keysight instruments share one folder, `docs/HP_Agilent_Keysight/`, because the brand changed but the instruments are the same family; a manual that covers several series (the Siglent VNA guide) sits in the manufacturer folder.
 
 All `documentation_path` values referenced by the JSON now point to PDFs that really exist in the repository. The manual `docs/Tektronix/4-5-6-Series-MSO_Programmer_077189804.pdf` is present as an additional secondary reference.

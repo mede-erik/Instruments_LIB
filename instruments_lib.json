@@ -999,7 +999,7 @@
             "name": "Keysight E36311A",
             "manufacturer": "Keysight Technologies",
             "model": "E36311A",
-            "documentation_path": "docs/Keysight/E36300_Series/Programmable DC Power Supplies E36300 Series.pdf",
+            "documentation_path": "docs/HP_Agilent_Keysight/E36300_Series/Programmable DC Power Supplies E36300 Series.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -1056,7 +1056,7 @@
             "name": "Keysight E36312A",
             "manufacturer": "Keysight Technologies",
             "model": "E36312A",
-            "documentation_path": "docs/Keysight/E36300_Series/Programmable DC Power Supplies E36300 Series.pdf",
+            "documentation_path": "docs/HP_Agilent_Keysight/E36300_Series/Programmable DC Power Supplies E36300 Series.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -1119,7 +1119,7 @@
             "name": "Keysight E36313A",
             "manufacturer": "Keysight Technologies",
             "model": "E36313A",
-            "documentation_path": "docs/Keysight/E36300_Series/Programmable DC Power Supplies E36300 Series.pdf",
+            "documentation_path": "docs/HP_Agilent_Keysight/E36300_Series/Programmable DC Power Supplies E36300 Series.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -2734,7 +2734,7 @@
             "name": "HP E3631A",
             "manufacturer": "HP",
             "model": "E3631A",
-            "documentation_path": "docs/HP/E3631A_Series/E3631_UserGuide.pdf",
+            "documentation_path": "docs/HP_Agilent_Keysight/E3631A_Series/E3631_UserGuide.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -2920,7 +2920,7 @@
             "name": "HP 6034A",
             "manufacturer": "HP",
             "model": "6034A",
-            "documentation_path": "docs/HP/HP_6304_Series/HP_6034A_OPERATING_AND_SERVICE_MANUAL.pdf",
+            "documentation_path": "docs/HP_Agilent_Keysight/HP_6030_Series/HP_6034A_Operating_and_Service_Manual.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -6993,7 +6993,7 @@
             "name": "Agilent 34970A Data Acquisition / Switch Unit",
             "manufacturer": "Agilent",
             "model": "34970A",
-            "documentation_path": "docs/Keysight/3497X_Series/Agilent 34970A⁄72A Command Reference.pdf",
+            "documentation_path": "docs/HP_Agilent_Keysight/3497X_Series/34970A_34972A_Command_Reference.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -7049,7 +7049,7 @@
             "name": "Keysight 34972A",
             "manufacturer": "Keysight Technologies",
             "model": "34972A",
-            "documentation_path": "docs/Keysight/3497X_Series/Agilent 34970A⁄72A Command Reference.pdf",
+            "documentation_path": "docs/HP_Agilent_Keysight/3497X_Series/34970A_34972A_Command_Reference.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -8956,7 +8956,7 @@
             "name": "Keysight DAQ970A Data Acquisition System",
             "manufacturer": "Keysight Technologies",
             "model": "DAQ970A",
-            "documentation_path": "docs/Keysight/DAQ97x_Series/DAQ970A-973A-Programming.pdf",
+            "documentation_path": "docs/HP_Agilent_Keysight/DAQ97x_Series/DAQ970A-973A-Programming.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -8997,7 +8997,7 @@
             "name": "Keysight DAQ973A Data Acquisition System",
             "manufacturer": "Keysight Technologies",
             "model": "DAQ973A",
-            "documentation_path": "docs/Keysight/DAQ97x_Series/DAQ970A-973A-Programming.pdf",
+            "documentation_path": "docs/HP_Agilent_Keysight/DAQ97x_Series/DAQ970A-973A-Programming.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -10141,7 +10141,7 @@
             "name": "Agilent 3499A Data Acquisition / Switch Mainframe",
             "manufacturer": "Agilent",
             "model": "3499A",
-            "documentation_path": "docs/Agilent/3499A_Series/Agilent_3499_Manual.pdf",
+            "documentation_path": "docs/HP_Agilent_Keysight/3499A_Series/Agilent_3499_Manual.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -10220,7 +10220,7 @@
           "max_voltage": 300.0,
           "speed": 60
         },
-        "documentation_path": "docs/Keysight/3497X_Series/Agilent 34970A⁄72A Command Reference.pdf"
+        "documentation_path": "docs/HP_Agilent_Keysight/3497X_Series/34970A_34972A_Command_Reference.pdf"
       },
       {
         "id": "34902A",
@@ -10235,7 +10235,7 @@
           "max_voltage": 300.0,
           "speed": 250
         },
-        "documentation_path": "docs/Keysight/3497X_Series/Agilent 34970A⁄72A Command Reference.pdf"
+        "documentation_path": "docs/HP_Agilent_Keysight/3497X_Series/34970A_34972A_Command_Reference.pdf"
       },
       {
         "id": "34903A",
@@ -10244,7 +10244,7 @@
         "capabilities": {
           "number_of_channels": 20
         },
-        "documentation_path": "docs/Keysight/3497X_Series/Agilent 34970A⁄72A Command Reference.pdf"
+        "documentation_path": "docs/HP_Agilent_Keysight/3497X_Series/34970A_34972A_Command_Reference.pdf"
       },
       {
         "id": "34904A",
@@ -10253,7 +10253,7 @@
         "capabilities": {
           "number_of_channels": 32
         },
-        "documentation_path": "docs/Keysight/3497X_Series/Agilent 34970A⁄72A Command Reference.pdf"
+        "documentation_path": "docs/HP_Agilent_Keysight/3497X_Series/34970A_34972A_Command_Reference.pdf"
       },
       {
         "id": "34905A",
@@ -10262,7 +10262,7 @@
         "capabilities": {
           "number_of_channels": 8
         },
-        "documentation_path": "docs/Keysight/3497X_Series/Agilent 34970A⁄72A Command Reference.pdf"
+        "documentation_path": "docs/HP_Agilent_Keysight/3497X_Series/34970A_34972A_Command_Reference.pdf"
       },
       {
         "id": "34906A",
@@ -10271,7 +10271,7 @@
         "capabilities": {
           "number_of_channels": 8
         },
-        "documentation_path": "docs/Keysight/3497X_Series/Agilent 34970A⁄72A Command Reference.pdf"
+        "documentation_path": "docs/HP_Agilent_Keysight/3497X_Series/34970A_34972A_Command_Reference.pdf"
       },
       {
         "id": "34907A",
@@ -10297,7 +10297,7 @@
             "max_current": 0.01
           }
         },
-        "documentation_path": "docs/Keysight/3497X_Series/Keysight 34970A⁄34972A Data Acquisition Switch Unit.pdf"
+        "documentation_path": "docs/HP_Agilent_Keysight/3497X_Series/34970A_34972A_Data_Acquisition_Switch_Unit.pdf"
       },
       {
         "id": "34908A",
@@ -10312,7 +10312,7 @@
           "max_voltage": 300.0,
           "speed": 60
         },
-        "documentation_path": "docs/Keysight/3497X_Series/Agilent 34970A⁄72A Command Reference.pdf"
+        "documentation_path": "docs/HP_Agilent_Keysight/3497X_Series/34970A_34972A_Command_Reference.pdf"
       },
       {
         "id": "DAQM900A",
@@ -10320,7 +10320,7 @@
         "capabilities": {
           "number_of_channels": 20
         },
-        "documentation_path": "docs/Keysight/DAQ97x_Series/DAQ970A-973A-Programming.pdf"
+        "documentation_path": "docs/HP_Agilent_Keysight/DAQ97x_Series/DAQ970A-973A-Programming.pdf"
       },
       {
         "id": "DAQM901A",
@@ -10328,7 +10328,7 @@
         "capabilities": {
           "number_of_channels": 20
         },
-        "documentation_path": "docs/Keysight/DAQ97x_Series/DAQ970A-973A-Programming.pdf"
+        "documentation_path": "docs/HP_Agilent_Keysight/DAQ97x_Series/DAQ970A-973A-Programming.pdf"
       },
       {
         "id": "DAQM902A",
@@ -10336,7 +10336,7 @@
         "capabilities": {
           "number_of_channels": 16
         },
-        "documentation_path": "docs/Keysight/DAQ97x_Series/DAQ970A-973A-Programming.pdf"
+        "documentation_path": "docs/HP_Agilent_Keysight/DAQ97x_Series/DAQ970A-973A-Programming.pdf"
       },
       {
         "id": "DAQM903A",
@@ -10345,28 +10345,28 @@
         "capabilities": {
           "number_of_channels": 20
         },
-        "documentation_path": "docs/Keysight/DAQ97x_Series/DAQ970A-973A-Programming.pdf"
+        "documentation_path": "docs/HP_Agilent_Keysight/DAQ97x_Series/DAQ970A-973A-Programming.pdf"
       },
       {
         "id": "DAQM904A",
         "name": "Keysight DAQM904A 4x8 Two-Wire Matrix Switch Module",
         "not_enabled": true,
         "capabilities": {},
-        "documentation_path": "docs/Keysight/DAQ97x_Series/DAQ970A-973A-Programming.pdf"
+        "documentation_path": "docs/HP_Agilent_Keysight/DAQ97x_Series/DAQ970A-973A-Programming.pdf"
       },
       {
         "id": "DAQM905A",
         "name": "Keysight DAQM905A Dual 1:4 RF Multiplexer (50 Ohm) Module",
         "not_enabled": true,
         "capabilities": {},
-        "documentation_path": "docs/Keysight/DAQ97x_Series/DAQ970A-973A-Programming.pdf"
+        "documentation_path": "docs/HP_Agilent_Keysight/DAQ97x_Series/DAQ970A-973A-Programming.pdf"
       },
       {
         "id": "DAQM907A",
         "name": "Keysight DAQM907A Multifunction Module",
         "not_enabled": true,
         "capabilities": {},
-        "documentation_path": "docs/Keysight/DAQ97x_Series/DAQ970A-973A-Programming.pdf"
+        "documentation_path": "docs/HP_Agilent_Keysight/DAQ97x_Series/DAQ970A-973A-Programming.pdf"
       },
       {
         "id": "DAQM908A",
@@ -10374,7 +10374,7 @@
         "capabilities": {
           "number_of_channels": 40
         },
-        "documentation_path": "docs/Keysight/DAQ97x_Series/DAQ970A-973A-Programming.pdf"
+        "documentation_path": "docs/HP_Agilent_Keysight/DAQ97x_Series/DAQ970A-973A-Programming.pdf"
       },
       {
         "id": "DAQM909A",
@@ -10383,7 +10383,7 @@
         "capabilities": {
           "number_of_channels": 4
         },
-        "documentation_path": "docs/Keysight/DAQ97x_Series/DAQ970A-973A-Programming.pdf"
+        "documentation_path": "docs/HP_Agilent_Keysight/DAQ97x_Series/DAQ970A-973A-Programming.pdf"
       }
     ],
     "oscilloscopes_series": [
@@ -11467,7 +11467,7 @@
       },
       {
         "series_id": "Rigol_DS1000Z_Series",
-        "series_name": "Rigol DS1000Z Series Digital Oscilloscopes",
+        "series_name": "Rigol DS1000Z / MSO1000Z Series Digital Oscilloscopes",
         "common_scpi_commands": {
           "reset": {
             "description": "reset",
@@ -12179,7 +12179,7 @@
             "name": "Rigol DS1054Z",
             "manufacturer": "Rigol Technologies",
             "model": "DS1054Z",
-            "documentation_path": "docs/Rigol/DS1000Z_Series/MSO1000Z_DS1000Z_ProgrammingGuide_EN.pdf",
+            "documentation_path": "docs/Rigol/DS1000Z_MSO1000Z_Series/MSO1000Z_DS1000Z_ProgrammingGuide_EN.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -12256,7 +12256,7 @@
             "name": "Rigol DS1104Z Plus",
             "manufacturer": "Rigol Technologies",
             "model": "DS1104Z Plus",
-            "documentation_path": "docs/Rigol/DS1000Z_Series/MSO1000Z_DS1000Z_ProgrammingGuide_EN.pdf",
+            "documentation_path": "docs/Rigol/DS1000Z_MSO1000Z_Series/MSO1000Z_DS1000Z_ProgrammingGuide_EN.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -13305,7 +13305,7 @@
             "name": "Siglent SDS804X HD",
             "manufacturer": "Siglent Technologies",
             "model": "SDS804X HD",
-            "documentation_path": "docs/Sigilent/SDS800X_Series/SDS800XHD_Series_ProgrammingGuide.pdf",
+            "documentation_path": "docs/Siglent/SDS800X_Series/SDS800XHD_Series_ProgrammingGuide.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -13398,7 +13398,7 @@
             "name": "Siglent SDS814X HD",
             "manufacturer": "Siglent Technologies",
             "model": "SDS814X HD",
-            "documentation_path": "docs/Sigilent/SDS800X_Series/SDS800XHD_Series_ProgrammingGuide.pdf",
+            "documentation_path": "docs/Siglent/SDS800X_Series/SDS800XHD_Series_ProgrammingGuide.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -13470,7 +13470,7 @@
             "name": "Siglent SDS824X HD",
             "manufacturer": "Siglent Technologies",
             "model": "SDS824X HD",
-            "documentation_path": "docs/Sigilent/SDS800X_Series/SDS800XHD_Series_ProgrammingGuide.pdf",
+            "documentation_path": "docs/Siglent/SDS800X_Series/SDS800XHD_Series_ProgrammingGuide.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -13536,7 +13536,7 @@
             "name": "Siglent SDS1104X HD",
             "manufacturer": "Siglent Technologies",
             "model": "SDS1104X HD",
-            "documentation_path": "docs/Sigilent/SDS800X_Series/SDS800XHD_Series_ProgrammingGuide.pdf",
+            "documentation_path": "docs/Siglent/SDS800X_Series/SDS800XHD_Series_ProgrammingGuide.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -13611,7 +13611,7 @@
             "name": "Siglent SDS1204X HD",
             "manufacturer": "Siglent Technologies",
             "model": "SDS1204X HD",
-            "documentation_path": "docs/Sigilent/SDS800X_Series/SDS800XHD_Series_ProgrammingGuide.pdf",
+            "documentation_path": "docs/Siglent/SDS800X_Series/SDS800XHD_Series_ProgrammingGuide.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -13667,7 +13667,7 @@
             "name": "Siglent SDS2104X HD",
             "manufacturer": "Siglent Technologies",
             "model": "SDS2104X HD",
-            "documentation_path": "docs/Sigilent/SDS800X_Series/SDS800XHD_Series_ProgrammingGuide.pdf",
+            "documentation_path": "docs/Siglent/SDS800X_Series/SDS800XHD_Series_ProgrammingGuide.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -13762,7 +13762,7 @@
             "name": "Siglent SDS2354X HD",
             "manufacturer": "Siglent Technologies",
             "model": "SDS2354X HD",
-            "documentation_path": "docs/Sigilent/SDS800X_Series/SDS800XHD_Series_ProgrammingGuide.pdf",
+            "documentation_path": "docs/Siglent/SDS800X_Series/SDS800XHD_Series_ProgrammingGuide.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -15132,7 +15132,7 @@
             "name": "Keysight EL4913A",
             "manufacturer": "Keysight Technologies",
             "model": "EL4913A",
-            "documentation_path": "docs/Keysight/EL4900_Series/EL4900-Series-Users-Guide.pdf",
+            "documentation_path": "docs/HP_Agilent_Keysight/EL4900_Series/EL4900-Series-Users-Guide.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -15656,7 +15656,7 @@
             "name": "Siglent SDL1030X-E",
             "manufacturer": "Siglent Technologies",
             "model": "SDL1030X-E",
-            "documentation_path": "docs/Sigilent/SDL1000X_Series/SDL1000X_programming_guide.pdf",
+            "documentation_path": "docs/Siglent/SDL1000X_Series/SDL1000X_programming_guide.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -16012,7 +16012,7 @@
             "name": "HP 3478A Multimeter",
             "manufacturer": "HP",
             "model": "3478A",
-            "documentation_path": "docs/HP/3478A_Series/HP3478_Service_Manual.pdf",
+            "documentation_path": "docs/HP_Agilent_Keysight/3478A_Series/HP3478_Service_Manual.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -18027,7 +18027,7 @@
             "name": "Agilent 34401A Digital Multimeter",
             "manufacturer": "Agilent",
             "model": "34401A",
-            "documentation_path": "docs/Agilent/34401A_Series/HP 34401A User Manual.pdf",
+            "documentation_path": "docs/HP_Agilent_Keysight/34401A_Series/HP 34401A User Manual.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -18760,7 +18760,7 @@
             "name": "Siglent SNA5002A",
             "manufacturer": "Siglent",
             "model": "SNA5002A",
-            "documentation_path": "docs/Sigilent/VNA_Series_ProgrammingGuide_EN05A.pdf",
+            "documentation_path": "docs/Siglent/VNA_Series_ProgrammingGuide_EN05A.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -18814,7 +18814,7 @@
             "name": "Siglent SNA5004A",
             "manufacturer": "Siglent",
             "model": "SNA5004A",
-            "documentation_path": "docs/Sigilent/VNA_Series_ProgrammingGuide_EN05A.pdf",
+            "documentation_path": "docs/Siglent/VNA_Series_ProgrammingGuide_EN05A.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -18868,7 +18868,7 @@
             "name": "Siglent SNA5012A",
             "manufacturer": "Siglent",
             "model": "SNA5012A",
-            "documentation_path": "docs/Sigilent/VNA_Series_ProgrammingGuide_EN05A.pdf",
+            "documentation_path": "docs/Siglent/VNA_Series_ProgrammingGuide_EN05A.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -18922,7 +18922,7 @@
             "name": "Siglent SNA5014A",
             "manufacturer": "Siglent",
             "model": "SNA5014A",
-            "documentation_path": "docs/Sigilent/VNA_Series_ProgrammingGuide_EN05A.pdf",
+            "documentation_path": "docs/Siglent/VNA_Series_ProgrammingGuide_EN05A.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -18976,7 +18976,7 @@
             "name": "Siglent SNA5022A",
             "manufacturer": "Siglent",
             "model": "SNA5022A",
-            "documentation_path": "docs/Sigilent/VNA_Series_ProgrammingGuide_EN05A.pdf",
+            "documentation_path": "docs/Siglent/VNA_Series_ProgrammingGuide_EN05A.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -19030,7 +19030,7 @@
             "name": "Siglent SNA5032A",
             "manufacturer": "Siglent",
             "model": "SNA5032A",
-            "documentation_path": "docs/Sigilent/VNA_Series_ProgrammingGuide_EN05A.pdf",
+            "documentation_path": "docs/Siglent/VNA_Series_ProgrammingGuide_EN05A.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -19084,7 +19084,7 @@
             "name": "Siglent SNA6022A",
             "manufacturer": "Siglent",
             "model": "SNA6022A",
-            "documentation_path": "docs/Sigilent/VNA_Series_ProgrammingGuide_EN05A.pdf",
+            "documentation_path": "docs/Siglent/VNA_Series_ProgrammingGuide_EN05A.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -19138,7 +19138,7 @@
             "name": "Siglent SNA6122A",
             "manufacturer": "Siglent",
             "model": "SNA6122A",
-            "documentation_path": "docs/Sigilent/VNA_Series_ProgrammingGuide_EN05A.pdf",
+            "documentation_path": "docs/Siglent/VNA_Series_ProgrammingGuide_EN05A.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -19192,7 +19192,7 @@
             "name": "Siglent SNA6024A",
             "manufacturer": "Siglent",
             "model": "SNA6024A",
-            "documentation_path": "docs/Sigilent/VNA_Series_ProgrammingGuide_EN05A.pdf",
+            "documentation_path": "docs/Siglent/VNA_Series_ProgrammingGuide_EN05A.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -19246,7 +19246,7 @@
             "name": "Siglent SNA6124A",
             "manufacturer": "Siglent",
             "model": "SNA6124A",
-            "documentation_path": "docs/Sigilent/VNA_Series_ProgrammingGuide_EN05A.pdf",
+            "documentation_path": "docs/Siglent/VNA_Series_ProgrammingGuide_EN05A.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -19300,7 +19300,7 @@
             "name": "Siglent SNA6032A",
             "manufacturer": "Siglent",
             "model": "SNA6032A",
-            "documentation_path": "docs/Sigilent/VNA_Series_ProgrammingGuide_EN05A.pdf",
+            "documentation_path": "docs/Siglent/VNA_Series_ProgrammingGuide_EN05A.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -19354,7 +19354,7 @@
             "name": "Siglent SNA6132A",
             "manufacturer": "Siglent",
             "model": "SNA6132A",
-            "documentation_path": "docs/Sigilent/VNA_Series_ProgrammingGuide_EN05A.pdf",
+            "documentation_path": "docs/Siglent/VNA_Series_ProgrammingGuide_EN05A.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -19408,7 +19408,7 @@
             "name": "Siglent SNA6034A",
             "manufacturer": "Siglent",
             "model": "SNA6034A",
-            "documentation_path": "docs/Sigilent/VNA_Series_ProgrammingGuide_EN05A.pdf",
+            "documentation_path": "docs/Siglent/VNA_Series_ProgrammingGuide_EN05A.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -19462,7 +19462,7 @@
             "name": "Siglent SNA6134A",
             "manufacturer": "Siglent",
             "model": "SNA6134A",
-            "documentation_path": "docs/Sigilent/VNA_Series_ProgrammingGuide_EN05A.pdf",
+            "documentation_path": "docs/Siglent/VNA_Series_ProgrammingGuide_EN05A.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -19516,7 +19516,7 @@
             "name": "Siglent SHN914A",
             "manufacturer": "Siglent",
             "model": "SHN914A",
-            "documentation_path": "docs/Sigilent/VNA_Series_ProgrammingGuide_EN05A.pdf",
+            "documentation_path": "docs/Siglent/VNA_Series_ProgrammingGuide_EN05A.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -19570,7 +19570,7 @@
             "name": "Siglent SHN920N",
             "manufacturer": "Siglent",
             "model": "SHN920N",
-            "documentation_path": "docs/Sigilent/VNA_Series_ProgrammingGuide_EN05A.pdf",
+            "documentation_path": "docs/Siglent/VNA_Series_ProgrammingGuide_EN05A.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -19624,7 +19624,7 @@
             "name": "Siglent SHN926A",
             "manufacturer": "Siglent",
             "model": "SHN926A",
-            "documentation_path": "docs/Sigilent/VNA_Series_ProgrammingGuide_EN05A.pdf",
+            "documentation_path": "docs/Siglent/VNA_Series_ProgrammingGuide_EN05A.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -19678,7 +19678,7 @@
             "name": "Siglent SNA5003X-E",
             "manufacturer": "Siglent",
             "model": "SNA5003X-E",
-            "documentation_path": "docs/Sigilent/VNA_Series_ProgrammingGuide_EN05A.pdf",
+            "documentation_path": "docs/Siglent/VNA_Series_ProgrammingGuide_EN05A.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -19732,7 +19732,7 @@
             "name": "Siglent SNA5006X-E",
             "manufacturer": "Siglent",
             "model": "SNA5006X-E",
-            "documentation_path": "docs/Sigilent/VNA_Series_ProgrammingGuide_EN05A.pdf",
+            "documentation_path": "docs/Siglent/VNA_Series_ProgrammingGuide_EN05A.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -22001,7 +22001,7 @@
             "name": "Agilent (HP) 33120A",
             "manufacturer": "Agilent",
             "model": "33120A",
-            "documentation_path": "docs/Agilent/33120A_Series/Agilent_33120A_Users_Guide.pdf",
+            "documentation_path": "docs/HP_Agilent_Keysight/33120A_Series/Agilent_33120A_Users_Guide.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -22865,7 +22865,7 @@
             "name": "Keysight N5171B EXG analog",
             "manufacturer": "Keysight",
             "model": "N5171B",
-            "documentation_path": "docs/Keysight/N51XX_Series/EXG X-Series Signal Generators N5171B Analog & N5172B Vector.pdf",
+            "documentation_path": "docs/HP_Agilent_Keysight/N51XX_Series/EXG X-Series Signal Generators N5171B Analog & N5172B Vector.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -22911,7 +22911,7 @@
             "name": "Keysight N5172B EXG vector",
             "manufacturer": "Keysight",
             "model": "N5172B",
-            "documentation_path": "docs/Keysight/N51XX_Series/EXG X-Series Signal Generators N5171B Analog & N5172B Vector.pdf",
+            "documentation_path": "docs/HP_Agilent_Keysight/N51XX_Series/EXG X-Series Signal Generators N5171B Analog & N5172B Vector.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -23438,7 +23438,7 @@
             "name": "Keysight N5181B MXG analog",
             "manufacturer": "Keysight",
             "model": "N5181B",
-            "documentation_path": "docs/Keysight/N51XX_Series/MXG X-Series Signal Generator N5181B Analog & N5182B Vector.pdf",
+            "documentation_path": "docs/HP_Agilent_Keysight/N51XX_Series/MXG X-Series Signal Generator N5181B Analog & N5182B Vector.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -23484,7 +23484,7 @@
             "name": "Keysight N5182B MXG vector",
             "manufacturer": "Keysight",
             "model": "N5182B",
-            "documentation_path": "docs/Keysight/N51XX_Series/MXG X-Series Signal Generator N5181B Analog & N5182B Vector.pdf",
+            "documentation_path": "docs/HP_Agilent_Keysight/N51XX_Series/MXG X-Series Signal Generator N5181B Analog & N5182B Vector.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -25565,7 +25565,7 @@
             "name": "Siglent SSA3000X Plus",
             "manufacturer": "Siglent Technologies",
             "model": "SSA3000X Plus",
-            "documentation_path": "docs/Sigilent/SSA3000_Series/siglent-ssa3000x-plus-series-programming-guide.pdf",
+            "documentation_path": "docs/Siglent/SSA3000_Series/siglent-ssa3000x-plus-series-programming-guide.pdf",
             "interface": {
               "supported_connection_types": [
                 {
