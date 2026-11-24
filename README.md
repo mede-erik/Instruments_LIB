@@ -6,7 +6,7 @@ To check the library against a real instrument see [TESTING.md](TESTING.md).
 
 ## File structure
 
-The file `instruments_lib.json` is a single object with the key `instrument_library`, containing 10 categories:
+The file `instruments_lib.json` is a single object with the key `instrument_library`, containing 11 categories:
 
 | Key | Category | Examples |
 |---|---|---|
@@ -20,6 +20,7 @@ The file `instruments_lib.json` is a single object with the key `instrument_libr
 | `network_analyzers_series` | Vector network analyzers | Zenko LiteVNA 62/64/67, Siglent SNA/SHN, R&S ZNB/ZNL/ZVA/ZVB/ZVL |
 | `function_generators_series` | Function generators | Digilent Analog Discovery 2 (generator), Rigol DG1022/DG1022A, Rigol DG1022Z/DG1032Z/DG1062Z, Agilent 33120A |
 | `rf_signal_generators_series` | RF signal generators | Keysight EXG N5171B/N5172B, Keysight MXG N5181B/N5182B |
+| `spectrum_analyzers_series` | Spectrum analyzers | Rigol DSA800, Rigol RSA3000, Siglent SSA3000X Plus |
 
 ```json
 {
@@ -33,7 +34,8 @@ The file `instruments_lib.json` is a single object with the key `instrument_libr
     "electronic_loads_series": [],
     "network_analyzers_series": [],
     "function_generators_series": [],
-    "rf_signal_generators_series": []
+    "rf_signal_generators_series": [],
+    "spectrum_analyzers_series": []
   }
 }
 ```
@@ -276,7 +278,7 @@ Flat array of interchangeable modules, **without** SCPI commands of their own (t
     "max_voltage": 300.0,
     "speed": 60
   },
-  "documentation_path": "docs/Keysight/3497X_Series/34901A_manual.pdf"
+  "documentation_path": "docs/HP_Agilent_Keysight/3497X_Series/34901A_manual.pdf"
 }
 ```
 
@@ -320,6 +322,7 @@ IDs follow `{TYPE}_{MANUFACTURER}_{MODEL}`:
 | Network analyzer (VNA) | `VNA_` | `VNA_Zenko_LiteVNA62` |
 | Function generator | `FGEN_` | `FGEN_Digilent_AnalogDiscovery2`, `FGEN_Rigol_DG1022` |
 | RF signal generator | `RFGEN_` | `RFGEN_Keysight_N5172B` |
+| Spectrum analyzer | `SA_` | `SA_Rigol_DSA815` |
 
 ### Channel IDs
 
@@ -340,6 +343,7 @@ IDs follow `{TYPE}_{MANUFACTURER}_{MODEL}`:
 | Rigol DG1000 and DG1000Z (generator) | channel number 1 or 2 (a command suffix, no `CH` prefix in the library) | `1`, `2` |
 | Agilent 33120A (generator) | single channel | `CH1` |
 | Keysight EXG / MXG (RF signal generator) | single RF output (no channel parameter) | — |
+| Spectrum analyzers | one RF input; traces and markers are numbers (`trace_number`, `marker_number`) | `1` |
 
 ## The `experimental` flag
 
@@ -381,6 +385,7 @@ IDs follow `{TYPE}_{MANUFACTURER}_{MODEL}`:
 | Rigol DG1022 / DG1022A / DG1022Z / DG1032Z / DG1062Z | — | none |
 | Agilent 33120A | — | none |
 | Keysight EXG N5171B | N5171B | real instrument, from the remote control panel of the application: the signal (carrier, power, RF output) and the modulation worked as expected |
+| Rigol DSA800, RSA3000 and Siglent SSA3000X Plus (spectrum analyzers) | — | none (no instrument available) |
 | Keysight EXG N5172B, MXG N5181B/N5182B | — | not tried individually: they share the command set of the N5171B (supported); carrier, output and AM/FM/PM/pulse on-off only |
 | Zenko LiteVNA 62/64/67 | — | none |
 | Siglent SNA / SHN | — | none |
@@ -394,6 +399,6 @@ The results of the 34970A and of the SDS824X HD are described in [COMMAND_NAMES.
 - **`COMMAND_NAMES.md`** — the complete list of the logical calls per category, generated from the call schemas in `schema/` (the sections between the `GENERATED` markers are rebuilt with `python3 schema/generate_command_names.py`; do not edit them by hand).
 - **`schema/`** — one JSON schema per category: the logical calls, their arguments and their result types. `schema/README.md` describes the format.
 - **`TESTING.md`** — how to check the library against a real instrument; **`Tests/README.md`** — the test script for the SCPI commands.
-- The PDF manuals live in `docs/{Manufacturer}/{Series}/`. Note: the folder of the Siglent manuals uses the spelling **Sigilent** (consistent with the references in the JSON).
+- The PDF manuals live in `docs/{Manufacturer}/{Series}/`. HP, Agilent and Keysight instruments share one folder, `docs/HP_Agilent_Keysight/`, because the brand changed but the instruments are the same family; a manual that covers several series (the Siglent VNA guide) sits in the manufacturer folder.
 
 All `documentation_path` values referenced by the JSON now point to PDFs that really exist in the repository. The manual `docs/Tektronix/4-5-6-Series-MSO_Programmer_077189804.pdf` is present as an additional secondary reference.
