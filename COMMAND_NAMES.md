@@ -232,7 +232,7 @@ Logical types:
 <!-- BEGIN GENERATED oscilloscopes_series -->
 ### 3.3 Oscilloscopes (`oscilloscopes_series`)
 
-Generated from `schema/oscilloscope.json` — do not edit this section by hand. 29 mandatory and 34 optional calls.
+Generated from `schema/oscilloscope.json` — do not edit this section by hand. 26 mandatory and 37 optional calls.
 
 Logical calls every oscilloscope must implement (mandatory) or may implement (optional). Argument names and logical types are the same for all instruments.
 
@@ -276,11 +276,8 @@ Logical types:
 | `query_trigger_status` | query |  | trigger_status | state of the triggering system |
 | `set_acquisition_type` | set | `acquisition_type` (acquisition_type) |  | acquisition type |
 | `set_acquisition_depth` | set | `depth` (int, points, 1..) |  | memory depth in points |
-| `query_sample_rate` | query |  | float, Sa/s | current sample rate |
-| `set_waveform_source` | set | `channel_number` (int, 1..) |  | source of the waveform transfer |
-| `set_waveform_format` | set | `format_type` (waveform_format) |  | format of the transferred waveform data |
-| `query_waveform_preamble` | query |  | raw | scaling/descriptor of the waveform to transfer (model dependent: text for Tektronix and Rigol, a binary descriptor for Siglent) |
-| `query_waveform_data` | query |  | binary | waveform data of the selected source |
+| `query_waveform_preamble` | query | `channel_number` (int, 1.., default 1, optional) | raw | scaling/descriptor of the waveform to transfer (model dependent: text for Tektronix, Rigol and GW Instek, a binary descriptor for Siglent) |
+| `query_waveform_data` | query | `channel_number` (int, 1.., default 1, optional) | binary | waveform data of the selected source |
 
 **Optional**
 
@@ -302,6 +299,9 @@ Logical types:
 | `query_trigger_mode` | query |  | trigger_mode_state | trigger sweep mode |
 | `set_trigger_type` | set | `trigger_type` (string) |  | trigger type |
 | `set_trigger_coupling` | set | `coupling_type` (string) |  | trigger coupling |
+| `query_sample_rate` | query |  | float, Sa/s | current sample rate |
+| `set_waveform_source` | set | `channel_number` (int, 1..) |  | source of the waveform transfer |
+| `set_waveform_format` | set | `format_type` (waveform_format) |  | format of the transferred waveform data |
 | `read_waveform` | query | `channel_number` (int, 1..)<br>`bits` (int, 8..16, default 8, optional)<br>`start` (int, points, 0.., default 0, optional)<br>`points` (int, points, 0.., default 0, optional) | waveform | read a channel waveform as time and voltage arrays (needs a parser for the model) |
 | `set_waveform_start` | set | `value` (int, points, 0..) |  | first point to transfer |
 | `set_waveform_points` | set | `value` (int, points, 1..) |  | number of points to transfer |

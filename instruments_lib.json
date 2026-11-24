@@ -16660,6 +16660,1063 @@
             "experimental": true
           }
         ]
+      },
+      {
+        "series_id": "GWInstek_GDS1000B_Series",
+        "series_name": "GW Instek GDS-1000B Series Digital Storage Oscilloscopes",
+        "common_scpi_commands": {
+          "reset": {
+            "description": "reset",
+            "set": {
+              "syntax": "*RST"
+            },
+            "query": null
+          },
+          "clear_status": {
+            "description": "clear status",
+            "set": {
+              "syntax": "*CLS"
+            },
+            "query": null
+          },
+          "identification_query": {
+            "description": "identification query",
+            "set": null,
+            "query": {
+              "syntax": "*IDN?",
+              "return_type": "string"
+            }
+          },
+          "operation_complete_query": {
+            "description": "1 when the current operation is finished",
+            "set": null,
+            "query": {
+              "syntax": "*OPC?",
+              "return_type": "int"
+            }
+          },
+          "error_query": {
+            "description": "error query (+0, \"No error.\")",
+            "set": null,
+            "query": {
+              "syntax": ":SYSTem:ERRor?",
+              "return_type": "string"
+            }
+          },
+          "query_status_byte": {
+            "description": "query status byte",
+            "set": null,
+            "query": {
+              "syntax": "*STB?",
+              "return_type": "int"
+            }
+          },
+          "query_event_status_register": {
+            "description": "query event status register",
+            "set": null,
+            "query": {
+              "syntax": "*ESR?",
+              "return_type": "int"
+            }
+          },
+          "enable_event_status_register": {
+            "description": "enable event status register",
+            "set": {
+              "syntax": "*ESE {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "int"
+              }
+            }
+          },
+          "query_event_status_enable": {
+            "description": "query event status enable",
+            "set": null,
+            "query": {
+              "syntax": "*ESE?",
+              "return_type": "int"
+            }
+          },
+          "auto_setup": {
+            "description": "auto setup",
+            "set": {
+              "syntax": ":AUTOSet"
+            },
+            "query": null
+          },
+          "run_acquisition": {
+            "description": "run acquisition",
+            "set": {
+              "syntax": ":RUN"
+            },
+            "query": null
+          },
+          "stop_acquisition": {
+            "description": "stop acquisition",
+            "set": {
+              "syntax": ":STOP"
+            },
+            "query": null
+          },
+          "acquire_single": {
+            "description": "single acquisition",
+            "set": {
+              "syntax": ":SINGle"
+            },
+            "query": null
+          },
+          "force_trigger": {
+            "description": "force trigger",
+            "set": {
+              "syntax": ":FORCe"
+            },
+            "query": null
+          },
+          "set_timebase_scale": {
+            "description": "horizontal scale in s/div",
+            "set": {
+              "syntax": ":TIMebase:SCALe {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": {
+              "syntax": ":TIMebase:SCALe?",
+              "return_type": "float"
+            },
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_timebase_scale": {
+            "description": "query horizontal scale",
+            "set": null,
+            "query": {
+              "syntax": ":TIMebase:SCALe?",
+              "return_type": "float"
+            }
+          },
+          "set_timebase_delay": {
+            "description": "horizontal position in seconds",
+            "set": {
+              "syntax": ":TIMebase:POSition {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": {
+              "syntax": ":TIMebase:POSition?",
+              "return_type": "float"
+            },
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_timebase_delay": {
+            "description": "query horizontal position",
+            "set": null,
+            "query": {
+              "syntax": ":TIMebase:POSition?",
+              "return_type": "float"
+            }
+          },
+          "set_channel_state": {
+            "description": "show/hide a channel",
+            "set": {
+              "syntax": ":CHANnel{channel_number}:DISPlay {state}",
+              "args": [
+                "channel_number",
+                "state"
+              ]
+            },
+            "query": {
+              "syntax": ":CHANnel{channel_number}:DISPlay?",
+              "return_type": "string",
+              "args": [
+                "channel_number"
+              ]
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "state": {
+                "type": "string",
+                "values": [
+                  "ON",
+                  "OFF"
+                ]
+              }
+            }
+          },
+          "set_channel_scale": {
+            "description": "vertical scale in V/div (set the probe attenuation first)",
+            "set": {
+              "syntax": ":CHANnel{channel_number}:SCALe {value}",
+              "args": [
+                "channel_number",
+                "value"
+              ]
+            },
+            "query": {
+              "syntax": ":CHANnel{channel_number}:SCALe?",
+              "return_type": "float",
+              "args": [
+                "channel_number"
+              ]
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_channel_scale": {
+            "description": "query vertical scale",
+            "set": null,
+            "query": {
+              "syntax": ":CHANnel{channel_number}:SCALe?",
+              "return_type": "float",
+              "args": [
+                "channel_number"
+              ]
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              }
+            }
+          },
+          "set_channel_offset": {
+            "description": "vertical position of the channel (set the scale first)",
+            "set": {
+              "syntax": ":CHANnel{channel_number}:POSition {value}",
+              "args": [
+                "channel_number",
+                "value"
+              ]
+            },
+            "query": {
+              "syntax": ":CHANnel{channel_number}:POSition?",
+              "return_type": "float",
+              "args": [
+                "channel_number"
+              ]
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_channel_offset": {
+            "description": "query vertical position",
+            "set": null,
+            "query": {
+              "syntax": ":CHANnel{channel_number}:POSition?",
+              "return_type": "float",
+              "args": [
+                "channel_number"
+              ]
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              }
+            }
+          },
+          "set_channel_coupling": {
+            "description": "channel coupling",
+            "set": {
+              "syntax": ":CHANnel{channel_number}:COUPling {coupling_type}",
+              "args": [
+                "channel_number",
+                "coupling_type"
+              ]
+            },
+            "query": {
+              "syntax": ":CHANnel{channel_number}:COUPling?",
+              "return_type": "string",
+              "args": [
+                "channel_number"
+              ]
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "coupling_type": {
+                "type": "string",
+                "map": {
+                  "DC": "DC",
+                  "AC": "AC",
+                  "GND": "GND"
+                }
+              }
+            }
+          },
+          "query_channel_coupling": {
+            "description": "query channel coupling",
+            "set": null,
+            "query": {
+              "syntax": ":CHANnel{channel_number}:COUPling?",
+              "return_type": "string",
+              "response_map": {
+                "DC": "DC",
+                "AC": "AC",
+                "GND": "GND"
+              },
+              "args": [
+                "channel_number"
+              ]
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              }
+            }
+          },
+          "set_channel_bandwidth_limit": {
+            "description": "bandwidth limit (FULL or 20 MHz)",
+            "set": {
+              "syntax": ":CHANnel{channel_number}:BWLimit {bandwidth}",
+              "args": [
+                "channel_number",
+                "bandwidth"
+              ]
+            },
+            "query": {
+              "syntax": ":CHANnel{channel_number}:BWLimit?",
+              "return_type": "string",
+              "args": [
+                "channel_number"
+              ]
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "bandwidth": {
+                "type": "float",
+                "values": [
+                  "FULL",
+                  "20E+6"
+                ],
+                "map": {
+                  "0": "FULL",
+                  "20000000": "20E+6"
+                }
+              }
+            }
+          },
+          "set_probe_attenuation": {
+            "description": "probe attenuation factor (set before the vertical scale)",
+            "set": {
+              "syntax": ":CHANnel{channel_number}:PROBe:RATio {value}",
+              "args": [
+                "channel_number",
+                "value"
+              ]
+            },
+            "query": {
+              "syntax": ":CHANnel{channel_number}:PROBe:RATio?",
+              "return_type": "float",
+              "args": [
+                "channel_number"
+              ]
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "set_channel_invert": {
+            "description": "invert a channel",
+            "set": {
+              "syntax": ":CHANnel{channel_number}:INVert {state}",
+              "args": [
+                "channel_number",
+                "state"
+              ]
+            },
+            "query": {
+              "syntax": ":CHANnel{channel_number}:INVert?",
+              "return_type": "string",
+              "args": [
+                "channel_number"
+              ]
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "state": {
+                "type": "string",
+                "values": [
+                  "ON",
+                  "OFF"
+                ]
+              }
+            }
+          },
+          "set_channel_unit": {
+            "description": "probe type: voltage or current",
+            "set": {
+              "syntax": ":CHANnel{channel_number}:PROBe:TYPe {unit}",
+              "args": [
+                "channel_number",
+                "unit"
+              ]
+            },
+            "query": {
+              "syntax": ":CHANnel{channel_number}:PROBe:TYPe?",
+              "return_type": "string",
+              "args": [
+                "channel_number"
+              ]
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "unit": {
+                "type": "string",
+                "values": [
+                  "VOLTage",
+                  "CURRent"
+                ]
+              }
+            }
+          },
+          "set_trigger_source": {
+            "description": "trigger source",
+            "set": {
+              "syntax": ":TRIGger:SOURce CH{channel_number}",
+              "args": [
+                "channel_number"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              }
+            }
+          },
+          "query_trigger_source": {
+            "description": "query trigger source",
+            "set": null,
+            "query": {
+              "syntax": ":TRIGger:SOURce?",
+              "return_type": "string"
+            }
+          },
+          "set_trigger_level": {
+            "description": "trigger level",
+            "set": {
+              "syntax": ":TRIGger:LEVel {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": {
+              "syntax": ":TRIGger:LEVel?",
+              "return_type": "float"
+            },
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_trigger_level": {
+            "description": "query trigger level",
+            "set": null,
+            "query": {
+              "syntax": ":TRIGger:LEVel?",
+              "return_type": "float"
+            }
+          },
+          "set_trigger_slope": {
+            "description": "edge trigger slope",
+            "set": {
+              "syntax": ":TRIGger:EDGe:SLOP {slope}",
+              "args": [
+                "slope"
+              ]
+            },
+            "query": {
+              "syntax": ":TRIGger:EDGe:SLOP?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "slope": {
+                "type": "string",
+                "values": [
+                  "RISe",
+                  "FALL",
+                  "EITher"
+                ],
+                "map": {
+                  "RISE": "RISe",
+                  "FALL": "FALL",
+                  "EITHER": "EITher"
+                }
+              }
+            }
+          },
+          "set_trigger_mode": {
+            "description": "trigger mode (AUTO or NORMAL; the single acquisition is acquire_single)",
+            "set": {
+              "syntax": ":TRIGger:MODe {mode}",
+              "args": [
+                "mode"
+              ]
+            },
+            "query": {
+              "syntax": ":TRIGger:MODe?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "mode": {
+                "type": "string",
+                "values": [
+                  "AUTo",
+                  "NORMal"
+                ],
+                "map": {
+                  "AUTO": "AUTo",
+                  "NORMAL": "NORMal"
+                }
+              }
+            }
+          },
+          "query_trigger_mode": {
+            "description": "trigger mode",
+            "set": null,
+            "query": {
+              "syntax": ":TRIGger:MODe?",
+              "return_type": "string",
+              "response_map": {
+                "AUTO": "AUTO",
+                "AUTo": "AUTO",
+                "NORMAL": "NORMAL",
+                "NORMal": "NORMAL"
+              }
+            }
+          },
+          "set_trigger_holdoff": {
+            "description": "trigger holdoff time in seconds",
+            "set": {
+              "syntax": ":TRIGger:HOLDoff {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": {
+              "syntax": ":TRIGger:HOLDoff?",
+              "return_type": "float"
+            },
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_trigger_status": {
+            "description": "state of the triggering system",
+            "set": null,
+            "query": {
+              "syntax": ":TRIGger:STATe?",
+              "return_type": "string",
+              "response_map": {
+                "*ARMED": "ARMED",
+                "ARMED": "ARMED",
+                "*READY": "READY",
+                "READY": "READY",
+                "*AUTO": "AUTO",
+                "AUTO": "AUTO",
+                "*TRIGGER": "TRIGGERED",
+                "TRIGGER": "TRIGGERED",
+                "*SAVE": "STOPPED",
+                "SAVE": "STOPPED"
+              }
+            }
+          },
+          "set_trigger_type": {
+            "description": "trigger type (EDGe, DELay, PULSEWidth, VIDeo, RUNT, RISEFall, TIMEOut)",
+            "set": {
+              "syntax": ":TRIGger:TYPe {trigger_type}",
+              "args": [
+                "trigger_type"
+              ]
+            },
+            "query": {
+              "syntax": ":TRIGger:TYPe?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "trigger_type": {
+                "type": "string"
+              }
+            }
+          },
+          "set_trigger_coupling": {
+            "description": "trigger coupling (edge and delay triggers)",
+            "set": {
+              "syntax": ":TRIGger:COUPle {coupling_type}",
+              "args": [
+                "coupling_type"
+              ]
+            },
+            "query": {
+              "syntax": ":TRIGger:COUPle?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "coupling_type": {
+                "type": "string",
+                "values": [
+                  "AC",
+                  "DC",
+                  "HF",
+                  "LF"
+                ]
+              }
+            }
+          },
+          "set_acquisition_type": {
+            "description": "acquisition mode",
+            "set": {
+              "syntax": ":ACQuire:MODe {acquisition_type}",
+              "args": [
+                "acquisition_type"
+              ]
+            },
+            "query": {
+              "syntax": ":ACQuire:MODe?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "acquisition_type": {
+                "type": "string",
+                "values": [
+                  "SAMPle",
+                  "PDETect",
+                  "AVERage"
+                ],
+                "map": {
+                  "NORMAL": "SAMPle",
+                  "PEAK": "PDETect",
+                  "AVERAGE": "AVERage"
+                }
+              }
+            }
+          },
+          "set_acquisition_depth": {
+            "description": "record length in points (1000, 10000, 100000, 1000000 or 10000000)",
+            "set": {
+              "syntax": ":ACQuire:RECOrdlength {depth}",
+              "args": [
+                "depth"
+              ]
+            },
+            "query": {
+              "syntax": ":ACQuire:RECOrdlength?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "depth": {
+                "type": "int",
+                "values": [
+                  "1000",
+                  "10000",
+                  "100000",
+                  "1000000",
+                  "10000000"
+                ]
+              }
+            }
+          },
+          "query_waveform_preamble": {
+            "description": "the settings of the channel (text) that precede the samples in the memory answer: vertical and horizontal scale, sampling period, trigger address, ...",
+            "set": null,
+            "query": {
+              "steps": [
+                {
+                  "op": "write",
+                  "text": ":HEADer ON"
+                },
+                {
+                  "op": "query",
+                  "text": ":ACQuire{channel_number}:MEMory?",
+                  "returns": "string",
+                  "until": "Waveform Data;"
+                },
+                {
+                  "op": "read",
+                  "returns": "binary"
+                }
+              ],
+              "return_type": "string",
+              "result_step": 1
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              }
+            }
+          },
+          "query_waveform_data": {
+            "description": "the raw samples of the channel (16-bit signed, most significant byte first, 25 codes per division): the same memory answer as the preamble, without the settings",
+            "set": null,
+            "query": {
+              "steps": [
+                {
+                  "op": "write",
+                  "text": ":HEADer ON"
+                },
+                {
+                  "op": "query",
+                  "text": ":ACQuire{channel_number}:MEMory?",
+                  "returns": "string",
+                  "until": "Waveform Data;"
+                },
+                {
+                  "op": "read",
+                  "returns": "binary"
+                }
+              ],
+              "return_type": "binary",
+              "result_step": 2
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              }
+            }
+          },
+          "read_waveform": {
+            "description": "read the waveform of an analog channel as time and voltage arrays (the whole record of :ACQuire<X>:MEMory?, 16 bit; time from the trigger point)",
+            "set": null,
+            "query": {
+              "steps": [
+                {
+                  "op": "write",
+                  "text": ":HEADer ON"
+                },
+                {
+                  "op": "query",
+                  "text": ":ACQuire{channel_number}:MEMory?",
+                  "returns": "string",
+                  "until": "Waveform Data;"
+                },
+                {
+                  "op": "read",
+                  "returns": "binary"
+                }
+              ],
+              "return_type": "binary",
+              "parse": {
+                "name": "gwinstek_waveform",
+                "from_steps": [
+                  1,
+                  2
+                ]
+              }
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              }
+            }
+          }
+        },
+        "models": [
+          {
+            "id": "OSC_GWInstek_GDS1052B",
+            "name": "GW Instek GDS-1052B",
+            "manufacturer": "GW Instek (Good Will Instrument)",
+            "model": "GDS-1052B",
+            "documentation_path": "docs/GW_Instek/GDS-1000B_Series/GDS-1000B_ProgrammingManual.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "LXI raw socket",
+                  "address_format_example": "{IP_ADDRESS}"
+                },
+                {
+                  "type": "SERIAL",
+                  "visa_resource_id_template": "SERIAL_OSC_{unique_id}",
+                  "address_format_example": "ASRL{COM_PORT}::INSTR"
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 2,
+              "bandwidth_mhz": 50,
+              "memory_depth_mpts": 10,
+              "waveform_formats": [
+                "WORD"
+              ],
+              "channels": [
+                {
+                  "channel_id": "CHAN1",
+                  "label": "Channel 1"
+                },
+                {
+                  "channel_id": "CHAN2",
+                  "label": "Channel 2"
+                }
+              ]
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "OSC_GWInstek_GDS1072B",
+            "name": "GW Instek GDS-1072B",
+            "manufacturer": "GW Instek (Good Will Instrument)",
+            "model": "GDS-1072B",
+            "documentation_path": "docs/GW_Instek/GDS-1000B_Series/GDS-1000B_ProgrammingManual.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "LXI raw socket",
+                  "address_format_example": "{IP_ADDRESS}"
+                },
+                {
+                  "type": "SERIAL",
+                  "visa_resource_id_template": "SERIAL_OSC_{unique_id}",
+                  "address_format_example": "ASRL{COM_PORT}::INSTR"
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 2,
+              "bandwidth_mhz": 70,
+              "memory_depth_mpts": 10,
+              "waveform_formats": [
+                "WORD"
+              ],
+              "channels": [
+                {
+                  "channel_id": "CHAN1",
+                  "label": "Channel 1"
+                },
+                {
+                  "channel_id": "CHAN2",
+                  "label": "Channel 2"
+                }
+              ]
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "OSC_GWInstek_GDS1102B",
+            "name": "GW Instek GDS-1102B",
+            "manufacturer": "GW Instek (Good Will Instrument)",
+            "model": "GDS-1102B",
+            "documentation_path": "docs/GW_Instek/GDS-1000B_Series/GDS-1000B_ProgrammingManual.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "LXI raw socket",
+                  "address_format_example": "{IP_ADDRESS}"
+                },
+                {
+                  "type": "SERIAL",
+                  "visa_resource_id_template": "SERIAL_OSC_{unique_id}",
+                  "address_format_example": "ASRL{COM_PORT}::INSTR"
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 2,
+              "bandwidth_mhz": 100,
+              "memory_depth_mpts": 10,
+              "waveform_formats": [
+                "WORD"
+              ],
+              "channels": [
+                {
+                  "channel_id": "CHAN1",
+                  "label": "Channel 1"
+                },
+                {
+                  "channel_id": "CHAN2",
+                  "label": "Channel 2"
+                }
+              ]
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "OSC_GWInstek_GDS1054B",
+            "name": "GW Instek GDS-1054B",
+            "manufacturer": "GW Instek (Good Will Instrument)",
+            "model": "GDS-1054B",
+            "documentation_path": "docs/GW_Instek/GDS-1000B_Series/GDS-1000B_ProgrammingManual.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "LXI raw socket",
+                  "address_format_example": "{IP_ADDRESS}"
+                },
+                {
+                  "type": "SERIAL",
+                  "visa_resource_id_template": "SERIAL_OSC_{unique_id}",
+                  "address_format_example": "ASRL{COM_PORT}::INSTR"
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 4,
+              "bandwidth_mhz": 50,
+              "memory_depth_mpts": 10,
+              "waveform_formats": [
+                "WORD"
+              ],
+              "channels": [
+                {
+                  "channel_id": "CHAN1",
+                  "label": "Channel 1"
+                },
+                {
+                  "channel_id": "CHAN2",
+                  "label": "Channel 2"
+                },
+                {
+                  "channel_id": "CHAN3",
+                  "label": "Channel 3"
+                },
+                {
+                  "channel_id": "CHAN4",
+                  "label": "Channel 4"
+                }
+              ]
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "OSC_GWInstek_GDS1074B",
+            "name": "GW Instek GDS-1074B",
+            "manufacturer": "GW Instek (Good Will Instrument)",
+            "model": "GDS-1074B",
+            "documentation_path": "docs/GW_Instek/GDS-1000B_Series/GDS-1000B_ProgrammingManual.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "LXI raw socket",
+                  "address_format_example": "{IP_ADDRESS}"
+                },
+                {
+                  "type": "SERIAL",
+                  "visa_resource_id_template": "SERIAL_OSC_{unique_id}",
+                  "address_format_example": "ASRL{COM_PORT}::INSTR"
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 4,
+              "bandwidth_mhz": 70,
+              "memory_depth_mpts": 10,
+              "waveform_formats": [
+                "WORD"
+              ],
+              "channels": [
+                {
+                  "channel_id": "CHAN1",
+                  "label": "Channel 1"
+                },
+                {
+                  "channel_id": "CHAN2",
+                  "label": "Channel 2"
+                },
+                {
+                  "channel_id": "CHAN3",
+                  "label": "Channel 3"
+                },
+                {
+                  "channel_id": "CHAN4",
+                  "label": "Channel 4"
+                }
+              ]
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "OSC_GWInstek_GDS1104B",
+            "name": "GW Instek GDS-1104B",
+            "manufacturer": "GW Instek (Good Will Instrument)",
+            "model": "GDS-1104B",
+            "documentation_path": "docs/GW_Instek/GDS-1000B_Series/GDS-1000B_ProgrammingManual.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "LXI raw socket",
+                  "address_format_example": "{IP_ADDRESS}"
+                },
+                {
+                  "type": "SERIAL",
+                  "visa_resource_id_template": "SERIAL_OSC_{unique_id}",
+                  "address_format_example": "ASRL{COM_PORT}::INSTR"
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 4,
+              "bandwidth_mhz": 100,
+              "memory_depth_mpts": 10,
+              "waveform_formats": [
+                "WORD"
+              ],
+              "channels": [
+                {
+                  "channel_id": "CHAN1",
+                  "label": "Channel 1"
+                },
+                {
+                  "channel_id": "CHAN2",
+                  "label": "Channel 2"
+                },
+                {
+                  "channel_id": "CHAN3",
+                  "label": "Channel 3"
+                },
+                {
+                  "channel_id": "CHAN4",
+                  "label": "Channel 4"
+                }
+              ]
+            },
+            "scpi_commands": {},
+            "experimental": true
+          }
+        ]
       }
     ],
     "electronic_loads_series": [
