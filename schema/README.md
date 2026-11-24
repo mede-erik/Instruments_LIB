@@ -70,7 +70,7 @@ The library entry keeps the schema argument names. Where the instrument's own va
 }
 ```
 
-A step has `op` (`write`, `query`, `delay`), `text` (the string, with `{argument}` placeholders), `ms` (for `delay`), optional `timeout_ms`, and for a query `returns` (`float`, `int`, `string`, `binary`; default `string`). Steps are sent in order; they are never joined into one message.
+A step has `op` (`write`, `query`, `delay`), `text` (the string, with `{argument}` placeholders), `ms` (for `delay`), optional `timeout_ms`, and for a query `returns` (`float`, `int`, `string`, `binary`; default `string`). A `read` step reads an answer without sending anything. A query or `read` step that returns a string may have `until`: the text that ends the answer (it is read up to that text, which is consumed and not returned) instead of the end of the line; it is for an answer made of a text and a binary block in one message (the GW Instek GDS-1000B memory answer), followed by a `read` step that returns `binary`. Steps are sent in order; they are never joined into one message.
 
 ### Steps that depend on an argument, and steps repeated per list item
 

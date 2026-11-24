@@ -15,7 +15,7 @@ The file `instruments_lib.json` is a single object with the key `instrument_libr
 | `switch_units_series` | Switch units (no measurement engine) | Agilent 3499A |
 | `datalogger_modules` | Datalogger cards (modules) | Keysight 34901A, 34902A, 34908A, DAQM900A, DAQM901A |
 | `multimeters_series` | Multimeters | HP 3478A, Agilent 34401A |
-| `oscilloscopes_series` | Oscilloscopes | Tektronix 5 Series MSO, Rigol DS1000Z, Siglent SDS HD |
+| `oscilloscopes_series` | Oscilloscopes | Tektronix 5 Series MSO, Rigol DS1000Z, Siglent SDS HD, GW Instek GDS-1000B |
 | `electronic_loads_series` | Electronic loads | Chroma 6330A, Keysight EL4900, Siglent SDL1000X-E |
 | `network_analyzers_series` | Vector network analyzers | Zenko LiteVNA 62/64/67, Siglent SNA/SHN, R&S ZNB/ZNL/ZVA/ZVB/ZVL |
 | `function_generators_series` | Function generators | Digilent Analog Discovery 2 (generator), Rigol DG1022/DG1022A, Rigol DG1022Z/DG1032Z/DG1062Z, Agilent 33120A |
@@ -369,6 +369,7 @@ IDs follow `{TYPE}_{MANUFACTURER}_{MODEL}`:
 | Agilent 34401A | — | none |
 | Tektronix 5 Series MSO | — | none |
 | Rigol DS1000Z | — | none |
+| GW Instek GDS-1000B (GDS-1052B/1072B/1102B/1054B/1074B/1104B) | — | none |
 | Siglent SDS800X HD | SDS824X HD | real instrument (firmware 4.8.12.1.1.6.5); the SDS804X and SDS814X are not tested |
 | Siglent SDS1000X/SDS2000X HD | — | none |
 | Chroma 6330A | — | none |

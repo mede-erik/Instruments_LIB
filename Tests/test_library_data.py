@@ -30,7 +30,7 @@ TYPE_KINDS = {"enum", "bool", "list", "mapping"}
 CALL_KINDS = {"set", "query", "action"}
 REQUIREMENTS = {"mandatory", "optional"}
 STEP_OPS = {"write", "query", "read", "delay"}
-STEP_FIELDS = {"op", "text", "ms", "timeout_ms", "returns", "when", "foreach"}
+STEP_FIELDS = {"op", "text", "ms", "timeout_ms", "returns", "until", "when", "foreach"}
 GROUP_FIELDS = {"steps", "foreach", "when"}  # a group of steps repeated with foreach
 RETURNS = {"string", "float", "int", "binary"}
 TRANSPORT_KINDS = {"vxi11", "raw_socket", "usbtmc", "serial", "hislip", "gpib", "dwf"}
@@ -339,6 +339,13 @@ def _check_steps(steps, where, bad):
             bad.append(f"{tag}: delay without ms >= 0")
         if "returns" in s and (op not in ("query", "read") or s["returns"] not in RETURNS):
             bad.append(f"{tag}: returns {s['returns']!r} on {op}")
+        if "until" in s and not (
+            op in ("query", "read")
+            and s.get("returns", "string") == "string"
+            and isinstance(s["until"], str)
+            and s["until"]
+        ):
+            bad.append(f"{tag}: 'until' needs a query/read step that returns a string")
         if "when" in s and not (isinstance(s["when"], dict) and s["when"]):
             bad.append(f"{tag}: 'when' must map an argument to its value(s)")
         if "foreach" in s and not isinstance(s["foreach"], str):
