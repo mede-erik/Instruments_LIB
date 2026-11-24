@@ -999,7 +999,7 @@
             "name": "Keysight E36311A",
             "manufacturer": "Keysight Technologies",
             "model": "E36311A",
-            "documentation_path": "docs/Keysight/E36300_Series/Programmable DC Power Supplies E36300 Series.pdf",
+            "documentation_path": "docs/HP_Agilent_Keysight/E36300_Series/Programmable DC Power Supplies E36300 Series.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -1056,7 +1056,7 @@
             "name": "Keysight E36312A",
             "manufacturer": "Keysight Technologies",
             "model": "E36312A",
-            "documentation_path": "docs/Keysight/E36300_Series/Programmable DC Power Supplies E36300 Series.pdf",
+            "documentation_path": "docs/HP_Agilent_Keysight/E36300_Series/Programmable DC Power Supplies E36300 Series.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -1119,7 +1119,7 @@
             "name": "Keysight E36313A",
             "manufacturer": "Keysight Technologies",
             "model": "E36313A",
-            "documentation_path": "docs/Keysight/E36300_Series/Programmable DC Power Supplies E36300 Series.pdf",
+            "documentation_path": "docs/HP_Agilent_Keysight/E36300_Series/Programmable DC Power Supplies E36300 Series.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -2734,7 +2734,7 @@
             "name": "HP E3631A",
             "manufacturer": "HP",
             "model": "E3631A",
-            "documentation_path": "docs/HP/E3631A_Series/E3631_UserGuide.pdf",
+            "documentation_path": "docs/HP_Agilent_Keysight/E3631A_Series/E3631_UserGuide.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -2920,7 +2920,7 @@
             "name": "HP 6034A",
             "manufacturer": "HP",
             "model": "6034A",
-            "documentation_path": "docs/HP/HP_6304_Series/HP_6034A_OPERATING_AND_SERVICE_MANUAL.pdf",
+            "documentation_path": "docs/HP_Agilent_Keysight/HP_6030_Series/HP_6034A_Operating_and_Service_Manual.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -6993,7 +6993,7 @@
             "name": "Agilent 34970A Data Acquisition / Switch Unit",
             "manufacturer": "Agilent",
             "model": "34970A",
-            "documentation_path": "docs/Keysight/3497X_Series/Agilent 34970A⁄72A Command Reference.pdf",
+            "documentation_path": "docs/HP_Agilent_Keysight/3497X_Series/34970A_34972A_Command_Reference.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -7049,7 +7049,7 @@
             "name": "Keysight 34972A",
             "manufacturer": "Keysight Technologies",
             "model": "34972A",
-            "documentation_path": "docs/Keysight/3497X_Series/Agilent 34970A⁄72A Command Reference.pdf",
+            "documentation_path": "docs/HP_Agilent_Keysight/3497X_Series/34970A_34972A_Command_Reference.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -8956,7 +8956,7 @@
             "name": "Keysight DAQ970A Data Acquisition System",
             "manufacturer": "Keysight Technologies",
             "model": "DAQ970A",
-            "documentation_path": "docs/Keysight/DAQ97x_Series/DAQ970A-973A-Programming.pdf",
+            "documentation_path": "docs/HP_Agilent_Keysight/DAQ97x_Series/DAQ970A-973A-Programming.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -8997,7 +8997,7 @@
             "name": "Keysight DAQ973A Data Acquisition System",
             "manufacturer": "Keysight Technologies",
             "model": "DAQ973A",
-            "documentation_path": "docs/Keysight/DAQ97x_Series/DAQ970A-973A-Programming.pdf",
+            "documentation_path": "docs/HP_Agilent_Keysight/DAQ97x_Series/DAQ970A-973A-Programming.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -10141,7 +10141,7 @@
             "name": "Agilent 3499A Data Acquisition / Switch Mainframe",
             "manufacturer": "Agilent",
             "model": "3499A",
-            "documentation_path": "docs/Agilent/3499A_Series/Agilent_3499_Manual.pdf",
+            "documentation_path": "docs/HP_Agilent_Keysight/3499A_Series/Agilent_3499_Manual.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -10220,7 +10220,7 @@
           "max_voltage": 300.0,
           "speed": 60
         },
-        "documentation_path": "docs/Keysight/3497X_Series/Agilent 34970A⁄72A Command Reference.pdf"
+        "documentation_path": "docs/HP_Agilent_Keysight/3497X_Series/34970A_34972A_Command_Reference.pdf"
       },
       {
         "id": "34902A",
@@ -10235,7 +10235,7 @@
           "max_voltage": 300.0,
           "speed": 250
         },
-        "documentation_path": "docs/Keysight/3497X_Series/Agilent 34970A⁄72A Command Reference.pdf"
+        "documentation_path": "docs/HP_Agilent_Keysight/3497X_Series/34970A_34972A_Command_Reference.pdf"
       },
       {
         "id": "34903A",
@@ -10244,7 +10244,7 @@
         "capabilities": {
           "number_of_channels": 20
         },
-        "documentation_path": "docs/Keysight/3497X_Series/Agilent 34970A⁄72A Command Reference.pdf"
+        "documentation_path": "docs/HP_Agilent_Keysight/3497X_Series/34970A_34972A_Command_Reference.pdf"
       },
       {
         "id": "34904A",
@@ -10253,7 +10253,7 @@
         "capabilities": {
           "number_of_channels": 32
         },
-        "documentation_path": "docs/Keysight/3497X_Series/Agilent 34970A⁄72A Command Reference.pdf"
+        "documentation_path": "docs/HP_Agilent_Keysight/3497X_Series/34970A_34972A_Command_Reference.pdf"
       },
       {
         "id": "34905A",
@@ -10262,7 +10262,7 @@
         "capabilities": {
           "number_of_channels": 8
         },
-        "documentation_path": "docs/Keysight/3497X_Series/Agilent 34970A⁄72A Command Reference.pdf"
+        "documentation_path": "docs/HP_Agilent_Keysight/3497X_Series/34970A_34972A_Command_Reference.pdf"
       },
       {
         "id": "34906A",
@@ -10271,7 +10271,7 @@
         "capabilities": {
           "number_of_channels": 8
         },
-        "documentation_path": "docs/Keysight/3497X_Series/Agilent 34970A⁄72A Command Reference.pdf"
+        "documentation_path": "docs/HP_Agilent_Keysight/3497X_Series/34970A_34972A_Command_Reference.pdf"
       },
       {
         "id": "34907A",
@@ -10297,7 +10297,7 @@
             "max_current": 0.01
           }
         },
-        "documentation_path": "docs/Keysight/3497X_Series/Keysight 34970A⁄34972A Data Acquisition Switch Unit.pdf"
+        "documentation_path": "docs/HP_Agilent_Keysight/3497X_Series/34970A_34972A_Data_Acquisition_Switch_Unit.pdf"
       },
       {
         "id": "34908A",
@@ -10312,7 +10312,7 @@
           "max_voltage": 300.0,
           "speed": 60
         },
-        "documentation_path": "docs/Keysight/3497X_Series/Agilent 34970A⁄72A Command Reference.pdf"
+        "documentation_path": "docs/HP_Agilent_Keysight/3497X_Series/34970A_34972A_Command_Reference.pdf"
       },
       {
         "id": "DAQM900A",
@@ -10320,7 +10320,7 @@
         "capabilities": {
           "number_of_channels": 20
         },
-        "documentation_path": "docs/Keysight/DAQ97x_Series/DAQ970A-973A-Programming.pdf"
+        "documentation_path": "docs/HP_Agilent_Keysight/DAQ97x_Series/DAQ970A-973A-Programming.pdf"
       },
       {
         "id": "DAQM901A",
@@ -10328,7 +10328,7 @@
         "capabilities": {
           "number_of_channels": 20
         },
-        "documentation_path": "docs/Keysight/DAQ97x_Series/DAQ970A-973A-Programming.pdf"
+        "documentation_path": "docs/HP_Agilent_Keysight/DAQ97x_Series/DAQ970A-973A-Programming.pdf"
       },
       {
         "id": "DAQM902A",
@@ -10336,7 +10336,7 @@
         "capabilities": {
           "number_of_channels": 16
         },
-        "documentation_path": "docs/Keysight/DAQ97x_Series/DAQ970A-973A-Programming.pdf"
+        "documentation_path": "docs/HP_Agilent_Keysight/DAQ97x_Series/DAQ970A-973A-Programming.pdf"
       },
       {
         "id": "DAQM903A",
@@ -10345,28 +10345,28 @@
         "capabilities": {
           "number_of_channels": 20
         },
-        "documentation_path": "docs/Keysight/DAQ97x_Series/DAQ970A-973A-Programming.pdf"
+        "documentation_path": "docs/HP_Agilent_Keysight/DAQ97x_Series/DAQ970A-973A-Programming.pdf"
       },
       {
         "id": "DAQM904A",
         "name": "Keysight DAQM904A 4x8 Two-Wire Matrix Switch Module",
         "not_enabled": true,
         "capabilities": {},
-        "documentation_path": "docs/Keysight/DAQ97x_Series/DAQ970A-973A-Programming.pdf"
+        "documentation_path": "docs/HP_Agilent_Keysight/DAQ97x_Series/DAQ970A-973A-Programming.pdf"
       },
       {
         "id": "DAQM905A",
         "name": "Keysight DAQM905A Dual 1:4 RF Multiplexer (50 Ohm) Module",
         "not_enabled": true,
         "capabilities": {},
-        "documentation_path": "docs/Keysight/DAQ97x_Series/DAQ970A-973A-Programming.pdf"
+        "documentation_path": "docs/HP_Agilent_Keysight/DAQ97x_Series/DAQ970A-973A-Programming.pdf"
       },
       {
         "id": "DAQM907A",
         "name": "Keysight DAQM907A Multifunction Module",
         "not_enabled": true,
         "capabilities": {},
-        "documentation_path": "docs/Keysight/DAQ97x_Series/DAQ970A-973A-Programming.pdf"
+        "documentation_path": "docs/HP_Agilent_Keysight/DAQ97x_Series/DAQ970A-973A-Programming.pdf"
       },
       {
         "id": "DAQM908A",
@@ -10374,7 +10374,7 @@
         "capabilities": {
           "number_of_channels": 40
         },
-        "documentation_path": "docs/Keysight/DAQ97x_Series/DAQ970A-973A-Programming.pdf"
+        "documentation_path": "docs/HP_Agilent_Keysight/DAQ97x_Series/DAQ970A-973A-Programming.pdf"
       },
       {
         "id": "DAQM909A",
@@ -10383,7 +10383,7 @@
         "capabilities": {
           "number_of_channels": 4
         },
-        "documentation_path": "docs/Keysight/DAQ97x_Series/DAQ970A-973A-Programming.pdf"
+        "documentation_path": "docs/HP_Agilent_Keysight/DAQ97x_Series/DAQ970A-973A-Programming.pdf"
       }
     ],
     "oscilloscopes_series": [
@@ -11467,7 +11467,7 @@
       },
       {
         "series_id": "Rigol_DS1000Z_Series",
-        "series_name": "Rigol DS1000Z Series Digital Oscilloscopes",
+        "series_name": "Rigol DS1000Z / MSO1000Z Series Digital Oscilloscopes",
         "common_scpi_commands": {
           "reset": {
             "description": "reset",
@@ -12179,7 +12179,7 @@
             "name": "Rigol DS1054Z",
             "manufacturer": "Rigol Technologies",
             "model": "DS1054Z",
-            "documentation_path": "docs/Rigol/DS1000Z_Series/MSO1000Z_DS1000Z_ProgrammingGuide_EN.pdf",
+            "documentation_path": "docs/Rigol/DS1000Z_MSO1000Z_Series/MSO1000Z_DS1000Z_ProgrammingGuide_EN.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -12256,7 +12256,7 @@
             "name": "Rigol DS1104Z Plus",
             "manufacturer": "Rigol Technologies",
             "model": "DS1104Z Plus",
-            "documentation_path": "docs/Rigol/DS1000Z_Series/MSO1000Z_DS1000Z_ProgrammingGuide_EN.pdf",
+            "documentation_path": "docs/Rigol/DS1000Z_MSO1000Z_Series/MSO1000Z_DS1000Z_ProgrammingGuide_EN.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -13305,7 +13305,7 @@
             "name": "Siglent SDS804X HD",
             "manufacturer": "Siglent Technologies",
             "model": "SDS804X HD",
-            "documentation_path": "docs/Sigilent/SDS800X_Series/SDS800XHD_Series_ProgrammingGuide.pdf",
+            "documentation_path": "docs/Siglent/SDS800X_Series/SDS800XHD_Series_ProgrammingGuide.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -13398,7 +13398,7 @@
             "name": "Siglent SDS814X HD",
             "manufacturer": "Siglent Technologies",
             "model": "SDS814X HD",
-            "documentation_path": "docs/Sigilent/SDS800X_Series/SDS800XHD_Series_ProgrammingGuide.pdf",
+            "documentation_path": "docs/Siglent/SDS800X_Series/SDS800XHD_Series_ProgrammingGuide.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -13470,7 +13470,7 @@
             "name": "Siglent SDS824X HD",
             "manufacturer": "Siglent Technologies",
             "model": "SDS824X HD",
-            "documentation_path": "docs/Sigilent/SDS800X_Series/SDS800XHD_Series_ProgrammingGuide.pdf",
+            "documentation_path": "docs/Siglent/SDS800X_Series/SDS800XHD_Series_ProgrammingGuide.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -13536,7 +13536,7 @@
             "name": "Siglent SDS1104X HD",
             "manufacturer": "Siglent Technologies",
             "model": "SDS1104X HD",
-            "documentation_path": "docs/Sigilent/SDS800X_Series/SDS800XHD_Series_ProgrammingGuide.pdf",
+            "documentation_path": "docs/Siglent/SDS800X_Series/SDS800XHD_Series_ProgrammingGuide.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -13611,7 +13611,7 @@
             "name": "Siglent SDS1204X HD",
             "manufacturer": "Siglent Technologies",
             "model": "SDS1204X HD",
-            "documentation_path": "docs/Sigilent/SDS800X_Series/SDS800XHD_Series_ProgrammingGuide.pdf",
+            "documentation_path": "docs/Siglent/SDS800X_Series/SDS800XHD_Series_ProgrammingGuide.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -13667,7 +13667,7 @@
             "name": "Siglent SDS2104X HD",
             "manufacturer": "Siglent Technologies",
             "model": "SDS2104X HD",
-            "documentation_path": "docs/Sigilent/SDS800X_Series/SDS800XHD_Series_ProgrammingGuide.pdf",
+            "documentation_path": "docs/Siglent/SDS800X_Series/SDS800XHD_Series_ProgrammingGuide.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -13762,7 +13762,7 @@
             "name": "Siglent SDS2354X HD",
             "manufacturer": "Siglent Technologies",
             "model": "SDS2354X HD",
-            "documentation_path": "docs/Sigilent/SDS800X_Series/SDS800XHD_Series_ProgrammingGuide.pdf",
+            "documentation_path": "docs/Siglent/SDS800X_Series/SDS800XHD_Series_ProgrammingGuide.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -14211,6 +14211,2453 @@
               "notes": "Two analog inputs (the 1+/1- and 2+/2- pins). The ranges, the buffer sizes and the sample frequencies are read from the device (FDwfAnalogInChannelCount and the FDwfAnalogIn...Info functions); the reference manual gives no figure for a device. Supported: oscilloscope and function generator only. The logic analyzer (digital inputs) is not supported yet; the models will be marked experimental again when a logic analyzer is added and tested."
             },
             "experimental": false
+          }
+        ]
+      },
+      {
+        "series_id": "Rigol_DHO800_DHO900_Series",
+        "series_name": "Rigol DHO800 and DHO900 series digital oscilloscopes",
+        "common_scpi_commands": {
+          "reset": {
+            "description": "reset",
+            "set": {
+              "syntax": "*RST"
+            },
+            "query": null
+          },
+          "clear_status": {
+            "description": "clear status",
+            "set": {
+              "syntax": "*CLS"
+            },
+            "query": null
+          },
+          "identification_query": {
+            "description": "identification query",
+            "set": null,
+            "query": {
+              "syntax": "*IDN?",
+              "return_type": "string"
+            }
+          },
+          "error_query": {
+            "description": ":SYSTem:ERRor[:NEXT]?: reads and clears the oldest error",
+            "set": null,
+            "query": {
+              "syntax": ":SYSTem:ERRor?",
+              "return_type": "string"
+            }
+          },
+          "self_test": {
+            "description": "self test",
+            "set": null,
+            "query": {
+              "syntax": "*TST?",
+              "return_type": "int"
+            }
+          },
+          "query_status_byte": {
+            "description": "query status byte",
+            "set": null,
+            "query": {
+              "syntax": "*STB?",
+              "return_type": "int"
+            }
+          },
+          "query_event_status_register": {
+            "description": "query event status register",
+            "set": null,
+            "query": {
+              "syntax": "*ESR?",
+              "return_type": "int"
+            }
+          },
+          "enable_event_status_register": {
+            "description": "enable event status register",
+            "set": {
+              "syntax": "*ESE {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "int"
+              }
+            }
+          },
+          "query_event_status_enable": {
+            "description": "query event status enable",
+            "set": null,
+            "query": {
+              "syntax": "*ESE?",
+              "return_type": "int"
+            }
+          },
+          "auto_setup": {
+            "description": ":AUToset (the DHO800/DHO900 name; :AUToscale does not exist); invalid while the AUTO key is disabled (:SYSTem:AUToscale 0)",
+            "set": {
+              "syntax": ":AUToset"
+            },
+            "query": null
+          },
+          "set_channel_coupling": {
+            "description": "set channel coupling",
+            "set": {
+              "syntax": ":CHANnel{channel_number}:COUPling {coupling_type}",
+              "args": [
+                "channel_number",
+                "coupling_type"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "coupling_type": {
+                "type": "string",
+                "map": {
+                  "DC": "DC",
+                  "AC": "AC",
+                  "GND": "GND"
+                }
+              }
+            }
+          },
+          "set_channel_scale": {
+            "description": "set channel scale",
+            "set": {
+              "syntax": ":CHANnel{channel_number}:SCALe {value}",
+              "args": [
+                "channel_number",
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "set_channel_offset": {
+            "description": "set channel offset",
+            "set": {
+              "syntax": ":CHANnel{channel_number}:OFFSet {value}",
+              "args": [
+                "channel_number",
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_channel_scale": {
+            "description": "query channel scale",
+            "set": null,
+            "query": {
+              "syntax": ":CHANnel{channel_number}:SCALe?",
+              "args": [
+                "channel_number"
+              ],
+              "return_type": "float"
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              }
+            }
+          },
+          "query_channel_offset": {
+            "description": "query channel offset",
+            "set": null,
+            "query": {
+              "syntax": ":CHANnel{channel_number}:OFFSet?",
+              "args": [
+                "channel_number"
+              ],
+              "return_type": "float"
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              }
+            }
+          },
+          "set_timebase_scale": {
+            "description": "set timebase scale",
+            "set": {
+              "syntax": ":TIMebase:SCALe {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_timebase_scale": {
+            "description": "query timebase scale",
+            "set": null,
+            "query": {
+              "syntax": ":TIMebase:SCALe?",
+              "return_type": "float"
+            }
+          },
+          "set_trigger_mode": {
+            "description": "trigger sweep mode (AUTO, NORMal, SINGle)",
+            "set": {
+              "syntax": ":TRIGger:SWEep {mode}",
+              "args": [
+                "mode"
+              ]
+            },
+            "query": {
+              "syntax": ":TRIGger:SWEep?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "mode": {
+                "type": "string",
+                "values": [
+                  "AUTO",
+                  "NORMal",
+                  "SINGle",
+                  "NORM",
+                  "SING"
+                ],
+                "map": {
+                  "AUTO": "AUTO",
+                  "NORMAL": "NORMal",
+                  "SINGLE": "SINGle"
+                }
+              }
+            }
+          },
+          "set_trigger_source": {
+            "description": "set trigger source",
+            "set": {
+              "syntax": ":TRIGger:EDGE:SOURce CHAN{channel_number}",
+              "args": [
+                "channel_number"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              }
+            }
+          },
+          "set_trigger_slope": {
+            "description": "set trigger slope",
+            "set": {
+              "syntax": ":TRIGger:EDGe:SLOPe {slope}",
+              "args": [
+                "slope"
+              ]
+            },
+            "query": {
+              "syntax": ":TRIGger:EDGe:SLOPe?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "slope": {
+                "type": "string",
+                "values": [
+                  "POSitive",
+                  "NEGative",
+                  "RFALl"
+                ],
+                "map": {
+                  "RISE": "POSitive",
+                  "FALL": "NEGative",
+                  "EITHER": "RFALl"
+                }
+              }
+            }
+          },
+          "set_trigger_level": {
+            "description": "set trigger level",
+            "set": {
+              "syntax": ":TRIGger:EDGE:LEVel {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_trigger_level": {
+            "description": "query trigger level",
+            "set": null,
+            "query": {
+              "syntax": ":TRIGger:EDGE:LEVel?",
+              "return_type": "float"
+            }
+          },
+          "force_trigger": {
+            "description": "force trigger",
+            "set": {
+              "syntax": ":TFORce"
+            },
+            "query": null
+          },
+          "set_waveform_source": {
+            "description": "set waveform source",
+            "set": {
+              "syntax": ":WAVeform:SOURce CHAN{channel_number}",
+              "args": [
+                "channel_number"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              }
+            }
+          },
+          "set_waveform_format": {
+            "description": "set waveform format",
+            "set": {
+              "syntax": ":WAVeform:FORMat {format_type}",
+              "args": [
+                "format_type"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "format_type": {
+                "type": "string",
+                "map": {
+                  "BYTE": "BYTE",
+                  "WORD": "WORD",
+                  "ASCII": "ASCii"
+                }
+              }
+            }
+          },
+          "query_waveform_preamble": {
+            "description": "query waveform preamble",
+            "set": null,
+            "query": {
+              "syntax": ":WAVeform:PREamble?",
+              "return_type": "string"
+            }
+          },
+          "query_waveform_data": {
+            "description": "query waveform data",
+            "set": null,
+            "query": {
+              "syntax": ":WAVeform:DATA?",
+              "return_type": "binary"
+            }
+          },
+          "run_acquisition": {
+            "description": "run acquisition",
+            "set": {
+              "syntax": ":RUN"
+            },
+            "query": null
+          },
+          "stop_acquisition": {
+            "description": "stop acquisition",
+            "set": {
+              "syntax": ":STOP"
+            },
+            "query": null
+          },
+          "query_trigger_status": {
+            "description": "query trigger status",
+            "set": null,
+            "query": {
+              "syntax": ":TRIGger:STATus?",
+              "return_type": "string",
+              "response_map": {
+                "TD": "TRIGGERED",
+                "WAIT": "READY",
+                "RUN": "ARMED",
+                "AUTO": "AUTO",
+                "STOP": "STOPPED"
+              }
+            }
+          },
+          "set_acquisition_depth": {
+            "description": ":ACQuire:MDEPth: AUTO, 1k, 10k, 100k, 1M, 10M, 25M and, for the DHO900 only, 50M (fewer with more channels on)",
+            "set": {
+              "syntax": ":ACQuire:MDEPth {depth}",
+              "args": [
+                "depth"
+              ]
+            },
+            "query": {
+              "syntax": ":ACQuire:MDEPth?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "depth": {
+                "type": "int"
+              }
+            }
+          },
+          "acquire_single": {
+            "description": "single acquisition",
+            "set": {
+              "syntax": ":SINGle"
+            },
+            "query": null
+          },
+          "operation_complete_query": {
+            "description": "1 when the current operation is finished",
+            "set": null,
+            "query": {
+              "syntax": "*OPC?",
+              "return_type": "int"
+            }
+          },
+          "set_timebase_delay": {
+            "description": "main timebase offset in seconds",
+            "set": {
+              "syntax": ":TIMebase:MAIN:OFFSet {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": {
+              "syntax": ":TIMebase:MAIN:OFFSet?",
+              "return_type": "float"
+            },
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "set_channel_state": {
+            "description": "show/hide a channel",
+            "set": {
+              "syntax": ":CHANnel{channel_number}:DISPlay {state}",
+              "args": [
+                "channel_number",
+                "state"
+              ]
+            },
+            "query": {
+              "syntax": ":CHANnel{channel_number}:DISPlay?",
+              "return_type": "int",
+              "args": [
+                "channel_number"
+              ]
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "state": {
+                "type": "string",
+                "values": [
+                  "ON",
+                  "OFF"
+                ]
+              }
+            }
+          },
+          "set_channel_bandwidth_limit": {
+            "description": "channel bandwidth limit",
+            "set": {
+              "syntax": ":CHANnel{channel_number}:BWLimit {bandwidth}",
+              "args": [
+                "channel_number",
+                "bandwidth"
+              ]
+            },
+            "query": {
+              "syntax": ":CHANnel{channel_number}:BWLimit?",
+              "return_type": "string",
+              "args": [
+                "channel_number"
+              ]
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "bandwidth": {
+                "type": "float",
+                "values": [
+                  "20M",
+                  "OFF"
+                ],
+                "map": {
+                  "0": "OFF",
+                  "20000000": "20M"
+                }
+              }
+            }
+          },
+          "set_probe_attenuation": {
+            "description": "probe attenuation ratio of a channel",
+            "set": {
+              "syntax": ":CHANnel{channel_number}:PROBe {value}",
+              "args": [
+                "channel_number",
+                "value"
+              ]
+            },
+            "query": {
+              "syntax": ":CHANnel{channel_number}:PROBe?",
+              "return_type": "float",
+              "args": [
+                "channel_number"
+              ]
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "set_channel_invert": {
+            "description": "invert a channel",
+            "set": {
+              "syntax": ":CHANnel{channel_number}:INVert {state}",
+              "args": [
+                "channel_number",
+                "state"
+              ]
+            },
+            "query": {
+              "syntax": ":CHANnel{channel_number}:INVert?",
+              "return_type": "int",
+              "args": [
+                "channel_number"
+              ]
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "state": {
+                "type": "string",
+                "values": [
+                  "ON",
+                  "OFF"
+                ]
+              }
+            }
+          },
+          "set_channel_unit": {
+            "description": "channel unit",
+            "set": {
+              "syntax": ":CHANnel{channel_number}:UNITs {unit}",
+              "args": [
+                "channel_number",
+                "unit"
+              ]
+            },
+            "query": {
+              "syntax": ":CHANnel{channel_number}:UNITs?",
+              "return_type": "string",
+              "args": [
+                "channel_number"
+              ]
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "unit": {
+                "type": "string",
+                "values": [
+                  "VOLTage",
+                  "WATT",
+                  "AMPere",
+                  "UNKNown"
+                ]
+              }
+            }
+          },
+          "set_trigger_holdoff": {
+            "description": "trigger holdoff time in seconds (16 ns to 10 s)",
+            "set": {
+              "syntax": ":TRIGger:HOLDoff {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": {
+              "syntax": ":TRIGger:HOLDoff?",
+              "return_type": "float"
+            },
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "set_trigger_coupling": {
+            "description": "trigger coupling",
+            "set": {
+              "syntax": ":TRIGger:COUPling {coupling_type}",
+              "args": [
+                "coupling_type"
+              ]
+            },
+            "query": {
+              "syntax": ":TRIGger:COUPling?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "coupling_type": {
+                "type": "string",
+                "values": [
+                  "AC",
+                  "DC",
+                  "LFReject",
+                  "HFReject"
+                ]
+              }
+            }
+          },
+          "set_trigger_type": {
+            "description": "trigger type (EDGE, PULSe, SLOPe, VIDeo, PATTern, ... see the programming guide)",
+            "set": {
+              "syntax": ":TRIGger:MODE {trigger_type}",
+              "args": [
+                "trigger_type"
+              ]
+            },
+            "query": {
+              "syntax": ":TRIGger:MODE?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "trigger_type": {
+                "type": "string"
+              }
+            }
+          },
+          "query_trigger_mode": {
+            "description": "trigger sweep mode",
+            "set": null,
+            "query": {
+              "syntax": ":TRIGger:SWEep?",
+              "return_type": "string",
+              "response_map": {
+                "AUTO": "AUTO",
+                "NORMal": "NORMAL",
+                "NORM": "NORMAL",
+                "SINGle": "SINGLE",
+                "SING": "SINGLE"
+              }
+            }
+          },
+          "query_trigger_source": {
+            "description": "edge trigger source",
+            "set": null,
+            "query": {
+              "syntax": ":TRIGger:EDGe:SOURce?",
+              "return_type": "string"
+            }
+          },
+          "set_acquisition_type": {
+            "description": ":ACQuire:TYPE: NORMal, AVERages and PEAK; the DHO has no HRESolution (it has ULTRa, which no logical value names), so HIRES is not handled",
+            "set": {
+              "syntax": ":ACQuire:TYPE {acquisition_type}",
+              "args": [
+                "acquisition_type"
+              ]
+            },
+            "query": {
+              "syntax": ":ACQuire:TYPE?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "acquisition_type": {
+                "type": "string",
+                "values": [
+                  "NORMal",
+                  "AVERages",
+                  "PEAK"
+                ],
+                "map": {
+                  "NORMAL": "NORMal",
+                  "AVERAGE": "AVERages",
+                  "PEAK": "PEAK"
+                }
+              }
+            }
+          },
+          "query_sample_rate": {
+            "description": "current sample rate",
+            "set": null,
+            "query": {
+              "syntax": ":ACQuire:SRATe?",
+              "return_type": "float"
+            }
+          }
+        },
+        "models": [
+          {
+            "id": "OSC_Rigol_DHO802",
+            "name": "Rigol DHO802",
+            "manufacturer": "Rigol Technologies",
+            "model": "DHO802",
+            "documentation_path": "docs/Rigol/DHO800_DHO900_Series/DHO800-DHO900-Series_programmingguide_EN.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "USB-TMC",
+                  "visa_resource_id_template": "USB_OSC_{serial_number}",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR"
+                },
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_OSC_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR"
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 2,
+              "bandwidth_mhz": 70,
+              "memory_depth_mpts": 25,
+              "trigger_modes": [
+                "EDGE",
+                "PULSe",
+                "SLOPe",
+                "VIDeo",
+                "PATTern",
+                "DURation",
+                "TIMeout",
+                "RUNT",
+                "WINDow",
+                "DELay",
+                "SETup",
+                "NEDGe",
+                "RS232",
+                "IIC",
+                "SPI",
+                "CAN",
+                "LIN"
+              ],
+              "waveform_formats": [
+                "ASCii",
+                "BYTE",
+                "WORD"
+              ],
+              "channels": [
+                {
+                  "channel_id": "CHAN1",
+                  "label": "Channel 1"
+                },
+                {
+                  "channel_id": "CHAN2",
+                  "label": "Channel 2"
+                }
+              ],
+              "notes": "Memory depth up to 25 Mpts (1 channel; less with more channels on). The analog channels only; the DHO800 has an external trigger on the two-channel models."
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "OSC_Rigol_DHO804",
+            "name": "Rigol DHO804",
+            "manufacturer": "Rigol Technologies",
+            "model": "DHO804",
+            "documentation_path": "docs/Rigol/DHO800_DHO900_Series/DHO800-DHO900-Series_programmingguide_EN.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "USB-TMC",
+                  "visa_resource_id_template": "USB_OSC_{serial_number}",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR"
+                },
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_OSC_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR"
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 4,
+              "bandwidth_mhz": 70,
+              "memory_depth_mpts": 25,
+              "trigger_modes": [
+                "EDGE",
+                "PULSe",
+                "SLOPe",
+                "VIDeo",
+                "PATTern",
+                "DURation",
+                "TIMeout",
+                "RUNT",
+                "WINDow",
+                "DELay",
+                "SETup",
+                "NEDGe",
+                "RS232",
+                "IIC",
+                "SPI",
+                "CAN",
+                "LIN"
+              ],
+              "waveform_formats": [
+                "ASCii",
+                "BYTE",
+                "WORD"
+              ],
+              "channels": [
+                {
+                  "channel_id": "CHAN1",
+                  "label": "Channel 1"
+                },
+                {
+                  "channel_id": "CHAN2",
+                  "label": "Channel 2"
+                },
+                {
+                  "channel_id": "CHAN3",
+                  "label": "Channel 3"
+                },
+                {
+                  "channel_id": "CHAN4",
+                  "label": "Channel 4"
+                }
+              ],
+              "notes": "Memory depth up to 25 Mpts (1 channel; less with more channels on). The analog channels only; the DHO800 has an external trigger on the two-channel models."
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "OSC_Rigol_DHO812",
+            "name": "Rigol DHO812",
+            "manufacturer": "Rigol Technologies",
+            "model": "DHO812",
+            "documentation_path": "docs/Rigol/DHO800_DHO900_Series/DHO800-DHO900-Series_programmingguide_EN.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "USB-TMC",
+                  "visa_resource_id_template": "USB_OSC_{serial_number}",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR"
+                },
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_OSC_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR"
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 2,
+              "bandwidth_mhz": 100,
+              "memory_depth_mpts": 25,
+              "trigger_modes": [
+                "EDGE",
+                "PULSe",
+                "SLOPe",
+                "VIDeo",
+                "PATTern",
+                "DURation",
+                "TIMeout",
+                "RUNT",
+                "WINDow",
+                "DELay",
+                "SETup",
+                "NEDGe",
+                "RS232",
+                "IIC",
+                "SPI",
+                "CAN",
+                "LIN"
+              ],
+              "waveform_formats": [
+                "ASCii",
+                "BYTE",
+                "WORD"
+              ],
+              "channels": [
+                {
+                  "channel_id": "CHAN1",
+                  "label": "Channel 1"
+                },
+                {
+                  "channel_id": "CHAN2",
+                  "label": "Channel 2"
+                }
+              ],
+              "notes": "Memory depth up to 25 Mpts (1 channel; less with more channels on). The analog channels only; the DHO800 has an external trigger on the two-channel models."
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "OSC_Rigol_DHO814",
+            "name": "Rigol DHO814",
+            "manufacturer": "Rigol Technologies",
+            "model": "DHO814",
+            "documentation_path": "docs/Rigol/DHO800_DHO900_Series/DHO800-DHO900-Series_programmingguide_EN.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "USB-TMC",
+                  "visa_resource_id_template": "USB_OSC_{serial_number}",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR"
+                },
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_OSC_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR"
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 4,
+              "bandwidth_mhz": 100,
+              "memory_depth_mpts": 25,
+              "trigger_modes": [
+                "EDGE",
+                "PULSe",
+                "SLOPe",
+                "VIDeo",
+                "PATTern",
+                "DURation",
+                "TIMeout",
+                "RUNT",
+                "WINDow",
+                "DELay",
+                "SETup",
+                "NEDGe",
+                "RS232",
+                "IIC",
+                "SPI",
+                "CAN",
+                "LIN"
+              ],
+              "waveform_formats": [
+                "ASCii",
+                "BYTE",
+                "WORD"
+              ],
+              "channels": [
+                {
+                  "channel_id": "CHAN1",
+                  "label": "Channel 1"
+                },
+                {
+                  "channel_id": "CHAN2",
+                  "label": "Channel 2"
+                },
+                {
+                  "channel_id": "CHAN3",
+                  "label": "Channel 3"
+                },
+                {
+                  "channel_id": "CHAN4",
+                  "label": "Channel 4"
+                }
+              ],
+              "notes": "Memory depth up to 25 Mpts (1 channel; less with more channels on). The analog channels only; the DHO800 has an external trigger on the two-channel models."
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "OSC_Rigol_DHO914",
+            "name": "Rigol DHO914",
+            "manufacturer": "Rigol Technologies",
+            "model": "DHO914",
+            "documentation_path": "docs/Rigol/DHO800_DHO900_Series/DHO800-DHO900-Series_programmingguide_EN.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "USB-TMC",
+                  "visa_resource_id_template": "USB_OSC_{serial_number}",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR"
+                },
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_OSC_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR"
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 4,
+              "bandwidth_mhz": 125,
+              "memory_depth_mpts": 50,
+              "trigger_modes": [
+                "EDGE",
+                "PULSe",
+                "SLOPe",
+                "VIDeo",
+                "PATTern",
+                "DURation",
+                "TIMeout",
+                "RUNT",
+                "WINDow",
+                "DELay",
+                "SETup",
+                "NEDGe",
+                "RS232",
+                "IIC",
+                "SPI",
+                "CAN",
+                "LIN"
+              ],
+              "waveform_formats": [
+                "ASCii",
+                "BYTE",
+                "WORD"
+              ],
+              "channels": [
+                {
+                  "channel_id": "CHAN1",
+                  "label": "Channel 1"
+                },
+                {
+                  "channel_id": "CHAN2",
+                  "label": "Channel 2"
+                },
+                {
+                  "channel_id": "CHAN3",
+                  "label": "Channel 3"
+                },
+                {
+                  "channel_id": "CHAN4",
+                  "label": "Channel 4"
+                }
+              ],
+              "notes": "Memory depth up to 50 Mpts (1 channel; less with more channels on). The analog channels only: the 16 digital channels of the DHO900 are not covered."
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "OSC_Rigol_DHO914S",
+            "name": "Rigol DHO914S",
+            "manufacturer": "Rigol Technologies",
+            "model": "DHO914S",
+            "documentation_path": "docs/Rigol/DHO800_DHO900_Series/DHO800-DHO900-Series_programmingguide_EN.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "USB-TMC",
+                  "visa_resource_id_template": "USB_OSC_{serial_number}",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR"
+                },
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_OSC_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR"
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 4,
+              "bandwidth_mhz": 125,
+              "memory_depth_mpts": 50,
+              "trigger_modes": [
+                "EDGE",
+                "PULSe",
+                "SLOPe",
+                "VIDeo",
+                "PATTern",
+                "DURation",
+                "TIMeout",
+                "RUNT",
+                "WINDow",
+                "DELay",
+                "SETup",
+                "NEDGe",
+                "RS232",
+                "IIC",
+                "SPI",
+                "CAN",
+                "LIN"
+              ],
+              "waveform_formats": [
+                "ASCii",
+                "BYTE",
+                "WORD"
+              ],
+              "channels": [
+                {
+                  "channel_id": "CHAN1",
+                  "label": "Channel 1"
+                },
+                {
+                  "channel_id": "CHAN2",
+                  "label": "Channel 2"
+                },
+                {
+                  "channel_id": "CHAN3",
+                  "label": "Channel 3"
+                },
+                {
+                  "channel_id": "CHAN4",
+                  "label": "Channel 4"
+                }
+              ],
+              "notes": "Memory depth up to 50 Mpts (1 channel; less with more channels on). The analog channels only: the 16 digital channels of the DHO900 are not covered."
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "OSC_Rigol_DHO924",
+            "name": "Rigol DHO924",
+            "manufacturer": "Rigol Technologies",
+            "model": "DHO924",
+            "documentation_path": "docs/Rigol/DHO800_DHO900_Series/DHO800-DHO900-Series_programmingguide_EN.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "USB-TMC",
+                  "visa_resource_id_template": "USB_OSC_{serial_number}",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR"
+                },
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_OSC_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR"
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 4,
+              "bandwidth_mhz": 250,
+              "memory_depth_mpts": 50,
+              "trigger_modes": [
+                "EDGE",
+                "PULSe",
+                "SLOPe",
+                "VIDeo",
+                "PATTern",
+                "DURation",
+                "TIMeout",
+                "RUNT",
+                "WINDow",
+                "DELay",
+                "SETup",
+                "NEDGe",
+                "RS232",
+                "IIC",
+                "SPI",
+                "CAN",
+                "LIN"
+              ],
+              "waveform_formats": [
+                "ASCii",
+                "BYTE",
+                "WORD"
+              ],
+              "channels": [
+                {
+                  "channel_id": "CHAN1",
+                  "label": "Channel 1"
+                },
+                {
+                  "channel_id": "CHAN2",
+                  "label": "Channel 2"
+                },
+                {
+                  "channel_id": "CHAN3",
+                  "label": "Channel 3"
+                },
+                {
+                  "channel_id": "CHAN4",
+                  "label": "Channel 4"
+                }
+              ],
+              "notes": "Memory depth up to 50 Mpts (1 channel; less with more channels on). The analog channels only: the 16 digital channels of the DHO900 are not covered."
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "OSC_Rigol_DHO924S",
+            "name": "Rigol DHO924S",
+            "manufacturer": "Rigol Technologies",
+            "model": "DHO924S",
+            "documentation_path": "docs/Rigol/DHO800_DHO900_Series/DHO800-DHO900-Series_programmingguide_EN.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "USB-TMC",
+                  "visa_resource_id_template": "USB_OSC_{serial_number}",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR"
+                },
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_OSC_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR"
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 4,
+              "bandwidth_mhz": 250,
+              "memory_depth_mpts": 50,
+              "trigger_modes": [
+                "EDGE",
+                "PULSe",
+                "SLOPe",
+                "VIDeo",
+                "PATTern",
+                "DURation",
+                "TIMeout",
+                "RUNT",
+                "WINDow",
+                "DELay",
+                "SETup",
+                "NEDGe",
+                "RS232",
+                "IIC",
+                "SPI",
+                "CAN",
+                "LIN"
+              ],
+              "waveform_formats": [
+                "ASCii",
+                "BYTE",
+                "WORD"
+              ],
+              "channels": [
+                {
+                  "channel_id": "CHAN1",
+                  "label": "Channel 1"
+                },
+                {
+                  "channel_id": "CHAN2",
+                  "label": "Channel 2"
+                },
+                {
+                  "channel_id": "CHAN3",
+                  "label": "Channel 3"
+                },
+                {
+                  "channel_id": "CHAN4",
+                  "label": "Channel 4"
+                }
+              ],
+              "notes": "Memory depth up to 50 Mpts (1 channel; less with more channels on). The analog channels only: the 16 digital channels of the DHO900 are not covered."
+            },
+            "scpi_commands": {},
+            "experimental": true
+          }
+        ]
+      },
+      {
+        "series_id": "Rigol_MSO5000_Series",
+        "series_name": "Rigol MSO5000 series digital oscilloscopes",
+        "common_scpi_commands": {
+          "reset": {
+            "description": "reset",
+            "set": {
+              "syntax": "*RST"
+            },
+            "query": null
+          },
+          "clear_status": {
+            "description": "clear status",
+            "set": {
+              "syntax": "*CLS"
+            },
+            "query": null
+          },
+          "identification_query": {
+            "description": "identification query",
+            "set": null,
+            "query": {
+              "syntax": "*IDN?",
+              "return_type": "string"
+            }
+          },
+          "error_query": {
+            "description": ":SYSTem:ERRor[:NEXT]?: reads and clears the oldest error",
+            "set": null,
+            "query": {
+              "syntax": ":SYSTem:ERRor?",
+              "return_type": "string"
+            }
+          },
+          "self_test": {
+            "description": "self test",
+            "set": null,
+            "query": {
+              "syntax": "*TST?",
+              "return_type": "int"
+            }
+          },
+          "query_status_byte": {
+            "description": "query status byte",
+            "set": null,
+            "query": {
+              "syntax": "*STB?",
+              "return_type": "int"
+            }
+          },
+          "query_event_status_register": {
+            "description": "query event status register",
+            "set": null,
+            "query": {
+              "syntax": "*ESR?",
+              "return_type": "int"
+            }
+          },
+          "enable_event_status_register": {
+            "description": "enable event status register",
+            "set": {
+              "syntax": "*ESE {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "int"
+              }
+            }
+          },
+          "query_event_status_enable": {
+            "description": "query event status enable",
+            "set": null,
+            "query": {
+              "syntax": "*ESE?",
+              "return_type": "int"
+            }
+          },
+          "auto_setup": {
+            "description": "auto setup",
+            "set": {
+              "syntax": ":AUToscale"
+            },
+            "query": null
+          },
+          "set_channel_coupling": {
+            "description": "set channel coupling",
+            "set": {
+              "syntax": ":CHANnel{channel_number}:COUPling {coupling_type}",
+              "args": [
+                "channel_number",
+                "coupling_type"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "coupling_type": {
+                "type": "string",
+                "map": {
+                  "DC": "DC",
+                  "AC": "AC",
+                  "GND": "GND"
+                }
+              }
+            }
+          },
+          "set_channel_scale": {
+            "description": "set channel scale",
+            "set": {
+              "syntax": ":CHANnel{channel_number}:SCALe {value}",
+              "args": [
+                "channel_number",
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "set_channel_offset": {
+            "description": "set channel offset",
+            "set": {
+              "syntax": ":CHANnel{channel_number}:OFFSet {value}",
+              "args": [
+                "channel_number",
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_channel_scale": {
+            "description": "query channel scale",
+            "set": null,
+            "query": {
+              "syntax": ":CHANnel{channel_number}:SCALe?",
+              "args": [
+                "channel_number"
+              ],
+              "return_type": "float"
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              }
+            }
+          },
+          "query_channel_offset": {
+            "description": "query channel offset",
+            "set": null,
+            "query": {
+              "syntax": ":CHANnel{channel_number}:OFFSet?",
+              "args": [
+                "channel_number"
+              ],
+              "return_type": "float"
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              }
+            }
+          },
+          "set_timebase_scale": {
+            "description": "set timebase scale",
+            "set": {
+              "syntax": ":TIMebase:SCALe {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_timebase_scale": {
+            "description": "query timebase scale",
+            "set": null,
+            "query": {
+              "syntax": ":TIMebase:SCALe?",
+              "return_type": "float"
+            }
+          },
+          "set_trigger_mode": {
+            "description": "trigger sweep mode (AUTO, NORMal, SINGle)",
+            "set": {
+              "syntax": ":TRIGger:SWEep {mode}",
+              "args": [
+                "mode"
+              ]
+            },
+            "query": {
+              "syntax": ":TRIGger:SWEep?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "mode": {
+                "type": "string",
+                "values": [
+                  "AUTO",
+                  "NORMal",
+                  "SINGle",
+                  "NORM",
+                  "SING"
+                ],
+                "map": {
+                  "AUTO": "AUTO",
+                  "NORMAL": "NORMal",
+                  "SINGLE": "SINGle"
+                }
+              }
+            }
+          },
+          "set_trigger_source": {
+            "description": "set trigger source",
+            "set": {
+              "syntax": ":TRIGger:EDGE:SOURce CHAN{channel_number}",
+              "args": [
+                "channel_number"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              }
+            }
+          },
+          "set_trigger_slope": {
+            "description": "set trigger slope",
+            "set": {
+              "syntax": ":TRIGger:EDGe:SLOPe {slope}",
+              "args": [
+                "slope"
+              ]
+            },
+            "query": {
+              "syntax": ":TRIGger:EDGe:SLOPe?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "slope": {
+                "type": "string",
+                "values": [
+                  "POSitive",
+                  "NEGative",
+                  "RFALl"
+                ],
+                "map": {
+                  "RISE": "POSitive",
+                  "FALL": "NEGative",
+                  "EITHER": "RFALl"
+                }
+              }
+            }
+          },
+          "set_trigger_level": {
+            "description": "set trigger level",
+            "set": {
+              "syntax": ":TRIGger:EDGE:LEVel {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_trigger_level": {
+            "description": "query trigger level",
+            "set": null,
+            "query": {
+              "syntax": ":TRIGger:EDGE:LEVel?",
+              "return_type": "float"
+            }
+          },
+          "force_trigger": {
+            "description": "force trigger",
+            "set": {
+              "syntax": ":TFORce"
+            },
+            "query": null
+          },
+          "set_waveform_source": {
+            "description": "set waveform source",
+            "set": {
+              "syntax": ":WAVeform:SOURce CHAN{channel_number}",
+              "args": [
+                "channel_number"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              }
+            }
+          },
+          "set_waveform_format": {
+            "description": "set waveform format",
+            "set": {
+              "syntax": ":WAVeform:FORMat {format_type}",
+              "args": [
+                "format_type"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "format_type": {
+                "type": "string",
+                "map": {
+                  "BYTE": "BYTE",
+                  "WORD": "WORD",
+                  "ASCII": "ASCii"
+                }
+              }
+            }
+          },
+          "query_waveform_preamble": {
+            "description": "query waveform preamble",
+            "set": null,
+            "query": {
+              "syntax": ":WAVeform:PREamble?",
+              "return_type": "string"
+            }
+          },
+          "query_waveform_data": {
+            "description": "query waveform data",
+            "set": null,
+            "query": {
+              "syntax": ":WAVeform:DATA?",
+              "return_type": "binary"
+            }
+          },
+          "run_acquisition": {
+            "description": "run acquisition",
+            "set": {
+              "syntax": ":RUN"
+            },
+            "query": null
+          },
+          "stop_acquisition": {
+            "description": "stop acquisition",
+            "set": {
+              "syntax": ":STOP"
+            },
+            "query": null
+          },
+          "query_trigger_status": {
+            "description": "query trigger status",
+            "set": null,
+            "query": {
+              "syntax": ":TRIGger:STATus?",
+              "return_type": "string",
+              "response_map": {
+                "TD": "TRIGGERED",
+                "WAIT": "READY",
+                "RUN": "ARMED",
+                "AUTO": "AUTO",
+                "STOP": "STOPPED"
+              }
+            }
+          },
+          "set_acquisition_depth": {
+            "description": ":ACQuire:MDEPth: AUTO, 1k, 10k, 100k, 1M, 10M, 25M, 50M, 100M and 200M (single channel 200M, two channels 100M, all channels 50M)",
+            "set": {
+              "syntax": ":ACQuire:MDEPth {depth}",
+              "args": [
+                "depth"
+              ]
+            },
+            "query": {
+              "syntax": ":ACQuire:MDEPth?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "depth": {
+                "type": "int",
+                "map": {
+                  "1000": "1k",
+                  "10000": "10k",
+                  "100000": "100k",
+                  "1000000": "1M",
+                  "10000000": "10M",
+                  "25000000": "25M",
+                  "50000000": "50M",
+                  "100000000": "100M",
+                  "200000000": "200M"
+                }
+              }
+            }
+          },
+          "acquire_single": {
+            "description": "single acquisition",
+            "set": {
+              "syntax": ":SINGle"
+            },
+            "query": null
+          },
+          "operation_complete_query": {
+            "description": "1 when the current operation is finished",
+            "set": null,
+            "query": {
+              "syntax": "*OPC?",
+              "return_type": "int"
+            }
+          },
+          "set_timebase_delay": {
+            "description": "main timebase offset in seconds",
+            "set": {
+              "syntax": ":TIMebase:MAIN:OFFSet {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": {
+              "syntax": ":TIMebase:MAIN:OFFSet?",
+              "return_type": "float"
+            },
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "set_channel_state": {
+            "description": "show/hide a channel",
+            "set": {
+              "syntax": ":CHANnel{channel_number}:DISPlay {state}",
+              "args": [
+                "channel_number",
+                "state"
+              ]
+            },
+            "query": {
+              "syntax": ":CHANnel{channel_number}:DISPlay?",
+              "return_type": "int",
+              "args": [
+                "channel_number"
+              ]
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "state": {
+                "type": "string",
+                "values": [
+                  "ON",
+                  "OFF"
+                ]
+              }
+            }
+          },
+          "set_channel_bandwidth_limit": {
+            "description": ":CHANnel<n>:BWLimit: 20M, 100M or 200M, depending on the model (20M|OFF on the MSO5072/5074/5102/5104, 20M|100M|OFF on the MSO5204, 20M|100M|200M|OFF on the MSO5354)",
+            "set": {
+              "syntax": ":CHANnel{channel_number}:BWLimit {bandwidth}",
+              "args": [
+                "channel_number",
+                "bandwidth"
+              ]
+            },
+            "query": {
+              "syntax": ":CHANnel{channel_number}:BWLimit?",
+              "return_type": "string",
+              "args": [
+                "channel_number"
+              ]
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "bandwidth": {
+                "type": "float",
+                "values": [
+                  "20M",
+                  "OFF"
+                ],
+                "map": {
+                  "0": "OFF",
+                  "20000000": "20M"
+                }
+              }
+            }
+          },
+          "set_probe_attenuation": {
+            "description": "probe attenuation ratio of a channel",
+            "set": {
+              "syntax": ":CHANnel{channel_number}:PROBe {value}",
+              "args": [
+                "channel_number",
+                "value"
+              ]
+            },
+            "query": {
+              "syntax": ":CHANnel{channel_number}:PROBe?",
+              "return_type": "float",
+              "args": [
+                "channel_number"
+              ]
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "set_channel_invert": {
+            "description": "invert a channel",
+            "set": {
+              "syntax": ":CHANnel{channel_number}:INVert {state}",
+              "args": [
+                "channel_number",
+                "state"
+              ]
+            },
+            "query": {
+              "syntax": ":CHANnel{channel_number}:INVert?",
+              "return_type": "int",
+              "args": [
+                "channel_number"
+              ]
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "state": {
+                "type": "string",
+                "values": [
+                  "ON",
+                  "OFF"
+                ]
+              }
+            }
+          },
+          "set_channel_unit": {
+            "description": "channel unit",
+            "set": {
+              "syntax": ":CHANnel{channel_number}:UNITs {unit}",
+              "args": [
+                "channel_number",
+                "unit"
+              ]
+            },
+            "query": {
+              "syntax": ":CHANnel{channel_number}:UNITs?",
+              "return_type": "string",
+              "args": [
+                "channel_number"
+              ]
+            },
+            "parameters": {
+              "channel_number": {
+                "type": "int"
+              },
+              "unit": {
+                "type": "string",
+                "values": [
+                  "VOLTage",
+                  "WATT",
+                  "AMPere",
+                  "UNKNown"
+                ]
+              }
+            }
+          },
+          "set_trigger_holdoff": {
+            "description": "trigger holdoff time in seconds (16 ns to 10 s)",
+            "set": {
+              "syntax": ":TRIGger:HOLDoff {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": {
+              "syntax": ":TRIGger:HOLDoff?",
+              "return_type": "float"
+            },
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "set_trigger_coupling": {
+            "description": "trigger coupling",
+            "set": {
+              "syntax": ":TRIGger:COUPling {coupling_type}",
+              "args": [
+                "coupling_type"
+              ]
+            },
+            "query": {
+              "syntax": ":TRIGger:COUPling?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "coupling_type": {
+                "type": "string",
+                "values": [
+                  "AC",
+                  "DC",
+                  "LFReject",
+                  "HFReject"
+                ]
+              }
+            }
+          },
+          "set_trigger_type": {
+            "description": "trigger type (EDGE, PULSe, SLOPe, VIDeo, PATTern, ... see the programming guide)",
+            "set": {
+              "syntax": ":TRIGger:MODE {trigger_type}",
+              "args": [
+                "trigger_type"
+              ]
+            },
+            "query": {
+              "syntax": ":TRIGger:MODE?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "trigger_type": {
+                "type": "string"
+              }
+            }
+          },
+          "query_trigger_mode": {
+            "description": "trigger sweep mode",
+            "set": null,
+            "query": {
+              "syntax": ":TRIGger:SWEep?",
+              "return_type": "string",
+              "response_map": {
+                "AUTO": "AUTO",
+                "NORMal": "NORMAL",
+                "NORM": "NORMAL",
+                "SINGle": "SINGLE",
+                "SING": "SINGLE"
+              }
+            }
+          },
+          "query_trigger_source": {
+            "description": "edge trigger source",
+            "set": null,
+            "query": {
+              "syntax": ":TRIGger:EDGe:SOURce?",
+              "return_type": "string"
+            }
+          },
+          "set_acquisition_type": {
+            "description": "acquisition type",
+            "set": {
+              "syntax": ":ACQuire:TYPE {acquisition_type}",
+              "args": [
+                "acquisition_type"
+              ]
+            },
+            "query": {
+              "syntax": ":ACQuire:TYPE?",
+              "return_type": "string"
+            },
+            "parameters": {
+              "acquisition_type": {
+                "type": "string",
+                "values": [
+                  "NORMal",
+                  "AVERages",
+                  "PEAK",
+                  "HRESolution"
+                ],
+                "map": {
+                  "NORMAL": "NORMal",
+                  "AVERAGE": "AVERages",
+                  "PEAK": "PEAK",
+                  "HIRES": "HRESolution"
+                }
+              }
+            }
+          },
+          "query_sample_rate": {
+            "description": "current sample rate",
+            "set": null,
+            "query": {
+              "syntax": ":ACQuire:SRATe?",
+              "return_type": "float"
+            }
+          }
+        },
+        "models": [
+          {
+            "id": "OSC_Rigol_MSO5072",
+            "name": "Rigol MSO5072",
+            "manufacturer": "Rigol Technologies",
+            "model": "MSO5072",
+            "documentation_path": "docs/Rigol/MSO5000_Series/MSO5000_ProgrammingGuide_EN-V2.0.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "USB-TMC",
+                  "visa_resource_id_template": "USB_OSC_{serial_number}",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR"
+                },
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_OSC_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR"
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 2,
+              "bandwidth_mhz": 70,
+              "memory_depth_mpts": 200,
+              "trigger_modes": [
+                "EDGE",
+                "PULSe",
+                "SLOPe",
+                "VIDeo",
+                "PATTern",
+                "DURation",
+                "TIMeout",
+                "RUNT",
+                "WINDow",
+                "DELay",
+                "SETup",
+                "NEDGe",
+                "RS232",
+                "IIC",
+                "SPI",
+                "CAN",
+                "FLEXray",
+                "LIN",
+                "IIS",
+                "M1553"
+              ],
+              "waveform_formats": [
+                "ASCii",
+                "BYTE",
+                "WORD"
+              ],
+              "channels": [
+                {
+                  "channel_id": "CHAN1",
+                  "label": "Channel 1"
+                },
+                {
+                  "channel_id": "CHAN2",
+                  "label": "Channel 2"
+                }
+              ],
+              "notes": "Memory depth up to 200 Mpts (single channel, 100 Mpts half-channel, 50 Mpts all channels). The analog channels only: the 16 digital channels and the optional function/arbitrary waveform generator are not covered."
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "OSC_Rigol_MSO5074",
+            "name": "Rigol MSO5074",
+            "manufacturer": "Rigol Technologies",
+            "model": "MSO5074",
+            "documentation_path": "docs/Rigol/MSO5000_Series/MSO5000_ProgrammingGuide_EN-V2.0.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "USB-TMC",
+                  "visa_resource_id_template": "USB_OSC_{serial_number}",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR"
+                },
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_OSC_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR"
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 4,
+              "bandwidth_mhz": 70,
+              "memory_depth_mpts": 200,
+              "trigger_modes": [
+                "EDGE",
+                "PULSe",
+                "SLOPe",
+                "VIDeo",
+                "PATTern",
+                "DURation",
+                "TIMeout",
+                "RUNT",
+                "WINDow",
+                "DELay",
+                "SETup",
+                "NEDGe",
+                "RS232",
+                "IIC",
+                "SPI",
+                "CAN",
+                "FLEXray",
+                "LIN",
+                "IIS",
+                "M1553"
+              ],
+              "waveform_formats": [
+                "ASCii",
+                "BYTE",
+                "WORD"
+              ],
+              "channels": [
+                {
+                  "channel_id": "CHAN1",
+                  "label": "Channel 1"
+                },
+                {
+                  "channel_id": "CHAN2",
+                  "label": "Channel 2"
+                },
+                {
+                  "channel_id": "CHAN3",
+                  "label": "Channel 3"
+                },
+                {
+                  "channel_id": "CHAN4",
+                  "label": "Channel 4"
+                }
+              ],
+              "notes": "Memory depth up to 200 Mpts (single channel, 100 Mpts half-channel, 50 Mpts all channels). The analog channels only: the 16 digital channels and the optional function/arbitrary waveform generator are not covered."
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "OSC_Rigol_MSO5102",
+            "name": "Rigol MSO5102",
+            "manufacturer": "Rigol Technologies",
+            "model": "MSO5102",
+            "documentation_path": "docs/Rigol/MSO5000_Series/MSO5000_ProgrammingGuide_EN-V2.0.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "USB-TMC",
+                  "visa_resource_id_template": "USB_OSC_{serial_number}",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR"
+                },
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_OSC_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR"
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 2,
+              "bandwidth_mhz": 100,
+              "memory_depth_mpts": 200,
+              "trigger_modes": [
+                "EDGE",
+                "PULSe",
+                "SLOPe",
+                "VIDeo",
+                "PATTern",
+                "DURation",
+                "TIMeout",
+                "RUNT",
+                "WINDow",
+                "DELay",
+                "SETup",
+                "NEDGe",
+                "RS232",
+                "IIC",
+                "SPI",
+                "CAN",
+                "FLEXray",
+                "LIN",
+                "IIS",
+                "M1553"
+              ],
+              "waveform_formats": [
+                "ASCii",
+                "BYTE",
+                "WORD"
+              ],
+              "channels": [
+                {
+                  "channel_id": "CHAN1",
+                  "label": "Channel 1"
+                },
+                {
+                  "channel_id": "CHAN2",
+                  "label": "Channel 2"
+                }
+              ],
+              "notes": "Memory depth up to 200 Mpts (single channel, 100 Mpts half-channel, 50 Mpts all channels). The analog channels only: the 16 digital channels and the optional function/arbitrary waveform generator are not covered."
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "OSC_Rigol_MSO5104",
+            "name": "Rigol MSO5104",
+            "manufacturer": "Rigol Technologies",
+            "model": "MSO5104",
+            "documentation_path": "docs/Rigol/MSO5000_Series/MSO5000_ProgrammingGuide_EN-V2.0.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "USB-TMC",
+                  "visa_resource_id_template": "USB_OSC_{serial_number}",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR"
+                },
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_OSC_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR"
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 4,
+              "bandwidth_mhz": 100,
+              "memory_depth_mpts": 200,
+              "trigger_modes": [
+                "EDGE",
+                "PULSe",
+                "SLOPe",
+                "VIDeo",
+                "PATTern",
+                "DURation",
+                "TIMeout",
+                "RUNT",
+                "WINDow",
+                "DELay",
+                "SETup",
+                "NEDGe",
+                "RS232",
+                "IIC",
+                "SPI",
+                "CAN",
+                "FLEXray",
+                "LIN",
+                "IIS",
+                "M1553"
+              ],
+              "waveform_formats": [
+                "ASCii",
+                "BYTE",
+                "WORD"
+              ],
+              "channels": [
+                {
+                  "channel_id": "CHAN1",
+                  "label": "Channel 1"
+                },
+                {
+                  "channel_id": "CHAN2",
+                  "label": "Channel 2"
+                },
+                {
+                  "channel_id": "CHAN3",
+                  "label": "Channel 3"
+                },
+                {
+                  "channel_id": "CHAN4",
+                  "label": "Channel 4"
+                }
+              ],
+              "notes": "Memory depth up to 200 Mpts (single channel, 100 Mpts half-channel, 50 Mpts all channels). The analog channels only: the 16 digital channels and the optional function/arbitrary waveform generator are not covered."
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "OSC_Rigol_MSO5204",
+            "name": "Rigol MSO5204",
+            "manufacturer": "Rigol Technologies",
+            "model": "MSO5204",
+            "documentation_path": "docs/Rigol/MSO5000_Series/MSO5000_ProgrammingGuide_EN-V2.0.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "USB-TMC",
+                  "visa_resource_id_template": "USB_OSC_{serial_number}",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR"
+                },
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_OSC_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR"
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 4,
+              "bandwidth_mhz": 200,
+              "memory_depth_mpts": 200,
+              "trigger_modes": [
+                "EDGE",
+                "PULSe",
+                "SLOPe",
+                "VIDeo",
+                "PATTern",
+                "DURation",
+                "TIMeout",
+                "RUNT",
+                "WINDow",
+                "DELay",
+                "SETup",
+                "NEDGe",
+                "RS232",
+                "IIC",
+                "SPI",
+                "CAN",
+                "FLEXray",
+                "LIN",
+                "IIS",
+                "M1553"
+              ],
+              "waveform_formats": [
+                "ASCii",
+                "BYTE",
+                "WORD"
+              ],
+              "channels": [
+                {
+                  "channel_id": "CHAN1",
+                  "label": "Channel 1"
+                },
+                {
+                  "channel_id": "CHAN2",
+                  "label": "Channel 2"
+                },
+                {
+                  "channel_id": "CHAN3",
+                  "label": "Channel 3"
+                },
+                {
+                  "channel_id": "CHAN4",
+                  "label": "Channel 4"
+                }
+              ],
+              "notes": "Memory depth up to 200 Mpts (single channel, 100 Mpts half-channel, 50 Mpts all channels). The analog channels only: the 16 digital channels and the optional function/arbitrary waveform generator are not covered."
+            },
+            "scpi_commands": {
+              "set_channel_bandwidth_limit": {
+                "patch": {
+                  "parameters": {
+                    "bandwidth": {
+                      "values": [
+                        "20M",
+                        "100M",
+                        "OFF"
+                      ],
+                      "map": {
+                        "100000000": "100M"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "experimental": true
+          },
+          {
+            "id": "OSC_Rigol_MSO5354",
+            "name": "Rigol MSO5354",
+            "manufacturer": "Rigol Technologies",
+            "model": "MSO5354",
+            "documentation_path": "docs/Rigol/MSO5000_Series/MSO5000_ProgrammingGuide_EN-V2.0.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "USB-TMC",
+                  "visa_resource_id_template": "USB_OSC_{serial_number}",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR"
+                },
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_OSC_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR"
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 4,
+              "bandwidth_mhz": 350,
+              "memory_depth_mpts": 200,
+              "trigger_modes": [
+                "EDGE",
+                "PULSe",
+                "SLOPe",
+                "VIDeo",
+                "PATTern",
+                "DURation",
+                "TIMeout",
+                "RUNT",
+                "WINDow",
+                "DELay",
+                "SETup",
+                "NEDGe",
+                "RS232",
+                "IIC",
+                "SPI",
+                "CAN",
+                "FLEXray",
+                "LIN",
+                "IIS",
+                "M1553"
+              ],
+              "waveform_formats": [
+                "ASCii",
+                "BYTE",
+                "WORD"
+              ],
+              "channels": [
+                {
+                  "channel_id": "CHAN1",
+                  "label": "Channel 1"
+                },
+                {
+                  "channel_id": "CHAN2",
+                  "label": "Channel 2"
+                },
+                {
+                  "channel_id": "CHAN3",
+                  "label": "Channel 3"
+                },
+                {
+                  "channel_id": "CHAN4",
+                  "label": "Channel 4"
+                }
+              ],
+              "notes": "Memory depth up to 200 Mpts (single channel, 100 Mpts half-channel, 50 Mpts all channels). The analog channels only: the 16 digital channels and the optional function/arbitrary waveform generator are not covered."
+            },
+            "scpi_commands": {
+              "set_channel_bandwidth_limit": {
+                "patch": {
+                  "parameters": {
+                    "bandwidth": {
+                      "values": [
+                        "20M",
+                        "100M",
+                        "200M",
+                        "OFF"
+                      ],
+                      "map": {
+                        "100000000": "100M",
+                        "200000000": "200M"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "experimental": true
           }
         ]
       },
@@ -16189,7 +18636,7 @@
             "name": "Keysight EL4913A",
             "manufacturer": "Keysight Technologies",
             "model": "EL4913A",
-            "documentation_path": "docs/Keysight/EL4900_Series/EL4900-Series-Users-Guide.pdf",
+            "documentation_path": "docs/HP_Agilent_Keysight/EL4900_Series/EL4900-Series-Users-Guide.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -16713,7 +19160,7 @@
             "name": "Siglent SDL1030X-E",
             "manufacturer": "Siglent Technologies",
             "model": "SDL1030X-E",
-            "documentation_path": "docs/Sigilent/SDL1000X_Series/SDL1000X_programming_guide.pdf",
+            "documentation_path": "docs/Siglent/SDL1000X_Series/SDL1000X_programming_guide.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -17069,7 +19516,7 @@
             "name": "HP 3478A Multimeter",
             "manufacturer": "HP",
             "model": "3478A",
-            "documentation_path": "docs/HP/3478A_Series/HP3478_Service_Manual.pdf",
+            "documentation_path": "docs/HP_Agilent_Keysight/3478A_Series/HP3478_Service_Manual.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -19084,7 +21531,7 @@
             "name": "Agilent 34401A Digital Multimeter",
             "manufacturer": "Agilent",
             "model": "34401A",
-            "documentation_path": "docs/Agilent/34401A_Series/HP 34401A User Manual.pdf",
+            "documentation_path": "docs/HP_Agilent_Keysight/34401A_Series/HP 34401A User Manual.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -19817,7 +22264,7 @@
             "name": "Siglent SNA5002A",
             "manufacturer": "Siglent",
             "model": "SNA5002A",
-            "documentation_path": "docs/Sigilent/VNA_Series_ProgrammingGuide_EN05A.pdf",
+            "documentation_path": "docs/Siglent/VNA_Series_ProgrammingGuide_EN05A.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -19871,7 +22318,7 @@
             "name": "Siglent SNA5004A",
             "manufacturer": "Siglent",
             "model": "SNA5004A",
-            "documentation_path": "docs/Sigilent/VNA_Series_ProgrammingGuide_EN05A.pdf",
+            "documentation_path": "docs/Siglent/VNA_Series_ProgrammingGuide_EN05A.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -19925,7 +22372,7 @@
             "name": "Siglent SNA5012A",
             "manufacturer": "Siglent",
             "model": "SNA5012A",
-            "documentation_path": "docs/Sigilent/VNA_Series_ProgrammingGuide_EN05A.pdf",
+            "documentation_path": "docs/Siglent/VNA_Series_ProgrammingGuide_EN05A.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -19979,7 +22426,7 @@
             "name": "Siglent SNA5014A",
             "manufacturer": "Siglent",
             "model": "SNA5014A",
-            "documentation_path": "docs/Sigilent/VNA_Series_ProgrammingGuide_EN05A.pdf",
+            "documentation_path": "docs/Siglent/VNA_Series_ProgrammingGuide_EN05A.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -20033,7 +22480,7 @@
             "name": "Siglent SNA5022A",
             "manufacturer": "Siglent",
             "model": "SNA5022A",
-            "documentation_path": "docs/Sigilent/VNA_Series_ProgrammingGuide_EN05A.pdf",
+            "documentation_path": "docs/Siglent/VNA_Series_ProgrammingGuide_EN05A.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -20087,7 +22534,7 @@
             "name": "Siglent SNA5032A",
             "manufacturer": "Siglent",
             "model": "SNA5032A",
-            "documentation_path": "docs/Sigilent/VNA_Series_ProgrammingGuide_EN05A.pdf",
+            "documentation_path": "docs/Siglent/VNA_Series_ProgrammingGuide_EN05A.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -20141,7 +22588,7 @@
             "name": "Siglent SNA6022A",
             "manufacturer": "Siglent",
             "model": "SNA6022A",
-            "documentation_path": "docs/Sigilent/VNA_Series_ProgrammingGuide_EN05A.pdf",
+            "documentation_path": "docs/Siglent/VNA_Series_ProgrammingGuide_EN05A.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -20195,7 +22642,7 @@
             "name": "Siglent SNA6122A",
             "manufacturer": "Siglent",
             "model": "SNA6122A",
-            "documentation_path": "docs/Sigilent/VNA_Series_ProgrammingGuide_EN05A.pdf",
+            "documentation_path": "docs/Siglent/VNA_Series_ProgrammingGuide_EN05A.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -20249,7 +22696,7 @@
             "name": "Siglent SNA6024A",
             "manufacturer": "Siglent",
             "model": "SNA6024A",
-            "documentation_path": "docs/Sigilent/VNA_Series_ProgrammingGuide_EN05A.pdf",
+            "documentation_path": "docs/Siglent/VNA_Series_ProgrammingGuide_EN05A.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -20303,7 +22750,7 @@
             "name": "Siglent SNA6124A",
             "manufacturer": "Siglent",
             "model": "SNA6124A",
-            "documentation_path": "docs/Sigilent/VNA_Series_ProgrammingGuide_EN05A.pdf",
+            "documentation_path": "docs/Siglent/VNA_Series_ProgrammingGuide_EN05A.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -20357,7 +22804,7 @@
             "name": "Siglent SNA6032A",
             "manufacturer": "Siglent",
             "model": "SNA6032A",
-            "documentation_path": "docs/Sigilent/VNA_Series_ProgrammingGuide_EN05A.pdf",
+            "documentation_path": "docs/Siglent/VNA_Series_ProgrammingGuide_EN05A.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -20411,7 +22858,7 @@
             "name": "Siglent SNA6132A",
             "manufacturer": "Siglent",
             "model": "SNA6132A",
-            "documentation_path": "docs/Sigilent/VNA_Series_ProgrammingGuide_EN05A.pdf",
+            "documentation_path": "docs/Siglent/VNA_Series_ProgrammingGuide_EN05A.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -20465,7 +22912,7 @@
             "name": "Siglent SNA6034A",
             "manufacturer": "Siglent",
             "model": "SNA6034A",
-            "documentation_path": "docs/Sigilent/VNA_Series_ProgrammingGuide_EN05A.pdf",
+            "documentation_path": "docs/Siglent/VNA_Series_ProgrammingGuide_EN05A.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -20519,7 +22966,7 @@
             "name": "Siglent SNA6134A",
             "manufacturer": "Siglent",
             "model": "SNA6134A",
-            "documentation_path": "docs/Sigilent/VNA_Series_ProgrammingGuide_EN05A.pdf",
+            "documentation_path": "docs/Siglent/VNA_Series_ProgrammingGuide_EN05A.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -20573,7 +23020,7 @@
             "name": "Siglent SHN914A",
             "manufacturer": "Siglent",
             "model": "SHN914A",
-            "documentation_path": "docs/Sigilent/VNA_Series_ProgrammingGuide_EN05A.pdf",
+            "documentation_path": "docs/Siglent/VNA_Series_ProgrammingGuide_EN05A.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -20627,7 +23074,7 @@
             "name": "Siglent SHN920N",
             "manufacturer": "Siglent",
             "model": "SHN920N",
-            "documentation_path": "docs/Sigilent/VNA_Series_ProgrammingGuide_EN05A.pdf",
+            "documentation_path": "docs/Siglent/VNA_Series_ProgrammingGuide_EN05A.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -20681,7 +23128,7 @@
             "name": "Siglent SHN926A",
             "manufacturer": "Siglent",
             "model": "SHN926A",
-            "documentation_path": "docs/Sigilent/VNA_Series_ProgrammingGuide_EN05A.pdf",
+            "documentation_path": "docs/Siglent/VNA_Series_ProgrammingGuide_EN05A.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -20735,7 +23182,7 @@
             "name": "Siglent SNA5003X-E",
             "manufacturer": "Siglent",
             "model": "SNA5003X-E",
-            "documentation_path": "docs/Sigilent/VNA_Series_ProgrammingGuide_EN05A.pdf",
+            "documentation_path": "docs/Siglent/VNA_Series_ProgrammingGuide_EN05A.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -20789,7 +23236,7 @@
             "name": "Siglent SNA5006X-E",
             "manufacturer": "Siglent",
             "model": "SNA5006X-E",
-            "documentation_path": "docs/Sigilent/VNA_Series_ProgrammingGuide_EN05A.pdf",
+            "documentation_path": "docs/Siglent/VNA_Series_ProgrammingGuide_EN05A.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -23058,7 +25505,7 @@
             "name": "Agilent (HP) 33120A",
             "manufacturer": "Agilent",
             "model": "33120A",
-            "documentation_path": "docs/Agilent/33120A_Series/Agilent_33120A_Users_Guide.pdf",
+            "documentation_path": "docs/HP_Agilent_Keysight/33120A_Series/Agilent_33120A_Users_Guide.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -23922,7 +26369,7 @@
             "name": "Keysight N5171B EXG analog",
             "manufacturer": "Keysight",
             "model": "N5171B",
-            "documentation_path": "docs/Keysight/N51XX_Series/EXG X-Series Signal Generators N5171B Analog & N5172B Vector.pdf",
+            "documentation_path": "docs/HP_Agilent_Keysight/N51XX_Series/EXG X-Series Signal Generators N5171B Analog & N5172B Vector.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -23968,7 +26415,7 @@
             "name": "Keysight N5172B EXG vector",
             "manufacturer": "Keysight",
             "model": "N5172B",
-            "documentation_path": "docs/Keysight/N51XX_Series/EXG X-Series Signal Generators N5171B Analog & N5172B Vector.pdf",
+            "documentation_path": "docs/HP_Agilent_Keysight/N51XX_Series/EXG X-Series Signal Generators N5171B Analog & N5172B Vector.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -24495,7 +26942,7 @@
             "name": "Keysight N5181B MXG analog",
             "manufacturer": "Keysight",
             "model": "N5181B",
-            "documentation_path": "docs/Keysight/N51XX_Series/MXG X-Series Signal Generator N5181B Analog & N5182B Vector.pdf",
+            "documentation_path": "docs/HP_Agilent_Keysight/N51XX_Series/MXG X-Series Signal Generator N5181B Analog & N5182B Vector.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -24541,7 +26988,7 @@
             "name": "Keysight N5182B MXG vector",
             "manufacturer": "Keysight",
             "model": "N5182B",
-            "documentation_path": "docs/Keysight/N51XX_Series/MXG X-Series Signal Generator N5181B Analog & N5182B Vector.pdf",
+            "documentation_path": "docs/HP_Agilent_Keysight/N51XX_Series/MXG X-Series Signal Generator N5181B Analog & N5182B Vector.pdf",
             "interface": {
               "supported_connection_types": [
                 {
@@ -24581,6 +27028,2079 @@
               "notes": "Vector signal generator (the I/Q and digital modulation are not covered yet). Frequency: 9 kHz (5 MHz in I/Q mode) to 3 GHz (option 503) or 6 GHz (506), 7.2 GHz with option 506 + FRQ. The frequency range depends on the installed option; the power range is +19 to -144 dBm, +30 to -144 dBm with option 1EA (data sheet). The frequency and power limits of this entry are the ones of the standard top option; the SCPI commands are those of the X-Series Programming Compatibility Guide and Programming Guide. Supported with the same SCPI command set as the N5171B, which was tested on the real instrument; this model was not tried individually."
             },
             "experimental": false
+          }
+        ]
+      }
+    ],
+    "spectrum_analyzers_series": [
+      {
+        "series_id": "Rigol_DSA800_Series",
+        "series_name": "Rigol DSA800 series spectrum analyzers (DSA815, DSA832, DSA875, with and without the tracking generator)",
+        "common_scpi_commands": {
+          "identification_query": {
+            "description": "identification query",
+            "set": null,
+            "query": {
+              "syntax": "*IDN?",
+              "return_type": "string"
+            }
+          },
+          "reset": {
+            "description": "*RST: factory state",
+            "set": {
+              "syntax": "*RST"
+            },
+            "query": null
+          },
+          "clear_status": {
+            "description": "*CLS",
+            "set": {
+              "syntax": "*CLS"
+            },
+            "query": null
+          },
+          "operation_complete_query": {
+            "description": "*OPC?",
+            "set": null,
+            "query": {
+              "syntax": "*OPC?",
+              "return_type": "int"
+            }
+          },
+          "error_query": {
+            "description": ":SYSTem:ERRor[:NEXT]?: reads and clears the oldest error",
+            "set": null,
+            "query": {
+              "syntax": ":SYSTem:ERRor?",
+              "return_type": "string"
+            }
+          },
+          "set_center_frequency": {
+            "description": ":SENSe:FREQuency:CENTer <freq>: the center frequency, in Hz",
+            "set": {
+              "syntax": ":SENSe:FREQuency:CENTer {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_center_frequency": {
+            "description": ":SENSe:FREQuency:CENTer?",
+            "set": null,
+            "query": {
+              "syntax": ":SENSe:FREQuency:CENTer?",
+              "return_type": "float"
+            }
+          },
+          "set_span": {
+            "description": ":SENSe:FREQuency:SPAN <freq>: the span, in Hz",
+            "set": {
+              "syntax": ":SENSe:FREQuency:SPAN {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_span": {
+            "description": ":SENSe:FREQuency:SPAN?",
+            "set": null,
+            "query": {
+              "syntax": ":SENSe:FREQuency:SPAN?",
+              "return_type": "float"
+            }
+          },
+          "set_start_frequency": {
+            "description": ":SENSe:FREQuency:STARt <freq>: the start frequency, in Hz",
+            "set": {
+              "syntax": ":SENSe:FREQuency:STARt {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_start_frequency": {
+            "description": ":SENSe:FREQuency:STARt?",
+            "set": null,
+            "query": {
+              "syntax": ":SENSe:FREQuency:STARt?",
+              "return_type": "float"
+            }
+          },
+          "set_stop_frequency": {
+            "description": ":SENSe:FREQuency:STOP <freq>: the stop frequency, in Hz",
+            "set": {
+              "syntax": ":SENSe:FREQuency:STOP {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_stop_frequency": {
+            "description": ":SENSe:FREQuency:STOP?",
+            "set": null,
+            "query": {
+              "syntax": ":SENSe:FREQuency:STOP?",
+              "return_type": "float"
+            }
+          },
+          "set_full_span": {
+            "description": ":SENSe:FREQuency:SPAN:FULL",
+            "set": {
+              "syntax": ":SENSe:FREQuency:SPAN:FULL"
+            },
+            "query": null
+          },
+          "set_resolution_bandwidth": {
+            "description": "BANDwidth:RESolution <freq>: the resolution bandwidth, 10 Hz to 1 MHz in 1-3-10 steps, in Hz",
+            "set": {
+              "syntax": ":SENSe:BANDwidth:RESolution {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_resolution_bandwidth": {
+            "description": "BANDwidth:RESolution?",
+            "set": null,
+            "query": {
+              "syntax": ":SENSe:BANDwidth:RESolution?",
+              "return_type": "float"
+            }
+          },
+          "set_resolution_bandwidth_auto": {
+            "description": "BANDwidth:RESolution:AUTO ON|OFF",
+            "set": {
+              "syntax": ":SENSe:BANDwidth:RESolution:AUTO {state}",
+              "args": [
+                "state"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "ON"
+                ]
+              }
+            }
+          },
+          "set_video_bandwidth": {
+            "description": "BANDwidth:VIDeo <freq>: the video bandwidth, in Hz",
+            "set": {
+              "syntax": ":SENSe:BANDwidth:VIDeo {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_video_bandwidth": {
+            "description": "BANDwidth:VIDeo?",
+            "set": null,
+            "query": {
+              "syntax": ":SENSe:BANDwidth:VIDeo?",
+              "return_type": "float"
+            }
+          },
+          "set_video_bandwidth_auto": {
+            "description": "BANDwidth:VIDeo:AUTO ON|OFF",
+            "set": {
+              "syntax": ":SENSe:BANDwidth:VIDeo:AUTO {state}",
+              "args": [
+                "state"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "ON"
+                ]
+              }
+            }
+          },
+          "set_reference_level": {
+            "description": ":DISPlay:WINDow:TRACe:Y[:SCALe]:RLEVel <ampl>: the reference level, -100 to 20 dBm (the unit of the amplitude axis)",
+            "set": {
+              "syntax": ":DISPlay:WINDow:TRACe:Y:SCALe:RLEVel {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_reference_level": {
+            "description": ":DISPlay:WINDow:TRACe:Y[:SCALe]:RLEVel?",
+            "set": null,
+            "query": {
+              "syntax": ":DISPlay:WINDow:TRACe:Y:SCALe:RLEVel?",
+              "return_type": "float"
+            }
+          },
+          "set_input_attenuation": {
+            "description": ":SENSe:POWer[:RF]:ATTenuation <dB>: the RF attenuator, 0 to 30 dB",
+            "set": {
+              "syntax": ":SENSe:POWer:RF:ATTenuation {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_input_attenuation": {
+            "description": ":SENSe:POWer[:RF]:ATTenuation?",
+            "set": null,
+            "query": {
+              "syntax": ":SENSe:POWer:RF:ATTenuation?",
+              "return_type": "float"
+            }
+          },
+          "set_input_attenuation_auto": {
+            "description": ":SENSe:POWer[:RF]:ATTenuation:AUTO ON|OFF",
+            "set": {
+              "syntax": ":SENSe:POWer:RF:ATTenuation:AUTO {state}",
+              "args": [
+                "state"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "ON"
+                ]
+              }
+            }
+          },
+          "set_sweep_time": {
+            "description": ":SENSe:SWEep:TIME <time>: the sweep time, 20 us to 7500 s",
+            "set": {
+              "syntax": ":SENSe:SWEep:TIME {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_sweep_time": {
+            "description": ":SENSe:SWEep:TIME?",
+            "set": null,
+            "query": {
+              "syntax": ":SENSe:SWEep:TIME?",
+              "return_type": "float"
+            }
+          },
+          "set_sweep_time_auto": {
+            "description": ":SENSe:SWEep:TIME:AUTO ON|OFF",
+            "set": {
+              "syntax": ":SENSe:SWEep:TIME:AUTO {state}",
+              "args": [
+                "state"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "ON"
+                ]
+              }
+            }
+          },
+          "set_sweep_continuous": {
+            "description": ":INITiate:CONTinuous ON|OFF: continuous (ON) or single (OFF) sweep",
+            "set": {
+              "syntax": ":INITiate:CONTinuous {state}",
+              "args": [
+                "state"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "ON"
+                ]
+              }
+            }
+          },
+          "initiate_sweep": {
+            "description": ":INITiate[:IMMediate]: in the single sweep mode (:INITiate:CONTinuous OFF) starts a sweep",
+            "set": {
+              "syntax": ":INITiate:IMMediate"
+            },
+            "query": null
+          },
+          "set_detector": {
+            "description": ":SENSe:DETector[:FUNCtion] NEGative|NORMal|POSitive|RMS|SAMPle|VAVerage|QPEak (one detector for all the traces): the detector",
+            "set": {
+              "syntax": ":SENSe:DETector:FUNCtion {detector}",
+              "args": [
+                "trace_number",
+                "detector"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "trace_number": {
+                "type": "int"
+              },
+              "detector": {
+                "type": "string",
+                "map": {
+                  "NEGATIVE": "NEGative",
+                  "NORMAL": "NORMal",
+                  "POSITIVE": "POSitive",
+                  "RMS": "RMS",
+                  "SAMPLE": "SAMPle",
+                  "AVERAGE": "VAVerage",
+                  "QUASI_PEAK": "QPEak"
+                }
+              }
+            }
+          },
+          "set_trace_mode": {
+            "description": ":TRACe<n>:MODE: WRITe, MAXHold, MINHold, VIEW, BLANk, VIDeoavg (the video average) and POWeravg (the power average, which has no logical value); traces 1 to 3",
+            "set": {
+              "syntax": ":TRACe{trace_number}:MODE {mode}",
+              "args": [
+                "trace_number",
+                "mode"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "trace_number": {
+                "type": "int"
+              },
+              "mode": {
+                "type": "string",
+                "map": {
+                  "WRITE": "WRITe",
+                  "MAX_HOLD": "MAXHold",
+                  "MIN_HOLD": "MINHold",
+                  "VIEW": "VIEW",
+                  "BLANK": "BLANk",
+                  "AVERAGE": "VIDeoavg"
+                }
+              }
+            }
+          },
+          "set_power_unit": {
+            "description": ":UNIT:POWer DBM|DBMV|DBUV|V|W",
+            "set": {
+              "syntax": ":UNIT:POWer {unit}",
+              "args": [
+                "unit"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "unit": {
+                "type": "string",
+                "map": {
+                  "DBM": "DBM",
+                  "DBMV": "DBMV",
+                  "DBUV": "DBUV",
+                  "V": "V",
+                  "W": "W"
+                }
+              }
+            }
+          },
+          "read_trace": {
+            "description": ":FORMat:TRACe:DATA ASCii, then :TRACe[:DATA]? TRACE<n>: a definite length block header followed by the points as ASCII numbers (601 points)",
+            "set": null,
+            "query": {
+              "steps": [
+                {
+                  "op": "write",
+                  "text": ":FORMat:TRACe:DATA ASCii"
+                },
+                {
+                  "op": "query",
+                  "text": ":TRACe:DATA? TRACE{trace_number}"
+                }
+              ],
+              "parse": {
+                "name": "spectrum_trace_ascii",
+                "from_steps": "queries"
+              }
+            },
+            "parameters": {
+              "trace_number": {
+                "type": "int"
+              }
+            }
+          },
+          "set_marker_state": {
+            "description": ":CALCulate:MARKer<n>:STATe ON|OFF (4 markers)",
+            "set": {
+              "syntax": ":CALCulate:MARKer{marker_number}:STATe {state}",
+              "args": [
+                "marker_number",
+                "state"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "marker_number": {
+                "type": "int"
+              },
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "ON"
+                ]
+              }
+            }
+          },
+          "set_marker_frequency": {
+            "description": ":CALCulate:MARKer<n>:X <freq>: the X value of a normal marker, in Hz in frequency readout",
+            "set": {
+              "syntax": ":CALCulate:MARKer{marker_number}:X {value}",
+              "args": [
+                "marker_number",
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "marker_number": {
+                "type": "int"
+              },
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_marker_frequency": {
+            "description": ":CALCulate:MARKer<n>:X?",
+            "set": null,
+            "query": {
+              "syntax": ":CALCulate:MARKer{marker_number}:X?",
+              "return_type": "float",
+              "args": [
+                "marker_number"
+              ]
+            },
+            "parameters": {
+              "marker_number": {
+                "type": "int"
+              }
+            }
+          },
+          "query_marker_amplitude": {
+            "description": ":CALCulate:MARKer<n>:Y?",
+            "set": null,
+            "query": {
+              "syntax": ":CALCulate:MARKer{marker_number}:Y?",
+              "return_type": "float",
+              "args": [
+                "marker_number"
+              ]
+            },
+            "parameters": {
+              "marker_number": {
+                "type": "int"
+              }
+            }
+          },
+          "marker_peak_search": {
+            "description": ":CALCulate:MARKer<n>:MAXimum:MAX: peak search with the search mode of the instrument",
+            "set": {
+              "syntax": ":CALCulate:MARKer{marker_number}:MAXimum:MAX",
+              "args": [
+                "marker_number"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "marker_number": {
+                "type": "int"
+              }
+            }
+          }
+        },
+        "models": [
+          {
+            "id": "SA_Rigol_DSA815",
+            "name": "Rigol DSA815",
+            "manufacturer": "Rigol Technologies",
+            "model": "DSA815",
+            "documentation_path": "docs/Rigol/DSA800_Series/DSA800_ProgrammingGuide_EN.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "USB-TMC",
+                  "visa_resource_id_template": "USB_SA_{serial_number}",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR"
+                },
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_SA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    },
+                    {
+                      "kind": "raw_socket",
+                      "port": 5555
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 1,
+              "frequency_min_hz": 9000.0,
+              "frequency_max_hz": 1500000000.0,
+              "notes": "Spectrum analyzer: the sweep, traces and markers. The tracking generator, the measurement functions (channel power, ACPR, ...) and the demodulation are not covered. The guide gives 601 points per trace. LAN socket port 5555."
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "SA_Rigol_DSA815_TG",
+            "name": "Rigol DSA815-TG",
+            "manufacturer": "Rigol Technologies",
+            "model": "DSA815-TG",
+            "documentation_path": "docs/Rigol/DSA800_Series/DSA800_ProgrammingGuide_EN.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "USB-TMC",
+                  "visa_resource_id_template": "USB_SA_{serial_number}",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR"
+                },
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_SA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    },
+                    {
+                      "kind": "raw_socket",
+                      "port": 5555
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 1,
+              "frequency_min_hz": 9000.0,
+              "frequency_max_hz": 1500000000.0,
+              "tracking_generator": 1500000000.0,
+              "notes": "Spectrum analyzer: the sweep, traces and markers. The tracking generator, the measurement functions (channel power, ACPR, ...) and the demodulation are not covered. The guide gives 601 points per trace. LAN socket port 5555."
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "SA_Rigol_DSA832",
+            "name": "Rigol DSA832",
+            "manufacturer": "Rigol Technologies",
+            "model": "DSA832",
+            "documentation_path": "docs/Rigol/DSA800_Series/DSA800_ProgrammingGuide_EN.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "USB-TMC",
+                  "visa_resource_id_template": "USB_SA_{serial_number}",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR"
+                },
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_SA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    },
+                    {
+                      "kind": "raw_socket",
+                      "port": 5555
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 1,
+              "frequency_min_hz": 9000.0,
+              "frequency_max_hz": 3200000000.0,
+              "notes": "Spectrum analyzer: the sweep, traces and markers. The tracking generator, the measurement functions (channel power, ACPR, ...) and the demodulation are not covered. The guide gives 601 points per trace. LAN socket port 5555."
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "SA_Rigol_DSA832_TG",
+            "name": "Rigol DSA832-TG",
+            "manufacturer": "Rigol Technologies",
+            "model": "DSA832-TG",
+            "documentation_path": "docs/Rigol/DSA800_Series/DSA800_ProgrammingGuide_EN.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "USB-TMC",
+                  "visa_resource_id_template": "USB_SA_{serial_number}",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR"
+                },
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_SA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    },
+                    {
+                      "kind": "raw_socket",
+                      "port": 5555
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 1,
+              "frequency_min_hz": 9000.0,
+              "frequency_max_hz": 3200000000.0,
+              "tracking_generator": 3200000000.0,
+              "notes": "Spectrum analyzer: the sweep, traces and markers. The tracking generator, the measurement functions (channel power, ACPR, ...) and the demodulation are not covered. The guide gives 601 points per trace. LAN socket port 5555."
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "SA_Rigol_DSA875",
+            "name": "Rigol DSA875",
+            "manufacturer": "Rigol Technologies",
+            "model": "DSA875",
+            "documentation_path": "docs/Rigol/DSA800_Series/DSA800_ProgrammingGuide_EN.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "USB-TMC",
+                  "visa_resource_id_template": "USB_SA_{serial_number}",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR"
+                },
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_SA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    },
+                    {
+                      "kind": "raw_socket",
+                      "port": 5555
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 1,
+              "frequency_min_hz": 9000.0,
+              "frequency_max_hz": 7500000000.0,
+              "notes": "Spectrum analyzer: the sweep, traces and markers. The tracking generator, the measurement functions (channel power, ACPR, ...) and the demodulation are not covered. The guide gives 601 points per trace. LAN socket port 5555."
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "SA_Rigol_DSA875_TG",
+            "name": "Rigol DSA875-TG",
+            "manufacturer": "Rigol Technologies",
+            "model": "DSA875-TG",
+            "documentation_path": "docs/Rigol/DSA800_Series/DSA800_ProgrammingGuide_EN.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "USB-TMC",
+                  "visa_resource_id_template": "USB_SA_{serial_number}",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR"
+                },
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_SA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    },
+                    {
+                      "kind": "raw_socket",
+                      "port": 5555
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 1,
+              "frequency_min_hz": 9000.0,
+              "frequency_max_hz": 7500000000.0,
+              "tracking_generator": 7500000000.0,
+              "notes": "Spectrum analyzer: the sweep, traces and markers. The tracking generator, the measurement functions (channel power, ACPR, ...) and the demodulation are not covered. The guide gives 601 points per trace. LAN socket port 5555."
+            },
+            "scpi_commands": {},
+            "experimental": true
+          }
+        ]
+      },
+      {
+        "series_id": "Rigol_RSA3000_Series",
+        "series_name": "Rigol RSA3000 series real-time spectrum analyzers (RSA3030, RSA3045, with and without the tracking generator)",
+        "common_scpi_commands": {
+          "identification_query": {
+            "description": "identification query",
+            "set": null,
+            "query": {
+              "syntax": "*IDN?",
+              "return_type": "string"
+            }
+          },
+          "reset": {
+            "description": "*RST: factory state",
+            "set": {
+              "syntax": "*RST"
+            },
+            "query": null
+          },
+          "clear_status": {
+            "description": "*CLS",
+            "set": {
+              "syntax": "*CLS"
+            },
+            "query": null
+          },
+          "operation_complete_query": {
+            "description": "*OPC?",
+            "set": null,
+            "query": {
+              "syntax": "*OPC?",
+              "return_type": "int"
+            }
+          },
+          "error_query": {
+            "description": ":SYSTem:ERRor[:NEXT]?: reads and clears the oldest error",
+            "set": null,
+            "query": {
+              "syntax": ":SYSTem:ERRor?",
+              "return_type": "string"
+            }
+          },
+          "set_center_frequency": {
+            "description": ":SENSe:FREQuency:CENTer <freq>: the center frequency, in Hz",
+            "set": {
+              "syntax": ":SENSe:FREQuency:CENTer {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_center_frequency": {
+            "description": ":SENSe:FREQuency:CENTer?",
+            "set": null,
+            "query": {
+              "syntax": ":SENSe:FREQuency:CENTer?",
+              "return_type": "float"
+            }
+          },
+          "set_span": {
+            "description": ":SENSe:FREQuency:SPAN <freq>: the span, in Hz",
+            "set": {
+              "syntax": ":SENSe:FREQuency:SPAN {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_span": {
+            "description": ":SENSe:FREQuency:SPAN?",
+            "set": null,
+            "query": {
+              "syntax": ":SENSe:FREQuency:SPAN?",
+              "return_type": "float"
+            }
+          },
+          "set_start_frequency": {
+            "description": ":SENSe:FREQuency:STARt <freq>: the start frequency, in Hz",
+            "set": {
+              "syntax": ":SENSe:FREQuency:STARt {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_start_frequency": {
+            "description": ":SENSe:FREQuency:STARt?",
+            "set": null,
+            "query": {
+              "syntax": ":SENSe:FREQuency:STARt?",
+              "return_type": "float"
+            }
+          },
+          "set_stop_frequency": {
+            "description": ":SENSe:FREQuency:STOP <freq>: the stop frequency, in Hz",
+            "set": {
+              "syntax": ":SENSe:FREQuency:STOP {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_stop_frequency": {
+            "description": ":SENSe:FREQuency:STOP?",
+            "set": null,
+            "query": {
+              "syntax": ":SENSe:FREQuency:STOP?",
+              "return_type": "float"
+            }
+          },
+          "set_full_span": {
+            "description": ":SENSe:FREQuency:SPAN:FULL",
+            "set": {
+              "syntax": ":SENSe:FREQuency:SPAN:FULL"
+            },
+            "query": null
+          },
+          "set_resolution_bandwidth": {
+            "description": "BANDwidth:RESolution <freq>: the resolution bandwidth, 10 Hz to 3 MHz in 1-3-10 steps (1 Hz to 10 MHz with the RSA3000-BW1 option); it can be set in the general purpose (GPSA) mode only",
+            "set": {
+              "syntax": ":SENSe:BANDwidth:RESolution {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_resolution_bandwidth": {
+            "description": "BANDwidth:RESolution?",
+            "set": null,
+            "query": {
+              "syntax": ":SENSe:BANDwidth:RESolution?",
+              "return_type": "float"
+            }
+          },
+          "set_resolution_bandwidth_auto": {
+            "description": "BANDwidth:RESolution:AUTO ON|OFF",
+            "set": {
+              "syntax": ":SENSe:BANDwidth:RESolution:AUTO {state}",
+              "args": [
+                "state"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "ON"
+                ]
+              }
+            }
+          },
+          "set_video_bandwidth": {
+            "description": "BANDwidth:VIDeo <freq>: the video bandwidth, in Hz",
+            "set": {
+              "syntax": ":SENSe:BANDwidth:VIDeo {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_video_bandwidth": {
+            "description": "BANDwidth:VIDeo?",
+            "set": null,
+            "query": {
+              "syntax": ":SENSe:BANDwidth:VIDeo?",
+              "return_type": "float"
+            }
+          },
+          "set_video_bandwidth_auto": {
+            "description": "BANDwidth:VIDeo:AUTO ON|OFF",
+            "set": {
+              "syntax": ":SENSe:BANDwidth:VIDeo:AUTO {state}",
+              "args": [
+                "state"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "ON"
+                ]
+              }
+            }
+          },
+          "set_reference_level": {
+            "description": ":DISPlay:WINDow:TRACe:Y[:SCALe]:RLEVel <ampl>: the reference level, -170 to 30 dBm (the unit of the amplitude axis)",
+            "set": {
+              "syntax": ":DISPlay:WINDow:TRACe:Y:SCALe:RLEVel {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_reference_level": {
+            "description": ":DISPlay:WINDow:TRACe:Y[:SCALe]:RLEVel?",
+            "set": null,
+            "query": {
+              "syntax": ":DISPlay:WINDow:TRACe:Y:SCALe:RLEVel?",
+              "return_type": "float"
+            }
+          },
+          "set_input_attenuation": {
+            "description": ":SENSe:POWer[:RF]:ATTenuation <dB>: the RF attenuator, 0 to 50 dB",
+            "set": {
+              "syntax": ":SENSe:POWer:RF:ATTenuation {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_input_attenuation": {
+            "description": ":SENSe:POWer[:RF]:ATTenuation?",
+            "set": null,
+            "query": {
+              "syntax": ":SENSe:POWer:RF:ATTenuation?",
+              "return_type": "float"
+            }
+          },
+          "set_input_attenuation_auto": {
+            "description": ":SENSe:POWer[:RF]:ATTenuation:AUTO ON|OFF",
+            "set": {
+              "syntax": ":SENSe:POWer:RF:ATTenuation:AUTO {state}",
+              "args": [
+                "state"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "ON"
+                ]
+              }
+            }
+          },
+          "set_sweep_time": {
+            "description": ":SENSe:SWEep:TIME <time>: the sweep time",
+            "set": {
+              "syntax": ":SENSe:SWEep:TIME {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_sweep_time": {
+            "description": ":SENSe:SWEep:TIME?",
+            "set": null,
+            "query": {
+              "syntax": ":SENSe:SWEep:TIME?",
+              "return_type": "float"
+            }
+          },
+          "set_sweep_time_auto": {
+            "description": ":SENSe:SWEep:TIME:AUTO ON|OFF",
+            "set": {
+              "syntax": ":SENSe:SWEep:TIME:AUTO {state}",
+              "args": [
+                "state"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "ON"
+                ]
+              }
+            }
+          },
+          "set_sweep_continuous": {
+            "description": ":INITiate:CONTinuous ON|OFF: continuous (ON) or single (OFF) sweep",
+            "set": {
+              "syntax": ":INITiate:CONTinuous {state}",
+              "args": [
+                "state"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "ON"
+                ]
+              }
+            }
+          },
+          "initiate_sweep": {
+            "description": ":INITiate[:IMMediate]: in the single sweep mode (:INITiate:CONTinuous OFF) starts a sweep",
+            "set": {
+              "syntax": ":INITiate:IMMediate"
+            },
+            "query": null
+          },
+          "set_detector": {
+            "description": ":SENSe:DETector:TRACe<n> AVERage|NEGative|NORMal|POSitive|SAMPle|QPEak|RAVerage (one detector per trace): the detector",
+            "set": {
+              "syntax": ":SENSe:DETector:TRACe{trace_number} {detector}",
+              "args": [
+                "trace_number",
+                "detector"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "trace_number": {
+                "type": "int"
+              },
+              "detector": {
+                "type": "string",
+                "map": {
+                  "NEGATIVE": "NEGative",
+                  "NORMAL": "NORMal",
+                  "POSITIVE": "POSitive",
+                  "RMS": "RAVerage",
+                  "SAMPLE": "SAMPle",
+                  "AVERAGE": "VAVerage",
+                  "QUASI_PEAK": "QPEak"
+                }
+              }
+            }
+          },
+          "set_trace_mode": {
+            "description": ":TRACe<n>:MODE: WRITe, AVERage, MAXHold and MINHold; traces 1 to 6 (VIEW and BLANK are not handled)",
+            "set": {
+              "syntax": ":TRACe{trace_number}:MODE {mode}",
+              "args": [
+                "trace_number",
+                "mode"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "trace_number": {
+                "type": "int"
+              },
+              "mode": {
+                "type": "string",
+                "map": {
+                  "WRITE": "WRITe",
+                  "MAX_HOLD": "MAXHold",
+                  "MIN_HOLD": "MINHold",
+                  "AVERAGE": "AVERage"
+                }
+              }
+            }
+          },
+          "set_power_unit": {
+            "description": ":UNIT:POWer DBM|DBMV|DBUV|V|W",
+            "set": {
+              "syntax": ":UNIT:POWer {unit}",
+              "args": [
+                "unit"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "unit": {
+                "type": "string",
+                "map": {
+                  "DBM": "DBM",
+                  "DBMV": "DBMV",
+                  "DBUV": "DBUV",
+                  "V": "V",
+                  "W": "W"
+                }
+              }
+            }
+          },
+          "read_trace": {
+            "description": ":FORMat:TRACe:DATA ASCii, then :TRACe[:DATA]? TRACE<n> (traces 1 to 6): the points as ASCII numbers",
+            "set": null,
+            "query": {
+              "steps": [
+                {
+                  "op": "write",
+                  "text": ":FORMat:TRACe:DATA ASCii"
+                },
+                {
+                  "op": "query",
+                  "text": ":TRACe:DATA? TRACE{trace_number}"
+                }
+              ],
+              "parse": {
+                "name": "spectrum_trace_ascii",
+                "from_steps": "queries"
+              }
+            },
+            "parameters": {
+              "trace_number": {
+                "type": "int"
+              }
+            }
+          },
+          "set_marker_state": {
+            "description": ":CALCulate:MARKer<n>:STATe ON|OFF (8 markers)",
+            "set": {
+              "syntax": ":CALCulate:MARKer{marker_number}:STATe {state}",
+              "args": [
+                "marker_number",
+                "state"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "marker_number": {
+                "type": "int"
+              },
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "ON"
+                ]
+              }
+            }
+          },
+          "set_marker_frequency": {
+            "description": ":CALCulate:MARKer<n>:X <freq>: the X value of a normal marker, in Hz in frequency readout",
+            "set": {
+              "syntax": ":CALCulate:MARKer{marker_number}:X {value}",
+              "args": [
+                "marker_number",
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "marker_number": {
+                "type": "int"
+              },
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_marker_frequency": {
+            "description": ":CALCulate:MARKer<n>:X?",
+            "set": null,
+            "query": {
+              "syntax": ":CALCulate:MARKer{marker_number}:X?",
+              "return_type": "float",
+              "args": [
+                "marker_number"
+              ]
+            },
+            "parameters": {
+              "marker_number": {
+                "type": "int"
+              }
+            }
+          },
+          "query_marker_amplitude": {
+            "description": ":CALCulate:MARKer<n>:Y?",
+            "set": null,
+            "query": {
+              "syntax": ":CALCulate:MARKer{marker_number}:Y?",
+              "return_type": "float",
+              "args": [
+                "marker_number"
+              ]
+            },
+            "parameters": {
+              "marker_number": {
+                "type": "int"
+              }
+            }
+          },
+          "marker_peak_search": {
+            "description": ":CALCulate:MARKer<n>:MAXimum[:MAX]: peak search",
+            "set": {
+              "syntax": ":CALCulate:MARKer{marker_number}:MAXimum:MAX",
+              "args": [
+                "marker_number"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "marker_number": {
+                "type": "int"
+              }
+            }
+          }
+        },
+        "models": [
+          {
+            "id": "SA_Rigol_RSA3030",
+            "name": "Rigol RSA3030",
+            "manufacturer": "Rigol Technologies",
+            "model": "RSA3030",
+            "documentation_path": "docs/Rigol/RSA3000_Series/RSA3000_ProgrammingGuide_EN.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "USB-TMC",
+                  "visa_resource_id_template": "USB_SA_{serial_number}",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR"
+                },
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_SA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    },
+                    {
+                      "kind": "raw_socket",
+                      "port": 5555
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 1,
+              "frequency_min_hz": 9000.0,
+              "frequency_max_hz": 3000000000.0,
+              "notes": "Real-time spectrum analyzer; the commands are those of the swept (general purpose, GPSA) mode, the real-time (RTSA) mode and its views are not covered. 6 traces and 8 markers. LAN socket port 5555."
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "SA_Rigol_RSA3030_TG",
+            "name": "Rigol RSA3030-TG",
+            "manufacturer": "Rigol Technologies",
+            "model": "RSA3030-TG",
+            "documentation_path": "docs/Rigol/RSA3000_Series/RSA3000_ProgrammingGuide_EN.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "USB-TMC",
+                  "visa_resource_id_template": "USB_SA_{serial_number}",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR"
+                },
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_SA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    },
+                    {
+                      "kind": "raw_socket",
+                      "port": 5555
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 1,
+              "frequency_min_hz": 9000.0,
+              "frequency_max_hz": 3000000000.0,
+              "tracking_generator": 3000000000.0,
+              "notes": "Real-time spectrum analyzer; the commands are those of the swept (general purpose, GPSA) mode, the real-time (RTSA) mode and its views are not covered. 6 traces and 8 markers. LAN socket port 5555."
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "SA_Rigol_RSA3045",
+            "name": "Rigol RSA3045",
+            "manufacturer": "Rigol Technologies",
+            "model": "RSA3045",
+            "documentation_path": "docs/Rigol/RSA3000_Series/RSA3000_ProgrammingGuide_EN.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "USB-TMC",
+                  "visa_resource_id_template": "USB_SA_{serial_number}",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR"
+                },
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_SA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    },
+                    {
+                      "kind": "raw_socket",
+                      "port": 5555
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 1,
+              "frequency_min_hz": 9000.0,
+              "frequency_max_hz": 4500000000.0,
+              "notes": "Real-time spectrum analyzer; the commands are those of the swept (general purpose, GPSA) mode, the real-time (RTSA) mode and its views are not covered. 6 traces and 8 markers. LAN socket port 5555."
+            },
+            "scpi_commands": {},
+            "experimental": true
+          },
+          {
+            "id": "SA_Rigol_RSA3045_TG",
+            "name": "Rigol RSA3045-TG",
+            "manufacturer": "Rigol Technologies",
+            "model": "RSA3045-TG",
+            "documentation_path": "docs/Rigol/RSA3000_Series/RSA3000_ProgrammingGuide_EN.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "USB-TMC",
+                  "visa_resource_id_template": "USB_SA_{serial_number}",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR"
+                },
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_SA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    },
+                    {
+                      "kind": "raw_socket",
+                      "port": 5555
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 1,
+              "frequency_min_hz": 9000.0,
+              "frequency_max_hz": 4500000000.0,
+              "tracking_generator": 4500000000.0,
+              "notes": "Real-time spectrum analyzer; the commands are those of the swept (general purpose, GPSA) mode, the real-time (RTSA) mode and its views are not covered. 6 traces and 8 markers. LAN socket port 5555."
+            },
+            "scpi_commands": {},
+            "experimental": true
+          }
+        ]
+      },
+      {
+        "series_id": "Siglent_SSA3000X_Plus_Series",
+        "series_name": "Siglent SSA3000X Plus series spectrum analyzers",
+        "common_scpi_commands": {
+          "identification_query": {
+            "description": "identification query",
+            "set": null,
+            "query": {
+              "syntax": "*IDN?",
+              "return_type": "string"
+            }
+          },
+          "reset": {
+            "description": "*RST: factory state",
+            "set": {
+              "syntax": "*RST"
+            },
+            "query": null
+          },
+          "clear_status": {
+            "description": "*CLS",
+            "set": {
+              "syntax": "*CLS"
+            },
+            "query": null
+          },
+          "operation_complete_query": {
+            "description": "*OPC?",
+            "set": null,
+            "query": {
+              "syntax": "*OPC?",
+              "return_type": "int"
+            }
+          },
+          "set_center_frequency": {
+            "description": ":SENSe:FREQuency:CENTer <freq>: the center frequency, in Hz",
+            "set": {
+              "syntax": ":SENSe:FREQuency:CENTer {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_center_frequency": {
+            "description": ":SENSe:FREQuency:CENTer?",
+            "set": null,
+            "query": {
+              "syntax": ":SENSe:FREQuency:CENTer?",
+              "return_type": "float"
+            }
+          },
+          "set_span": {
+            "description": ":SENSe:FREQuency:SPAN <freq>: the span, in Hz",
+            "set": {
+              "syntax": ":SENSe:FREQuency:SPAN {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_span": {
+            "description": ":SENSe:FREQuency:SPAN?",
+            "set": null,
+            "query": {
+              "syntax": ":SENSe:FREQuency:SPAN?",
+              "return_type": "float"
+            }
+          },
+          "set_start_frequency": {
+            "description": ":SENSe:FREQuency:STARt <freq>: the start frequency, in Hz",
+            "set": {
+              "syntax": ":SENSe:FREQuency:STARt {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_start_frequency": {
+            "description": ":SENSe:FREQuency:STARt?",
+            "set": null,
+            "query": {
+              "syntax": ":SENSe:FREQuency:STARt?",
+              "return_type": "float"
+            }
+          },
+          "set_stop_frequency": {
+            "description": ":SENSe:FREQuency:STOP <freq>: the stop frequency, in Hz",
+            "set": {
+              "syntax": ":SENSe:FREQuency:STOP {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_stop_frequency": {
+            "description": ":SENSe:FREQuency:STOP?",
+            "set": null,
+            "query": {
+              "syntax": ":SENSe:FREQuency:STOP?",
+              "return_type": "float"
+            }
+          },
+          "set_full_span": {
+            "description": ":SENSe:FREQuency:SPAN:FULL",
+            "set": {
+              "syntax": ":SENSe:FREQuency:SPAN:FULL"
+            },
+            "query": null
+          },
+          "set_resolution_bandwidth": {
+            "description": "BWIDth:RESolution <freq>: the resolution bandwidth, 1 Hz to 1 MHz in 1-3-10 steps, in Hz",
+            "set": {
+              "syntax": ":SENSe:BWIDth:RESolution {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_resolution_bandwidth": {
+            "description": "BWIDth:RESolution?",
+            "set": null,
+            "query": {
+              "syntax": ":SENSe:BWIDth:RESolution?",
+              "return_type": "float"
+            }
+          },
+          "set_resolution_bandwidth_auto": {
+            "description": "BWIDth:RESolution:AUTO ON|OFF",
+            "set": {
+              "syntax": ":SENSe:BWIDth:RESolution:AUTO {state}",
+              "args": [
+                "state"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "ON"
+                ]
+              }
+            }
+          },
+          "set_video_bandwidth": {
+            "description": "BWIDth:VIDeo <freq>: the video bandwidth, in Hz",
+            "set": {
+              "syntax": ":SENSe:BWIDth:VIDeo {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_video_bandwidth": {
+            "description": "BWIDth:VIDeo?",
+            "set": null,
+            "query": {
+              "syntax": ":SENSe:BWIDth:VIDeo?",
+              "return_type": "float"
+            }
+          },
+          "set_video_bandwidth_auto": {
+            "description": "BWIDth:VIDeo:AUTO ON|OFF",
+            "set": {
+              "syntax": ":SENSe:BWIDth:VIDeo:AUTO {state}",
+              "args": [
+                "state"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "ON"
+                ]
+              }
+            }
+          },
+          "set_reference_level": {
+            "description": ":DISPlay:WINDow:TRACe:Y[:SCALe]:RLEVel <ampl>: the reference level (the unit of the amplitude axis)",
+            "set": {
+              "syntax": ":DISPlay:WINDow:TRACe:Y:SCALe:RLEVel {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_reference_level": {
+            "description": ":DISPlay:WINDow:TRACe:Y[:SCALe]:RLEVel?",
+            "set": null,
+            "query": {
+              "syntax": ":DISPlay:WINDow:TRACe:Y:SCALe:RLEVel?",
+              "return_type": "float"
+            }
+          },
+          "set_input_attenuation": {
+            "description": ":SENSe:POWer[:RF]:ATTenuation <dB>: the input attenuator, 0 to 51 dB",
+            "set": {
+              "syntax": ":SENSe:POWer:RF:ATTenuation {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_input_attenuation": {
+            "description": ":SENSe:POWer[:RF]:ATTenuation?",
+            "set": null,
+            "query": {
+              "syntax": ":SENSe:POWer:RF:ATTenuation?",
+              "return_type": "float"
+            }
+          },
+          "set_input_attenuation_auto": {
+            "description": ":SENSe:POWer[:RF]:ATTenuation:AUTO ON|OFF",
+            "set": {
+              "syntax": ":SENSe:POWer:RF:ATTenuation:AUTO {state}",
+              "args": [
+                "state"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "ON"
+                ]
+              }
+            }
+          },
+          "set_sweep_time": {
+            "description": ":SENSe:SWEep:TIME <time>: the sweep time, 450 us to 1500 s",
+            "set": {
+              "syntax": ":SENSe:SWEep:TIME {value}",
+              "args": [
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_sweep_time": {
+            "description": ":SENSe:SWEep:TIME?",
+            "set": null,
+            "query": {
+              "syntax": ":SENSe:SWEep:TIME?",
+              "return_type": "float"
+            }
+          },
+          "set_sweep_time_auto": {
+            "description": ":SENSe:SWEep:TIME:AUTO ON|OFF",
+            "set": {
+              "syntax": ":SENSe:SWEep:TIME:AUTO {state}",
+              "args": [
+                "state"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "ON"
+                ]
+              }
+            }
+          },
+          "set_sweep_continuous": {
+            "description": ":INITiate:CONTinuous ON|OFF: continuous (ON) or single (OFF) sweep",
+            "set": {
+              "syntax": ":INITiate:CONTinuous {state}",
+              "args": [
+                "state"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "ON"
+                ]
+              }
+            }
+          },
+          "initiate_sweep": {
+            "description": ":INITiate[:IMMediate]: restarts the current sweep",
+            "set": {
+              "syntax": ":INITiate:IMMediate"
+            },
+            "query": null
+          },
+          "set_detector": {
+            "description": ":SENSe:DETector:TRACe[1]|2|3|4[:FUNCtion] NEGative|POSitive|SAMPle|AVERage|NORMAL|QUASi (one detector per trace): the detector",
+            "set": {
+              "syntax": ":SENSe:DETector:TRACe{trace_number}:FUNCtion {detector}",
+              "args": [
+                "trace_number",
+                "detector"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "trace_number": {
+                "type": "int"
+              },
+              "detector": {
+                "type": "string",
+                "map": {
+                  "NEGATIVE": "NEGative",
+                  "NORMAL": "NORMAL",
+                  "POSITIVE": "POSitive",
+                  "SAMPLE": "SAMPle",
+                  "AVERAGE": "AVERage",
+                  "QUASI_PEAK": "QUASi"
+                }
+              }
+            }
+          },
+          "set_trace_mode": {
+            "description": ":TRACe<n>:MODE: WRITe, MAXHold, MINHold, VIEW, BLANk and AVERage; traces 1 to 4",
+            "set": {
+              "syntax": ":TRACe{trace_number}:MODE {mode}",
+              "args": [
+                "trace_number",
+                "mode"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "trace_number": {
+                "type": "int"
+              },
+              "mode": {
+                "type": "string",
+                "map": {
+                  "WRITE": "WRITe",
+                  "MAX_HOLD": "MAXHold",
+                  "MIN_HOLD": "MINHold",
+                  "VIEW": "VIEW",
+                  "BLANK": "BLANk",
+                  "AVERAGE": "AVERage"
+                }
+              }
+            }
+          },
+          "set_power_unit": {
+            "description": ":UNIT:POWer DBM|DBMV|DBUV|V|W",
+            "set": {
+              "syntax": ":UNIT:POWer {unit}",
+              "args": [
+                "unit"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "unit": {
+                "type": "string",
+                "map": {
+                  "DBM": "DBM",
+                  "DBMV": "DBMV",
+                  "DBUV": "DBUV",
+                  "V": "V",
+                  "W": "W"
+                }
+              }
+            }
+          },
+          "read_trace": {
+            "description": ":FORMat:TRACe:DATA ASCii, then :TRACe[:DATA]? <n> (traces 1 to 4): the points as ASCII numbers",
+            "set": null,
+            "query": {
+              "steps": [
+                {
+                  "op": "write",
+                  "text": ":FORMat:TRACe:DATA ASCii"
+                },
+                {
+                  "op": "query",
+                  "text": ":TRACe:DATA? {trace_number}"
+                }
+              ],
+              "parse": {
+                "name": "spectrum_trace_ascii",
+                "from_steps": "queries"
+              }
+            },
+            "parameters": {
+              "trace_number": {
+                "type": "int"
+              }
+            }
+          },
+          "set_marker_state": {
+            "description": ":CALCulate:MARKer<n>:STATe ON|OFF (8 markers)",
+            "set": {
+              "syntax": ":CALCulate:MARKer{marker_number}:STATe {state}",
+              "args": [
+                "marker_number",
+                "state"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "marker_number": {
+                "type": "int"
+              },
+              "state": {
+                "type": "string",
+                "values": [
+                  "OFF",
+                  "ON"
+                ]
+              }
+            }
+          },
+          "set_marker_frequency": {
+            "description": ":CALCulate:MARKer<n>:X <freq>: the X value of a normal marker, in Hz in frequency readout",
+            "set": {
+              "syntax": ":CALCulate:MARKer{marker_number}:X {value}",
+              "args": [
+                "marker_number",
+                "value"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "marker_number": {
+                "type": "int"
+              },
+              "value": {
+                "type": "float"
+              }
+            }
+          },
+          "query_marker_frequency": {
+            "description": ":CALCulate:MARKer<n>:X?",
+            "set": null,
+            "query": {
+              "syntax": ":CALCulate:MARKer{marker_number}:X?",
+              "return_type": "float",
+              "args": [
+                "marker_number"
+              ]
+            },
+            "parameters": {
+              "marker_number": {
+                "type": "int"
+              }
+            }
+          },
+          "query_marker_amplitude": {
+            "description": ":CALCulate:MARKer<n>:Y?",
+            "set": null,
+            "query": {
+              "syntax": ":CALCulate:MARKer{marker_number}:Y?",
+              "return_type": "float",
+              "args": [
+                "marker_number"
+              ]
+            },
+            "parameters": {
+              "marker_number": {
+                "type": "int"
+              }
+            }
+          },
+          "marker_peak_search": {
+            "description": ":CALCulate:MARKer<n>:MAXimum: peak search",
+            "set": {
+              "syntax": ":CALCulate:MARKer{marker_number}:MAXimum",
+              "args": [
+                "marker_number"
+              ]
+            },
+            "query": null,
+            "parameters": {
+              "marker_number": {
+                "type": "int"
+              }
+            }
+          }
+        },
+        "models": [
+          {
+            "id": "SA_Siglent_SSA3000X_Plus",
+            "name": "Siglent SSA3000X Plus",
+            "manufacturer": "Siglent Technologies",
+            "model": "SSA3000X Plus",
+            "documentation_path": "docs/Siglent/SSA3000_Series/siglent-ssa3000x-plus-series-programming-guide.pdf",
+            "interface": {
+              "supported_connection_types": [
+                {
+                  "type": "USB-TMC",
+                  "visa_resource_id_template": "USB_SA_{serial_number}",
+                  "address_format_example": "USB0::{VENDOR_ID}::{PRODUCT_ID}::{SERIAL_NUMBER}::INSTR"
+                },
+                {
+                  "type": "LXI",
+                  "visa_resource_id_template": "LXI_SA_{unique_id}",
+                  "address_format_example": "TCPIP0::{IP_ADDRESS}::inst0::INSTR",
+                  "transports": [
+                    {
+                      "kind": "vxi11"
+                    },
+                    {
+                      "kind": "raw_socket",
+                      "port": 5025
+                    }
+                  ]
+                }
+              ]
+            },
+            "capabilities": {
+              "number_of_channels": 1,
+              "frequency_min_hz": 0.0,
+              "frequency_max_hz": 3200000000.0,
+              "notes": "The commands are those of the swept spectrum analysis mode: the tracking generator, the EMI, the other measurement modes and the real-time analysis (the SSA3000X-R) are not covered. 4 traces and 8 markers. LAN socket port 5025. The guide's examples are those of a 3.2 GHz model; the SSA3015X Plus and SSA3021X Plus (1.5 and 2.1 GHz) use the same commands."
+            },
+            "scpi_commands": {},
+            "experimental": true
           }
         ]
       }

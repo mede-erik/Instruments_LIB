@@ -28,6 +28,8 @@ The software that uses this library must call the instruments through these name
 | A. 34401A | Agilent_34401A_Series | Multimeters |
 | Tek MSO5 | Tektronix_5_Series_MSO | Oscilloscopes |
 | Rigol DS1000Z | Rigol_DS1000Z_Series | Oscilloscopes |
+| Rigol DHO | Rigol_DHO800_DHO900_Series | Oscilloscopes |
+| Rigol MSO5000 | Rigol_MSO5000_Series | Oscilloscopes |
 | GW Instek GDS-1000B | GWInstek_GDS1000B_Series | Oscilloscopes |
 | Sig. SDS HD | Siglent_SDS_HD_Series | Oscilloscopes |
 | Chroma 6330A | Chroma_6330A_Series | Loads |
@@ -39,6 +41,9 @@ The software that uses this library must call the instruments through these name
 | Rigol DG1000Z | Rigol_DG1000Z_Series | Function generators |
 | A. 33120A | Agilent_33120A_Series | Function generators |
 | Keysight EXG | Keysight_EXG_Series | RF signal generators (`rf_signal_generators_series`) |
+| Rigol DSA800 | Rigol_DSA800_Series | Spectrum analyzers (`spectrum_analyzers_series`) |
+| Rigol RSA3000 | Rigol_RSA3000_Series | Spectrum analyzers |
+| Siglent SSA3000X Plus | Siglent_SSA3000X_Plus_Series | Spectrum analyzers |
 | Keysight MXG | Keysight_MXG_Series | RF signal generators |
 | LiteVNA | Zenko_LiteVNA_Series | Network analyzers (`network_analyzers_series`) |
 | Sig. SNA | Siglent_SNA_Series | Network analyzers |
@@ -258,7 +263,7 @@ The software that uses this library must call the instruments through these name
 
 | Key | Description | SCPI syntax per series | Return type |
 |---|---|---|---|
-| `auto_setup` | Automatic setup | `AUTOSet EXECute` (Tek MSO5); `:AUToscale` (Rigol DS1000Z); `:AUToset` (Sig. SDS HD) | — |
+| `auto_setup` | Automatic setup | `AUTOSet EXECute` (Tek MSO5); `:AUToscale` (Rigol DS1000Z, MSO5000); `:AUToset` (Rigol DHO, Sig. SDS HD) | — |
 
 ### Channels
 
@@ -366,6 +371,22 @@ The logical calls are in [COMMAND_NAMES.md](../COMMAND_NAMES.md), section 3.9, g
 
 Frequency range (data sheets): 9 kHz to 3 GHz (option 503) or 6 GHz (option 506), 7.2 GHz with option 506 + FRQ; the N5171B also has option 501 (1 GHz). Power: +19 to −144 dBm, +30 to −144 dBm with option 1EA. The library entries use the standard top values (6 GHz, +19 dBm); the instrument refuses a value its options do not allow. Transport: VXI-11 or sockets on port 5025 (LAN), USB-TMC, GPIB. The N5171B was tested on the real instrument from the remote control panel of the application (the signal and the modulation worked as expected); the N5172B, N5181B and N5182B share its command set and are supported without being tried individually: none of the four is experimental.
 
+## Spectrum analyzers (SA)
+
+The logical calls are in [COMMAND_NAMES.md](../COMMAND_NAMES.md), section 3.10, generated from `schema/spectrum_analyzer.json`: the frequency axis (`set_center_frequency`, `set_span`, `set_start_frequency`, `set_stop_frequency`, with the queries), the bandwidths (`set_resolution_bandwidth`, `set_video_bandwidth` and their auto switches), the amplitude (`set_reference_level`, `set_input_attenuation`, `set_power_unit`), the sweep (`set_sweep_time`, `set_sweep_continuous`, `initiate_sweep`), the traces (`set_detector`, `set_trace_mode`, `read_trace`) and the markers (`set_marker_state`, `set_marker_frequency`, `query_marker_frequency`, `query_marker_amplitude`, `marker_peak_search`). They were checked in the programming guides of the Rigol DSA800 and RSA3000 and of the Siglent SSA3000X Plus.
+
+| Key | Rigol DSA800 | Rigol RSA3000 | Siglent SSA3000X Plus |
+|---|---|---|---|
+| `set_resolution_bandwidth` | `:SENSe:BANDwidth:RESolution` (10 Hz to 1 MHz) | `:SENSe:BANDwidth:RESolution` (10 Hz to 3 MHz; settable in the general purpose mode only) | `:SENSe:BWIDth:RESolution` (1 Hz to 1 MHz) |
+| `set_input_attenuation` | `:SENSe:POWer:RF:ATTenuation` (0 to 30 dB) | the same (0 to 50 dB) | the same (0 to 51 dB) |
+| `set_detector` | `:SENSe:DETector:FUNCtion` (one detector for all traces) | `:SENSe:DETector:TRACe<n>` | `:SENSe:DETector:TRACe<n>:FUNCtion` |
+| `set_trace_mode` | `:TRACe<n>:MODE` (traces 1 to 3; `AVERAGE` is `VIDeoavg`) | `:TRACe<n>:MODE` (traces 1 to 6; no `VIEW` and `BLANK`) | `:TRACe<n>:MODE` (traces 1 to 4) |
+| `read_trace` | `:FORMat:TRACe:DATA ASCii`, `:TRACe:DATA? TRACE<n>` | the same (traces 1 to 6) | `:FORMat:TRACe:DATA ASCii`, `:TRACe:DATA? <n>` |
+| `marker_peak_search` | `:CALCulate:MARKer<n>:MAXimum:MAX` (markers 1 to 4) | the same (markers 1 to 8) | `:CALCulate:MARKer<n>:MAXimum` (markers 1 to 8) |
+| `error_query` | `:SYSTem:ERRor?` | the same | not documented: not available |
+
+`read_trace` returns the points as a list of numbers: the Rigol analyzers put a definite length block header in front of them, which the application's parser `spectrum_trace_ascii` drops. The reference level, the marker amplitude and the trace are in the current amplitude unit (dBm by default, `set_power_unit`). The tracking generator, the measurement functions (channel power, occupied bandwidth, ...), the demodulation and the real-time mode of the RSA3000 and of the SSA3000X-R are not covered. All the models are experimental.
+
 ## Network analyzers (VNA)
 
 The logical calls are in [COMMAND_NAMES.md](../COMMAND_NAMES.md), section 3.7, generated from `schema/vna.json`. No network analyzer has been tested on a real instrument yet.
@@ -374,6 +395,7 @@ The logical calls are in [COMMAND_NAMES.md](../COMMAND_NAMES.md), section 3.7, g
 
 - Models with `"experimental": false` are supported. `DL_Agilent_34970A` was tested over RS-232. The Siglent `OSC_Siglent_SDS804X_HD`, `OSC_Siglent_SDS814X_HD` and `OSC_Siglent_SDS824X_HD` share one SCPI command set; the SDS824X HD was tested on hardware, the others were not tested individually. The Analog Discovery 2 models (`OSC_Digilent_AnalogDiscovery2`, `FGEN_Digilent_AnalogDiscovery2`) are supported for **the oscilloscope and the function generator only**: the logic analyzer is not supported yet, and the flag returns to `true` when a logic analyzer library is written and tested. Every other model has `"experimental": true`.
 - The Analog Discovery 2 **scope**: the library reports the range of the device input. With a probe attenuation set (`set_probe_attenuation`) the scale limits are multiplied by it, and the upper limit is the range the device really gives (measured: 5.49 and 60.36 V at x1, 54.91 and 603.62 V at x10; a request is served by the first real range that is not smaller). A scale the device cannot give is refused, not rounded. The offset limit with a probe is not measured yet.
+- The **Rigol DHO800/DHO900 and MSO5000** use the Rigol command family of the DS1000Z (`:CHANnel<n>`, `:TIMebase:MAIN`, `:TRIGger:EDGE`, `:WAVeform`), checked against their programming guides. Differences: the DHO's auto setup is `:AUToset`, its acquisition type has no `HRESolution` (`HIRES` is refused; it has `ULTRa`, which has no logical value), its memory depths go up to 25 Mpts (DHO800) and 50 Mpts (DHO900); on the MSO5000 the bandwidth limit is `20M` on the MSO5072/5074/5102/5104, `20M` and `100M` on the MSO5204 and `20M`, `100M` and `200M` on the MSO5354, and the memory depth is sent as `1k`…`200M`. Only the analog channels are covered (not the digital channels, the decoders or the waveform generator).
 - The Siglent SDS HD **ignores the settings of a channel that is off**: enable the channel first (`set_channel_state`), then the probe and the scale.
 - The GW Instek GDS-1000B has **no waveform source** and no format setting: the channel is part of the transfer command, `:ACQuire<X>:MEMory?`, which answers with the settings of the channel as text (`Vertical Scale,...;Sampling Period,...;...;Waveform Data;`) followed by a block of 16-bit signed samples (25 codes per division). `query_waveform_preamble` and `query_waveform_data` therefore take an optional `channel_number` (default 1) and each reads that one message, returning the text or the block; `read_waveform` reads it once and gives time and voltage (`gwinstek_waveform` parser). The two separate calls read the memory twice, so `read_waveform` is the efficient one. `set_waveform_source`, `set_waveform_format` and `query_sample_rate` are not defined for this series. The message is read in two steps (`until` the text `Waveform Data;`, then the block). The socket server port and the serial settings of the USB virtual COM port are not given in the manual, so the models have no `transports` yet.
 - `query_waveform_data` with BYTE/WORD format returns binary data with a `#<n><len>` (TMC) header, not text.

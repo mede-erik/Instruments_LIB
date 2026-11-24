@@ -31,12 +31,13 @@ Channel, range and value placeholders use the names `channel_number`, `channels`
 |---|---|---|
 | Power supplies | OWON ODP, Keysight E36300, TDK-Lambda GEN (IEEE + LAN manual), R&S HMP, HP E3631A | complete |
 | Electronic loads | Chroma 6330A, Keysight EL4900, Siglent SDL1000X | complete |
-| Oscilloscopes | Tektronix 5 Series MSO, Rigol DS1000Z, Siglent SDS800X HD; Digilent WaveForms SDK (Analog Discovery 2: oscilloscope, tested on hardware; no logic analyzer) | complete |
+| Oscilloscopes | Tektronix 5 Series MSO, Rigol DS1000Z, Rigol DHO800/DHO900, Rigol MSO5000, Siglent SDS800X HD; Digilent WaveForms SDK (Analog Discovery 2: oscilloscope, tested on hardware; no logic analyzer) | complete |
 | Multimeters | Agilent 34401A, HP 3478A | the 3478A PDF is a scanned image without text: its coverage comes from the existing library entries |
 | Dataloggers | Keysight 34970A/34972A, Keysight DAQ970A/DAQ973A | complete |
 | Switch units | Agilent 3499A | only one manual: the schema may change when more instruments are added |
 | Vector network analyzers | Zenko LiteVNA 62/64/67, Siglent VNA Series Programming Guide (SNA5000A, SNA5000X-E, SNA6000A, SHN900A), R&S ZNB and ZNL/ZNLE, ZVA/ZVB/ZVT and ZVL manuals | **provisional, experimental**: no VNA has been tested on a real instrument. The Agilent E506x/E507x user guides contain no SCPI command reference (it is in the separate Programmer's Guide), the HP 8700 quick reference is a scanned image, the HP 8753C uses HP-IB mnemonics and the Agilent 871x a different SCPI dialect: none of them is used yet |
 | Function generators | Digilent WaveForms SDK (Analog Discovery 2), Rigol DG1000 programming guide (DG1022, DG1022A), Rigol DG1000Z programming guide (DG1022Z, DG1032Z, DG1062Z), Agilent 33120A user's guide; read but without a command reference: FeelTech FY3200S user manual | Analog Discovery 2: supported, tested on hardware (sine, square, triangle, amplitude, offset, W1 and W2; the amplitude is peak-to-peak, the driver sends half of it). Rigol DG1022/DG1022A, DG1000Z and Agilent 33120A: **experimental**, not tested |
+| Spectrum analyzers | Rigol DSA800 programming guide (DSA815, DSA832, DSA875, with and without tracking generator), Rigol RSA3000 programming guide (RSA3030, RSA3045), Siglent SSA3000X Plus programming guide | **experimental**: no instrument tested. Only the swept analysis of the three series is covered: sweep, bandwidths, amplitude, traces and markers; no tracking generator, measurement functions, demodulation or real-time mode |
 
 ## 3. Calls per category
 
@@ -920,6 +921,72 @@ Logical types:
 | `self_test` | query |  | int | run the instrument self test (*TST?); 0 = pass |
 
 <!-- END GENERATED rf_signal_generators_series -->
+
+<!-- BEGIN GENERATED spectrum_analyzers_series -->
+### 3.10 Spectrum analyzers (`spectrum_analyzers_series`)
+
+Generated from `schema/spectrum_analyzer.json` — do not edit this section by hand. 19 mandatory and 20 optional calls.
+
+Logical calls of spectrum analyzers (swept and real-time): the frequency axis, the bandwidths, the amplitude, the sweep, the traces and the markers. Frequencies are in Hz, the amplitude in the unit of the instrument (dBm by default). Based on the Rigol DSA800 and RSA3000 and the Siglent SSA3000X Plus programming guides.
+
+Logical types:
+
+* `bool`: true / false
+* `detector`: `POSITIVE`, `NEGATIVE`, `SAMPLE`, `NORMAL`, `AVERAGE`, `RMS`, `QUASI_PEAK`
+* `trace_mode`: `WRITE`, `MAX_HOLD`, `MIN_HOLD`, `AVERAGE`, `VIEW`, `BLANK`
+* `power_unit`: `DBM`, `DBMV`, `DBUV`, `V`, `W`
+* `float_list`: list of numbers (the points of a trace, from the start to the stop frequency)
+
+**Mandatory**
+
+| Call | Kind | Arguments | Result | Description |
+|---|---|---|---|---|
+| `identification_query` | query |  | string | identification string (*IDN?) |
+| `reset` | action |  |  | restore the factory state (*RST) |
+| `set_center_frequency` | set | `value` (float, Hz, 0..) |  | set the center frequency |
+| `set_span` | set | `value` (float, Hz, 0..) |  | set the frequency span (0 = zero span, the x axis becomes time) |
+| `set_start_frequency` | set | `value` (float, Hz, 0..) |  | set the start frequency |
+| `set_stop_frequency` | set | `value` (float, Hz, 0..) |  | set the stop frequency |
+| `set_resolution_bandwidth` | set | `value` (float, Hz, 0..) |  | resolution bandwidth (RBW); the instrument takes the nearest value it has (1-3-10 steps) |
+| `set_video_bandwidth` | set | `value` (float, Hz, 0..) |  | video bandwidth (VBW); the instrument takes the nearest value it has |
+| `set_reference_level` | set | `value` (float) |  | reference level (the top of the screen), in the current amplitude unit (dBm by default) |
+| `set_input_attenuation` | set | `value` (float, dB, 0..) |  | input attenuator, in dB (an integer on the models that have 1 dB or 5 dB steps) |
+| `set_sweep_time` | set | `value` (float, s, 0..) |  | sweep time |
+| `set_sweep_continuous` | set | `state` (bool) |  | continuous sweep (true) or single sweep (false) |
+| `initiate_sweep` | action |  |  | start a sweep (in single sweep mode: one sweep); the readings are valid when it is done (operation_complete_query) |
+| `read_trace` | query | `trace_number` (int, 1.., default 1, optional) | float_list | the points of a trace as numbers, in the amplitude unit, from the start to the stop frequency (the instrument is told to answer in ASCII first) |
+| `set_marker_state` | set | `marker_number` (int, 1.., default 1, optional)<br>`state` (bool) |  | marker on or off (a marker that is switched on is a normal marker) |
+| `set_marker_frequency` | set | `marker_number` (int, 1.., default 1, optional)<br>`value` (float, Hz, 0..) |  | place the marker at a frequency |
+| `query_marker_frequency` | query | `marker_number` (int, 1.., default 1, optional) | float, Hz | frequency of the marker |
+| `query_marker_amplitude` | query | `marker_number` (int, 1.., default 1, optional) | float | amplitude at the marker, in the current amplitude unit |
+| `marker_peak_search` | action | `marker_number` (int, 1.., default 1, optional) |  | put the marker on the highest peak of its trace |
+
+**Optional**
+
+| Call | Kind | Arguments | Result | Description |
+|---|---|---|---|---|
+| `clear_status` | action |  |  | clear the status registers (*CLS) |
+| `error_query` | query |  | string | read and clear the oldest error |
+| `operation_complete_query` | query |  | int | 1 when the pending operations are finished (*OPC?) |
+| `query_center_frequency` | query |  | float, Hz | the center frequency |
+| `query_span` | query |  | float, Hz | the frequency span (0 = zero span, the x axis becomes time) |
+| `query_start_frequency` | query |  | float, Hz | the start frequency |
+| `query_stop_frequency` | query |  | float, Hz | the stop frequency |
+| `set_full_span` | action |  |  | set the span to the whole frequency range of the instrument |
+| `query_resolution_bandwidth` | query |  | float, Hz | resolution bandwidth |
+| `set_resolution_bandwidth_auto` | set | `state` (bool) |  | automatic RBW (it follows the span) |
+| `query_video_bandwidth` | query |  | float, Hz | video bandwidth |
+| `set_video_bandwidth_auto` | set | `state` (bool) |  | automatic VBW |
+| `query_reference_level` | query |  | float | reference level |
+| `query_input_attenuation` | query |  | float, dB | input attenuator |
+| `set_input_attenuation_auto` | set | `state` (bool) |  | automatic input attenuation |
+| `query_sweep_time` | query |  | float, s | sweep time |
+| `set_sweep_time_auto` | set | `state` (bool) |  | automatic sweep time |
+| `set_detector` | set | `detector` (detector)<br>`trace_number` (int, 1.., default 1, optional) |  | detector of a trace; on the models with one detector for all the traces the trace number is ignored |
+| `set_trace_mode` | set | `trace_number` (int, 1.., default 1, optional)<br>`mode` (trace_mode) |  | what a trace does with the new sweeps |
+| `set_power_unit` | set | `unit` (power_unit) |  | unit of the amplitude axis, readings and reference level |
+
+<!-- END GENERATED spectrum_analyzers_series -->
 
 ## 4. Translation layer (arguments and answers)
 
