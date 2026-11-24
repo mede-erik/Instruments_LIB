@@ -31,7 +31,7 @@ Channel, range and value placeholders use the names `channel_number`, `channels`
 |---|---|---|
 | Power supplies | OWON ODP, Keysight E36300, TDK-Lambda GEN (IEEE + LAN manual), R&S HMP, HP E3631A | complete |
 | Electronic loads | Chroma 6330A, Keysight EL4900, Siglent SDL1000X | complete |
-| Oscilloscopes | Tektronix 5 Series MSO, Rigol DS1000Z, Siglent SDS800X HD; Digilent WaveForms SDK (Analog Discovery 2: oscilloscope, tested on hardware; no logic analyzer) | complete |
+| Oscilloscopes | Tektronix 5 Series MSO, Rigol DS1000Z, Rigol DHO800/DHO900, Rigol MSO5000, Siglent SDS800X HD; Digilent WaveForms SDK (Analog Discovery 2: oscilloscope, tested on hardware; no logic analyzer) | complete |
 | Multimeters | Agilent 34401A, HP 3478A | the 3478A PDF is a scanned image without text: its coverage comes from the existing library entries |
 | Dataloggers | Keysight 34970A/34972A, Keysight DAQ970A/DAQ973A | complete |
 | Switch units | Agilent 3499A | only one manual: the schema may change when more instruments are added |
