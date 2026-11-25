@@ -1,5 +1,7 @@
 # SCPI command name reference — instruments_lib.json
 
+> **The canonical reference of the call names is [`COMMAND_NAMES.md`](../COMMAND_NAMES.md)**, generated from the schemas in `schema/`. This file is its companion: it shows, for each call, the SCPI syntax that each series uses, plus notes on the instruments. Every call name in the tables below must exist in a schema (a test checks it); the syntax column is written by hand and follows `instruments_lib.json`.
+
 This document lists the **canonical call names** (`common_scpi_commands` and `scpi_commands` in `instruments_lib.json`) and what they refer to.
 
 The software that uses this library must call the instruments through these names: **same operation = same name** (at least within the same category). The underlying SCPI syntax varies from manufacturer to manufacturer and is given per series.

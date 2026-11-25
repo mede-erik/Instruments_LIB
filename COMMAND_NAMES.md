@@ -1,5 +1,7 @@
 # COMMAND_NAMES.md
 
+> **This is the canonical reference of the call names**, with their arguments, types and the mandatory/optional rule. The sources are the call schemas in `schema/`: the tables between the `GENERATED` markers are produced from them (`python3 schema/generate_command_names.py`, checked with `--check`). [`docs/COMMANDS.md`](docs/COMMANDS.md) is a companion: the SCPI syntax of each call per series, with hardware notes; the names in its tables are checked against the schemas by `Tests/test_library_data.py`.
+
 Reference list of the **call names** (keys of `common_scpi_commands` / `scpi_commands`) that Open-Lab-Automation uses to reach the correct SCPI command on each instrument.
 
 The software never builds SCPI strings by itself: it looks a call name up in `instruments_lib.json` and sends whatever syntax the library defines for that instrument. A call name therefore has to mean the same *action* on every instrument of a category, even if the SCPI syntax differs.

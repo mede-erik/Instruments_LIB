@@ -401,8 +401,8 @@ The results of the 34970A and of the SDS824X HD are described in [COMMAND_NAMES.
 
 ## Documentation
 
-- **`docs/COMMANDS.md`** — reference of the canonical call names of the SCPI commands (key, description, syntax per series). Use these names to call the instruments: same operation = same name.
-- **`COMMAND_NAMES.md`** — the complete list of the logical calls per category, generated from the call schemas in `schema/` (the sections between the `GENERATED` markers are rebuilt with `python3 schema/generate_command_names.py`; do not edit them by hand).
+- **`COMMAND_NAMES.md`** — **the canonical reference of the call names**: the complete list of the logical calls per category, with arguments and the mandatory/optional rule, generated from the call schemas in `schema/` (the sections between the `GENERATED` markers are rebuilt with `python3 schema/generate_command_names.py`; do not edit them by hand). Use these names to call the instruments: same operation = same name.
+- **`docs/COMMANDS.md`** — the companion of `COMMAND_NAMES.md`: the SCPI syntax of each call for each series, and notes on the instruments. Its call names are checked against the schemas.
 - **`schema/`** — one JSON schema per category: the logical calls, their arguments and their result types. `schema/README.md` describes the format.
 - **`TESTING.md`** — how to check the library against a real instrument; **`Tests/README.md`** — the test script for the SCPI commands.
 - The PDF manuals live in `docs/{Manufacturer}/{Series}/`. HP, Agilent and Keysight instruments share one folder, `docs/HP_Agilent_Keysight/`, because the brand changed but the instruments are the same family; a manual that covers several series (the Siglent VNA guide) sits in the manufacturer folder.
