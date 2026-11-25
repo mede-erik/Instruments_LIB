@@ -347,7 +347,7 @@ IDs follow `{TYPE}_{MANUFACTURER}_{MODEL}`:
 
 ## The `experimental` flag
 
-- Most models have `"experimental": true` = **not yet validated on real hardware** — the SCPI commands may differ from the manual.
+- Most models have `"experimental": true` = **not yet validated on real hardware** — the SCPI commands may differ from the manual. What "tested" means, who records it and when the flag changes: [TESTING.md](TESTING.md), section 9.
 - Models with `"experimental": false` are considered supported. `DL_Agilent_34970A` was tested over RS-232. `OSC_Siglent_SDS804X_HD`, `OSC_Siglent_SDS814X_HD` and `OSC_Siglent_SDS824X_HD` use the same SCPI command set; the SDS824X HD was tested on hardware, the other two were not tested individually.
 - The Analog Discovery 2 models (`OSC_Digilent_AnalogDiscovery2` and `FGEN_Digilent_AnalogDiscovery2`) are not experimental: the oscilloscope and the generator were tested on real hardware. **Only the oscilloscope and the function generator are supported**: the logic analyzer is not supported yet. When a logic analyzer library is written and tested, the flag goes back to `true` until that test is done.
 - The Keysight EXG and MXG models (`RFGEN_Keysight_N5171B`, `N5172B`, `N5181B`, `N5182B`) are not experimental: they share one SCPI command set and the N5171B was tested on the real instrument (signal and modulation); the other three were not tried individually.

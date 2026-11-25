@@ -227,3 +227,21 @@ Results that are confirmed on real hardware are recorded in `COMMAND_NAMES.md`, 
 A command goes into the library **only if it is documented in the instrument's manual or verified on the instrument**. See `COMMAND_NAMES.md` for the call names (mandatory and optional per category), `schema/README.md` for the entry format (`steps`, `map`, `response_map`, `parse`), and run level 1 before opening a pull request.
 
 To ask for a new instrument, open an issue with the **New instrument** template (`.github/ISSUE_TEMPLATE/new-instrument.yml`): it asks for the manual, the interfaces and the connection details, and whether you can test it on the real instrument.
+
+## 9. When a model stops being experimental
+
+The `"experimental"` flag of a model changes only by a pull request, and only for a model that was run on the **real instrument**. A simulated run, a dry run and the offline checks do not count.
+
+**What "tested" means.** Through the whole library path (the library entry, the connection that the application opens, the logical call), at least:
+
+* the identification (`identification_query`) and, if the model has it, the error query after a call;
+* the main function of the category with the instrument doing what the call says: for example a setting and its readback, an output or a measurement, a waveform or a sweep read;
+* the refusals: a value the model does not handle (`CALL-002`) and a call it does not have (`CALL-001`) answer with a clear message, not a wrong command.
+
+What was **not** tried is written, not hidden: the model keeps the flag at `false` with the limits in the tested-models table of the README (see the LiteVNA 67: one-port calibration tried, two-port calibration and thru not).
+
+**Models that share the command set** of a tested one (for example the other SDS800X HD, the EXG and MXG family) may go to `false` when the manual of the family gives them the same commands and the maintainer agrees; the table says which one was run.
+
+**Who records it.** The owner of the instrument or the person who ran the test sends the report in the format of section 6. The maintainer decides, and the pull request that changes the flag contains: the model id, the firmware, the interface, the report (or a link to it) and the update of the "Tested models per series" table and of the list in the README section "The `experimental` flag" (`Tests/test_library_data.py` fails if the JSON and that list differ). A report from a test agent working for the maintainer is evidence, and the maintainer approves the change.
+
+**When the flag goes back to `true`.** If the scope of a model grows with calls that were not tested (a new function, for example the logic analyzer of the Analog Discovery 2), the flag returns to `true` until that part is tested.
