@@ -388,7 +388,8 @@ IDs follow `{TYPE}_{MANUFACTURER}_{MODEL}`:
 | Keysight EXG N5171B | N5171B | real instrument, from the remote control panel of the application: the signal (carrier, power, RF output) and the modulation worked as expected |
 | Rigol DSA800, RSA3000 and Siglent SSA3000X Plus (spectrum analyzers) | — | none (no instrument available) |
 | Keysight EXG N5172B, MXG N5181B/N5182B | — | not tried individually: they share the command set of the N5171B (supported); carrier, output and AM/FM/PM/pulse on-off only |
-| Zenko LiteVNA 62/64/67 | — | none |
+| Zenko LiteVNA 67 | LiteVNA 67 (USB, hardware 2, firmware 2.2) | real instrument through the whole library path: sweep, S11/S21, one-port calibration (open, short, load) and restore; not tested: two-port calibration, thru, calibrated S21, a real calibration kit |
+| Zenko LiteVNA 62 / 64 | — | none |
 | Siglent SNA / SHN | — | none |
 | Rohde & Schwarz ZNB/ZNL/ZVA/ZVB/ZVT/ZVL | — | none |
 

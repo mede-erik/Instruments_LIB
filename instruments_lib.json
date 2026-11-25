@@ -21942,7 +21942,7 @@
               ]
             },
             "scpi_commands": {},
-            "experimental": true
+            "experimental": false
           }
         ]
       },
