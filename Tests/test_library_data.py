@@ -486,3 +486,15 @@ def test_driver_models_use_drivers(model_id):
         return
     for name, d in _resolved_commands(series, model).items():
         assert "driver" in d and d["driver"].get("function"), name
+
+
+def test_commands_md_uses_only_call_names_of_the_schemas():
+    """``docs/COMMANDS.md`` (syntax per series) is the companion of the generated
+    ``COMMAND_NAMES.md``: every call it names must exist in a schema."""
+    names = set()
+    for path in SCHEMA_FILES:
+        names |= set(json.load(open(path, encoding="utf-8"))["calls"])
+    text = open(os.path.join(ROOT, "docs", "COMMANDS.md"), encoding="utf-8").read()
+    rows = set(re.findall(r"^\| `([a-z0-9_]+)`", text, re.M))
+    assert rows, "no call names found in docs/COMMANDS.md"
+    assert rows <= names, f"not in any schema: {sorted(rows - names)}"
