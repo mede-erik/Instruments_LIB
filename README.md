@@ -351,11 +351,15 @@ IDs follow `{TYPE}_{MANUFACTURER}_{MODEL}`:
 - Models with `"experimental": false` are considered supported. `DL_Agilent_34970A` was tested over RS-232. `OSC_Siglent_SDS804X_HD`, `OSC_Siglent_SDS814X_HD` and `OSC_Siglent_SDS824X_HD` use the same SCPI command set; the SDS824X HD was tested on hardware, the other two were not tested individually.
 - The Analog Discovery 2 models (`OSC_Digilent_AnalogDiscovery2` and `FGEN_Digilent_AnalogDiscovery2`) are not experimental: the oscilloscope and the generator were tested on real hardware. **Only the oscilloscope and the function generator are supported**: the logic analyzer is not supported yet. When a logic analyzer library is written and tested, the flag goes back to `true` until that test is done.
 - The Keysight EXG and MXG models (`RFGEN_Keysight_N5171B`, `N5172B`, `N5181B`, `N5182B`) are not experimental: they share one SCPI command set and the N5171B was tested on the real instrument (signal and modulation); the other three were not tried individually.
+- The Zenko `VNA_Zenko_LiteVNA67` is not experimental: it was tested on the real instrument through the whole library path (sweep, S11/S21, one-port calibration); the LiteVNA 62 and 64 entries are still experimental.
 - Every other model has `"experimental": true` (not yet validated on real hardware).
+- The models that are **not** experimental are exactly: `DL_Agilent_34970A`, `OSC_Siglent_SDS804X_HD`, `OSC_Siglent_SDS814X_HD`, `OSC_Siglent_SDS824X_HD`, `OSC_Digilent_AnalogDiscovery2`, `FGEN_Digilent_AnalogDiscovery2`, `VNA_Zenko_LiteVNA67`, `RFGEN_Keysight_N5171B`, `RFGEN_Keysight_N5172B`, `RFGEN_Keysight_N5181B` and `RFGEN_Keysight_N5182B`. `Tests/test_library_data.py` checks that the list in this section and the flags of the JSON agree.
 
 ### Tested models per series
 
 "Tested" means that the commands were run on a real instrument. Models that are not listed as tested are either `experimental` or supported by the same command set as a tested model (see the `experimental` notes above).
+
+The columns: **Series** is the series (or the group of series) of the library; **Model tested** is the model that was run on an instrument (`—` = no model of the series was tested); **How it was tested** says what was run and what was not. A model marked as supported without being tested individually (the SDS804X HD, SDS814X HD, N5172B, N5181B and N5182B) shares the command set of a tested model and is written in the last column. The test results are recorded in the pull request that changed the flag and in the "Software test status" of the application README.
 
 | Series | Model tested | How it was tested |
 |---|---|---|
