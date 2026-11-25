@@ -488,6 +488,25 @@ def test_driver_models_use_drivers(model_id):
         assert "driver" in d and d["driver"].get("function"), name
 
 
+def test_readme_lists_the_models_that_are_not_experimental():
+    """The models without ``"experimental": true`` are named in the README (flag section and
+    tested-models table), so the text cannot drift from the JSON."""
+    readme = open(os.path.join(ROOT, "README.md"), encoding="utf-8").read()
+    start = readme.index("## The `experimental` flag")
+    end = readme.index("## Documentation")
+    section = readme[start:end]
+    listed = set(re.findall(r"`((?:[A-Z]+)_[A-Za-z0-9_]+)`", section))
+    supported = {m["id"] for _, _, m in MODELS if m.get("experimental") is not True}
+    assert supported <= listed, f"not named in the README: {sorted(supported - listed)}"
+    # the sentence "exactly" names every supported model and no experimental one
+    sentence = next(line for line in section.splitlines() if "are exactly:" in line)
+    named = set(re.findall(r"`((?:[A-Z]+)_[A-Za-z0-9_]+)`", sentence))
+    assert named == supported, (sorted(named - supported), sorted(supported - named))
+    for _, _, model in MODELS:
+        if model.get("experimental") is not True:
+            name = model["model"].replace(" HD", "")
+            assert name in section, f"{model['id']}: '{name}' is not in the tested table"
+
 def test_commands_md_uses_only_call_names_of_the_schemas():
     """``docs/COMMANDS.md`` (syntax per series) is the companion of the generated
     ``COMMAND_NAMES.md``: every call it names must exist in a schema."""
