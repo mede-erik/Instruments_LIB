@@ -21713,7 +21713,17 @@
                 "values": [
                   "ONE_PORT",
                   "TRANSMISSION_RESPONSE",
-                  "TWO_PORT"
+                  "TWO_PORT",
+                  "REFLECTION_OPEN",
+                  "REFLECTION_SHORT",
+                  "TRANSMISSION_RESPONSE_BOTH",
+                  "ENHANCED_RESPONSE",
+                  "TWO_PORT_UNKNOWN_THRU",
+                  "TOM",
+                  "TSM",
+                  "TRM",
+                  "TRL",
+                  "TNA"
                 ]
               },
               "port": {
@@ -21736,7 +21746,14 @@
                   "OPEN",
                   "SHORT",
                   "LOAD",
-                  "THRU"
+                  "THRU",
+                  "REFLECT",
+                  "LINE",
+                  "TRL_THRU",
+                  "UNKNOWN_THRU",
+                  "ISOLATION",
+                  "ATTENUATION",
+                  "NETWORK"
                 ]
               },
               "port": {
@@ -22078,7 +22095,7 @@
             }
           },
           "calibration_begin": {
-            "description": "calibration type: OSL on one port, response (THRU) from port to port2, SOLT on two ports",
+            "description": "calibration type: OSL on one port, response with an OPEN or a SHORT, response (THRU) from port to port2, enhanced response (OSL on the source port and a THRU), SOLT on two ports, TRL on two ports",
             "set": {
               "steps": [
                 {
@@ -22090,6 +22107,20 @@
                 },
                 {
                   "op": "write",
+                  "text": ":SENSe1:CORRection:COLLect:METHod:OPEN {port}",
+                  "when": {
+                    "kind": "REFLECTION_OPEN"
+                  }
+                },
+                {
+                  "op": "write",
+                  "text": ":SENSe1:CORRection:COLLect:METHod:SHORt {port}",
+                  "when": {
+                    "kind": "REFLECTION_SHORT"
+                  }
+                },
+                {
+                  "op": "write",
                   "text": ":SENSe1:CORRection:COLLect:METHod:THRU {port2},{port}",
                   "when": {
                     "kind": "TRANSMISSION_RESPONSE"
@@ -22097,9 +22128,23 @@
                 },
                 {
                   "op": "write",
+                  "text": ":SENSe1:CORRection:COLLect:METHod:ERESponse {port2},{port}",
+                  "when": {
+                    "kind": "ENHANCED_RESPONSE"
+                  }
+                },
+                {
+                  "op": "write",
                   "text": ":SENSe1:CORRection:COLLect:METHod:SOLT2 {port},{port2}",
                   "when": {
                     "kind": "TWO_PORT"
+                  }
+                },
+                {
+                  "op": "write",
+                  "text": ":SENSe1:CORRection:COLLect:METHod:TRL2 {port},{port2}",
+                  "when": {
+                    "kind": "TRL"
                   }
                 }
               ]
@@ -22110,7 +22155,17 @@
                 "values": [
                   "ONE_PORT",
                   "TRANSMISSION_RESPONSE",
-                  "TWO_PORT"
+                  "TWO_PORT",
+                  "REFLECTION_OPEN",
+                  "REFLECTION_SHORT",
+                  "TRANSMISSION_RESPONSE_BOTH",
+                  "ENHANCED_RESPONSE",
+                  "TWO_PORT_UNKNOWN_THRU",
+                  "TOM",
+                  "TSM",
+                  "TRM",
+                  "TRL",
+                  "TNA"
                 ]
               },
               "port": {
@@ -22154,6 +22209,34 @@
                   }
                 },
                 {
+                  "op": "write",
+                  "text": ":SENSe1:CORRection:COLLect:ACQuire:ISOLation {port2},{port}",
+                  "when": {
+                    "standard": "ISOLATION"
+                  }
+                },
+                {
+                  "op": "write",
+                  "text": ":SENSe1:CORRection:COLLect:ACQuire:TRLReflect {port}",
+                  "when": {
+                    "standard": "REFLECT"
+                  }
+                },
+                {
+                  "op": "write",
+                  "text": ":SENSe1:CORRection:COLLect:ACQuire:TRLThru {port2},{port}",
+                  "when": {
+                    "standard": "TRL_THRU"
+                  }
+                },
+                {
+                  "op": "write",
+                  "text": ":SENSe1:CORRection:COLLect:ACQuire:TRLLine {port2},{port}",
+                  "when": {
+                    "standard": "LINE"
+                  }
+                },
+                {
                   "op": "query",
                   "text": "*OPC?",
                   "timeout_ms": 120000
@@ -22167,7 +22250,14 @@
                   "OPEN",
                   "SHORT",
                   "LOAD",
-                  "THRU"
+                  "THRU",
+                  "REFLECT",
+                  "LINE",
+                  "TRL_THRU",
+                  "UNKNOWN_THRU",
+                  "ISOLATION",
+                  "ATTENUATION",
+                  "NETWORK"
                 ]
               },
               "port": {
@@ -22192,6 +22282,72 @@
                   "timeout_ms": 120000
                 }
               ]
+            }
+          },
+          "calibration_ecal": {
+            "description": "calibration with an ECal module (one call): OSL on one port, response, enhanced response or SOLT on two ports",
+            "set": {
+              "steps": [
+                {
+                  "op": "write",
+                  "text": ":SENSe1:CORRection:COLLect:ECal:SOLT1 {port}",
+                  "when": {
+                    "kind": "ONE_PORT"
+                  }
+                },
+                {
+                  "op": "write",
+                  "text": ":SENSe1:CORRection:COLLect:ECal:THRU {port2},{port}",
+                  "when": {
+                    "kind": "TRANSMISSION_RESPONSE"
+                  }
+                },
+                {
+                  "op": "write",
+                  "text": ":SENSe1:CORRection:COLLect:ECal:ERESponse {port2},{port}",
+                  "when": {
+                    "kind": "ENHANCED_RESPONSE"
+                  }
+                },
+                {
+                  "op": "write",
+                  "text": ":SENSe1:CORRection:COLLect:ECal:SOLT2 {port},{port2}",
+                  "when": {
+                    "kind": "TWO_PORT"
+                  }
+                },
+                {
+                  "op": "query",
+                  "text": "*OPC?",
+                  "timeout_ms": 300000
+                }
+              ]
+            },
+            "parameters": {
+              "kind": {
+                "type": "string",
+                "values": [
+                  "ONE_PORT",
+                  "TRANSMISSION_RESPONSE",
+                  "TWO_PORT",
+                  "REFLECTION_OPEN",
+                  "REFLECTION_SHORT",
+                  "TRANSMISSION_RESPONSE_BOTH",
+                  "ENHANCED_RESPONSE",
+                  "TWO_PORT_UNKNOWN_THRU",
+                  "TOM",
+                  "TSM",
+                  "TRM",
+                  "TRL",
+                  "TNA"
+                ]
+              },
+              "port": {
+                "type": "int"
+              },
+              "port2": {
+                "type": "int"
+              }
             }
           },
           "set_correction_state": {
@@ -22306,7 +22462,17 @@
               "calibration": "instrument",
               "calibration_kinds": [
                 "ONE_PORT",
+                "REFLECTION_OPEN",
+                "REFLECTION_SHORT",
                 "TRANSMISSION_RESPONSE",
+                "ENHANCED_RESPONSE",
+                "TWO_PORT",
+                "TRL"
+              ],
+              "ecal_kinds": [
+                "ONE_PORT",
+                "TRANSMISSION_RESPONSE",
+                "ENHANCED_RESPONSE",
                 "TWO_PORT"
               ]
             },
@@ -22360,7 +22526,17 @@
               "calibration": "instrument",
               "calibration_kinds": [
                 "ONE_PORT",
+                "REFLECTION_OPEN",
+                "REFLECTION_SHORT",
                 "TRANSMISSION_RESPONSE",
+                "ENHANCED_RESPONSE",
+                "TWO_PORT",
+                "TRL"
+              ],
+              "ecal_kinds": [
+                "ONE_PORT",
+                "TRANSMISSION_RESPONSE",
+                "ENHANCED_RESPONSE",
                 "TWO_PORT"
               ]
             },
@@ -22414,7 +22590,17 @@
               "calibration": "instrument",
               "calibration_kinds": [
                 "ONE_PORT",
+                "REFLECTION_OPEN",
+                "REFLECTION_SHORT",
                 "TRANSMISSION_RESPONSE",
+                "ENHANCED_RESPONSE",
+                "TWO_PORT",
+                "TRL"
+              ],
+              "ecal_kinds": [
+                "ONE_PORT",
+                "TRANSMISSION_RESPONSE",
+                "ENHANCED_RESPONSE",
                 "TWO_PORT"
               ]
             },
@@ -22468,7 +22654,17 @@
               "calibration": "instrument",
               "calibration_kinds": [
                 "ONE_PORT",
+                "REFLECTION_OPEN",
+                "REFLECTION_SHORT",
                 "TRANSMISSION_RESPONSE",
+                "ENHANCED_RESPONSE",
+                "TWO_PORT",
+                "TRL"
+              ],
+              "ecal_kinds": [
+                "ONE_PORT",
+                "TRANSMISSION_RESPONSE",
+                "ENHANCED_RESPONSE",
                 "TWO_PORT"
               ]
             },
@@ -22522,7 +22718,17 @@
               "calibration": "instrument",
               "calibration_kinds": [
                 "ONE_PORT",
+                "REFLECTION_OPEN",
+                "REFLECTION_SHORT",
                 "TRANSMISSION_RESPONSE",
+                "ENHANCED_RESPONSE",
+                "TWO_PORT",
+                "TRL"
+              ],
+              "ecal_kinds": [
+                "ONE_PORT",
+                "TRANSMISSION_RESPONSE",
+                "ENHANCED_RESPONSE",
                 "TWO_PORT"
               ]
             },
@@ -22576,7 +22782,17 @@
               "calibration": "instrument",
               "calibration_kinds": [
                 "ONE_PORT",
+                "REFLECTION_OPEN",
+                "REFLECTION_SHORT",
                 "TRANSMISSION_RESPONSE",
+                "ENHANCED_RESPONSE",
+                "TWO_PORT",
+                "TRL"
+              ],
+              "ecal_kinds": [
+                "ONE_PORT",
+                "TRANSMISSION_RESPONSE",
+                "ENHANCED_RESPONSE",
                 "TWO_PORT"
               ]
             },
@@ -22630,7 +22846,17 @@
               "calibration": "instrument",
               "calibration_kinds": [
                 "ONE_PORT",
+                "REFLECTION_OPEN",
+                "REFLECTION_SHORT",
                 "TRANSMISSION_RESPONSE",
+                "ENHANCED_RESPONSE",
+                "TWO_PORT",
+                "TRL"
+              ],
+              "ecal_kinds": [
+                "ONE_PORT",
+                "TRANSMISSION_RESPONSE",
+                "ENHANCED_RESPONSE",
                 "TWO_PORT"
               ]
             },
@@ -22684,7 +22910,17 @@
               "calibration": "instrument",
               "calibration_kinds": [
                 "ONE_PORT",
+                "REFLECTION_OPEN",
+                "REFLECTION_SHORT",
                 "TRANSMISSION_RESPONSE",
+                "ENHANCED_RESPONSE",
+                "TWO_PORT",
+                "TRL"
+              ],
+              "ecal_kinds": [
+                "ONE_PORT",
+                "TRANSMISSION_RESPONSE",
+                "ENHANCED_RESPONSE",
                 "TWO_PORT"
               ]
             },
@@ -22738,7 +22974,17 @@
               "calibration": "instrument",
               "calibration_kinds": [
                 "ONE_PORT",
+                "REFLECTION_OPEN",
+                "REFLECTION_SHORT",
                 "TRANSMISSION_RESPONSE",
+                "ENHANCED_RESPONSE",
+                "TWO_PORT",
+                "TRL"
+              ],
+              "ecal_kinds": [
+                "ONE_PORT",
+                "TRANSMISSION_RESPONSE",
+                "ENHANCED_RESPONSE",
                 "TWO_PORT"
               ]
             },
@@ -22792,7 +23038,17 @@
               "calibration": "instrument",
               "calibration_kinds": [
                 "ONE_PORT",
+                "REFLECTION_OPEN",
+                "REFLECTION_SHORT",
                 "TRANSMISSION_RESPONSE",
+                "ENHANCED_RESPONSE",
+                "TWO_PORT",
+                "TRL"
+              ],
+              "ecal_kinds": [
+                "ONE_PORT",
+                "TRANSMISSION_RESPONSE",
+                "ENHANCED_RESPONSE",
                 "TWO_PORT"
               ]
             },
@@ -22846,7 +23102,17 @@
               "calibration": "instrument",
               "calibration_kinds": [
                 "ONE_PORT",
+                "REFLECTION_OPEN",
+                "REFLECTION_SHORT",
                 "TRANSMISSION_RESPONSE",
+                "ENHANCED_RESPONSE",
+                "TWO_PORT",
+                "TRL"
+              ],
+              "ecal_kinds": [
+                "ONE_PORT",
+                "TRANSMISSION_RESPONSE",
+                "ENHANCED_RESPONSE",
                 "TWO_PORT"
               ]
             },
@@ -22900,7 +23166,17 @@
               "calibration": "instrument",
               "calibration_kinds": [
                 "ONE_PORT",
+                "REFLECTION_OPEN",
+                "REFLECTION_SHORT",
                 "TRANSMISSION_RESPONSE",
+                "ENHANCED_RESPONSE",
+                "TWO_PORT",
+                "TRL"
+              ],
+              "ecal_kinds": [
+                "ONE_PORT",
+                "TRANSMISSION_RESPONSE",
+                "ENHANCED_RESPONSE",
                 "TWO_PORT"
               ]
             },
@@ -22954,7 +23230,17 @@
               "calibration": "instrument",
               "calibration_kinds": [
                 "ONE_PORT",
+                "REFLECTION_OPEN",
+                "REFLECTION_SHORT",
                 "TRANSMISSION_RESPONSE",
+                "ENHANCED_RESPONSE",
+                "TWO_PORT",
+                "TRL"
+              ],
+              "ecal_kinds": [
+                "ONE_PORT",
+                "TRANSMISSION_RESPONSE",
+                "ENHANCED_RESPONSE",
                 "TWO_PORT"
               ]
             },
@@ -23008,7 +23294,17 @@
               "calibration": "instrument",
               "calibration_kinds": [
                 "ONE_PORT",
+                "REFLECTION_OPEN",
+                "REFLECTION_SHORT",
                 "TRANSMISSION_RESPONSE",
+                "ENHANCED_RESPONSE",
+                "TWO_PORT",
+                "TRL"
+              ],
+              "ecal_kinds": [
+                "ONE_PORT",
+                "TRANSMISSION_RESPONSE",
+                "ENHANCED_RESPONSE",
                 "TWO_PORT"
               ]
             },
@@ -23062,7 +23358,17 @@
               "calibration": "instrument",
               "calibration_kinds": [
                 "ONE_PORT",
+                "REFLECTION_OPEN",
+                "REFLECTION_SHORT",
                 "TRANSMISSION_RESPONSE",
+                "ENHANCED_RESPONSE",
+                "TWO_PORT",
+                "TRL"
+              ],
+              "ecal_kinds": [
+                "ONE_PORT",
+                "TRANSMISSION_RESPONSE",
+                "ENHANCED_RESPONSE",
                 "TWO_PORT"
               ]
             },
@@ -23116,7 +23422,17 @@
               "calibration": "instrument",
               "calibration_kinds": [
                 "ONE_PORT",
+                "REFLECTION_OPEN",
+                "REFLECTION_SHORT",
                 "TRANSMISSION_RESPONSE",
+                "ENHANCED_RESPONSE",
+                "TWO_PORT",
+                "TRL"
+              ],
+              "ecal_kinds": [
+                "ONE_PORT",
+                "TRANSMISSION_RESPONSE",
+                "ENHANCED_RESPONSE",
                 "TWO_PORT"
               ]
             },
@@ -23170,7 +23486,17 @@
               "calibration": "instrument",
               "calibration_kinds": [
                 "ONE_PORT",
+                "REFLECTION_OPEN",
+                "REFLECTION_SHORT",
                 "TRANSMISSION_RESPONSE",
+                "ENHANCED_RESPONSE",
+                "TWO_PORT",
+                "TRL"
+              ],
+              "ecal_kinds": [
+                "ONE_PORT",
+                "TRANSMISSION_RESPONSE",
+                "ENHANCED_RESPONSE",
                 "TWO_PORT"
               ]
             },
@@ -23224,7 +23550,17 @@
               "calibration": "instrument",
               "calibration_kinds": [
                 "ONE_PORT",
+                "REFLECTION_OPEN",
+                "REFLECTION_SHORT",
                 "TRANSMISSION_RESPONSE",
+                "ENHANCED_RESPONSE",
+                "TWO_PORT",
+                "TRL"
+              ],
+              "ecal_kinds": [
+                "ONE_PORT",
+                "TRANSMISSION_RESPONSE",
+                "ENHANCED_RESPONSE",
                 "TWO_PORT"
               ]
             },
@@ -23278,7 +23614,17 @@
               "calibration": "instrument",
               "calibration_kinds": [
                 "ONE_PORT",
+                "REFLECTION_OPEN",
+                "REFLECTION_SHORT",
                 "TRANSMISSION_RESPONSE",
+                "ENHANCED_RESPONSE",
+                "TWO_PORT",
+                "TRL"
+              ],
+              "ecal_kinds": [
+                "ONE_PORT",
+                "TRANSMISSION_RESPONSE",
+                "ENHANCED_RESPONSE",
                 "TWO_PORT"
               ]
             },
@@ -23450,7 +23796,7 @@
             }
           },
           "calibration_begin": {
-            "description": "calibration type FOPort (one port), FTRans (transmission, the lower port number is the source) or TOSM (two ports)",
+            "description": "calibration type (R&S names in brackets): FOPort (full one port), REFL / RSHort (reflection normalisation), FTRans / FRTRans (transmission normalisation, one direction or both), OPTPort (one path two ports), TOSM, UOSM, TOM, TSM, TRM, TRL, TNA; the lower or first port number is the source",
             "set": {
               "steps": [
                 {
@@ -23462,6 +23808,20 @@
                 },
                 {
                   "op": "write",
+                  "text": "SENSe1:CORRection:COLLect:METHod:DEFine 'OLA', REFL, {port}",
+                  "when": {
+                    "kind": "REFLECTION_OPEN"
+                  }
+                },
+                {
+                  "op": "write",
+                  "text": "SENSe1:CORRection:COLLect:METHod:DEFine 'OLA', RSHort, {port}",
+                  "when": {
+                    "kind": "REFLECTION_SHORT"
+                  }
+                },
+                {
+                  "op": "write",
                   "text": "SENSe1:CORRection:COLLect:METHod:DEFine 'OLA', FTRans, {port},{port2}",
                   "when": {
                     "kind": "TRANSMISSION_RESPONSE"
@@ -23469,9 +23829,65 @@
                 },
                 {
                   "op": "write",
+                  "text": "SENSe1:CORRection:COLLect:METHod:DEFine 'OLA', FRTRans, {port},{port2}",
+                  "when": {
+                    "kind": "TRANSMISSION_RESPONSE_BOTH"
+                  }
+                },
+                {
+                  "op": "write",
+                  "text": "SENSe1:CORRection:COLLect:METHod:DEFine 'OLA', OPTPort, {port},{port2}",
+                  "when": {
+                    "kind": "ENHANCED_RESPONSE"
+                  }
+                },
+                {
+                  "op": "write",
                   "text": "SENSe1:CORRection:COLLect:METHod:DEFine 'OLA', TOSM, {port},{port2}",
                   "when": {
                     "kind": "TWO_PORT"
+                  }
+                },
+                {
+                  "op": "write",
+                  "text": "SENSe1:CORRection:COLLect:METHod:DEFine 'OLA', UOSM, {port},{port2}",
+                  "when": {
+                    "kind": "TWO_PORT_UNKNOWN_THRU"
+                  }
+                },
+                {
+                  "op": "write",
+                  "text": "SENSe1:CORRection:COLLect:METHod:DEFine 'OLA', TOM, {port},{port2}",
+                  "when": {
+                    "kind": "TOM"
+                  }
+                },
+                {
+                  "op": "write",
+                  "text": "SENSe1:CORRection:COLLect:METHod:DEFine 'OLA', TSM, {port},{port2}",
+                  "when": {
+                    "kind": "TSM"
+                  }
+                },
+                {
+                  "op": "write",
+                  "text": "SENSe1:CORRection:COLLect:METHod:DEFine 'OLA', TRM, {port},{port2}",
+                  "when": {
+                    "kind": "TRM"
+                  }
+                },
+                {
+                  "op": "write",
+                  "text": "SENSe1:CORRection:COLLect:METHod:DEFine 'OLA', TRL, {port},{port2}",
+                  "when": {
+                    "kind": "TRL"
+                  }
+                },
+                {
+                  "op": "write",
+                  "text": "SENSe1:CORRection:COLLect:METHod:DEFine 'OLA', TNA, {port},{port2}",
+                  "when": {
+                    "kind": "TNA"
                   }
                 }
               ]
@@ -23482,7 +23898,17 @@
                 "values": [
                   "ONE_PORT",
                   "TRANSMISSION_RESPONSE",
-                  "TWO_PORT"
+                  "TWO_PORT",
+                  "REFLECTION_OPEN",
+                  "REFLECTION_SHORT",
+                  "TRANSMISSION_RESPONSE_BOTH",
+                  "ENHANCED_RESPONSE",
+                  "TWO_PORT_UNKNOWN_THRU",
+                  "TOM",
+                  "TSM",
+                  "TRM",
+                  "TRL",
+                  "TNA"
                 ]
               },
               "port": {
@@ -23526,6 +23952,55 @@
                   }
                 },
                 {
+                  "op": "write",
+                  "text": "SENSe1:CORRection:COLLect:ACQuire:SELected THRough,{port},{port2}",
+                  "when": {
+                    "standard": "TRL_THRU"
+                  }
+                },
+                {
+                  "op": "write",
+                  "text": "SENSe1:CORRection:COLLect:ACQuire:SELected REFL,{port}",
+                  "when": {
+                    "standard": "REFLECT"
+                  }
+                },
+                {
+                  "op": "write",
+                  "text": "SENSe1:CORRection:COLLect:ACQuire:SELected LINe1,{port},{port2}",
+                  "when": {
+                    "standard": "LINE"
+                  }
+                },
+                {
+                  "op": "write",
+                  "text": "SENSe1:CORRection:COLLect:ACQuire:SELected UTHRough,{port},{port2}",
+                  "when": {
+                    "standard": "UNKNOWN_THRU"
+                  }
+                },
+                {
+                  "op": "write",
+                  "text": "SENSe1:CORRection:COLLect:ACQuire:SELected ISOLation,{port},{port2}",
+                  "when": {
+                    "standard": "ISOLATION"
+                  }
+                },
+                {
+                  "op": "write",
+                  "text": "SENSe1:CORRection:COLLect:ACQuire:SELected ATT,{port},{port2}",
+                  "when": {
+                    "standard": "ATTENUATION"
+                  }
+                },
+                {
+                  "op": "write",
+                  "text": "SENSe1:CORRection:COLLect:ACQuire:SELected NET,{port},{port2}",
+                  "when": {
+                    "standard": "NETWORK"
+                  }
+                },
+                {
                   "op": "query",
                   "text": "*OPC?",
                   "timeout_ms": 120000
@@ -23539,7 +24014,14 @@
                   "OPEN",
                   "SHORT",
                   "LOAD",
-                  "THRU"
+                  "THRU",
+                  "REFLECT",
+                  "LINE",
+                  "TRL_THRU",
+                  "UNKNOWN_THRU",
+                  "ISOLATION",
+                  "ATTENUATION",
+                  "NETWORK"
                 ]
               },
               "port": {
@@ -23564,6 +24046,93 @@
                   "timeout_ms": 120000
                 }
               ]
+            }
+          },
+          "calibration_ecal": {
+            "description": "automatic calibration with a calibration unit (one call; the unit is found by the analyzer, the factory characterization of the unit is used)",
+            "set": {
+              "steps": [
+                {
+                  "op": "write",
+                  "text": "SENSe1:CORRection:COLLect:AUTO:TYPE FOPort, '', {port}",
+                  "when": {
+                    "kind": "ONE_PORT"
+                  }
+                },
+                {
+                  "op": "write",
+                  "text": "SENSe1:CORRection:COLLect:AUTO:TYPE REFL, '', {port}",
+                  "when": {
+                    "kind": "REFLECTION_OPEN"
+                  }
+                },
+                {
+                  "op": "write",
+                  "text": "SENSe1:CORRection:COLLect:AUTO:TYPE RSHort, '', {port}",
+                  "when": {
+                    "kind": "REFLECTION_SHORT"
+                  }
+                },
+                {
+                  "op": "write",
+                  "text": "SENSe1:CORRection:COLLect:AUTO:TYPE FTRans, '', {port},{port2}",
+                  "when": {
+                    "kind": "TRANSMISSION_RESPONSE"
+                  }
+                },
+                {
+                  "op": "write",
+                  "text": "SENSe1:CORRection:COLLect:AUTO:TYPE FRTRans, '', {port},{port2}",
+                  "when": {
+                    "kind": "TRANSMISSION_RESPONSE_BOTH"
+                  }
+                },
+                {
+                  "op": "write",
+                  "text": "SENSe1:CORRection:COLLect:AUTO:TYPE OPTPort, '', {port},{port2}",
+                  "when": {
+                    "kind": "ENHANCED_RESPONSE"
+                  }
+                },
+                {
+                  "op": "write",
+                  "text": "SENSe1:CORRection:COLLect:AUTO:TYPE TOSM, '', {port},{port2}",
+                  "when": {
+                    "kind": "TWO_PORT"
+                  }
+                },
+                {
+                  "op": "query",
+                  "text": "*OPC?",
+                  "timeout_ms": 300000
+                }
+              ]
+            },
+            "parameters": {
+              "kind": {
+                "type": "string",
+                "values": [
+                  "ONE_PORT",
+                  "TRANSMISSION_RESPONSE",
+                  "TWO_PORT",
+                  "REFLECTION_OPEN",
+                  "REFLECTION_SHORT",
+                  "TRANSMISSION_RESPONSE_BOTH",
+                  "ENHANCED_RESPONSE",
+                  "TWO_PORT_UNKNOWN_THRU",
+                  "TOM",
+                  "TSM",
+                  "TRM",
+                  "TRL",
+                  "TNA"
+                ]
+              },
+              "port": {
+                "type": "int"
+              },
+              "port2": {
+                "type": "int"
+              }
             }
           },
           "set_correction_state": {
@@ -23657,7 +24226,26 @@
               "calibration": "instrument",
               "calibration_kinds": [
                 "ONE_PORT",
+                "REFLECTION_OPEN",
+                "REFLECTION_SHORT",
                 "TRANSMISSION_RESPONSE",
+                "TRANSMISSION_RESPONSE_BOTH",
+                "ENHANCED_RESPONSE",
+                "TWO_PORT",
+                "TWO_PORT_UNKNOWN_THRU",
+                "TRL",
+                "TOM",
+                "TSM",
+                "TRM",
+                "TNA"
+              ],
+              "ecal_kinds": [
+                "ONE_PORT",
+                "REFLECTION_OPEN",
+                "REFLECTION_SHORT",
+                "TRANSMISSION_RESPONSE",
+                "TRANSMISSION_RESPONSE_BOTH",
+                "ENHANCED_RESPONSE",
                 "TWO_PORT"
               ]
             },
@@ -23694,7 +24282,26 @@
               "calibration": "instrument",
               "calibration_kinds": [
                 "ONE_PORT",
+                "REFLECTION_OPEN",
+                "REFLECTION_SHORT",
                 "TRANSMISSION_RESPONSE",
+                "TRANSMISSION_RESPONSE_BOTH",
+                "ENHANCED_RESPONSE",
+                "TWO_PORT",
+                "TWO_PORT_UNKNOWN_THRU",
+                "TRL",
+                "TOM",
+                "TSM",
+                "TRM",
+                "TNA"
+              ],
+              "ecal_kinds": [
+                "ONE_PORT",
+                "REFLECTION_OPEN",
+                "REFLECTION_SHORT",
+                "TRANSMISSION_RESPONSE",
+                "TRANSMISSION_RESPONSE_BOTH",
+                "ENHANCED_RESPONSE",
                 "TWO_PORT"
               ]
             },
@@ -23731,7 +24338,26 @@
               "calibration": "instrument",
               "calibration_kinds": [
                 "ONE_PORT",
+                "REFLECTION_OPEN",
+                "REFLECTION_SHORT",
                 "TRANSMISSION_RESPONSE",
+                "TRANSMISSION_RESPONSE_BOTH",
+                "ENHANCED_RESPONSE",
+                "TWO_PORT",
+                "TWO_PORT_UNKNOWN_THRU",
+                "TRL",
+                "TOM",
+                "TSM",
+                "TRM",
+                "TNA"
+              ],
+              "ecal_kinds": [
+                "ONE_PORT",
+                "REFLECTION_OPEN",
+                "REFLECTION_SHORT",
+                "TRANSMISSION_RESPONSE",
+                "TRANSMISSION_RESPONSE_BOTH",
+                "ENHANCED_RESPONSE",
                 "TWO_PORT"
               ]
             },
@@ -23768,7 +24394,26 @@
               "calibration": "instrument",
               "calibration_kinds": [
                 "ONE_PORT",
+                "REFLECTION_OPEN",
+                "REFLECTION_SHORT",
                 "TRANSMISSION_RESPONSE",
+                "TRANSMISSION_RESPONSE_BOTH",
+                "ENHANCED_RESPONSE",
+                "TWO_PORT",
+                "TWO_PORT_UNKNOWN_THRU",
+                "TRL",
+                "TOM",
+                "TSM",
+                "TRM",
+                "TNA"
+              ],
+              "ecal_kinds": [
+                "ONE_PORT",
+                "REFLECTION_OPEN",
+                "REFLECTION_SHORT",
+                "TRANSMISSION_RESPONSE",
+                "TRANSMISSION_RESPONSE_BOTH",
+                "ENHANCED_RESPONSE",
                 "TWO_PORT"
               ]
             },
@@ -23805,7 +24450,26 @@
               "calibration": "instrument",
               "calibration_kinds": [
                 "ONE_PORT",
+                "REFLECTION_OPEN",
+                "REFLECTION_SHORT",
                 "TRANSMISSION_RESPONSE",
+                "TRANSMISSION_RESPONSE_BOTH",
+                "ENHANCED_RESPONSE",
+                "TWO_PORT",
+                "TWO_PORT_UNKNOWN_THRU",
+                "TRL",
+                "TOM",
+                "TSM",
+                "TRM",
+                "TNA"
+              ],
+              "ecal_kinds": [
+                "ONE_PORT",
+                "REFLECTION_OPEN",
+                "REFLECTION_SHORT",
+                "TRANSMISSION_RESPONSE",
+                "TRANSMISSION_RESPONSE_BOTH",
+                "ENHANCED_RESPONSE",
                 "TWO_PORT"
               ]
             },
@@ -23842,7 +24506,26 @@
               "calibration": "instrument",
               "calibration_kinds": [
                 "ONE_PORT",
+                "REFLECTION_OPEN",
+                "REFLECTION_SHORT",
                 "TRANSMISSION_RESPONSE",
+                "TRANSMISSION_RESPONSE_BOTH",
+                "ENHANCED_RESPONSE",
+                "TWO_PORT",
+                "TWO_PORT_UNKNOWN_THRU",
+                "TRL",
+                "TOM",
+                "TSM",
+                "TRM",
+                "TNA"
+              ],
+              "ecal_kinds": [
+                "ONE_PORT",
+                "REFLECTION_OPEN",
+                "REFLECTION_SHORT",
+                "TRANSMISSION_RESPONSE",
+                "TRANSMISSION_RESPONSE_BOTH",
+                "ENHANCED_RESPONSE",
                 "TWO_PORT"
               ]
             },
@@ -23876,7 +24559,22 @@
               "calibration": "instrument",
               "calibration_kinds": [
                 "ONE_PORT",
+                "REFLECTION_OPEN",
+                "REFLECTION_SHORT",
                 "TRANSMISSION_RESPONSE",
+                "TRANSMISSION_RESPONSE_BOTH",
+                "ENHANCED_RESPONSE",
+                "TWO_PORT",
+                "TWO_PORT_UNKNOWN_THRU",
+                "TRL"
+              ],
+              "ecal_kinds": [
+                "ONE_PORT",
+                "REFLECTION_OPEN",
+                "REFLECTION_SHORT",
+                "TRANSMISSION_RESPONSE",
+                "TRANSMISSION_RESPONSE_BOTH",
+                "ENHANCED_RESPONSE",
                 "TWO_PORT"
               ]
             },
@@ -23910,7 +24608,22 @@
               "calibration": "instrument",
               "calibration_kinds": [
                 "ONE_PORT",
+                "REFLECTION_OPEN",
+                "REFLECTION_SHORT",
                 "TRANSMISSION_RESPONSE",
+                "TRANSMISSION_RESPONSE_BOTH",
+                "ENHANCED_RESPONSE",
+                "TWO_PORT",
+                "TWO_PORT_UNKNOWN_THRU",
+                "TRL"
+              ],
+              "ecal_kinds": [
+                "ONE_PORT",
+                "REFLECTION_OPEN",
+                "REFLECTION_SHORT",
+                "TRANSMISSION_RESPONSE",
+                "TRANSMISSION_RESPONSE_BOTH",
+                "ENHANCED_RESPONSE",
                 "TWO_PORT"
               ]
             },
@@ -23944,7 +24657,22 @@
               "calibration": "instrument",
               "calibration_kinds": [
                 "ONE_PORT",
+                "REFLECTION_OPEN",
+                "REFLECTION_SHORT",
                 "TRANSMISSION_RESPONSE",
+                "TRANSMISSION_RESPONSE_BOTH",
+                "ENHANCED_RESPONSE",
+                "TWO_PORT",
+                "TWO_PORT_UNKNOWN_THRU",
+                "TRL"
+              ],
+              "ecal_kinds": [
+                "ONE_PORT",
+                "REFLECTION_OPEN",
+                "REFLECTION_SHORT",
+                "TRANSMISSION_RESPONSE",
+                "TRANSMISSION_RESPONSE_BOTH",
+                "ENHANCED_RESPONSE",
                 "TWO_PORT"
               ]
             },
@@ -23978,7 +24706,22 @@
               "calibration": "instrument",
               "calibration_kinds": [
                 "ONE_PORT",
+                "REFLECTION_OPEN",
+                "REFLECTION_SHORT",
                 "TRANSMISSION_RESPONSE",
+                "TRANSMISSION_RESPONSE_BOTH",
+                "ENHANCED_RESPONSE",
+                "TWO_PORT",
+                "TWO_PORT_UNKNOWN_THRU",
+                "TRL"
+              ],
+              "ecal_kinds": [
+                "ONE_PORT",
+                "REFLECTION_OPEN",
+                "REFLECTION_SHORT",
+                "TRANSMISSION_RESPONSE",
+                "TRANSMISSION_RESPONSE_BOTH",
+                "ENHANCED_RESPONSE",
                 "TWO_PORT"
               ]
             },
@@ -24012,7 +24755,22 @@
               "calibration": "instrument",
               "calibration_kinds": [
                 "ONE_PORT",
+                "REFLECTION_OPEN",
+                "REFLECTION_SHORT",
                 "TRANSMISSION_RESPONSE",
+                "TRANSMISSION_RESPONSE_BOTH",
+                "ENHANCED_RESPONSE",
+                "TWO_PORT",
+                "TWO_PORT_UNKNOWN_THRU",
+                "TRL"
+              ],
+              "ecal_kinds": [
+                "ONE_PORT",
+                "REFLECTION_OPEN",
+                "REFLECTION_SHORT",
+                "TRANSMISSION_RESPONSE",
+                "TRANSMISSION_RESPONSE_BOTH",
+                "ENHANCED_RESPONSE",
                 "TWO_PORT"
               ]
             },
@@ -24046,7 +24804,22 @@
               "calibration": "instrument",
               "calibration_kinds": [
                 "ONE_PORT",
+                "REFLECTION_OPEN",
+                "REFLECTION_SHORT",
                 "TRANSMISSION_RESPONSE",
+                "TRANSMISSION_RESPONSE_BOTH",
+                "ENHANCED_RESPONSE",
+                "TWO_PORT",
+                "TWO_PORT_UNKNOWN_THRU",
+                "TRL"
+              ],
+              "ecal_kinds": [
+                "ONE_PORT",
+                "REFLECTION_OPEN",
+                "REFLECTION_SHORT",
+                "TRANSMISSION_RESPONSE",
+                "TRANSMISSION_RESPONSE_BOTH",
+                "ENHANCED_RESPONSE",
                 "TWO_PORT"
               ]
             },
@@ -24081,7 +24854,22 @@
               "calibration": "instrument",
               "calibration_kinds": [
                 "ONE_PORT",
+                "REFLECTION_OPEN",
+                "REFLECTION_SHORT",
                 "TRANSMISSION_RESPONSE",
+                "TRANSMISSION_RESPONSE_BOTH",
+                "ENHANCED_RESPONSE",
+                "TWO_PORT",
+                "TWO_PORT_UNKNOWN_THRU",
+                "TRL"
+              ],
+              "ecal_kinds": [
+                "ONE_PORT",
+                "REFLECTION_OPEN",
+                "REFLECTION_SHORT",
+                "TRANSMISSION_RESPONSE",
+                "TRANSMISSION_RESPONSE_BOTH",
+                "ENHANCED_RESPONSE",
                 "TWO_PORT"
               ]
             },
@@ -24116,7 +24904,22 @@
               "calibration": "instrument",
               "calibration_kinds": [
                 "ONE_PORT",
+                "REFLECTION_OPEN",
+                "REFLECTION_SHORT",
                 "TRANSMISSION_RESPONSE",
+                "TRANSMISSION_RESPONSE_BOTH",
+                "ENHANCED_RESPONSE",
+                "TWO_PORT",
+                "TWO_PORT_UNKNOWN_THRU",
+                "TRL"
+              ],
+              "ecal_kinds": [
+                "ONE_PORT",
+                "REFLECTION_OPEN",
+                "REFLECTION_SHORT",
+                "TRANSMISSION_RESPONSE",
+                "TRANSMISSION_RESPONSE_BOTH",
+                "ENHANCED_RESPONSE",
                 "TWO_PORT"
               ]
             },
@@ -24151,7 +24954,22 @@
               "calibration": "instrument",
               "calibration_kinds": [
                 "ONE_PORT",
+                "REFLECTION_OPEN",
+                "REFLECTION_SHORT",
                 "TRANSMISSION_RESPONSE",
+                "TRANSMISSION_RESPONSE_BOTH",
+                "ENHANCED_RESPONSE",
+                "TWO_PORT",
+                "TWO_PORT_UNKNOWN_THRU",
+                "TRL"
+              ],
+              "ecal_kinds": [
+                "ONE_PORT",
+                "REFLECTION_OPEN",
+                "REFLECTION_SHORT",
+                "TRANSMISSION_RESPONSE",
+                "TRANSMISSION_RESPONSE_BOTH",
+                "ENHANCED_RESPONSE",
                 "TWO_PORT"
               ]
             },
@@ -24186,7 +25004,22 @@
               "calibration": "instrument",
               "calibration_kinds": [
                 "ONE_PORT",
+                "REFLECTION_OPEN",
+                "REFLECTION_SHORT",
                 "TRANSMISSION_RESPONSE",
+                "TRANSMISSION_RESPONSE_BOTH",
+                "ENHANCED_RESPONSE",
+                "TWO_PORT",
+                "TWO_PORT_UNKNOWN_THRU",
+                "TRL"
+              ],
+              "ecal_kinds": [
+                "ONE_PORT",
+                "REFLECTION_OPEN",
+                "REFLECTION_SHORT",
+                "TRANSMISSION_RESPONSE",
+                "TRANSMISSION_RESPONSE_BOTH",
+                "ENHANCED_RESPONSE",
                 "TWO_PORT"
               ]
             },
@@ -24359,7 +25192,7 @@
             }
           },
           "calibration_begin": {
-            "description": "calibration type FOPort (one port), FRTRans (transmission, both directions) or TOSM (two ports)",
+            "description": "calibration type (R&S names in brackets): FOPort (full one port), REFL / RSHort (reflection normalisation), FTRans / FRTRans (transmission normalisation, one direction or both), OPTPort (one path two ports), TOSM, UOSM, TOM, TRM, TRL, TNA; the lower or first port number is the source",
             "set": {
               "steps": [
                 {
@@ -24371,6 +25204,20 @@
                 },
                 {
                   "op": "write",
+                  "text": "SENSe1:CORRection:COLLect:METHod:DEFine 'OLA', REFL, {port}",
+                  "when": {
+                    "kind": "REFLECTION_OPEN"
+                  }
+                },
+                {
+                  "op": "write",
+                  "text": "SENSe1:CORRection:COLLect:METHod:DEFine 'OLA', RSHort, {port}",
+                  "when": {
+                    "kind": "REFLECTION_SHORT"
+                  }
+                },
+                {
+                  "op": "write",
                   "text": "SENSe1:CORRection:COLLect:METHod:DEFine 'OLA', FRTRans, {port},{port2}",
                   "when": {
                     "kind": "TRANSMISSION_RESPONSE"
@@ -24378,9 +25225,58 @@
                 },
                 {
                   "op": "write",
+                  "text": "SENSe1:CORRection:COLLect:METHod:DEFine 'OLA', FRTRans, {port},{port2}",
+                  "when": {
+                    "kind": "TRANSMISSION_RESPONSE_BOTH"
+                  }
+                },
+                {
+                  "op": "write",
+                  "text": "SENSe1:CORRection:COLLect:METHod:DEFine 'OLA', OPTPort, {port},{port2}",
+                  "when": {
+                    "kind": "ENHANCED_RESPONSE"
+                  }
+                },
+                {
+                  "op": "write",
                   "text": "SENSe1:CORRection:COLLect:METHod:DEFine 'OLA', TOSM, {port},{port2}",
                   "when": {
                     "kind": "TWO_PORT"
+                  }
+                },
+                {
+                  "op": "write",
+                  "text": "SENSe1:CORRection:COLLect:METHod:DEFine 'OLA', UOSM, {port},{port2}",
+                  "when": {
+                    "kind": "TWO_PORT_UNKNOWN_THRU"
+                  }
+                },
+                {
+                  "op": "write",
+                  "text": "SENSe1:CORRection:COLLect:METHod:DEFine 'OLA', TOM, {port},{port2}",
+                  "when": {
+                    "kind": "TOM"
+                  }
+                },
+                {
+                  "op": "write",
+                  "text": "SENSe1:CORRection:COLLect:METHod:DEFine 'OLA', TRM, {port},{port2}",
+                  "when": {
+                    "kind": "TRM"
+                  }
+                },
+                {
+                  "op": "write",
+                  "text": "SENSe1:CORRection:COLLect:METHod:DEFine 'OLA', TRL, {port},{port2}",
+                  "when": {
+                    "kind": "TRL"
+                  }
+                },
+                {
+                  "op": "write",
+                  "text": "SENSe1:CORRection:COLLect:METHod:DEFine 'OLA', TNA, {port},{port2}",
+                  "when": {
+                    "kind": "TNA"
                   }
                 }
               ]
@@ -24391,7 +25287,17 @@
                 "values": [
                   "ONE_PORT",
                   "TRANSMISSION_RESPONSE",
-                  "TWO_PORT"
+                  "TWO_PORT",
+                  "REFLECTION_OPEN",
+                  "REFLECTION_SHORT",
+                  "TRANSMISSION_RESPONSE_BOTH",
+                  "ENHANCED_RESPONSE",
+                  "TWO_PORT_UNKNOWN_THRU",
+                  "TOM",
+                  "TSM",
+                  "TRM",
+                  "TRL",
+                  "TNA"
                 ]
               },
               "port": {
@@ -24435,6 +25341,55 @@
                   }
                 },
                 {
+                  "op": "write",
+                  "text": "SENSe1:CORRection:COLLect:ACQuire:SELected THRough,{port},{port2}",
+                  "when": {
+                    "standard": "TRL_THRU"
+                  }
+                },
+                {
+                  "op": "write",
+                  "text": "SENSe1:CORRection:COLLect:ACQuire:SELected REFL,{port}",
+                  "when": {
+                    "standard": "REFLECT"
+                  }
+                },
+                {
+                  "op": "write",
+                  "text": "SENSe1:CORRection:COLLect:ACQuire:SELected LINe1,{port},{port2}",
+                  "when": {
+                    "standard": "LINE"
+                  }
+                },
+                {
+                  "op": "write",
+                  "text": "SENSe1:CORRection:COLLect:ACQuire:SELected UTHRough,{port},{port2}",
+                  "when": {
+                    "standard": "UNKNOWN_THRU"
+                  }
+                },
+                {
+                  "op": "write",
+                  "text": "SENSe1:CORRection:COLLect:ACQuire:SELected ISOLation,{port},{port2}",
+                  "when": {
+                    "standard": "ISOLATION"
+                  }
+                },
+                {
+                  "op": "write",
+                  "text": "SENSe1:CORRection:COLLect:ACQuire:SELected ATT,{port},{port2}",
+                  "when": {
+                    "standard": "ATTENUATION"
+                  }
+                },
+                {
+                  "op": "write",
+                  "text": "SENSe1:CORRection:COLLect:ACQuire:SELected NET,{port},{port2}",
+                  "when": {
+                    "standard": "NETWORK"
+                  }
+                },
+                {
                   "op": "query",
                   "text": "*OPC?",
                   "timeout_ms": 120000
@@ -24448,7 +25403,14 @@
                   "OPEN",
                   "SHORT",
                   "LOAD",
-                  "THRU"
+                  "THRU",
+                  "REFLECT",
+                  "LINE",
+                  "TRL_THRU",
+                  "UNKNOWN_THRU",
+                  "ISOLATION",
+                  "ATTENUATION",
+                  "NETWORK"
                 ]
               },
               "port": {
@@ -24560,8 +25522,17 @@
               "calibration": "instrument",
               "calibration_kinds": [
                 "ONE_PORT",
+                "REFLECTION_OPEN",
+                "REFLECTION_SHORT",
                 "TRANSMISSION_RESPONSE",
-                "TWO_PORT"
+                "TRANSMISSION_RESPONSE_BOTH",
+                "ENHANCED_RESPONSE",
+                "TWO_PORT",
+                "TWO_PORT_UNKNOWN_THRU",
+                "TOM",
+                "TRM",
+                "TRL",
+                "TNA"
               ]
             },
             "scpi_commands": {},
@@ -24592,8 +25563,17 @@
               "calibration": "instrument",
               "calibration_kinds": [
                 "ONE_PORT",
+                "REFLECTION_OPEN",
+                "REFLECTION_SHORT",
                 "TRANSMISSION_RESPONSE",
-                "TWO_PORT"
+                "TRANSMISSION_RESPONSE_BOTH",
+                "ENHANCED_RESPONSE",
+                "TWO_PORT",
+                "TWO_PORT_UNKNOWN_THRU",
+                "TOM",
+                "TRM",
+                "TRL",
+                "TNA"
               ]
             },
             "scpi_commands": {},
@@ -24624,8 +25604,17 @@
               "calibration": "instrument",
               "calibration_kinds": [
                 "ONE_PORT",
+                "REFLECTION_OPEN",
+                "REFLECTION_SHORT",
                 "TRANSMISSION_RESPONSE",
-                "TWO_PORT"
+                "TRANSMISSION_RESPONSE_BOTH",
+                "ENHANCED_RESPONSE",
+                "TWO_PORT",
+                "TWO_PORT_UNKNOWN_THRU",
+                "TOM",
+                "TRM",
+                "TRL",
+                "TNA"
               ]
             },
             "scpi_commands": {},
@@ -24656,8 +25645,17 @@
               "calibration": "instrument",
               "calibration_kinds": [
                 "ONE_PORT",
+                "REFLECTION_OPEN",
+                "REFLECTION_SHORT",
                 "TRANSMISSION_RESPONSE",
-                "TWO_PORT"
+                "TRANSMISSION_RESPONSE_BOTH",
+                "ENHANCED_RESPONSE",
+                "TWO_PORT",
+                "TWO_PORT_UNKNOWN_THRU",
+                "TOM",
+                "TRM",
+                "TRL",
+                "TNA"
               ]
             },
             "scpi_commands": {},
@@ -24688,8 +25686,17 @@
               "calibration": "instrument",
               "calibration_kinds": [
                 "ONE_PORT",
+                "REFLECTION_OPEN",
+                "REFLECTION_SHORT",
                 "TRANSMISSION_RESPONSE",
-                "TWO_PORT"
+                "TRANSMISSION_RESPONSE_BOTH",
+                "ENHANCED_RESPONSE",
+                "TWO_PORT",
+                "TWO_PORT_UNKNOWN_THRU",
+                "TOM",
+                "TRM",
+                "TRL",
+                "TNA"
               ]
             },
             "scpi_commands": {},
@@ -24720,8 +25727,17 @@
               "calibration": "instrument",
               "calibration_kinds": [
                 "ONE_PORT",
+                "REFLECTION_OPEN",
+                "REFLECTION_SHORT",
                 "TRANSMISSION_RESPONSE",
-                "TWO_PORT"
+                "TRANSMISSION_RESPONSE_BOTH",
+                "ENHANCED_RESPONSE",
+                "TWO_PORT",
+                "TWO_PORT_UNKNOWN_THRU",
+                "TOM",
+                "TRM",
+                "TRL",
+                "TNA"
               ]
             },
             "scpi_commands": {},
@@ -24752,8 +25768,17 @@
               "calibration": "instrument",
               "calibration_kinds": [
                 "ONE_PORT",
+                "REFLECTION_OPEN",
+                "REFLECTION_SHORT",
                 "TRANSMISSION_RESPONSE",
-                "TWO_PORT"
+                "TRANSMISSION_RESPONSE_BOTH",
+                "ENHANCED_RESPONSE",
+                "TWO_PORT",
+                "TWO_PORT_UNKNOWN_THRU",
+                "TOM",
+                "TRM",
+                "TRL",
+                "TNA"
               ]
             },
             "scpi_commands": {},
@@ -24784,8 +25809,17 @@
               "calibration": "instrument",
               "calibration_kinds": [
                 "ONE_PORT",
+                "REFLECTION_OPEN",
+                "REFLECTION_SHORT",
                 "TRANSMISSION_RESPONSE",
-                "TWO_PORT"
+                "TRANSMISSION_RESPONSE_BOTH",
+                "ENHANCED_RESPONSE",
+                "TWO_PORT",
+                "TWO_PORT_UNKNOWN_THRU",
+                "TOM",
+                "TRM",
+                "TRL",
+                "TNA"
               ]
             },
             "scpi_commands": {},
@@ -24816,8 +25850,17 @@
               "calibration": "instrument",
               "calibration_kinds": [
                 "ONE_PORT",
+                "REFLECTION_OPEN",
+                "REFLECTION_SHORT",
                 "TRANSMISSION_RESPONSE",
-                "TWO_PORT"
+                "TRANSMISSION_RESPONSE_BOTH",
+                "ENHANCED_RESPONSE",
+                "TWO_PORT",
+                "TWO_PORT_UNKNOWN_THRU",
+                "TOM",
+                "TRM",
+                "TRL",
+                "TNA"
               ]
             },
             "scpi_commands": {},
@@ -24848,8 +25891,17 @@
               "calibration": "instrument",
               "calibration_kinds": [
                 "ONE_PORT",
+                "REFLECTION_OPEN",
+                "REFLECTION_SHORT",
                 "TRANSMISSION_RESPONSE",
-                "TWO_PORT"
+                "TRANSMISSION_RESPONSE_BOTH",
+                "ENHANCED_RESPONSE",
+                "TWO_PORT",
+                "TWO_PORT_UNKNOWN_THRU",
+                "TOM",
+                "TRM",
+                "TRL",
+                "TNA"
               ]
             },
             "scpi_commands": {},
@@ -24883,6 +25935,8 @@
               "calibration_kinds": [
                 "ONE_PORT",
                 "TRANSMISSION_RESPONSE",
+                "TRANSMISSION_RESPONSE_BOTH",
+                "ENHANCED_RESPONSE",
                 "TWO_PORT"
               ]
             },
@@ -24917,6 +25971,8 @@
               "calibration_kinds": [
                 "ONE_PORT",
                 "TRANSMISSION_RESPONSE",
+                "TRANSMISSION_RESPONSE_BOTH",
+                "ENHANCED_RESPONSE",
                 "TWO_PORT"
               ]
             },
@@ -24949,6 +26005,8 @@
               "calibration_kinds": [
                 "ONE_PORT",
                 "TRANSMISSION_RESPONSE",
+                "TRANSMISSION_RESPONSE_BOTH",
+                "ENHANCED_RESPONSE",
                 "TWO_PORT"
               ]
             },
@@ -24981,6 +26039,8 @@
               "calibration_kinds": [
                 "ONE_PORT",
                 "TRANSMISSION_RESPONSE",
+                "TRANSMISSION_RESPONSE_BOTH",
+                "ENHANCED_RESPONSE",
                 "TWO_PORT"
               ]
             },
