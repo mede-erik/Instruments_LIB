@@ -24,18 +24,35 @@
         "OPEN",
         "SHORT",
         "LOAD",
-        "THRU"
+        "THRU",
+        "REFLECT",
+        "LINE",
+        "TRL_THRU",
+        "UNKNOWN_THRU",
+        "ISOLATION",
+        "ATTENUATION",
+        "NETWORK"
       ],
-      "description": "calibration standard connected to the test port(s)"
+      "description": "calibration standard connected to the test port(s). OPEN, SHORT, LOAD (a matched 50 ohm termination, 'match' on some instruments) and THRU (a known through between two ports) are the classic ones. REFLECT: a reflection of unknown but equal value at both ports (TRL, TRM). LINE: the line of a TRL calibration. TRL_THRU: the through of a TRL calibration (separate from THRU because some instruments measure it with its own command). UNKNOWN_THRU: a through whose length is not known (the second through of the unknown-thru calibration). ISOLATION: the isolation between two ports measured with terminated ports (optional extra of the response, enhanced-response and two-port calibrations). ATTENUATION and NETWORK: the standards of the TNA calibration"
     },
     "calibration_kind": {
       "kind": "enum",
       "values": [
         "ONE_PORT",
         "TRANSMISSION_RESPONSE",
-        "TWO_PORT"
+        "TWO_PORT",
+        "REFLECTION_OPEN",
+        "REFLECTION_SHORT",
+        "TRANSMISSION_RESPONSE_BOTH",
+        "ENHANCED_RESPONSE",
+        "TWO_PORT_UNKNOWN_THRU",
+        "TOM",
+        "TSM",
+        "TRM",
+        "TRL",
+        "TNA"
       ],
-      "description": "ONE_PORT: reflection calibration of one port (OPEN, SHORT, LOAD); TRANSMISSION_RESPONSE: normalisation of the transmission from port to port2 (THRU); TWO_PORT: full two-port calibration (OPEN, SHORT, LOAD on both ports and THRU)"
+      "description": "ONE_PORT: full one-port calibration (OPEN, SHORT, LOAD on the port; three error terms); REFLECTION_OPEN / REFLECTION_SHORT: reflection normalisation with one standard (tracking only); TRANSMISSION_RESPONSE: normalisation of the transmission from port (the source) to port2 with a THRU (an instrument that only offers the version for both directions does it in both); TRANSMISSION_RESPONSE_BOTH: the same in both directions; ENHANCED_RESPONSE: OPEN, SHORT, LOAD on the source port plus a THRU, for transmission in one direction (also called one path two ports; corrects source match as well); TWO_PORT: full two-port calibration with a known THRU (SOLT, TOSM, twelve-term model: OPEN, SHORT, LOAD on both ports and a THRU); TWO_PORT_UNKNOWN_THRU: the same with an unknown through (UOSM, SOLR: OPEN, SHORT, LOAD on both ports and an UNKNOWN_THRU); TOM: OPEN and LOAD on both ports and a THRU; TSM: SHORT and LOAD on both ports and a THRU; TRM: REFLECT and LOAD on both ports and a THRU; TRL: REFLECT on both ports, a TRL_THRU and a LINE (no matched load needed; limited bandwidth); TNA: THRU, ATTENUATION and NETWORK (the least demanding standards). See docs/vna-calibration-types.md"
     },
     "sparameters": {
       "kind": "mapping",
@@ -162,6 +179,27 @@
       "requirement": "mandatory",
       "kind": "action",
       "description": "compute the calibration from the measured standards and use it for the next read_sparameters"
+    },
+    "calibration_ecal": {
+      "requirement": "optional",
+      "kind": "action",
+      "description": "calibrate with an electronic calibration unit (ECal, automatic calibration unit) connected to the test ports: one call, no standards to connect or measure, no calibration_apply afterwards. Only for the kinds a model lists in its ecal_kinds",
+      "args": {
+        "kind": {
+          "type": "calibration_kind"
+        },
+        "port": {
+          "type": "int",
+          "min": 1,
+          "description": "test port (the source port of a transmission calibration)"
+        },
+        "port2": {
+          "type": "int",
+          "min": 1,
+          "required": false,
+          "description": "second test port (the receiving port of a transmission calibration, the other port of a two-port calibration)"
+        }
+      }
     },
     "set_correction_state": {
       "requirement": "mandatory",
